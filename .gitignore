@@ -1,0 +1,4 @@
+# Beads (exclude database, include issues.jsonl)
+.beads/beads.db
+.beads/beads.db-shm
+.beads/beads.db-wal

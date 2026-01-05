@@ -8,134 +8,203 @@
   <meta name="description"
     content="Data Engineer based in Jakarta, Indonesia. Building fault-tolerant pipelines and exploring AI.">
 
-  <!-- Inter Font -->
+  <!-- JetBrains Mono Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
-  <!-- Gradient decorations -->
-  <div class="gradient-circle"></div>
-  <div class="gradient-circle-bottom"></div>
-
   <div class="container">
     <!-- Header -->
     <header>
-      <a href="/" class="logo">Akmal.</a>
-      <nav>
-        <a href="#work">💼 Work</a>
-        <a href="#about">🧑‍💻 About</a>
-        <a href="mailto:akmalariqs@gmail.com">📬 Say Hi!</a>
-      </nav>
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+          </div>
+          <span class="terminal-title">akmalariq.github.io</span>
+        </div>
+        <div class="terminal-content">
+          <a href="/" class="logo">Akmal.</a>
+          <nav>
+            <a href="#work">💼 Work</a>
+            <a href="#about">🧑‍💻 About</a>
+            <a href="mailto:akmalariqs@gmail.com">📬 Say Hi!</a>
+          </nav>
+        </div>
+      </div>
     </header>
 
     <!-- Hero -->
     <section class="hero">
-      <h1>
-        <span>Hello 👋</span>
-        <span>I'm <span class="highlight">Akmal Ariq</span></span>
-        <span>Data & AI Engineer</span>
-        <span>based in Jakarta, Indonesia.</span>
-      </h1>
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+          </div>
+          <span class="terminal-title">welcome.sh</span>
+        </div>
+        <div class="terminal-content">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-command">./welcome.sh</span>
+          </div>
 
-      <div class="socials">
-        <a href="https://github.com/akmalariq" target="_blank">GitHub</a>
-        <a href="https://www.linkedin.com/in/akmalariq" target="_blank">LinkedIn</a>
-        <a href="mailto:akmalariqs@gmail.com">Email</a>
+          <h1>
+            <span>Hello 👋</span>
+            <span>I'm <span class="highlight">Akmal Ariq</span></span>
+            <span>Data & AI Engineer</span>
+            <span>based in Jakarta, Indonesia.</span>
+          </h1>
+
+          <div class="socials">
+            <a href="https://github.com/akmalariq" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/akmalariq" target="_blank">LinkedIn</a>
+            <a href="mailto:akmalariqs@gmail.com">Email</a>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- Work -->
     <section id="work">
-      <h2 class="section-title">Work.</h2>
-      <div class="projects-grid">
-
-        <a href="/bank-statement-parser/" class="project-card">
-          <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80" alt="Bank Statement Parser">
-          <div class="content">
-            <h3>🏦 Bank Statement Parser</h3>
-            <p>Privacy-focused tool that parses PDF bank statements entirely in the browser using WebAssembly.</p>
-            <div class="tags">
-              <span class="tag">Python</span>
-              <span class="tag">Streamlit</span>
-              <span class="tag">WASM</span>
-            </div>
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
           </div>
-        </a>
+          <span class="terminal-title">work.sh</span>
+        </div>
+        <div class="terminal-content">
+          <h2 class="section-title"><code>$ ./work.sh</code></h2>
+          <div class="projects-grid">
 
-        <div class="project-card">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80" alt="ETL Pipeline">
-          <div class="content">
-            <h3>🔄 Python ETL Pipeline</h3>
-            <p>Automated data ingestion system processing daily dumps into a Data Warehouse.</p>
-            <div class="tags">
-              <span class="tag">Airflow</span>
-              <span class="tag">SQL Server</span>
+            <a href="/bank-statement-parser/" class="project-card">
+              <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80" alt="Bank Statement Parser">
+              <div class="content">
+                <h3>🏦 Bank Statement Parser</h3>
+                <p>Privacy-focused tool that parses PDF bank statements entirely in browser using WebAssembly.</p>
+                <div class="tags">
+                  <span class="tag">Python</span>
+                  <span class="tag">Streamlit</span>
+                  <span class="tag">WASM</span>
+                </div>
+              </div>
+            </a>
+
+            <div class="project-card">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80" alt="ETL Pipeline">
+              <div class="content">
+                <h3>🔄 Python ETL Pipeline</h3>
+                <p>Automated data ingestion system processing daily dumps into a Data Warehouse.</p>
+                <div class="tags">
+                  <span class="tag">Airflow</span>
+                  <span class="tag">SQL Server</span>
+                </div>
+              </div>
             </div>
+
+            <div class="project-card">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&q=80" alt="ROLAP Cube">
+              <div class="content">
+                <h3>📊 Financial ROLAP Cube</h3>
+                <p>Optimized dimensional modeling for financial reporting, reducing query time by 60%.</p>
+                <div class="tags">
+                  <span class="tag">SQL Server</span>
+                  <span class="tag">Data Modeling</span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
-
-        <div class="project-card">
-          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&q=80" alt="ROLAP Cube">
-          <div class="content">
-            <h3>📊 Financial ROLAP Cube</h3>
-            <p>Optimized dimensional modeling for financial reporting, reducing query time by 60%.</p>
-            <div class="tags">
-              <span class="tag">SQL Server</span>
-              <span class="tag">Data Modeling</span>
-            </div>
-          </div>
-        </div>
-
       </div>
     </section>
 
     <!-- Services / Skills -->
     <section id="services">
-      <h2 class="section-title">What I Do.</h2>
-      <div class="services-grid">
-
-        <div class="service-card">
-          <h3>⚙️ Data Engineering</h3>
-          <p>Building fault-tolerant pipelines with Apache Airflow, optimizing complex SQL queries, and managing data
-            warehouses.</p>
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+          </div>
+          <span class="terminal-title">skills.sh --list</span>
         </div>
+        <div class="terminal-content">
+          <h2 class="section-title"><code>$ ./skills.sh --list</code></h2>
+          <div class="services-grid">
 
-        <div class="service-card">
-          <h3>🤖 AI & ML</h3>
-          <p>Exploring Retrieval-Augmented Generation (RAG) systems, LangChain, and Vector Databases.</p>
+            <div class="service-card">
+              <h3>⚙️ Data Engineering</h3>
+              <p>Building fault-tolerant pipelines with Apache Airflow, optimizing complex SQL queries, and managing data
+                warehouses.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>🤖 AI & ML</h3>
+              <p>Exploring Retrieval-Augmented Generation (RAG) systems, LangChain, and Vector Databases.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>🛠️ DevOps</h3>
+              <p>Docker containerization, CI/CD pipelines, and Linux systems administration.</p>
+            </div>
+
+            <div class="service-card">
+              <h3>💻 Development</h3>
+              <p>Python, SQL, JavaScript. Building full-stack applications with FastAPI and modern web technologies.</p>
+            </div>
+
+          </div>
         </div>
-
-        <div class="service-card">
-          <h3>🛠️ DevOps</h3>
-          <p>Docker containerization, CI/CD pipelines, and Linux systems administration.</p>
-        </div>
-
-        <div class="service-card">
-          <h3>💻 Development</h3>
-          <p>Python, SQL, JavaScript. Building full-stack applications with FastAPI and modern web technologies.</p>
-        </div>
-
       </div>
     </section>
 
     <!-- About -->
     <section id="about">
-      <h2 class="section-title">About.</h2>
-      <p class="about-text">
-        With a strong foundation in E-commerce Data Engineering at Bank SMBC Indonesia,
-        I specialize in building fault-tolerant pipelines and optimizing complex SQL queries.
-        Currently bridging the gap to AI Engineering, exploring RAG systems and modern ML tooling.
-        Passionate about turning data into insights, and insights into action.
-      </p>
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+          </div>
+          <span class="terminal-title">about.sh</span>
+        </div>
+        <div class="terminal-content">
+          <h2 class="section-title"><code>$ ./about.sh</code></h2>
+          <p class="about-text">
+            With a strong foundation in E-commerce Data Engineering at Bank SMBC Indonesia,
+            I specialize in building fault-tolerant pipelines and optimizing complex SQL queries.
+            Currently bridging the gap to AI Engineering, exploring RAG systems and modern ML tooling.
+            Passionate about turning data into insights, and insights into action.
+          </p>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer>
-      <p>© 2026 Akmal Ariq. Crafted with code.</p>
+      <div class="terminal-window">
+        <div class="terminal-content">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-cursor"></span>
+          </div>
+          <p>© 2026 Akmal Ariq. Crafted with code.</p>
+        </div>
+      </div>
     </footer>
   </div>
 
