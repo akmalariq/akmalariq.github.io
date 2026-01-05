@@ -5,358 +5,139 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Akmal Ariq | Data & AI Engineer</title>
+  <meta name="description"
+    content="Data Engineer based in Jakarta, Indonesia. Building fault-tolerant pipelines and exploring AI.">
+
   <!-- Inter Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --primary: #3182ce;
-      --primary-dark: #2c5282;
-      --bg-color: #f7fafc;
-      --text-main: #2d3748;
-      --text-muted: #718096;
-      --card-bg: #ffffff;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: var(--bg-color);
-      color: var(--text-main);
-      line-height: 1.6;
-    }
-
-    /* === HEADER === */
-    header {
-      background: linear-gradient(135deg, #2c5282 0%, #2b6cb0 100%);
-      color: white;
-      text-align: center;
-      padding: 5rem 1rem;
-      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 3rem;
-      font-weight: 700;
-      letter-spacing: -1px;
-    }
-
-    header .role {
-      font-size: 1.5rem;
-      color: #bee3f8;
-      margin-top: 0.5rem;
-      font-weight: 500;
-    }
-
-    header .tagline {
-      margin-top: 1rem;
-      font-size: 1.1rem;
-      color: #e2e8f0;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* === SECTIONS === */
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-
-    section {
-      margin: 4rem 0;
-    }
-
-    h2 {
-      font-size: 2rem;
-      color: #1a202c;
-      margin-bottom: 2rem;
-      position: relative;
-      display: inline-block;
-    }
-
-    h2::after {
-      content: '';
-      display: block;
-      width: 50px;
-      height: 4px;
-      background: var(--primary);
-      margin-top: 8px;
-      border-radius: 2px;
-    }
-
-    p {
-      color: #4a5568;
-      font-size: 1.1rem;
-    }
-
-    /* === TECH STACK PILLS === */
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2rem;
-    }
-
-    .tech-category h3 {
-      font-size: 1.2rem;
-      color: #2d3748;
-      margin-bottom: 1rem;
-    }
-
-    .pill-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .pill {
-      background: #ebf8ff;
-      color: #2b6cb0;
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      border: 1px solid #bee3f8;
-    }
-
-    .pill.learning {
-      background: #faf5ff;
-      color: #805ad5;
-      border-color: #e9d8fd;
-    }
-
-    /* === PROJECT CARDS === */
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .project-card {
-      background: var(--card-bg);
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 2rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .project-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      border-color: var(--primary);
-    }
-
-    .project-card h3 {
-      margin-top: 0;
-      color: #2d3748;
-    }
-
-    .project-card a.btn {
-      display: inline-block;
-      margin-top: auto;
-      background: var(--primary);
-      color: white;
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 500;
-      text-align: center;
-      transition: background 0.2s;
-    }
-
-    .project-card a.btn:hover {
-      background: var(--primary-dark);
-    }
-
-    .project-card a.btn-outline {
-      margin-top: auto;
-      background: transparent;
-      color: var(--primary);
-      border: 1px solid var(--primary);
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 500;
-      text-align: center;
-    }
-
-    /* === FOOTER === */
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      font-size: 1.2rem;
-    }
-
-    .contact-links a {
-      color: #4a5568;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .contact-links a:hover {
-      color: var(--primary);
-    }
-
-    footer {
-      text-align: center;
-      padding: 4rem 1rem;
-      color: #a0aec0;
-      font-size: 0.9rem;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
-
-  <header>
-    <div class="container">
-      <h1>Akmal Ariq</h1>
-      <div class="role">Data Engineer | Aspiring AI Engineer</div>
-      <p class="tagline">"Turning data into insights, and insights into action."</p>
-    </div>
-  </header>
+  <!-- Gradient decorations -->
+  <div class="gradient-circle"></div>
+  <div class="gradient-circle-bottom"></div>
 
   <div class="container">
-    <section>
-      <h2>About Me</h2>
-      <p>
-        Hi! I’m based in <strong>Jakarta, Indonesia 🇮🇩</strong>.
-        With a strong foundation in <strong>E-commerce Data Engineering</strong> and SQL Server at <strong>Bank SMBC
-          Indonesia</strong>,
-        I am now bridging the gap to AI Engineering.
-      </p>
-      <p>
-        I specialize in building fault-tolerant pipelines (`Airflow`), optimizing complex SQL queries, and now exploring
-        Retrieval-Augmented Generation (RAG) systems.
-      </p>
-    </section>
+    <!-- Header -->
+    <header>
+      <a href="/" class="logo">Akmal.</a>
+      <nav>
+        <a href="#work">💼 Work</a>
+        <a href="#about">🧑‍💻 About</a>
+        <a href="mailto:akmalariqs@gmail.com">📬 Say Hi!</a>
+      </nav>
+    </header>
 
-    <section>
-      <h2>Tech Stack</h2>
-      <div class="tech-grid">
-        <div class="tech-category">
-          <h3>Languages</h3>
-          <div class="pill-container">
-            <span class="pill">Python</span>
-            <span class="pill">SQL</span>
-            <span class="pill">JavaScript</span>
-          </div>
-        </div>
-        <div class="tech-category">
-          <h3>Data Engineering</h3>
-          <div class="pill-container">
-            <span class="pill">Apache Airflow</span>
-            <span class="pill">PostgreSQL</span>
-            <span class="pill">SQL Server</span>
-            <span class="pill">Pandas</span>
-          </div>
-        </div>
-        <div class="tech-category">
-          <h3>DevOps</h3>
-          <div class="pill-container">
-            <span class="pill">Docker</span>
-            <span class="pill">Git / CI/CD</span>
-            <span class="pill">Linux</span>
-          </div>
-        </div>
-        <div class="tech-category">
-          <h3>Learning 🚀</h3>
-          <div class="pill-container">
-            <span class="pill learning">LangChain</span>
-            <span class="pill learning">FastAPI</span>
-            <span class="pill learning">Vector DBs</span>
-          </div>
-        </div>
+    <!-- Hero -->
+    <section class="hero">
+      <h1>
+        <span>Hello 👋</span>
+        <span>I'm <span class="highlight">Akmal Ariq</span></span>
+        <span>Data & AI Engineer</span>
+        <span>based in Jakarta, Indonesia.</span>
+      </h1>
+
+      <div class="socials">
+        <a href="https://github.com/akmalariq" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/akmalariq" target="_blank">LinkedIn</a>
+        <a href="mailto:akmalariqs@gmail.com">Email</a>
       </div>
     </section>
 
-    <section>
-      <h2>Featured Projects</h2>
-      <div class="projects">
+    <!-- Work -->
+    <section id="work">
+      <h2 class="section-title">Work.</h2>
+      <div class="projects-grid">
 
-        <!-- Bank Parser -->
-        <div class="project-card">
-          <div>
+        <a href="/bank-statement-parser/" class="project-card">
+          <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80" alt="Bank Statement Parser">
+          <div class="content">
             <h3>🏦 Bank Statement Parser</h3>
-            <p>
-              A privacy-focused tool that parses PDF bank statements (CIMB, BNI) entirely in the browser using
-              WebAssembly. No server uploads.
-            </p>
-            <div class="pill-container" style="margin-bottom: 1.5rem;">
-              <span class="pill">Python</span>
-              <span class="pill">Streamlit</span>
-              <span class="pill">WASM</span>
+            <p>Privacy-focused tool that parses PDF bank statements entirely in the browser using WebAssembly.</p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">Streamlit</span>
+              <span class="tag">WASM</span>
             </div>
           </div>
-          <a href="/bank-statement-parser/" class="btn">Launch App 🚀</a>
-        </div>
+        </a>
 
-        <!-- ETL Pipeline -->
         <div class="project-card">
-          <div>
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80" alt="ETL Pipeline">
+          <div class="content">
             <h3>🔄 Python ETL Pipeline</h3>
-            <p>
-              Automated data ingestion system processing daily dumps into a Data Warehouse with error handling and
-              logging.
-            </p>
-            <div class="pill-container" style="margin-bottom: 1.5rem;">
-              <span class="pill">Airflow</span>
-              <span class="pill">SQL</span>
+            <p>Automated data ingestion system processing daily dumps into a Data Warehouse.</p>
+            <div class="tags">
+              <span class="tag">Airflow</span>
+              <span class="tag">SQL Server</span>
             </div>
           </div>
-          <a href="https://github.com/akmalariq/etl-pipeline" target="_blank" class="btn-outline">View Code</a>
         </div>
 
-        <!-- ROLAP Cube -->
         <div class="project-card">
-          <div>
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&q=80" alt="ROLAP Cube">
+          <div class="content">
             <h3>📊 Financial ROLAP Cube</h3>
-            <p>
-              Optimized dimensional modeling for financial reporting, reducing query time by 60%.
-            </p>
-            <div class="pill-container" style="margin-bottom: 1.5rem;">
-              <span class="pill">SQL Server</span>
-              <span class="pill">Data Modeling</span>
+            <p>Optimized dimensional modeling for financial reporting, reducing query time by 60%.</p>
+            <div class="tags">
+              <span class="tag">SQL Server</span>
+              <span class="tag">Data Modeling</span>
             </div>
           </div>
-          <a href="#" class="btn-outline">View Case Study</a>
         </div>
 
       </div>
     </section>
 
-    <section>
-      <h2>Let's Connect</h2>
-      <div class="contact-links">
-        <a href="mailto:akmalariqs@gmail.com">
-          <span>📧</span> Email
-        </a>
-        <a href="https://www.linkedin.com/in/akmalariq" target="_blank">
-          <span>💼</span> LinkedIn
-        </a>
-        <a href="https://github.com/akmalariq" target="_blank">
-          <span>🐙</span> GitHub
-        </a>
+    <!-- Services / Skills -->
+    <section id="services">
+      <h2 class="section-title">What I Do.</h2>
+      <div class="services-grid">
+
+        <div class="service-card">
+          <h3>⚙️ Data Engineering</h3>
+          <p>Building fault-tolerant pipelines with Apache Airflow, optimizing complex SQL queries, and managing data
+            warehouses.</p>
+        </div>
+
+        <div class="service-card">
+          <h3>🤖 AI & ML</h3>
+          <p>Exploring Retrieval-Augmented Generation (RAG) systems, LangChain, and Vector Databases.</p>
+        </div>
+
+        <div class="service-card">
+          <h3>🛠️ DevOps</h3>
+          <p>Docker containerization, CI/CD pipelines, and Linux systems administration.</p>
+        </div>
+
+        <div class="service-card">
+          <h3>💻 Development</h3>
+          <p>Python, SQL, JavaScript. Building full-stack applications with FastAPI and modern web technologies.</p>
+        </div>
+
       </div>
     </section>
-  </div>
 
-  <footer>
-    <p>© 2026 Akmal Ariq. Crafted with code.</p>
-  </footer>
+    <!-- About -->
+    <section id="about">
+      <h2 class="section-title">About.</h2>
+      <p class="about-text">
+        With a strong foundation in E-commerce Data Engineering at Bank SMBC Indonesia,
+        I specialize in building fault-tolerant pipelines and optimizing complex SQL queries.
+        Currently bridging the gap to AI Engineering, exploring RAG systems and modern ML tooling.
+        Passionate about turning data into insights, and insights into action.
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 Akmal Ariq. Crafted with code.</p>
+    </footer>
+  </div>
 
 </body>
 
