@@ -7,6 +7,26 @@
   <title>Akmal Ariq | Data & AI Engineer</title>
   <meta name="description"
     content="Data Engineer based in Jakarta, Indonesia. Building fault-tolerant pipelines and exploring AI.">
+  <meta name="keywords"
+    content="Data Engineer, AI Engineer, Python, SQL, Airflow, ETL, RAG, Machine Learning, Jakarta, Indonesia">
+  <meta name="author" content="Akmal Ariq">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://akmalariq.github.io/">
+  <meta property="og:title" content="Akmal Ariq | Data & AI Engineer">
+  <meta property="og:description"
+    content="Data Engineer based in Jakarta, Indonesia. Building fault-tolerant pipelines and exploring AI.">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Akmal Ariq | Data & AI Engineer">
+  <meta name="twitter:description"
+    content="Data Engineer based in Jakarta, Indonesia. Building fault-tolerant pipelines and exploring AI.">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://akmalariq.github.io/">
 
   <!-- JetBrains Mono Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +36,7 @@
 
   <link rel="stylesheet" href="assets/css/style.css">
   <script>
-    window.addEventListener('DOMContentLoaded', function() {
+    window.addEventListener('DOMContentLoaded', function () {
       const loadingOverlay = document.getElementById('loading-overlay');
       const loadingProgress = document.getElementById('loading-progress');
       const loadingText = document.getElementById('loading-text');
@@ -25,7 +45,7 @@
       let progress = 0;
       let currentStep = 0;
 
-      const loadingInterval = setInterval(function() {
+      const loadingInterval = setInterval(function () {
         progress += Math.random() * 15;
         if (progress > 100) progress = 100;
         loadingProgress.style.width = progress + '%';
@@ -45,7 +65,7 @@
         }
         if (progress >= 100) {
           clearInterval(loadingInterval);
-          setTimeout(function() {
+          setTimeout(function () {
             loadingOverlay.remove();
           }, 500);
         }
@@ -117,7 +137,9 @@
           </pre>
           <nav>
             <a href="#work">💼 Work</a>
+            <a href="#roadmap">🚀 Roadmap</a>
             <a href="#about">🧑‍💻 About</a>
+            <a href="#help">❓ Help</a>
             <a href="mailto:akmalariqs@gmail.com">📬 Say Hi!</a>
           </nav>
         </div>
@@ -210,6 +232,67 @@
                 <div class="tags">
                   <span class="tag">SQL Server</span>
                   <span class="tag">Data Modeling</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Future Projects -->
+    <section id="roadmap">
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+          </div>
+          <span class="terminal-title">roadmap.sh</span>
+        </div>
+        <div class="terminal-content">
+          <h2 class="section-title"><code>$ ./roadmap.sh --upcoming</code></h2>
+          <div class="projects-grid">
+
+            <div class="project-card upcoming">
+              <div class="content">
+                <span class="status-badge">🚧 In Progress</span>
+                <h3>🧠 RAG Knowledge Base</h3>
+                <p>Building a Retrieval-Augmented Generation system with LangChain, ChromaDB, and local LLMs for
+                  intelligent document Q&A.</p>
+                <div class="tags">
+                  <span class="tag">LangChain</span>
+                  <span class="tag">ChromaDB</span>
+                  <span class="tag">Ollama</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-card upcoming">
+              <div class="content">
+                <span class="status-badge">📋 Planned</span>
+                <h3>🔬 MLOps Pipeline</h3>
+                <p>End-to-end ML pipeline with experiment tracking, model versioning, and automated deployment using
+                  MLflow and Kubernetes.</p>
+                <div class="tags">
+                  <span class="tag">MLflow</span>
+                  <span class="tag">Kubernetes</span>
+                  <span class="tag">FastAPI</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-card upcoming">
+              <div class="content">
+                <span class="status-badge">📋 Planned</span>
+                <h3>📈 Real-time Analytics</h3>
+                <p>Streaming data platform with Apache Kafka for real-time dashboards and anomaly detection.</p>
+                <div class="tags">
+                  <span class="tag">Kafka</span>
+                  <span class="tag">Spark</span>
+                  <span class="tag">Grafana</span>
                 </div>
               </div>
             </div>
@@ -316,6 +399,49 @@
             Currently bridging the gap to AI Engineering, exploring RAG systems and modern ML tooling.
             Passionate about turning data into insights, and insights into action.
           </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Terminal Help -->
+    <section id="help">
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+          </div>
+          <span class="terminal-title">help</span>
+        </div>
+        <div class="terminal-content">
+          <h2 class="section-title"><code>$ help</code></h2>
+          <div class="help-commands">
+            <div class="command-row">
+              <code class="cmd">./welcome.sh</code>
+              <span class="desc">Display greeting and introduction</span>
+            </div>
+            <div class="command-row">
+              <code class="cmd">./work.sh</code>
+              <span class="desc">List completed projects</span>
+            </div>
+            <div class="command-row">
+              <code class="cmd">./roadmap.sh --upcoming</code>
+              <span class="desc">Show planned projects</span>
+            </div>
+            <div class="command-row">
+              <code class="cmd">./skills.sh --list</code>
+              <span class="desc">Display skills and expertise</span>
+            </div>
+            <div class="command-row">
+              <code class="cmd">./about.sh</code>
+              <span class="desc">About me</span>
+            </div>
+            <div class="command-row">
+              <code class="cmd">mail akmalariqs@gmail.com</code>
+              <span class="desc">Send me a message</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
