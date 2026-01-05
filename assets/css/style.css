@@ -130,6 +130,34 @@ body {
   50% { opacity: 0; }
 }
 
+/* === TYPEWRITER EFFECT === */
+.typewriter {
+  overflow: hidden;
+  border-right: 2px solid var(--accent);
+  white-space: nowrap;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--accent); }
+}
+
+.typewriter-char {
+  display: inline-block;
+  animation: fadeIn 0.05s ease-in forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
 /* === HEADER / NAV === */
 header {
   padding: 2rem 0;
@@ -142,6 +170,30 @@ header {
   text-decoration: none;
   display: inline-block;
   margin-bottom: 1rem;
+}
+
+.ascii-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  line-height: 1;
+  color: var(--accent);
+  margin: 0 0 1rem 0;
+  overflow-x: auto;
+  white-space: pre;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .ascii-logo {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .ascii-logo {
+    font-size: 0.35rem;
+    line-height: 1.2;
+  }
 }
 
 nav {
