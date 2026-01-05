@@ -67,6 +67,7 @@
           clearInterval(loadingInterval);
           setTimeout(function () {
             loadingOverlay.remove();
+            initScrollAnimations();
           }, 500);
         }
       }, 150);
@@ -76,6 +77,85 @@
         stepElement.classList.add('done');
       }
     });
+
+    function initScrollAnimations() {
+      const fadeElements = document.querySelectorAll('.terminal-window');
+      const progressBars = document.querySelectorAll('.progress-fill');
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('nav a[href^="#"]');
+      const grids = document.querySelectorAll('.projects-grid, .services-grid');
+
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            const delayClass = index % 3 === 0 ? '' :
+                               index % 3 === 1 ? 'fade-in-delay-1' : 'fade-in-delay-2';
+            entry.target.classList.add('fade-in', delayClass);
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, 50);
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      fadeElements.forEach(el => fadeObserver.observe(el));
+
+      const gridObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            gridObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      grids.forEach(grid => gridObserver.observe(grid));
+
+      const progressObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const bar = entry.target;
+            const width = bar.style.width || bar.getAttribute('data-width');
+            if (width && width !== '0px') {
+              bar.style.setProperty('--target-width', width);
+              bar.classList.add('animate');
+            }
+            progressObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      progressBars.forEach(bar => {
+        const width = bar.style.width;
+        if (width && width !== '0px') {
+          bar.style.width = '0';
+          bar.setAttribute('data-width', width);
+          progressObserver.observe(bar);
+        }
+      });
+
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === `#${id}`) {
+                link.classList.add('active');
+              }
+            });
+          }
+        });
+      }, { threshold: 0.3 });
+
+      sections.forEach(section => sectionObserver.observe(section));
+    }
   </script>
 </head>
 
