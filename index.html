@@ -11,12 +11,89 @@
   <!-- JetBrains Mono Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
   <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      const loadingOverlay = document.getElementById('loading-overlay');
+      const loadingProgress = document.getElementById('loading-progress');
+      const loadingText = document.getElementById('loading-text');
+      const steps = ['step-1', 'step-2', 'step-3'];
+
+      let progress = 0;
+      let currentStep = 0;
+
+      const loadingInterval = setInterval(function() {
+        progress += Math.random() * 15;
+        if (progress > 100) progress = 100;
+        loadingProgress.style.width = progress + '%';
+
+        if (progress >= 33 && currentStep === 0) {
+          markStepDone(0);
+          currentStep++;
+        }
+        if (progress >= 66 && currentStep === 1) {
+          markStepDone(1);
+          currentStep++;
+        }
+        if (progress >= 90 && currentStep === 2) {
+          markStepDone(2);
+          loadingText.textContent = 'Ready!';
+          currentStep++;
+        }
+        if (progress >= 100) {
+          clearInterval(loadingInterval);
+          setTimeout(function() {
+            loadingOverlay.remove();
+          }, 500);
+        }
+      }, 150);
+
+      function markStepDone(index) {
+        const stepElement = document.getElementById(steps[index]);
+        stepElement.classList.add('done');
+      }
+    });
+  </script>
 </head>
 
 <body>
+  <!-- Loading Animation -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+        </div>
+        <span class="terminal-title">init.sh</span>
+      </div>
+      <div class="terminal-content">
+        <div class="terminal-prompt">
+          <span class="prompt-symbol">$</span>
+          <span class="prompt-command">./init.sh</span>
+        </div>
+        <div class="loading-message">
+          <span id="loading-text">Loading portfolio...</span>
+          <span class="loading-spinner">|</span>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" id="loading-progress" style="width: 0%;"></div>
+          </div>
+        </div>
+        <div class="loading-steps">
+          <span class="step" id="step-1">[ ] Initializing terminal...</span>
+          <span class="step" id="step-2">[ ] Loading assets...</span>
+          <span class="step" id="step-3">[ ] Starting portfolio...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <!-- Header -->
     <header>
@@ -31,12 +108,12 @@
         </div>
         <div class="terminal-content">
           <pre class="ascii-logo">
-     ██╗  ████████╗ ████████╗ ██████╗  ██████╗ ██╗  ██╗███████╗
-     ██║  ╚══██╔══╝ ╚══██╔══╝ ██╔══██╗██╔═══██╗██║  ██║██╔════╝
-     ██║     ██║        ██║    ██║  ██║██║   ██║███████║█████╗
-     ██║     ██║        ██║    ██║  ██║██║   ██║██╔══██║██╔══╝
-     ██║     ██║        ██║    ██████╔╝╚██████╔╝██║  ██║███████╗
-     ╚═╝     ╚═╝        ╚═╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚══════╝
+    █████╗ ██╗  ██╗███╗   ███╗ █████╗ ██╗     
+   ██╔══██╗██║ ██╔╝████╗ ████║██╔══██╗██║     
+   ███████║█████╔╝ ██╔████╔██║███████║██║     
+   ██╔══██║██╔═██╗ ██║╚██╔╝██║██╔══██║██║     
+   ██║  ██║██║  ██╗██║ ╚═╝ ██║██║  ██║███████╗
+   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝
           </pre>
           <nav>
             <a href="#work">💼 Work</a>
@@ -100,7 +177,8 @@
           <div class="projects-grid">
 
             <a href="/bank-statement-parser/" class="project-card">
-              <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80" alt="Bank Statement Parser">
+              <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80"
+                alt="Bank Statement Parser">
               <div class="content">
                 <h3>🏦 Bank Statement Parser</h3>
                 <p>Privacy-focused tool that parses PDF bank statements entirely in browser using WebAssembly.</p>
@@ -158,23 +236,60 @@
 
             <div class="service-card">
               <h3>⚙️ Data Engineering</h3>
-              <p>Building fault-tolerant pipelines with Apache Airflow, optimizing complex SQL queries, and managing data
+              <p>Building fault-tolerant pipelines with Apache Airflow, optimizing complex SQL queries, and managing
+                data
                 warehouses.</p>
+              <div class="progress-container">
+                <div class="progress-label">
+                  <span>Expertise</span>
+                  <span>90%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 90%;"></div>
+                </div>
+              </div>
             </div>
 
             <div class="service-card">
               <h3>🤖 AI & ML</h3>
               <p>Exploring Retrieval-Augmented Generation (RAG) systems, LangChain, and Vector Databases.</p>
+              <div class="progress-container">
+                <div class="progress-label">
+                  <span>Expertise</span>
+                  <span>75%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 75%;"></div>
+                </div>
+              </div>
             </div>
 
             <div class="service-card">
               <h3>🛠️ DevOps</h3>
               <p>Docker containerization, CI/CD pipelines, and Linux systems administration.</p>
+              <div class="progress-container">
+                <div class="progress-label">
+                  <span>Expertise</span>
+                  <span>85%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 85%;"></div>
+                </div>
+              </div>
             </div>
 
             <div class="service-card">
               <h3>💻 Development</h3>
               <p>Python, SQL, JavaScript. Building full-stack applications with FastAPI and modern web technologies.</p>
+              <div class="progress-container">
+                <div class="progress-label">
+                  <span>Expertise</span>
+                  <span>95%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 95%;"></div>
+                </div>
+              </div>
             </div>
 
           </div>
