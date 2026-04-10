@@ -1,0 +1,136 @@
+{
+  "projects": [
+    {
+      "id": "freshcart-analytics",
+      "title": "FreshCart Analytics Pipeline",
+      "description": "End-to-end data engineering pipeline with medallion architecture for retail analytics",
+      "longDescription": "Complete retail analytics platform processing daily sales transactions with market basket analysis. Implements bronze-silver-gold architecture with data quality validation.",
+      "category": "data-engineering",
+      "github": "https://github.com/akmalariq/FreshCart-Analytics-Pipeline",
+      "demo": null,
+      "image": null,
+      "tags": ["Airflow", "DLT", "dbt", "DuckDB", "PostgreSQL"],
+      "stats": {
+        "dataVolume": "10M+ records daily",
+        "performance": "60% faster queries",
+        "impact": "Enabled real-time inventory analytics"
+      },
+      "highlights": [
+        "Complete medallion architecture (Bronze → Silver → Gold)",
+        "Market basket analysis implementation",
+        "Data quality validation with Great Expectations",
+        "Production-ready with proper orchestration"
+      ]
+    },
+    {
+      "id": "batch-data-pipeline",
+      "title": "Batch Data Pipeline with Observability",
+      "description": "Enterprise-grade batch pipeline with comprehensive monitoring and data quality",
+      "longDescription": "Complete batch data pipeline with full observability stack including Grafana, Prometheus, Marquez for lineage, and Soda Core for data quality validation.",
+      "category": "data-engineering",
+      "github": "https://github.com/akmalariq/batch-data-pipeline",
+      "demo": null,
+      "image": null,
+      "tags": ["Airflow", "Grafana", "Prometheus", "Soda Core", "Trino"],
+      "stats": {
+        "monitoring": "Full observability stack",
+        "quality": "Automated data validation",
+        "lineage": "Complete data lineage tracking"
+      },
+      "highlights": [
+        "Industry-standard modern data stack",
+        "Comprehensive observability (metrics, logs, lineage)",
+        "Data quality validation with Soda Core",
+        "Full deployment automation with Docker"
+      ]
+    },
+    {
+      "id": "bank-statement-parser",
+      "title": "Bank Statement Parser",
+      "description": "PDF bank statement parser with fund lineage visualization and interactive dashboard",
+      "longDescription": "Privacy-focused tool that parses PDF bank statements entirely in browser using WebAssembly. Supports multiple Indonesian bank formats with fund lineage visualization.",
+      "category": "analytics",
+      "github": "https://github.com/akmalariq/bank-statement-parser",
+      "demo": null,
+      "image": null,
+      "tags": ["Python", "Streamlit", "pandas", "pdfplumber", "Plotly"],
+      "stats": {
+        "formats": "Multiple Indonesian banks",
+        "features": "Fund lineage visualization",
+        "privacy": "100% local processing"
+      },
+      "highlights": [
+        "Real-world problem-solving (complex PDF parsing)",
+        "Interactive web dashboard with dark mode",
+        "Multiple bank format support",
+        "Clean, production-ready codebase"
+      ]
+    },
+    {
+      "id": "hospital-data-analysis",
+      "title": "Hospital Data Analysis",
+      "description": "Healthcare data analysis with SQLite processing 800k+ Medicare records",
+      "longDescription": "Data engineering project that loads and analyzes US hospital charges data (2011-2015) using Python and SQLite. Handles large-scale healthcare data with proper ETL processes.",
+      "category": "analytics",
+      "github": "https://github.com/akmalariq/HospitalData",
+      "demo": null,
+      "image": null,
+      "tags": ["Python", "Pandas", "SQLite", "Jupyter"],
+      "stats": {
+        "records": "800k+ hospital records",
+        "years": "5 years of data (2011-2015)",
+        "insights": "Healthcare cost analysis"
+      },
+      "highlights": [
+        "Large-scale data handling",
+        "Healthcare domain expertise",
+        "Clean data engineering approach",
+        "Comprehensive data analysis"
+      ]
+    },
+    {
+      "id": "ml-airbnb-analysis",
+      "title": "Machine Learning - Airbnb Analysis",
+      "description": "ML classification and clustering for real estate data with scikit-learn",
+      "longDescription": "Complete ML workflow for real estate analysis including data preprocessing, KNN and Random Forest classification, K-Means clustering, and comprehensive model evaluation.",
+      "category": "ml",
+      "github": "https://github.com/akmalariq/Machine-Learning-Final-Project",
+      "demo": null,
+      "image": null,
+      "tags": ["Python", "scikit-learn", "Pandas", "Jupyter"],
+      "stats": {
+        "records": "22k+ property records",
+        "algorithms": "KNN, Random Forest, K-Means",
+        "accuracy": "Competitive model performance"
+      },
+      "highlights": [
+        "Complete ML workflow (data prep → modeling → evaluation)",
+        "Multiple algorithms implemented",
+        "Real-world dataset analysis",
+        "Comprehensive model evaluation"
+      ]
+    },
+    {
+      "id": "esb-etl-pipeline",
+      "title": "ESB ETL Pipeline",
+      "description": "Production ETL with idempotent operations and history tracking",
+      "longDescription": "Production-grade ETL pipeline for bank data with idempotent operations, history tracking for audit purposes, API pagination handling, and robust error handling.",
+      "category": "data-engineering",
+      "github": "https://github.com/akmalariq/kanmo-esb-etl",
+      "demo": null,
+      "image": null,
+      "tags": ["Python", "pymssql", "requests"],
+      "stats": {
+        "reliability": "Idempotent operations",
+        "tracking": "Complete history audit trail",
+        "production": "Battle-tested ETL"
+      },
+      "highlights": [
+        "Idempotent operations (critical for production)",
+        "History tracking for audit purposes",
+        "API pagination handling",
+        "Production-ready error handling"
+      ]
+    }
+  ]
+}
