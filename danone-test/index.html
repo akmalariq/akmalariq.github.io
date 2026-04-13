@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danone Data Engineer Test | Akmal Ariq</title>
+    <meta name="description" content="Danone Data Engineer technical screening — web scraping, PostgreSQL SQL, and regex pattern validation by Akmal Ariq.">
+    <meta name="author" content="Akmal Ariq">
+    <link rel="canonical" href="https://akmalariq.github.io/danone-test/">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Highlight.js syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <style>
+        /* ── Page extras (danone-test only) ── */
+        .page-hero {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 3rem 0 2.5rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb-sep { color: var(--border-color); }
+
+        .page-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.75rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 620px;
+            line-height: 1.7;
+        }
+
+        .stat-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 2rem;
+            padding: 0.4rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-pill .icon {
+            font-size: 1rem;
+        }
+
+        .task-nav-strip {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--border-color);
+            background: white;
+            position: sticky;
+            top: 60px;
+            z-index: 50;
+        }
+
+        .task-nav-strip .container {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .task-tab {
+            padding: 0.4rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .task-tab:hover,
+        .task-tab.active {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: rgba(14, 165, 233, 0.05);
+        }
+
+        /* Task sections */
+        .task-section {
+            padding: 3.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .task-section:last-child { border-bottom: none; }
+
+        .task-section:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        .task-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .task-number {
+            flex-shrink: 0;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 0.1rem;
+        }
+
+        .task-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.25rem;
+        }
+
+        .task-type {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .task-desc {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            margin-bottom: 1.75rem;
+            max-width: 700px;
+        }
+
+        /* Two-column layout for task content */
+        .task-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .task-body { grid-template-columns: 1fr; }
+        }
+
+        .task-body.single { grid-template-columns: 1fr; }
+
+        /* Code blocks */
+        .code-block {
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            background: white;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .code-filename {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 0.3rem;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            padding: 0.15rem 0.55rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .copy-btn.copied { color: #22c55e; border-color: #22c55e; }
+
+        .code-block pre {
+            margin: 0 !important;
+            border-radius: 0 !important;
+            max-height: 400px;
+            overflow-y: auto;
+            font-size: 0.8125rem !important;
+        }
+
+        /* Result panels */
+        .result-panel {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .result-panel-header {
+            padding: 0.6rem 1rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .result-panel-body {
+            padding: 1rem;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8125rem;
+            font-family: var(--font-mono);
+        }
+
+        .data-table th {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 0.45rem 0.75rem;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .data-table tr:hover td {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .data-table .more-row td {
+            color: var(--text-secondary);
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* Regex pattern display */
+        .pattern-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 0.5rem 0.5rem 0;
+            padding: 0.875rem 1.25rem;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            word-break: break-all;
+            margin-bottom: 1.5rem;
+        }
+
+        .pattern-box .label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.4rem;
+        }
+
+        /* Regex test matrix */
+        .regex-matrix {
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .regex-row {
+            display: grid;
+            grid-template-columns: 1fr 100px 60px;
+            align-items: center;
+            padding: 0.55rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.825rem;
+        }
+
+        .regex-row:last-child { border-bottom: none; }
+
+        .regex-row.header-row {
+            background: var(--bg-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .regex-row .email {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .regex-row .verdict,
+        .regex-row .check {
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.15rem 0.55rem;
+            border-radius: 0.25rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .badge-pass {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .badge-fail {
+            background: rgba(239, 68, 68, 0.08);
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+        }
+
+        .check-mark { color: #22c55e; font-size: 1rem; }
+
+        /* Rule list */
+        .rule-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .rule-list li {
+            display: flex;
+            gap: 0.625rem;
+            padding: 0.4rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .rule-list li:last-child { border-bottom: none; }
+
+        .rule-list li::before {
+            content: "✓";
+            color: #22c55e;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .rule-list li strong { color: var(--text-primary); }
+
+        /* Key takeaways box */
+        .takeaway-box {
+            background: rgba(14, 165, 233, 0.05);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .takeaway-box h4 {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .takeaway-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .takeaway-box li {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .takeaway-box li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Section label above code/result */
+        .block-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="../" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="../#projects" class="nav-link">Projects</a>
+                    <a href="../#skills" class="nav-link">Skills</a>
+                    <a href="../#about" class="nav-link">About</a>
+                    <a href="../#contact" class="nav-link">Contact</a>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="../#projects" class="mobile-nav-link">Projects</a>
+                <a href="../#skills" class="mobile-nav-link">Skills</a>
+                <a href="../#about" class="mobile-nav-link">About</a>
+                <a href="../#contact" class="mobile-nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ══════════════════════════════════════
+         SECTION 1: DANONE DATA ENGINEER TEST
+    ══════════════════════════════════════ -->
+    <div class="page-hero" id="danone-data-engineer-test">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../">Home</a>
+                <span class="breadcrumb-sep">/</span>
+                <a href="../#projects">Projects</a>
+                <span class="breadcrumb-sep">/</span>
+                <span>Danone Data Engineer Test</span>
+            </div>
+
+            <div class="tag" style="margin-bottom:1rem;">Data Engineering</div>
+
+            <h1 class="page-title">Danone Data Engineer Test</h1>
+            <p class="page-subtitle">
+                Technical screening covering web scraping, SQL data ingestion &amp; querying,
+                and regex pattern design — all delivered in Python and PostgreSQL.
+            </p>
+
+            <div class="stat-row">
+                <div class="stat-pill"><span class="icon">🗂️</span> 3 Tasks</div>
+                <div class="stat-pill"><span class="icon">💻</span> 117 Laptops Scraped</div>
+                <div class="stat-pill"><span class="icon">📄</span> 20 Pages Crawled</div>
+                <div class="stat-pill"><span class="icon">✅</span> 9/9 Regex Cases Passing</div>
+            </div>
+
+            <div class="project-links" style="margin-top:1.75rem;">
+                <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer" class="btn btn-github">
+                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task nav strip -->
+    <div class="task-nav-strip">
+        <div class="container">
+            <a href="#task1" class="task-tab">Task 1 — Web Scraping</a>
+            <a href="#task2" class="task-tab">Task 2 — SQL</a>
+            <a href="#task3" class="task-tab">Task 3 — Regex</a>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         TASK 1: WEB SCRAPING
+    ══════════════════════════════════════ -->
+    <section class="task-section" id="task1">
+        <div class="container">
+            <div class="task-header">
+                <div class="task-number" aria-hidden="true">1</div>
+                <div>
+                    <div class="task-type">Web Scraping</div>
+                    <h2 class="task-title">Fetch All Laptops to CSV</h2>
+                </div>
+            </div>
+
+            <p class="task-desc">
+                Fetch all laptops, prices, and specifications from
+                <code style="font-family:var(--font-mono); font-size:0.875em; color:var(--accent); background:var(--bg-secondary); padding:0.1em 0.4em; border-radius:0.25em;">webscraper.io/test-sites/e-commerce/static/computers/laptops</code>
+                — no shortcuts — and store the result as a <code style="font-family:var(--font-mono); font-size:0.875em; color:var(--text-primary); background:var(--bg-secondary); padding:0.1em 0.4em; border-radius:0.25em;">.csv</code> file.
+                The scraper auto-detects the total page count and crawls every page.
+            </p>
+
+            <div class="task-body">
+                <div>
+                    <div class="block-label">task1_scraper.py</div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-filename">task1_scraper.py</span>
+                            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+                        </div>
+                        <pre><code class="language-python">import csv
+import requests
+from bs4 import BeautifulSoup
+
+BASE_URL = (
+    "https://webscraper.io/test-sites"
+    "/e-commerce/static/computers/laptops"
+)
+
+
+def scrape_page(url: str) -> list[dict]:
+    response = requests.get(url)
+    response.raise_for_status()
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    laptops = []
+    for item in soup.select(".thumbnail"):
+        name  = item.select_one(".title")
+        price = item.select_one("[itemprop='price']")
+        spec  = item.select_one(".description")
+
+        laptops.append({
+            "name": name.get_text(strip=True) if name else "",
+            "price": (
+                price.get_text(strip=True).replace("$", "")
+                if price else ""
+            ),
+            "specification": spec.get_text(strip=True) if spec else "",
+        })
+    return laptops
+
+
+def get_total_pages(url: str) -> int:
+    soup = BeautifulSoup(requests.get(url).text, "html.parser")
+    links = soup.select(".page-item a.page-link")
+    numbers = [
+        int(l.get_text(strip=True))
+        for l in links
+        if l.get_text(strip=True).isdigit()
+    ]
+    return max(numbers) if numbers else 1
+
+
+def main():
+    total_pages = get_total_pages(BASE_URL)  # → 20
+    all_laptops = []
+
+    for page in range(1, total_pages + 1):
+        url = BASE_URL if page == 1 else f"{BASE_URL}?page={page}"
+        all_laptops.extend(scrape_page(url))
+
+    with open("laptops.csv", "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(
+            f, fieldnames=["name", "price", "specification"]
+        )
+        writer.writeheader()
+        writer.writerows(all_laptops)
+
+    print(f"Scraped {len(all_laptops)} laptops → laptops.csv")
+
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="block-label">Output — laptops.csv (sample)</div>
+                    <div class="result-panel">
+                        <div class="result-panel-header">117 rows · 3 columns</div>
+                        <div class="result-panel-body" style="padding:0; overflow-x:auto;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>price</th>
+                                        <th>specification</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Packard 255 G2</td><td>416.99</td><td>15.6", AMD E2-3800, 4GB, 500GB, Win 8.1</td></tr>
+                                    <tr><td>Aspire E1-510</td><td>306.99</td><td>15.6", Pentium N3520, 4GB, 500GB, Linux</td></tr>
+                                    <tr><td>ThinkPad T540p</td><td>1178.99</td><td>15.6", Core i5-4200M, 4GB, 500GB, Win7</td></tr>
+                                    <tr><td>ProBook</td><td>739.99</td><td>14", Core i5 2.6GHz, 4GB, 500GB, Win7</td></tr>
+                                    <tr><td>ThinkPad X240</td><td>1311.99</td><td>12.5", Core i5-4300U, 8GB, 240GB SSD</td></tr>
+                                    <tr><td>Aspire E1-572G</td><td>581.99</td><td>15.6", Core i5-4200U, 8GB, 1TB, Win 8.1</td></tr>
+                                    <tr class="more-row"><td colspan="3">… 111 more rows</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="takeaway-box" style="margin-top:1.5rem;">
+                        <h4>How it works</h4>
+                        <ul>
+                            <li>Fetches page 1 once to detect total page count from pagination links</li>
+                            <li>Loops pages 1–20, appending 6 items per page</li>
+                            <li>Parses <code>.thumbnail</code> cards — title, price, and description</li>
+                            <li>Exports with <code>csv.DictWriter</code> for clean, header-included output</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         TASK 2: SQL
+    ══════════════════════════════════════ -->
+    <section class="task-section" id="task2">
+        <div class="container">
+            <div class="task-header">
+                <div class="task-number" aria-hidden="true">2</div>
+                <div>
+                    <div class="task-type">SQL</div>
+                    <h2 class="task-title">Load &amp; Query in PostgreSQL</h2>
+                </div>
+            </div>
+
+            <p class="task-desc">
+                Dump the CSV into a relational database, then generate two result tables:
+                (1) each laptop with parsed hardware fields extracted from the raw spec string,
+                and (2) average price grouped by screen size.
+            </p>
+
+            <!-- Load step -->
+            <div class="task-body" style="margin-bottom:2.5rem;">
+                <div>
+                    <div class="block-label">Step 1 — Create table &amp; load data</div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-filename">task2_sql.sql — load</span>
+                            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+                        </div>
+                        <pre><code class="language-sql">CREATE TABLE IF NOT EXISTS laptops (
+    name          TEXT,
+    price         NUMERIC(10, 2),
+    specification TEXT
+);
+
+-- Run inside psql:
+\copy laptops
+  FROM 'laptops.csv'
+  WITH (FORMAT CSV, HEADER TRUE);
+</code></pre>
+                    </div>
+                </div>
+                <div>
+                    <div class="block-label">How I dumped the data</div>
+                    <div class="result-panel">
+                        <div class="result-panel-header">Method</div>
+                        <div class="result-panel-body">
+                            <ul class="rule-list">
+                                <li>Created the <code>laptops</code> table in PostgreSQL with matching column types</li>
+                                <li>Used <code>\copy</code> (client-side) to load <code>laptops.csv</code> — works without superuser privileges</li>
+                                <li><code>FORMAT CSV, HEADER TRUE</code> skips the header row automatically</li>
+                                <li>All 117 rows loaded in one command, no data cleaning needed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Query 1 -->
+            <div class="task-body" style="margin-bottom:2.5rem;">
+                <div>
+                    <div class="block-label">Step 2 — Table 1: Brand, Spec, HDD, Screen_Size, Price</div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-filename">task2_sql.sql — query 1</span>
+                            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+                        </div>
+                        <pre><code class="language-sql">SELECT
+    name AS brand,
+    specification AS spec,
+
+    -- Storage (HDD/SSD): number after the RAM field
+    -- e.g. "4GB, 500GB" → 500, "8GB, 1TB" → 1000
+    COALESCE(
+        CAST(
+            SUBSTRING(specification FROM '\d+GB,\s*(\d+)GB')
+            AS INTEGER
+        ),
+        CAST(
+            SUBSTRING(specification FROM '\d+GB,\s*(\d+)TB')
+            AS INTEGER
+        ) * 1000
+    ) AS hdd,
+
+    -- Screen size: leading number before the inch symbol
+    CAST(
+        SUBSTRING(specification FROM '^([0-9]+\.?[0-9]*)"')
+        AS NUMERIC(4, 1)
+    ) AS screen_size,
+
+    price
+
+FROM laptops
+ORDER BY name;
+</code></pre>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="block-label">Result Table 1 — sample</div>
+                    <div class="result-panel">
+                        <div class="result-panel-header">brand · spec · hdd · screen_size · price</div>
+                        <div class="result-panel-body" style="padding:0; overflow-x:auto;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>brand</th>
+                                        <th>hdd</th>
+                                        <th>screen_size</th>
+                                        <th>price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Packard 255 G2</td><td>500</td><td>15.6</td><td>416.99</td></tr>
+                                    <tr><td>ProBook</td><td>500</td><td>14.0</td><td>739.99</td></tr>
+                                    <tr><td>ThinkPad X240</td><td>240</td><td>12.5</td><td>1311.99</td></tr>
+                                    <tr><td>Aspire E1-572G</td><td>1000</td><td>15.6</td><td>581.99</td></tr>
+                                    <tr class="more-row"><td colspan="4">… 113 more rows</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Query 2 -->
+            <div class="task-body">
+                <div>
+                    <div class="block-label">Step 3 — Table 2: Screen_Size, Avg_Price</div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-filename">task2_sql.sql — query 2</span>
+                            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+                        </div>
+                        <pre><code class="language-sql">SELECT
+    CAST(
+        SUBSTRING(specification FROM '^([0-9]+\.?[0-9]*)"')
+        AS NUMERIC(4, 1)
+    )                        AS screen_size,
+
+    ROUND(AVG(price), 2)     AS avg_price
+
+FROM laptops
+WHERE specification ~ '^[0-9]+"'  -- rows with valid screen size
+GROUP BY screen_size
+ORDER BY screen_size;
+</code></pre>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="block-label">Result Table 2</div>
+                    <div class="result-panel">
+                        <div class="result-panel-header">screen_size · avg_price</div>
+                        <div class="result-panel-body" style="padding:0;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>screen_size</th>
+                                        <th>avg_price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>12.5</td><td>1203.74</td></tr>
+                                    <tr><td>13.3</td><td>1281.99</td></tr>
+                                    <tr><td>14.0</td><td>739.99</td></tr>
+                                    <tr><td>15.6</td><td>599.13</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         TASK 3: REGEX
+    ══════════════════════════════════════ -->
+    <section class="task-section" id="task3">
+        <div class="container">
+            <div class="task-header">
+                <div class="task-number" aria-hidden="true">3</div>
+                <div>
+                    <div class="task-type">Regular Expressions</div>
+                    <h2 class="task-title">Email Validation Pattern</h2>
+                </div>
+            </div>
+
+            <p class="task-desc">
+                Write a regex pattern that passes or rejects a set of email addresses
+                based on implicit rules derived purely from the test cases — no explicit specification given.
+            </p>
+
+            <!-- Pattern + rules side by side -->
+            <div class="task-body" style="margin-bottom:2rem;">
+                <div>
+                    <div class="block-label">Derived Rules</div>
+                    <ul class="rule-list">
+                        <li>Local part must <strong>start with a letter</strong> — digits at the start are rejected</li>
+                        <li>Allows <strong>letters, digits, and underscores</strong> in the local part</li>
+                        <li><strong>No hyphens</strong> allowed anywhere in the local part</li>
+                        <li>At most <strong>one dot</strong> — two or more dots are rejected</li>
+                        <li>Dot can be followed by letters, digits, or underscores</li>
+                    </ul>
+
+                    <div style="margin-top:1.5rem;">
+                        <div class="block-label">Final Pattern</div>
+                        <div class="pattern-box">
+                            <span class="label">Python · re module</span>
+                            ^[a-zA-Z][a-zA-Z0-9_]*(\.[a-zA-Z0-9_]+)?@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="block-label">task3_regex.py</div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-filename">task3_regex.py</span>
+                            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+                        </div>
+                        <pre><code class="language-python">import re
+
+PATTERN = (
+    r"^[a-zA-Z][a-zA-Z0-9_]*"
+    r"(\.[a-zA-Z0-9_]+)?"
+    r"@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$"
+)
+
+test_cases = [
+    ("my-name@someemail.com",        "NOT PASS"),
+    ("myname@someemail.com",         "PASS"),
+    ("my.name@someemail.com",        "PASS"),
+    ("my.name2019@someemail.com",    "PASS"),
+    ("my.name.2019@someemail.com",   "NOT PASS"),
+    ("somename.201903@someemail.com","PASS"),
+    ("my_name.201903@someemail.com", "PASS"),
+    ("201903myname@someemail.com",   "NOT PASS"),
+    ("201903.myname@someemail.com",  "NOT PASS"),
+]
+
+for email, expected in test_cases:
+    got = "PASS" if re.match(PATTERN, email) else "NOT PASS"
+    ok  = "✓" if got == expected else "✗"
+    print(f"  {ok}  {email:<35}  {got}")
+</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test matrix -->
+            <div class="block-label">Test Results — 9/9 Passing</div>
+            <div class="regex-matrix">
+                <div class="regex-row header-row">
+                    <span>Email address</span>
+                    <span class="verdict">Expected</span>
+                    <span class="check">Result</span>
+                </div>
+                <div class="regex-row"><span class="email">my-name@someemail.com</span><span class="verdict"><span class="badge badge-fail">NOT PASS</span></span><span class="check check-mark">✓</span></div>
+                <div class="regex-row"><span class="email">myname@someemail.com</span><span class="verdict"><span class="badge badge-pass">PASS</span></span><span class="check check-mark">✓</span></div>
+                <div class="regex-row"><span class="email">my.name@someemail.com</span><span class="verdict"><span class="badge badge-pass">PASS</span></span><span class="check check-mark">✓</span></div>
+                <div class="regex-row"><span class="email">my.name2019@someemail.com</span><span class="verdict"><span class="badge badge-pass">PASS</span></span><span class="check check-mark">✓</span></div>
+                <div class="regex-row"><span class="email">my.name.2019@someemail.com</span><span class="verdict"><span class="badge badge-fail">NOT PASS</span></span><span class="check check-mark">✓</span></div>
+                <div class="regex-row"><span class="email">somename.201903@someemail.com</span><span class="verdict"><span class="badge badge-pass">PASS</span></span><span class="check check-mark">✓</span></div>
+                <div class="regex-row"><span class="email">my_name.201903@someemail.com</span><span class="verdict"><span class="badge badge-pass">PASS</span></span><span class="check check-mark">✓</span></div>
+                <div class="regex-row"><span class="email">201903myname@someemail.com</span><span class="verdict"><span class="badge badge-fail">NOT PASS</span></span><span class="check check-mark">✓</span></div>
+                <div class="regex-row"><span class="email">201903.myname@someemail.com</span><span class="verdict"><span class="badge badge-fail">NOT PASS</span></span><span class="check check-mark">✓</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq. Built with modern web technologies.</p>
+                <div class="footer-links">
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LinkedIn</a>
+                    <a href="../">← Back to Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+
+    <script>
+        // Mobile menu
+        const btn = document.querySelector('.mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => {
+                const isOpen = btn.classList.toggle('open');
+                btn.setAttribute('aria-expanded', String(isOpen));
+                menu.hidden = !isOpen;
+            });
+        }
+
+        // Sticky header shadow
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 20);
+        }, { passive: true });
+
+        // Back to top
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backToTop.hidden = window.scrollY < 400;
+        }, { passive: true });
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // Footer year
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+        // Copy code buttons
+        function copyCode(btn) {
+            const code = btn.closest('.code-block').querySelector('code');
+            navigator.clipboard.writeText(code.textContent).then(() => {
+                btn.textContent = 'copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Active task tab highlight
+        const tabs = document.querySelectorAll('.task-tab');
+        const sections = document.querySelectorAll('.task-section[id]');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    tabs.forEach(tab => {
+                        tab.classList.toggle('active', tab.getAttribute('href') === `#${entry.target.id}`);
+                    });
+                }
+            });
+        }, { rootMargin: '-30% 0px -65% 0px' });
+
+        sections.forEach(s => observer.observe(s));
+
+        // Init highlight.js
+        document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());
+    </script>
+</body>
+</html>

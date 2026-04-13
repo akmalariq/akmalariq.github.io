@@ -1,6 +1,31 @@
 {
   "projects": [
     {
+      "id": "danone-data-engineer-test",
+      "title": "Danone Data Engineer Test",
+      "description": "Technical screening covering web scraping (117 laptops across 20 pages), PostgreSQL data ingestion with regex-based spec parsing, and email regex validation — all passing 9/9 test cases.",
+      "longDescription": "End-to-end solution for a 3-task Data Engineer technical test. Task 1: Scraped 117 laptops from a paginated e-commerce site using Python + BeautifulSoup, exported to CSV. Task 2: Loaded the CSV into PostgreSQL and wrote SQL queries using regex to extract structured fields (screen size, HDD) from raw spec strings. Task 3: Derived and validated a regex pattern for email addresses from implicit rules — 9/9 test cases passing.",
+      "category": "data-engineering",
+      "github": "https://github.com/akmalariq",
+      "demo": "danone-test/",
+      "image": null,
+      "tags": ["Python", "BeautifulSoup", "PostgreSQL", "SQL", "Regex", "Web Scraping", "ETL"],
+      "stats": {
+        "laptops scraped": "117 across 20 pages",
+        "scraping method": "requests + BeautifulSoup (no shortcuts)",
+        "database": "PostgreSQL with COPY from CSV",
+        "sql parsing": "regex extraction — screen size & HDD from spec string",
+        "regex test cases": "9/9 passing"
+      },
+      "highlights": [
+        "Full pagination handling — auto-detects total pages and scrapes all 20",
+        "SQL queries use PostgreSQL regex to extract Screen_Size and HDD directly from the spec column",
+        "Handles mixed formats: GB, TB, SSD variants, and multi-value storage specs",
+        "Regex pattern derived from implicit rules across 9 test cases — no hyphens, max one dot, must start with a letter",
+        "All 3 tasks delivered as clean, documented Python and SQL files"
+      ]
+    },
+    {
       "id": "earthquake-analytics-pipeline",
       "title": "Earthquake Analytics Pipeline",
       "description": "End-to-end data pipeline analyzing 10+ years of global earthquake activity for DataTalks.Club Data Engineering Zoomcamp 2026",
@@ -31,6 +56,35 @@
         "Interactive dashboards with Looker Studio",
         "Analyzes real-world earthquake patterns affecting millions globally",
         "Answers critical questions: frequency changes, country comparisons, magnitude distribution"
+      ]
+    }
+  ,
+    {
+      "id": "freshcart-analytics-pipeline",
+      "title": "FreshCart E-commerce Analytics Pipeline",
+      "description": "Production-grade batch pipeline orchestrating 2 years of synthetic Indonesian retail data through a medallion architecture using Apache Airflow, dbt, and BigQuery.",
+      "longDescription": "End-to-end data engineering pipeline simulating a real-world Indonesian e-commerce analytics platform. Generates 150K+ order records using Faker (id_ID locale), orchestrates the full ETL with Apache Airflow on Docker, transforms data through Bronze → Silver → Gold medallion layers with dbt, and surfaces business metrics — daily GMV trends, product performance rankings, and customer RFM segmentation — via Looker Studio dashboards.",
+      "category": "data-engineering",
+      "github": "https://github.com/akmalariq/freshcart-analytics-pipeline",
+      "demo": null,
+      "image": null,
+      "tags": ["Apache Airflow", "dbt", "BigQuery", "Google Cloud Storage", "Python", "Docker", "Looker Studio", "Terraform"],
+      "stats": {
+        "data volume": "150K+ order items · 10K customers · 36 products",
+        "architecture": "GCS (raw) → BigQuery Bronze → Silver → Gold",
+        "orchestration": "Apache Airflow 2.9 (Dockerized, LocalExecutor)",
+        "layers": "Bronze (views) → Silver (tables) → Gold (business metrics)",
+        "dbt models": "11 models — 4 bronze · 4 silver · 3 gold",
+        "data quality": "20+ dbt tests (not_null, unique, accepted_values)",
+        "metrics": "Daily GMV · Product ranking · Customer RFM segmentation"
+      },
+      "highlights": [
+        "7-task Airflow DAG: data generation → GCS upload → BigQuery load → dbt bronze → silver → gold → test",
+        "Medallion architecture: Bronze (raw views), Silver (cleaned tables), Gold (business metrics)",
+        "Customer RFM segmentation scoring buyers into Champions, Loyal, At Risk, Lost and 6 more segments",
+        "Seasonal demand patterns — Ramadan surge, Harbolnas 11.11 & 12.12 spikes baked into synthetic data",
+        "11 dbt models with 20+ automated data quality tests on all primary keys and critical columns",
+        "Fully Dockerized Airflow setup — clone, fill .env, run docker compose up and the pipeline runs"
       ]
     }
   ]

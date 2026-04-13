@@ -6,37 +6,41 @@
 
     <!-- Primary SEO Meta Tags -->
     <title>Akmal Ariq | Data & AI Engineer - Jakarta, Indonesia</title>
-    <meta name="description" content="Data & AI Engineer based in Jakarta, Indonesia. Specializing in Apache Airflow, data pipelines, ETL, dbt, and machine learning. View portfolio of production-grade data engineering projects.">
-    <meta name="keywords" content="Data Engineer, AI Engineer, Apache Airflow, ETL, dbt, Data Pipeline, SQL, Python, Jakarta, Indonesia, Data Warehouse, Machine Learning">
+    <meta name="description" content="Data & AI Engineer based in Jakarta, Indonesia. Specializing in Apache Airflow, data pipelines, ETL, dbt, BigQuery, and Google Cloud Platform. View portfolio of production-grade data engineering projects.">
+    <meta name="keywords" content="Data Engineer, AI Engineer, Apache Airflow, ETL, dbt, Data Pipeline, SQL, Python, Jakarta, Indonesia, Data Warehouse, Machine Learning, BigQuery, Google Cloud Platform, Terraform, Kestra">
     <meta name="author" content="Akmal Ariq">
     <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
 
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="FWijDq5BVxzjVvjH6AxL6bZFjRF_DcqNKN8E13kg21Y">
+    <meta name="google-site-verification" content="google34ffb1b424b5af23">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://akmalariq.github.io/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akmalariq.github.io/">
     <meta property="og:title" content="Akmal Ariq | Data & AI Engineer">
-    <meta property="og:description" content="Data & AI Engineer based in Jakarta. Building fault-tolerant data pipelines and AI solutions. View portfolio of production-grade projects.">
-    <meta property="og:image" content="https://akmalariq.github.io/images/og-image.png">
+    <meta property="og:description" content="Data & AI Engineer based in Jakarta. Building fault-tolerant data pipelines and AI solutions on Google Cloud Platform. View portfolio of production-grade projects.">
+    <meta property="og:image" content="https://akmalariq.github.io/images/og-image.svg">
     <meta property="og:site_name" content="Akmal Ariq Portfolio">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://akmalariq.github.io/">
     <meta name="twitter:title" content="Akmal Ariq | Data & AI Engineer">
-    <meta name="twitter:description" content="Data & AI Engineer based in Jakarta. Building fault-tolerant data pipelines and AI solutions.">
-    <meta name="twitter:image" content="https://akmalariq.github.io/images/twitter-card.png">
+    <meta name="twitter:description" content="Data & AI Engineer based in Jakarta. Building fault-tolerant data pipelines and AI solutions on Google Cloud Platform.">
+    <meta name="twitter:image" content="https://akmalariq.github.io/images/og-image.svg">
     <meta name="twitter:creator" content="@akmalariq">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-
     <!-- Stylesheets -->
+    <link rel="preload" href="css/style.css" as="style">
     <link rel="stylesheet" href="css/style.css">
 
     <!-- Google Fonts -->
@@ -44,7 +48,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- Structured Data (Schema.org) -->
+    <!-- Structured Data: Person -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -52,6 +56,7 @@
       "name": "Akmal Ariq",
       "jobTitle": "Data & AI Engineer",
       "url": "https://akmalariq.github.io",
+      "email": "akmalariqs@gmail.com",
       "sameAs": [
         "https://github.com/akmalariq",
         "https://linkedin.com/in/akmalariq",
@@ -74,39 +79,90 @@
         "Python",
         "SQL",
         "Machine Learning",
-        "Data Warehousing"
+        "Data Warehousing",
+        "BigQuery",
+        "Google Cloud Platform",
+        "Terraform",
+        "Kestra"
+      ]
+    }
+    </script>
+
+    <!-- Structured Data: ItemList of Projects -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Akmal Ariq's Data Engineering Projects",
+      "description": "Portfolio of production-grade data engineering and AI projects",
+      "url": "https://akmalariq.github.io/#projects",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "SoftwareSourceCode",
+            "name": "Earthquake Analytics Pipeline",
+            "description": "End-to-end data pipeline analyzing 10+ years of global earthquake activity using GCP, BigQuery, dbt, and Kestra",
+            "programmingLanguage": ["Python", "SQL"],
+            "codeRepository": "https://github.com/akmalariq/earthquake-analytics",
+            "author": {
+              "@type": "Person",
+              "name": "Akmal Ariq"
+            }
+          }
+        }
       ]
     }
     </script>
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
+    <header class="header" role="banner">
         <div class="container">
             <div class="header-content">
                 <div class="header-left">
-                    <h1 class="name">Akmal Ariq</h1>
-                    <p class="title">Data & AI Engineer</p>
+                    <a href="#" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data &amp; AI Engineer</span>
+                    </a>
                 </div>
-                <nav class="nav">
-                    <a href="#projects">Projects</a>
-                    <a href="#skills">Skills</a>
-                    <a href="#about">About</a>
-                    <a href="#contact">Contact</a>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#skills" class="nav-link">Skills</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#contact" class="nav-link">Contact</a>
                 </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="#projects" class="mobile-nav-link">Projects</a>
+                <a href="#skills" class="mobile-nav-link">Skills</a>
+                <a href="#about" class="mobile-nav-link">About</a>
+                <a href="#contact" class="mobile-nav-link">Contact</a>
+            </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" aria-label="Introduction">
         <div class="container">
             <div class="hero-content">
-                <h2 class="hero-title">Building Modern Cloud-Native Data Pipelines</h2>
-                <p class="hero-subtitle">Data Engineering Zoomcamp Graduate | Jakarta, Indonesia</p>
+                <div class="hero-badge">
+                    <span class="badge-dot" aria-hidden="true"></span>
+                    Available for new opportunities
+                </div>
+                <h1 class="hero-title">Building Modern<br>Cloud-Native Data Pipelines</h1>
+                <p class="hero-subtitle">Data Engineering Zoomcamp Graduate &mdash; Jakarta, Indonesia</p>
                 <p class="hero-description">
-                    Data Engineer specializing in Google Cloud Platform, BigQuery, and modern data engineering tools.
+                    Data Engineer specializing in Google Cloud Platform, BigQuery, and modern data stack tools.
                     Recently built an end-to-end earthquake analytics pipeline for DataTalks.Club Zoomcamp 2026.
+                    Passionate about scalable infrastructure, workflow orchestration, and data-driven decision making.
                 </p>
                 <div class="hero-actions">
                     <a href="#projects" class="btn btn-primary">View My Work</a>
@@ -117,29 +173,32 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="projects">
+    <section id="projects" class="projects" aria-labelledby="projects-heading">
         <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-
-            <!-- Filter Buttons -->
-            <div class="filter-container" style="display: none;">
-                <button class="filter-btn active" data-filter="all">All Projects</button>
-                <button class="filter-btn" data-filter="data-engineering">Data Engineering</button>
-                <button class="filter-btn" data-filter="ml">Machine Learning</button>
-                <button class="filter-btn" data-filter="analytics">Analytics</button>
-            </div>
+            <h2 class="section-title" id="projects-heading">Featured Projects</h2>
 
             <!-- Projects Grid -->
-            <div class="projects-grid" id="projectsGrid">
+            <div class="projects-grid reveal-grid" id="projectsGrid">
                 <!-- SEO: Fallback content for search engines and users without JavaScript -->
                 <noscript>
-                    <!-- Projects will be loaded dynamically from projects.json -->
                     <div class="project-card">
                         <div class="project-content">
-                            <h3 class="project-title">FreshCart Analytics Pipeline</h3>
-                            <p class="project-description">End-to-end data engineering pipeline with medallion architecture for retail analytics</p>
-                            <p class="project-description">Please enable JavaScript to see all projects and interactive features.</p>
-                            <a href="https://github.com/akmalariq/FreshCart-Analytics-Pipeline" class="btn btn-github">🐙 View on GitHub</a>
+                            <h3 class="project-title">Earthquake Analytics Pipeline</h3>
+                            <p class="project-description">End-to-end data pipeline analyzing 10+ years of global earthquake activity (2015-2025) using the USGS Earthquake Catalog. Built as the capstone project for DataTalks.Club Data Engineering Zoomcamp 2026.</p>
+                            <div class="project-tags">
+                                <span class="tag">Terraform</span>
+                                <span class="tag">Kestra</span>
+                                <span class="tag">Google Cloud Storage</span>
+                                <span class="tag">BigQuery</span>
+                                <span class="tag">dbt</span>
+                                <span class="tag">Looker Studio</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/akmalariq/earthquake-analytics" target="_blank" rel="noopener noreferrer" class="btn btn-github">
+                                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                                    View on GitHub
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </noscript>
@@ -148,38 +207,113 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="skills">
+    <section id="skills" class="skills" aria-labelledby="skills-heading">
         <div class="container">
-            <h2 class="section-title">Technical Skills</h2>
+            <h2 class="section-title" id="skills-heading">Technical Skills</h2>
             <div class="skills-grid">
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Cloud & Data Engineering</h3>
-                    <ul class="skill-list">
-                        <li><span class="skill-name">Google Cloud Platform</span><span class="skill-level">85%</span></li>
-                        <li><span class="skill-name">BigQuery</span><span class="skill-level">85%</span></li>
-                        <li><span class="skill-name">Terraform</span><span class="skill-level">80%</span></li>
-                        <li><span class="skill-name">Kestra</span><span class="skill-level">75%</span></li>
-                        <li><span class="skill-name">dbt</span><span class="skill-level">85%</span></li>
-                        <li><span class="skill-name">SQL</span><span class="skill-level">95%</span></li>
+                <div class="skill-category reveal">
+                    <h3 class="skill-category-title">Cloud &amp; Data Engineering</h3>
+                    <ul class="skill-list" role="list">
+                        <li>
+                            <span class="skill-name">SQL</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" aria-label="SQL proficiency 95%">
+                                <div class="skill-bar-fill" style="--skill-width: 95%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="skill-name">Google Cloud Platform</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="GCP proficiency 85%">
+                                <div class="skill-bar-fill" style="--skill-width: 85%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="skill-name">BigQuery</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="BigQuery proficiency 85%">
+                                <div class="skill-bar-fill" style="--skill-width: 85%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="skill-name">dbt</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="dbt proficiency 85%">
+                                <div class="skill-bar-fill" style="--skill-width: 85%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="skill-name">Terraform</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" aria-label="Terraform proficiency 80%">
+                                <div class="skill-bar-fill" style="--skill-width: 80%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="skill-name">Kestra</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" aria-label="Kestra proficiency 75%">
+                                <div class="skill-bar-fill" style="--skill-width: 75%"></div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Data Orchestration & Tools</h3>
-                    <ul class="skill-list">
-                        <li><span class="skill-name">Apache Airflow</span><span class="skill-level">90%</span></li>
-                        <li><span class="skill-name">Docker</span><span class="skill-level">85%</span></li>
-                        <li><span class="skill-name">Git</span><span class="skill-level">90%</span></li>
-                        <li><span class="skill-name">Linux</span><span class="skill-level">85%</span></li>
-                        <li><span class="skill-name">CI/CD</span><span class="skill-level">80%</span></li>
+                <div class="skill-category reveal">
+                    <h3 class="skill-category-title">Data Orchestration &amp; Tools</h3>
+                    <ul class="skill-list" role="list">
+                        <li>
+                            <span class="skill-name">Apache Airflow</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="Apache Airflow proficiency 90%">
+                                <div class="skill-bar-fill" style="--skill-width: 90%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="skill-name">Git</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="Git proficiency 90%">
+                                <div class="skill-bar-fill" style="--skill-width: 90%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="skill-name">Docker</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Docker proficiency 85%">
+                                <div class="skill-bar-fill" style="--skill-width: 85%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="skill-name">Linux</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Linux proficiency 85%">
+                                <div class="skill-bar-fill" style="--skill-width: 85%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="skill-name">CI/CD</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" aria-label="CI/CD proficiency 80%">
+                                <div class="skill-bar-fill" style="--skill-width: 80%"></div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Programming & Analytics</h3>
-                    <ul class="skill-list">
-                        <li><span class="skill-name">Python</span><span class="skill-level">95%</span></li>
-                        <li><span class="skill-name">Pandas</span><span class="skill-level">90%</span></li>
-                        <li><span class="skill-name">PostgreSQL</span><span class="skill-level">90%</span></li>
-                        <li><span class="skill-name">DuckDB</span><span class="skill-level">80%</span></li>
+                <div class="skill-category reveal">
+                    <h3 class="skill-category-title">Programming &amp; Analytics</h3>
+                    <ul class="skill-list" role="list">
+                        <li>
+                            <span class="skill-name">Python</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" aria-label="Python proficiency 95%">
+                                <div class="skill-bar-fill" style="--skill-width: 95%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="skill-name">Pandas</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="Pandas proficiency 90%">
+                                <div class="skill-bar-fill" style="--skill-width: 90%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="skill-name">PostgreSQL</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="PostgreSQL proficiency 90%">
+                                <div class="skill-bar-fill" style="--skill-width: 90%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="skill-name">DuckDB</span>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" aria-label="DuckDB proficiency 80%">
+                                <div class="skill-bar-fill" style="--skill-width: 80%"></div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -187,10 +321,10 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="about">
+    <section id="about" class="about" aria-labelledby="about-heading">
         <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
+            <h2 class="section-title" id="about-heading">About Me</h2>
+            <div class="about-content reveal">
                 <p>
                     I'm a Data Engineer specializing in building modern, cloud-native data pipelines and analytics platforms.
                     Recently completed the DataTalks.Club Data Engineering Zoomcamp 2026, where I built an end-to-end
@@ -210,25 +344,25 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact">
+    <section id="contact" class="contact" aria-labelledby="contact-heading">
         <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
+            <h2 class="section-title" id="contact-heading">Get In Touch</h2>
+            <div class="contact-content reveal">
                 <p class="contact-text">
                     I'm always interested in hearing about new opportunities and challenges in data engineering and AI.
                     Feel free to reach out!
                 </p>
                 <div class="contact-links">
-                    <a href="mailto:akmalariqs@gmail.com" class="contact-link">
-                        <span class="contact-icon">📧</span>
+                    <a href="mailto:akmalariqs@gmail.com" class="contact-link" aria-label="Send email to akmalariqs@gmail.com">
+                        <svg class="contact-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                         akmalariqs@gmail.com
                     </a>
-                    <a href="https://github.com/akmalariq" target="_blank" class="contact-link">
-                        <span class="contact-icon">🐙</span>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="Visit GitHub profile (opens in new tab)">
+                        <svg class="contact-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
                         github.com/akmalariq
                     </a>
-                    <a href="https://linkedin.com/in/akmalariq" target="_blank" class="contact-link">
-                        <span class="contact-icon">💼</span>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="Visit LinkedIn profile (opens in new tab)">
+                        <svg class="contact-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                         linkedin.com/in/akmalariq
                     </a>
                 </div>
@@ -237,11 +371,23 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="container">
-            <p>&copy; 2024 Akmal Ariq. Built with modern web technologies.</p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq. Built with modern web technologies.</p>
+                <div class="footer-links">
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LinkedIn</a>
+                    <a href="sitemap.xml" aria-label="Sitemap">Sitemap</a>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
 
     <script src="js/app.js"></script>
 </body>

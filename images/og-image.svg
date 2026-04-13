@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#38bdf8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle grid pattern -->
+  <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+    <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Glow circle top-right -->
+  <circle cx="980" cy="120" r="280" fill="rgba(14,165,233,0.07)"/>
+
+  <!-- Left accent bar -->
+  <rect x="80" y="180" width="4" height="120" rx="2" fill="url(#accent)"/>
+
+  <!-- Name -->
+  <text x="108" y="248" font-family="Inter, -apple-system, sans-serif" font-size="52" font-weight="700" fill="#ffffff" letter-spacing="-1">Akmal Ariq</text>
+
+  <!-- Title -->
+  <text x="108" y="300" font-family="Inter, -apple-system, sans-serif" font-size="26" font-weight="500" fill="#0ea5e9">Data &amp; AI Engineer</text>
+
+  <!-- Divider -->
+  <rect x="80" y="340" width="1040" height="1" fill="rgba(255,255,255,0.08)"/>
+
+  <!-- Description -->
+  <text x="80" y="390" font-family="Inter, -apple-system, sans-serif" font-size="20" fill="rgba(255,255,255,0.55)">Building cloud-native data pipelines and AI solutions · Jakarta, Indonesia</text>
+
+  <!-- Tags -->
+  <!-- Tag 1 -->
+  <rect x="80" y="420" width="130" height="36" rx="18" fill="rgba(14,165,233,0.12)" stroke="rgba(14,165,233,0.3)" stroke-width="1"/>
+  <text x="145" y="443" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="500" fill="#38bdf8" text-anchor="middle">GCP · BigQuery</text>
+
+  <!-- Tag 2 -->
+  <rect x="224" y="420" width="96" height="36" rx="18" fill="rgba(14,165,233,0.12)" stroke="rgba(14,165,233,0.3)" stroke-width="1"/>
+  <text x="272" y="443" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="500" fill="#38bdf8" text-anchor="middle">dbt · SQL</text>
+
+  <!-- Tag 3 -->
+  <rect x="334" y="420" width="118" height="36" rx="18" fill="rgba(14,165,233,0.12)" stroke="rgba(14,165,233,0.3)" stroke-width="1"/>
+  <text x="393" y="443" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="500" fill="#38bdf8" text-anchor="middle">Airflow · Kafka</text>
+
+  <!-- Tag 4 -->
+  <rect x="466" y="420" width="116" height="36" rx="18" fill="rgba(14,165,233,0.12)" stroke="rgba(14,165,233,0.3)" stroke-width="1"/>
+  <text x="524" y="443" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="500" fill="#38bdf8" text-anchor="middle">Python · RAG</text>
+
+  <!-- Tag 5 -->
+  <rect x="596" y="420" width="110" height="36" rx="18" fill="rgba(14,165,233,0.12)" stroke="rgba(14,165,233,0.3)" stroke-width="1"/>
+  <text x="651" y="443" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="500" fill="#38bdf8" text-anchor="middle">Terraform</text>
+
+  <!-- URL bottom -->
+  <text x="80" y="560" font-family="'JetBrains Mono', 'Courier New', monospace" font-size="17" fill="rgba(255,255,255,0.3)">akmalariq.github.io</text>
+
+  <!-- Right side icon cluster (decorative) -->
+  <text x="970" y="430" font-family="Inter, sans-serif" font-size="80" fill="rgba(255,255,255,0.04)">{ }</text>
+</svg>
