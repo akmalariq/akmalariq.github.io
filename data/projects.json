@@ -6,7 +6,7 @@
       "description": "Technical screening covering web scraping (117 laptops across 20 pages), PostgreSQL data ingestion with regex-based spec parsing, and email regex validation — all passing 9/9 test cases.",
       "longDescription": "End-to-end solution for a 3-task Data Engineer technical test. Task 1: Scraped 117 laptops from a paginated e-commerce site using Python + BeautifulSoup, exported to CSV. Task 2: Loaded the CSV into PostgreSQL and wrote SQL queries using regex to extract structured fields (screen size, HDD) from raw spec strings. Task 3: Derived and validated a regex pattern for email addresses from implicit rules — 9/9 test cases passing.",
       "category": "data-engineering",
-      "github": "https://github.com/akmalariq",
+      "github": "https://github.com/akmalariq/danone-de-test",
       "demo": "danone-test/",
       "image": null,
       "tags": ["Python", "BeautifulSoup", "PostgreSQL", "SQL", "Regex", "Web Scraping", "ETL"],
