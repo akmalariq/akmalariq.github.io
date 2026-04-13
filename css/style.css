@@ -78,7 +78,8 @@ body {
     align-items: center;
 }
 
-.header-logo {
+.header-logo,
+.header-logo:visited {
     display: flex;
     flex-direction: column;
     text-decoration: none;
