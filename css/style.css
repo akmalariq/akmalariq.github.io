@@ -297,6 +297,7 @@ body {
     color: var(--text-secondary);
     margin-bottom: var(--spacing-md);
     line-height: 1.8;
+    max-width: 65ch;
 }
 
 .hero-actions {
@@ -850,7 +851,7 @@ section {
 .back-to-top {
     position: fixed;
     bottom: 2rem;
-    right: 2rem;
+    right: 6.5rem;
     width: 44px;
     height: 44px;
     background: var(--bg-secondary);
