@@ -213,13 +213,13 @@
         // 1. Services / Freelance
         if (matchesAny(q, ['service', 'freelance', 'consult', 'consulting', 'hire', 'price', 'rate', 'value', 'what can you do', 'help', 'cost'])) {
             return `
-                <p class="bot-title">💼 Freelance &amp; Consulting Services</p>
-                <p>Akmal helps clients and small businesses optimize their operations and cloud spend through 4 core consulting solutions:</p>
+                <p class="bot-title">💼 Digital Enablement &amp; Automation Services</p>
+                <p>Akmal helps traditional businesses and teams automate manual spreadsheets and connect fragmented operations into secure cloud pipelines:</p>
                 <ul class="bot-list">
-                    <li><strong>Database Cost Optimization:</strong> Restructuring BigQuery and PostgreSQL (clustering, partitioning, and query optimization) to reduce cloud warehousing bills by up to 40%.</li>
-                    <li><strong>Automated Data Pipelines:</strong> Setting up fault-tolerant, automated data workflows using Apache Airflow, Kestra, and Docker.</li>
-                    <li><strong>Custom Web Scraping:</strong> Building high-throughput Python extractors (BeautifulSoup, Requests) that bypass anti-scraping blocks to automate manual copy-paste work.</li>
-                    <li><strong>Cloud Infrastructure (IaC):</strong> Scripting secure, declarative environments on Google Cloud Platform (GCP) using Terraform.</li>
+                    <li><strong>Excel-to-Cloud Migration:</strong> Transitioning slow, error-prone manual spreadsheets and desktop file databases into secure, centralized cloud databases (PostgreSQL/BigQuery).</li>
+                    <li><strong>Omnichannel Data Ingestion:</strong> Automatically pulling order, sales, and stock data from multi-channel marketplaces (Tokopedia, Shopee, TikTok Shop) to eliminate daily manual reporting delays.</li>
+                    <li><strong>Resilient Web Extraction:</strong> Building high-throughput, scheduled Python extractors that bypass anti-bot shields (Cloudflare) to automate price tracking sweeps.</li>
+                    <li><strong>Automated Data Orchestration:</strong> Orchestrating background data workflows using Apache Airflow, Kestra, and Docker to replace human copy-paste tasks.</li>
                 </ul>
                 <p>Would you like to review some of Akmal's active case studies?</p>
             `;
