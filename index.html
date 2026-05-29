@@ -46,7 +46,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <!-- Structured Data: Person -->
     <script type="application/ld+json">
@@ -151,13 +151,13 @@
 
     <!-- Hero Section -->
     <section class="hero" aria-label="Introduction">
-        <div class="container">
-            <div class="hero-content">
+        <div class="container hero-container">
+            <div class="hero-text">
                 <div class="hero-badge">
                     <span class="badge-dot" aria-hidden="true"></span>
                     Available for new opportunities
                 </div>
-                <h1 class="hero-title">Building Modern<br>Cloud-Native Data Pipelines</h1>
+                <h1 class="hero-title">Building Modern<br><em>Cloud-Native</em> Data Pipelines</h1>
                 <p class="hero-subtitle">Data Engineering Zoomcamp Graduate &mdash; Jakarta, Indonesia</p>
                 <p class="hero-description">
                     Data Engineer specializing in Google Cloud Platform, BigQuery, and modern data stack tools.
@@ -167,6 +167,50 @@
                 <div class="hero-actions">
                     <a href="#projects" class="btn btn-primary">View My Work</a>
                     <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-aside">
+                <!-- WSL Server Telemetry Widget -->
+                <div class="telemetry-card">
+                    <div class="telemetry-header">
+                        <span class="telemetry-title">📟 Coding Server Telemetry</span>
+                        <span id="server-status" class="status-badge offline">
+                            <span class="status-dot"></span> Offline
+                        </span>
+                    </div>
+                    
+                    <div class="telemetry-body">
+                        <div class="telemetry-metric">
+                            <span class="metric-label">Processor</span>
+                            <span id="server-cpu" class="metric-value">Loading...</span>
+                        </div>
+                        
+                        <div class="telemetry-metric">
+                            <span class="metric-label">System Load (1m)</span>
+                            <span id="server-load" class="metric-value">Loading...</span>
+                        </div>
+
+                        <div class="telemetry-metric">
+                            <span class="metric-label">Memory Utilization</span>
+                            <div class="progress-container">
+                                <div id="memory-bar" class="progress-bar" style="width: 0%"></div>
+                            </div>
+                            <span id="server-memory" class="metric-desc">Loading...</span>
+                        </div>
+
+                        <div class="telemetry-metric">
+                            <span class="metric-label">Disk Storage (Root)</span>
+                            <div class="progress-container">
+                                <div id="disk-bar" class="progress-bar" style="width: 0%"></div>
+                            </div>
+                            <span id="server-storage" class="metric-desc">Loading...</span>
+                        </div>
+
+                        <div class="telemetry-footer">
+                            <span id="last-updated" class="last-updated">Last Check: --</span>
+                            <span id="network-ping" class="ping-latency">Ping: --</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
