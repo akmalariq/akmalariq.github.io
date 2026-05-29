@@ -1,0 +1,41 @@
+{
+  "name": "Akmal Ariq",
+  "title": "Data & AI Engineer",
+  "location": "Jakarta, Indonesia",
+  "bio": "I am a Data & AI Engineer based in Jakarta, Indonesia, specializing in building modern cloud-native data pipelines and analytics platforms. I am a graduate of the prestigious DataTalks.Club Data Engineering Zoomcamp (2026) and currently work at Bank SMBC Indonesia.",
+  "experience": [
+    {
+      "role": "Data Engineer",
+      "company": "Bank SMBC Indonesia",
+      "period": "Present",
+      "highlights": [
+        "Specializing in modern data pipelines and enterprise database orchestrations.",
+        "Actively working on transitioning into AI Engineering, integrating LLMs and agentic workflows.",
+        "Developing internal data solutions to enable data-driven decision making at scale."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "course": "Data Engineering Zoomcamp 2026",
+      "organization": "DataTalks.Club",
+      "period": "Graduated in 2026",
+      "highlights": [
+        "Completed rigorous curriculum on core data engineering principles.",
+        "Built a cloud-native Earthquake Analytics capstone pipeline using GCP, BigQuery, Kestra, dbt, and Looker Studio.",
+        "Mastered advanced concepts: workflow orchestration, dbt transformations, partitioned/clustered warehousing, and Infrastructure as Code."
+      ]
+    }
+  ],
+  "skills": {
+    "languages": ["Python", "SQL", "Shell Scripting (Bash)", "HTML", "CSS", "JavaScript"],
+    "data_engineering": ["Apache Airflow", "dbt (Data Build Tool)", "Kestra", "Google Cloud Platform (GCP)", "BigQuery", "Google Cloud Storage (GCS)", "Terraform", "Docker", "CI/CD"],
+    "databases": ["PostgreSQL", "BigQuery", "DuckDB", "SQL Server"]
+  },
+  "contact": {
+    "email": "akmalariqs@gmail.com",
+    "github": "https://github.com/akmalariq",
+    "linkedin": "https://linkedin.com/in/akmalariq",
+    "twitter": "https://twitter.com/akmalariq"
+  }
+}

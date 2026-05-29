@@ -4,6 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Instant Timezone-Based Theme Switcher -->
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('akmal-portfolio-theme');
+                const root = document.documentElement;
+                if (savedTheme === 'light') {
+                    root.classList.add('light');
+                } else if (savedTheme === 'dark') {
+                    root.classList.add('dark');
+                } else {
+                    const hour = new Date().getHours();
+                    if (hour >= 6 && hour < 18) {
+                        root.classList.add('light');
+                    } else {
+                        root.classList.add('dark');
+                    }
+                }
+            } catch (e) {}
+        })();
+    </script>
+
     <!-- Primary SEO Meta Tags -->
     <title>Akmal Ariq | Data & AI Engineer - Jakarta, Indonesia</title>
     <meta name="description" content="Data & AI Engineer based in Jakarta, Indonesia. Specializing in Apache Airflow, data pipelines, ETL, dbt, BigQuery, and Google Cloud Platform. View portfolio of production-grade data engineering projects.">
@@ -132,6 +154,10 @@
                     <a href="#skills" class="nav-link">Skills</a>
                     <a href="#about" class="nav-link">About</a>
                     <a href="#contact" class="nav-link">Contact</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    </button>
                 </nav>
                 <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
                     <span></span>
@@ -145,6 +171,9 @@
                 <a href="#skills" class="mobile-nav-link">Skills</a>
                 <a href="#about" class="mobile-nav-link">About</a>
                 <a href="#contact" class="mobile-nav-link">Contact</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    Toggle Dark/Light Mode
+                </button>
             </nav>
         </div>
     </header>
@@ -433,6 +462,49 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
     </button>
 
+    <!-- 🤖 AI Partner Chatbot Widget -->
+    <div id="chatbotWidget" class="chatbot-widget">
+        <!-- Floating Monogram Bubble -->
+        <button id="chatbotBubble" class="chatbot-bubble" aria-label="Open virtual consultation partner">
+            <span class="bubble-monogram">AA</span>
+            <span class="bubble-dot"></span>
+        </button>
+
+        <!-- Consultation Card Window -->
+        <div id="chatbotWindow" class="chatbot-window" hidden>
+            <div class="chatbot-header">
+                <div class="chatbot-header-profile">
+                    <span class="header-monogram">AA</span>
+                    <div class="header-meta">
+                        <span class="header-name">Akmal Ariq</span>
+                        <span class="header-status"><span class="status-dot-active"></span> Available for Projects</span>
+                    </div>
+                </div>
+                <button id="chatbotClose" class="chatbot-close-btn" aria-label="Close chat">×</button>
+            </div>
+            
+            <div id="chatbotMessages" class="chatbot-messages">
+                <!-- Messages populated via JS -->
+            </div>
+            
+            <div class="chatbot-input-container">
+                <div id="chatbotChips" class="chatbot-chips">
+                    <button class="chip" data-query="services">💼 Freelance &amp; Consulting</button>
+                    <button class="chip" data-query="projects">📈 Case Studies</button>
+                    <button class="chip" data-query="skills">🛠️ Technical Stack</button>
+                    <button class="chip" data-query="contact">✉️ Get in Touch</button>
+                </div>
+                <form id="chatbotForm" class="chatbot-form">
+                    <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask about services, projects, rate..." aria-label="Message to AI Partner">
+                    <button type="submit" id="chatbotSend" class="chatbot-send-btn" aria-label="Send message">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="js/app.js"></script>
+    <script src="js/chatbot.js"></script>
 </body>
 </html>

@@ -89,7 +89,7 @@ function createProjectCard(project) {
         .map(h => `<li>${escapeHtml(h)}</li>`)
         .join('');
 
-    card.innerHTML = `
+    const htmlString = `
         <div class="project-content">
             <h3 class="project-title">${escapeHtml(project.title)}</h3>
             <p class="project-description">${escapeHtml(project.description)}</p>
@@ -113,6 +113,12 @@ function createProjectCard(project) {
                 ${demoButton}
             </div>
         </div>`;
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+    while (doc.body.firstChild) {
+        card.appendChild(doc.body.firstChild);
+    }
 
     return card;
 }
@@ -275,7 +281,11 @@ function initTelemetry() {
             const statusBadge = document.getElementById('server-status');
             if (statusBadge && data.status === 'online') {
                 statusBadge.className = 'status-badge online';
-                statusBadge.innerHTML = '<span class="status-dot"></span> Online';
+                statusBadge.replaceChildren();
+                const doc = new DOMParser().parseFromString('<span class="status-dot"></span> Online', 'text/html');
+                while (doc.body.firstChild) {
+                    statusBadge.appendChild(doc.body.firstChild);
+                }
             }
 
             // Bind values
@@ -316,9 +326,45 @@ function initTelemetry() {
             const statusBadge = document.getElementById('server-status');
             if (statusBadge) {
                 statusBadge.className = 'status-badge offline';
-                statusBadge.innerHTML = '<span class="status-dot"></span> Offline';
+                statusBadge.replaceChildren();
+                const doc = new DOMParser().parseFromString('<span class="status-dot"></span> Offline', 'text/html');
+                while (doc.body.firstChild) {
+                    statusBadge.appendChild(doc.body.firstChild);
+                }
             }
         });
+}
+
+// ==============================
+// Theme Toggler
+// ==============================
+function initThemeToggle() {
+    const desktopToggle = document.getElementById('themeToggle');
+    const mobileToggle = document.getElementById('themeToggleMobile');
+    const root = document.documentElement;
+
+    const toggleTheme = () => {
+        const isCurrentlyLight = root.classList.contains('light');
+        if (isCurrentlyLight) {
+            root.classList.remove('light');
+            root.classList.add('dark');
+            localStorage.setItem('akmal-portfolio-theme', 'dark');
+        } else {
+            root.classList.remove('dark');
+            root.classList.add('light');
+            localStorage.setItem('akmal-portfolio-theme', 'light');
+        }
+    };
+
+    if (desktopToggle) {
+        desktopToggle.addEventListener('click', toggleTheme);
+    }
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleTheme();
+        });
+    }
 }
 
 // ==============================
@@ -326,6 +372,7 @@ function initTelemetry() {
 // ==============================
 async function initPortfolio() {
     // Non-blocking UI setup first
+    initThemeToggle();
     initHeaderScroll();
     initMobileMenu();
     initSmoothScroll();
@@ -342,10 +389,14 @@ async function initPortfolio() {
     if (!grid) return;
 
     // Clear noscript fallback
-    grid.innerHTML = '';
+    grid.replaceChildren();
 
     if (projects.length === 0) {
-        grid.innerHTML = '<p style="text-align:center;color:var(--text-secondary);">No projects found. Check back soon!</p>';
+        const fallbackText = document.createElement('p');
+        fallbackText.style.textAlign = 'center';
+        fallbackText.style.color = 'var(--text-secondary)';
+        fallbackText.textContent = 'No projects found. Check back soon!';
+        grid.appendChild(fallbackText);
         return;
     }
 
