@@ -1112,6 +1112,32 @@ html.dark .moon-icon { display: none; }
     z-index: 1200;
 }
 
+.chatbot-window[hidden] {
+    display: none !important;
+}
+
+/* Layout Pushing on Desktop to prevent overlay/hover */
+@media (min-width: 1024px) {
+    body {
+        transition: padding-right var(--transition-slow);
+    }
+    html.chatbot-open body {
+        padding-right: 400px;
+    }
+    .header {
+        transition: width var(--transition-slow), background var(--transition);
+    }
+    html.chatbot-open .header {
+        width: calc(100% - 400px);
+    }
+    .back-to-top {
+        transition: right var(--transition-slow), opacity var(--transition), transform var(--transition);
+    }
+    html.chatbot-open .back-to-top {
+        right: 27rem; /* Shifts left of the side panel dynamically */
+    }
+}
+
 @keyframes slideInRight {
     from { opacity: 0; transform: translateX(100%); }
     to { opacity: 1; transform: translateX(0); }

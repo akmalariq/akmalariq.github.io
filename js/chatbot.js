@@ -28,17 +28,20 @@
         windowEl.hidden = !isHidden;
         if (isHidden) {
             bubble.classList.add('active-window');
+            document.documentElement.classList.add('chatbot-open');
             input.focus();
             // Scroll to bottom on open
             scrollToBottom();
         } else {
             bubble.classList.remove('active-window');
+            document.documentElement.classList.remove('chatbot-open');
         }
     });
 
     closeBtn.addEventListener('click', () => {
         windowEl.hidden = true;
         bubble.classList.remove('active-window');
+        document.documentElement.classList.remove('chatbot-open');
     });
 
     // Handle suggestion chips
