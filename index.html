@@ -150,6 +150,7 @@
                     </a>
                 </div>
                 <nav class="nav" aria-label="Main navigation">
+                    <a href="#solutions" class="nav-link">Services</a>
                     <a href="#projects" class="nav-link">Projects</a>
                     <a href="#skills" class="nav-link">Skills</a>
                     <a href="#about" class="nav-link">About</a>
@@ -167,6 +168,7 @@
             </div>
             <!-- Mobile Menu -->
             <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="#solutions" class="mobile-nav-link">Services</a>
                 <a href="#projects" class="mobile-nav-link">Projects</a>
                 <a href="#skills" class="mobile-nav-link">Skills</a>
                 <a href="#about" class="mobile-nav-link">About</a>
@@ -241,6 +243,43 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section (The Pain Point Matrix) -->
+    <section id="solutions" class="solutions" aria-labelledby="solutions-heading">
+        <div class="container">
+            <div class="solutions-header reveal">
+                <span class="section-subtitle">Core Expertise</span>
+                <h2 class="section-title" id="solutions-heading">Problems We Solve</h2>
+                <p class="section-description">Helping small businesses and teams automate manual workflows, reduce cloud expenses, and deploy fault-tolerant data pipelines.</p>
+            </div>
+            
+            <div class="solutions-grid reveal-grid">
+                <article class="solution-card">
+                    <div class="solution-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <h3 class="solution-title">Database Cost Optimization</h3>
+                    <p class="solution-text">Auditing and restructuring BigQuery and PostgreSQL environments (partitioning, clustering, index optimization) to cut active cloud database expenses by up to 40%.</p>
+                </article>
+
+                <article class="solution-card">
+                    <div class="solution-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <h3 class="solution-title">Automated Data Pipelines</h3>
+                    <p class="solution-text">Replacing brittle, slow manual reporting errors and spreadsheet downloads with reliable, automated data lakes built via Apache Airflow, Kestra, and Docker.</p>
+                </article>
+
+                <article class="solution-card">
+                    <div class="solution-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                    </div>
+                    <h3 class="solution-title">Custom Web Scraping</h3>
+                    <p class="solution-text">Building high-throughput, secure Python extractors that bypass anti-bot shields (Cloudflare) to automate product inventories, competitor sweeps, and market data sweeps.</p>
+                </article>
             </div>
         </div>
     </section>
