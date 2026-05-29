@@ -307,9 +307,9 @@ body {
 }
 
 /* ==============================================================================
-   📟 WSL Server Telemetry Widget Styling
+   📟 Medallion Data Pipeline Flow Styling
    ============================================================================== */
-.telemetry-card {
+.pipeline-card {
     background: var(--bg-secondary);
     border: 1px solid var(--border);
     border-radius: 12px;
@@ -320,7 +320,7 @@ body {
     max-width: 100%;
 }
 
-.telemetry-header {
+.pipeline-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -329,7 +329,7 @@ body {
     margin-bottom: 20px;
 }
 
-.telemetry-title {
+.pipeline-title {
     font-family: var(--font-mono);
     font-size: 0.75rem;
     font-weight: 700;
@@ -338,7 +338,7 @@ body {
     text-transform: uppercase;
 }
 
-.status-badge {
+.pipeline-status {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -348,21 +348,12 @@ body {
     font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
-}
-
-.status-badge.online {
     background: rgba(16, 185, 129, 0.08);
     color: var(--status-online);
     border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
-.status-badge.offline {
-    background: rgba(239, 68, 68, 0.08);
-    color: var(--status-offline);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-}
-
-.status-badge.online .status-dot {
+.pipeline-pulse-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -371,56 +362,83 @@ body {
     animation: pulse 2s infinite;
 }
 
-.telemetry-metric {
-    margin-bottom: 16px;
+.pipeline-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.metric-label {
-    display: block;
+.pipeline-node {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: all var(--transition);
+}
+
+.pipeline-node:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.node-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.node-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.node-label {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 9px;
     text-transform: uppercase;
     color: var(--text-secondary);
-    margin-bottom: 6px;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
 }
 
-.metric-value {
-    font-size: 15px;
+.node-value {
+    font-size: 13px;
     font-weight: 600;
     color: var(--text-primary);
 }
 
-.progress-container {
-    height: 4px;
+.pipeline-connector {
+    height: 24px;
+    width: 2px;
     background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 6px;
+    margin-left: 31px;
+    position: relative;
 }
 
-.progress-bar {
-    height: 100%;
+.connector-pulse {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
     background: var(--accent);
-    border-radius: 2px;
-    transition: width 1s ease-in-out;
+    left: -2px;
+    box-shadow: 0 0 6px var(--accent);
+    animation: flowDown 3s infinite linear;
 }
 
-.metric-desc {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-secondary);
-}
-
-.telemetry-footer {
-    display: flex;
-    justify-content: space-between;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--text-secondary);
-    border-top: 1px solid var(--border);
-    padding-top: 14px;
-    margin-top: 20px;
+@keyframes flowDown {
+    0% { top: 0%; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
 }
 
 /* ==============================================================================

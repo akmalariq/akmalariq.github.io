@@ -267,73 +267,7 @@ function updateFooterYear() {
     if (el) el.textContent = new Date().getFullYear();
 }
 
-// ==============================
-// ==============================
-// WSL Telemetry Widget Loader
-// ==============================
-function initTelemetry() {
-    fetch('https://akmalariq.github.io/data/telemetry.json')
-        .then(response => {
-            if (!response.ok) throw new Error('Network response not ok');
-            return response.json();
-        })
-        .then(data => {
-            const statusBadge = document.getElementById('server-status');
-            if (statusBadge && data.status === 'online') {
-                statusBadge.className = 'status-badge online';
-                statusBadge.replaceChildren();
-                const doc = new DOMParser().parseFromString('<span class="status-dot"></span> Online', 'text/html');
-                while (doc.body.firstChild) {
-                    statusBadge.appendChild(doc.body.firstChild);
-                }
-            }
 
-            // Bind values
-            const cpuEl = document.getElementById('server-cpu');
-            if (cpuEl) {
-                const modelShort = data.cpu.model.replace(/Intel\(R\)|Core\(TM\)|\(R\)/g, '').trim();
-                cpuEl.innerText = `${data.cpu.cores} Cores | ${modelShort.split('@')[0]}`;
-            }
-
-            const loadEl = document.getElementById('server-load');
-            if (loadEl) loadEl.innerText = `${data.cpu.load_1m}`;
-
-            const memBar = document.getElementById('memory-bar');
-            const memDesc = document.getElementById('server-memory');
-            if (memBar && memDesc) {
-                memBar.style.width = `${data.memory.used_pct}%`;
-                memDesc.innerText = `${data.memory.used_mb}MB / ${data.memory.total_mb}MB Used (${data.memory.used_pct}%)`;
-            }
-
-            const diskBar = document.getElementById('disk-bar');
-            const diskDesc = document.getElementById('server-storage');
-            if (diskBar && diskDesc) {
-                diskBar.style.width = `${data.storage.used_pct}%`;
-                diskDesc.innerText = `${data.storage.used} / ${data.storage.total} Used (${data.storage.used_pct}%)`;
-            }
-
-            const pingEl = document.getElementById('network-ping');
-            if (pingEl) pingEl.innerText = `Ping: ${data.network.ping_ms}ms`;
-
-            const updatedEl = document.getElementById('last-updated');
-            if (updatedEl) {
-                const date = new Date(data.timestamp);
-                updatedEl.innerText = `Last Check: ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-            }
-        })
-        .catch(err => {
-            console.warn('WSL Telemetry offline or failed to fetch:', err);
-            const statusBadge = document.getElementById('server-status');
-            if (statusBadge) {
-                statusBadge.className = 'status-badge offline';
-                statusBadge.replaceChildren();
-                const doc = new DOMParser().parseFromString('<span class="status-dot"></span> Offline', 'text/html');
-                while (doc.body.firstChild) {
-                    statusBadge.appendChild(doc.body.firstChild);
-                }
-            }
-        });
-}
 
 // ==============================
 // Theme Toggler
@@ -381,7 +315,6 @@ async function initPortfolio() {
     initBackToTop();
     initScrollspy();
     updateFooterYear();
-    initTelemetry();
 
     // Load and render projects
     const projects = await loadProjects();

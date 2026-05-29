@@ -201,45 +201,73 @@
                 </div>
             </div>
             <div class="hero-aside">
-                <!-- WSL Server Telemetry Widget -->
-                <div class="telemetry-card">
-                    <div class="telemetry-header">
-                        <span class="telemetry-title">📟 Coding Server Telemetry</span>
-                        <span id="server-status" class="status-badge offline">
-                            <span class="status-dot"></span> Offline
+                <!-- Medallion Data Pipeline Flow Visual -->
+                <div class="pipeline-card">
+                    <div class="pipeline-header">
+                        <span class="pipeline-title">📟 Active Data Pipeline Flow</span>
+                        <span class="pipeline-status">
+                            <span class="pipeline-pulse-dot"></span> Active
                         </span>
                     </div>
                     
-                    <div class="telemetry-body">
-                        <div class="telemetry-metric">
-                            <span class="metric-label">Processor</span>
-                            <span id="server-cpu" class="metric-value">Loading...</span>
-                        </div>
-                        
-                        <div class="telemetry-metric">
-                            <span class="metric-label">System Load (1m)</span>
-                            <span id="server-load" class="metric-value">Loading...</span>
-                        </div>
-
-                        <div class="telemetry-metric">
-                            <span class="metric-label">Memory Utilization</span>
-                            <div class="progress-container">
-                                <div id="memory-bar" class="progress-bar" style="width: 0%"></div>
+                    <div class="pipeline-flow">
+                        <!-- Node 1: Ingestion -->
+                        <div class="pipeline-node">
+                            <div class="node-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
                             </div>
-                            <span id="server-memory" class="metric-desc">Loading...</span>
-                        </div>
-
-                        <div class="telemetry-metric">
-                            <span class="metric-label">Disk Storage (Root)</span>
-                            <div class="progress-container">
-                                <div id="disk-bar" class="progress-bar" style="width: 0%"></div>
+                            <div class="node-meta">
+                                <span class="node-label">Sources</span>
+                                <span class="node-value">APIs, Web Scrapers</span>
                             </div>
-                            <span id="server-storage" class="metric-desc">Loading...</span>
                         </div>
 
-                        <div class="telemetry-footer">
-                            <span id="last-updated" class="last-updated">Last Check: --</span>
-                            <span id="network-ping" class="ping-latency">Ping: --</span>
+                        <!-- Connector 1 -->
+                        <div class="pipeline-connector">
+                            <div class="connector-pulse"></div>
+                        </div>
+
+                        <!-- Node 2: Landing -->
+                        <div class="pipeline-node">
+                            <div class="node-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+                            </div>
+                            <div class="node-meta">
+                                <span class="node-label">Bronze Lake</span>
+                                <span class="node-value">GCS Landing (Raw JSON)</span>
+                            </div>
+                        </div>
+
+                        <!-- Connector 2 -->
+                        <div class="pipeline-connector">
+                            <div class="connector-pulse"></div>
+                        </div>
+
+                        <!-- Node 3: Processing -->
+                        <div class="pipeline-node">
+                            <div class="node-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                            </div>
+                            <div class="node-meta">
+                                <span class="node-label">Silver &amp; Gold</span>
+                                <span class="node-value">BigQuery dbt Warehouse</span>
+                            </div>
+                        </div>
+
+                        <!-- Connector 3 -->
+                        <div class="pipeline-connector">
+                            <div class="connector-pulse"></div>
+                        </div>
+
+                        <!-- Node 4: Handoff -->
+                        <div class="pipeline-node">
+                            <div class="node-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m18.7 8-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+                            </div>
+                            <div class="node-meta">
+                                <span class="node-label">Downstream</span>
+                                <span class="node-value">BI Dashboards, Looker</span>
+                            </div>
                         </div>
                     </div>
                 </div>
