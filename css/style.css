@@ -33,14 +33,14 @@
 
 /* Default Dark Theme variables */
 :root, html.dark {
-    --bg-primary: oklch(0.12 0.005 80);      /* Deep warm charcoal #090908 */
-    --bg-secondary: oklch(0.15 0.005 80);    /* Integrated panels #121211 */
-    --text-primary: oklch(0.95 0.005 80);    /* Warm cream off-white #f4f4f3 */
-    --text-secondary: oklch(0.65 0.01 80);   /* Soft slate gray #9a9a97 */
-    --border: oklch(0.22 0.005 80);          /* Subtle gridline separator #212120 */
-    --accent: oklch(0.78 0.15 85);           /* Glowing technical gold #f1c40f */
-    --accent-dim: oklch(0.25 0.05 85);       /* Muted gold tint */
-    --bg-header: rgba(9, 9, 8, 0.9);         /* Dark translucent header */
+    --bg-primary: oklch(0.13 0.008 75);      /* Muted slate-tinted charcoal #0d0d0c */
+    --bg-secondary: oklch(0.16 0.01 75);    /* Integrated slate panel #141413 */
+    --text-primary: oklch(0.94 0.006 75);    /* Soft print-paper alabaster #f0efec */
+    --text-secondary: oklch(0.65 0.008 75);   /* Sophisticated cool grey #9a9a97 */
+    --border: oklch(0.24 0.01 75);          /* Crisp low-contrast gridline #222221 */
+    --accent: oklch(0.79 0.12 80);           /* Technical muted gold/bronze #e5c183 */
+    --accent-dim: oklch(0.26 0.04 80);       /* Dim bronze backing tint */
+    --bg-header: rgba(13, 13, 12, 0.9);      /* Translucent dark header */
     --status-online: #34d399;                /* Vibrant green for dark */
     --status-offline: #f87171;               /* Vibrant red for dark */
     --btn-primary-hover-text: var(--bg-primary);
@@ -50,14 +50,14 @@
 
 /* Elegant Light Theme variables (Timezone-Triggered) */
 html.light {
-    --bg-primary: oklch(0.97 0.005 80);      /* Warm paper/cream background #f7f4ef */
-    --bg-secondary: oklch(0.94 0.005 80);    /* Integrated panel cream-gray #eeebe6 */
-    --text-primary: oklch(0.12 0.005 80);    /* Sophisticated warm charcoal #0f172a */
-    --text-secondary: oklch(0.45 0.01 80);   /* Muted warm gray #6b6a65 */
-    --border: oklch(0.88 0.005 80);          /* Thin crisp borders #dbd8d2 */
-    --accent: oklch(0.65 0.15 85);           /* High-contrast warm gold #d97706 */
-    --accent-dim: oklch(0.90 0.05 85);       /* Light gold tint */
-    --bg-header: rgba(247, 244, 239, 0.9);   /* Light translucent header */
+    --bg-primary: oklch(0.97 0.006 80);      /* Warm alabaster print paper #f7f5f2 */
+    --bg-secondary: oklch(0.94 0.008 80);    /* Integrated panel light sandstone #efece7 */
+    --text-primary: oklch(0.16 0.01 75);     /* Deep warm dark slate #14181a */
+    --text-secondary: oklch(0.45 0.008 75);  /* Muted warm sandstone-grey #6b6a65 */
+    --border: oklch(0.88 0.006 80);          /* Thin crisp grey borders #dbd8d2 */
+    --accent: oklch(0.55 0.12 75);           /* High-contrast intellectual amber #b27830 */
+    --accent-dim: oklch(0.92 0.04 75);       /* Sandstone amber backing tint */
+    --bg-header: rgba(247, 245, 242, 0.9);   /* Translucent light header */
     --status-online: #059669;                /* High-contrast forest green for light */
     --status-offline: #dc2626;               /* High-contrast deep red for light */
     --btn-primary-hover-text: var(--text-primary);
