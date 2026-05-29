@@ -43,6 +43,9 @@
     --bg-header: rgba(9, 9, 8, 0.9);         /* Dark translucent header */
     --status-online: #34d399;                /* Vibrant green for dark */
     --status-offline: #f87171;               /* Vibrant red for dark */
+    --btn-primary-hover-text: var(--bg-primary);
+    --btn-demo-hover-text: var(--bg-primary);
+    --user-chat-text: var(--bg-primary);
 }
 
 /* Elegant Light Theme variables (Timezone-Triggered) */
@@ -57,6 +60,9 @@ html.light {
     --bg-header: rgba(247, 244, 239, 0.9);   /* Light translucent header */
     --status-online: #059669;                /* High-contrast forest green for light */
     --status-offline: #dc2626;               /* High-contrast deep red for light */
+    --btn-primary-hover-text: var(--text-primary);
+    --btn-demo-hover-text: var(--text-primary);
+    --user-chat-text: var(--text-primary);
 }
 
 /* Base Body Setup */
@@ -443,6 +449,7 @@ body {
 
 .btn-primary:hover {
     background: var(--accent);
+    color: var(--btn-primary-hover-text);
     border-color: var(--accent);
     transform: translateY(-2px);
 }
@@ -484,7 +491,7 @@ body {
 
 .btn-demo:hover {
     background: var(--accent);
-    color: var(--bg-primary);
+    color: var(--btn-demo-hover-text);
     transform: translateY(-1px);
 }
 
@@ -1214,7 +1221,7 @@ html.dark .moon-icon { display: none; }
 
 .chat-bubble.user {
     background-color: var(--accent);
-    color: var(--bg-primary);
+    color: var(--user-chat-text);
     font-weight: 700;
     border-bottom-right-radius: 2px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
