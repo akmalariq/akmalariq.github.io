@@ -40,6 +40,9 @@
     --border: oklch(0.22 0.005 80);          /* Subtle gridline separator #212120 */
     --accent: oklch(0.78 0.15 85);           /* Glowing technical gold #f1c40f */
     --accent-dim: oklch(0.25 0.05 85);       /* Muted gold tint */
+    --bg-header: rgba(9, 9, 8, 0.9);         /* Dark translucent header */
+    --status-online: #34d399;                /* Vibrant green for dark */
+    --status-offline: #f87171;               /* Vibrant red for dark */
 }
 
 /* Elegant Light Theme variables (Timezone-Triggered) */
@@ -51,6 +54,9 @@ html.light {
     --border: oklch(0.88 0.005 80);          /* Thin crisp borders #dbd8d2 */
     --accent: oklch(0.65 0.15 85);           /* High-contrast warm gold #d97706 */
     --accent-dim: oklch(0.90 0.05 85);       /* Light gold tint */
+    --bg-header: rgba(247, 244, 239, 0.9);   /* Light translucent header */
+    --status-online: #059669;                /* High-contrast forest green for light */
+    --status-offline: #dc2626;               /* High-contrast deep red for light */
 }
 
 /* Base Body Setup */
@@ -87,7 +93,7 @@ body {
    🖥️ Header & Navigation (Minimal Blueprint Border)
    ============================================================================== */
 .header {
-    background: rgba(9, 9, 8, 0.9);
+    background: var(--bg-header);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
@@ -339,13 +345,13 @@ body {
 
 .status-badge.online {
     background: rgba(16, 185, 129, 0.08);
-    color: #34d399;
+    color: var(--status-online);
     border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .status-badge.offline {
     background: rgba(239, 68, 68, 0.08);
-    color: #f87171;
+    color: var(--status-offline);
     border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
@@ -354,7 +360,7 @@ body {
     height: 6px;
     border-radius: 50%;
     background: currentColor;
-    box-shadow: 0 0 8px #34d399;
+    box-shadow: 0 0 8px currentColor;
     animation: pulse 2s infinite;
 }
 
