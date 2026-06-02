@@ -309,6 +309,111 @@
                     <p class="solution-text">Building high-throughput, scheduled Python extractors that bypass anti-bot shields (Cloudflare) to automate pricing intelligence sweeps, product catalog matching, and market data sweeps.</p>
                 </article>
             </div>
+
+            <!-- Interactive Transformation Specimen Showcase (Before/After) -->
+            <div class="showcase-card reveal">
+                <div class="showcase-header">
+                    <span class="showcase-subtitle">Interactive Product Specimen</span>
+                    <h3 class="showcase-title">Spreadsheet-to-Platform Showcase</h3>
+                    <div class="showcase-tabs">
+                        <button class="tab-btn active" data-tab="excel">Before (Excel Chaos)</button>
+                        <button class="tab-btn" data-tab="cloud">After (Cloud Enablement)</button>
+                    </div>
+                </div>
+
+                <div class="showcase-content">
+                    <!-- Before Tab: Excel Chaos -->
+                    <div class="tab-pane active" id="pane-excel">
+                        <div class="excel-view">
+                            <div class="excel-title">📊 master_sales_rekon_v4_FINAL_copy.xlsx</div>
+                            <div class="excel-table-wrapper">
+                                <table class="excel-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Timestamp</th>
+                                            <th>Trx ID</th>
+                                            <th>Channel</th>
+                                            <th>Branch</th>
+                                            <th>Gross Sales</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="excel-row-error">
+                                            <td>29-05-2026</td>
+                                            <td>TX9923</td>
+                                            <td>Shopee</td>
+                                            <td>Jakarta</td>
+                                            <td>Rp 1.250.000</td>
+                                            <td class="status-warning">Pending (Manual BCA Check)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>29-05-2026</td>
+                                            <td>TX9924</td>
+                                            <td>Tokopedia</td>
+                                            <td>Bandung</td>
+                                            <td>Rp 850.000</td>
+                                            <td class="status-success">Success</td>
+                                        </tr>
+                                        <tr class="excel-row-corrupt">
+                                            <td>NULL</td>
+                                            <td>ERR_REF</td>
+                                            <td>Offline</td>
+                                            <td>Jakarta</td>
+                                            <td>#VALUE!</td>
+                                            <td class="status-danger">Format Error (Manual Entry)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>29-05-2026</td>
+                                            <td>TX9925</td>
+                                            <td>Shopee</td>
+                                            <td>Surabaya</td>
+                                            <td>Rp 3.100.000</td>
+                                            <td class="status-success">Success</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="excel-footer-alert">
+                                ⚠ <strong>Silo Alert:</strong> 2 data schema errors detected. Manual BCA bank mutation reconciliation required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- After Tab: Clean Cloud Platform -->
+                    <div class="tab-pane" id="pane-cloud">
+                        <div class="cloud-view">
+                            <div class="cloud-title-bar">
+                                <div class="cloud-logo">📟 AKMAL_BI_MUTASI</div>
+                                <div class="cloud-badge"><span class="cloud-dot-active"></span> Pipeline Online</div>
+                            </div>
+                            <div class="cloud-grid">
+                                <div class="cloud-metric-card">
+                                    <span class="cloud-metric-label">Ingested Mutations</span>
+                                    <span class="cloud-metric-value">154,231</span>
+                                    <span class="cloud-metric-sub text-green">▲ +12.4% vs yesterday</span>
+                                </div>
+                                <div class="cloud-metric-card">
+                                    <span class="cloud-metric-label">Data Quality Check</span>
+                                    <span class="cloud-metric-value">100% Passed</span>
+                                    <span class="cloud-metric-sub text-green">dbt testing: 24 active assertions</span>
+                                </div>
+                                <div class="cloud-metric-card">
+                                    <span class="cloud-metric-label">Auto-Reconciled</span>
+                                    <span class="cloud-metric-value">Rp 128.450.000</span>
+                                    <span class="cloud-metric-sub text-green">Reconciliation accuracy: 100%</span>
+                                </div>
+                            </div>
+                            <div class="cloud-log-terminal">
+                                <div>&gt; dbt run --select recon_bank_mutation</div>
+                                <div class="text-green">✔ [OK] Ingested Tokopedia &amp; Shopee mutation streams in 2.4s</div>
+                                <div class="text-green">✔ [OK] Auto-matched BCA bank transfers to invoice database</div>
+                                <div class="text-green">✔ [OK] Database single version of truth (Postgres) successfully compiled</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 

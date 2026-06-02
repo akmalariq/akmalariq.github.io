@@ -226,21 +226,21 @@
         }
 
         // 2. Case Studies / Projects
-        if (matchesAny(q, ['project', 'case study', 'portfolio', 'work', 'built', 'danone', 'earthquake', 'freshcart'])) {
+        if (matchesAny(q, ['project', 'case study', 'portfolio', 'work', 'built', 'earthquake', 'freshcart', 'rag', 'ai'])) {
             return `
                 <p class="bot-title">📈 Featured Case Studies</p>
                 <p>Akmal has built several production-grade data pipelines showcasing absolute reliability:</p>
                 <ul class="bot-list">
                     <li><strong>FreshCart E-Commerce (150K+ Records):</strong> A complete medallion-architecture analytics pipeline using Airflow, dbt, and BigQuery. It segments buyer behavior using automated RFM models.</li>
                     <li><strong>Earthquake Analytics:</strong> A 10+ year global activity data lake using Terraform for Infrastructure as Code, Kestra for orchestration, and dbt.</li>
-                    <li><strong>Danone Technical Solution:</strong> Full automated paginated scraping of 117 laptop models loaded cleanly into PostgreSQL with regex extraction queries.</li>
+                    <li><strong>AI-Native RAG Ingestion Pipeline:</strong> A secure document ingestion and semantic search platform using local dense vector embeddings, Qdrant DB, and FastAPI.</li>
                 </ul>
                 <p>You can click on <strong>"View My Work"</strong> in the main section of this page to view live repositories!</p>
             `;
         }
 
         // 3. Technical Stack
-        if (matchesAny(q, ['skills', 'tech', 'stack', 'tools', 'airflow', 'kestra', 'gcp', 'bigquery', 'python', 'sql', 'terraform', 'docker'])) {
+        if (matchesAny(q, ['skills', 'tech', 'stack', 'tools', 'airflow', 'kestra', 'gcp', 'bigquery', 'python', 'sql', 'terraform', 'docker', 'qdrant', 'rag', 'vector'])) {
             return `
                 <p class="bot-title">🛠️ Technical Stack</p>
                 <p>Akmal designs scalable pipelines using modern industry standards:</p>
@@ -248,6 +248,7 @@
                     <li><strong>Languages:</strong> Python (Pandas, Faker, Scrapers), SQL, Shell Scripting (Bash).</li>
                     <li><strong>Orchestration:</strong> Apache Airflow (Dockerized, LocalExecutor), Kestra.</li>
                     <li><strong>Modern Warehousing:</strong> BigQuery, dbt (Data Build Tool), PostgreSQL, DuckDB.</li>
+                    <li><strong>AI & Vector Databases:</strong> Qdrant (vector database), local embeddings (SentenceTransformers), and LLM prompt engineering.</li>
                     <li><strong>Infrastructure:</strong> Google Cloud Platform (GCP), Terraform (IaC), Docker, Git, CI/CD pipelines.</li>
                 </ul>
                 <p>All pipeline builds include automated data quality testing via dbt to ensure absolute source trust.</p>
