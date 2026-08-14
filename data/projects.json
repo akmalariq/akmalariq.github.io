@@ -76,6 +76,52 @@
         "Designed custom prompt engineering context builders to feed local Ollama LLMs with relevant source metadata.",
         "Developed a containerized stack utilizing Docker Compose and automated testing suites via FastAPI TestClient."
       ]
+    },
+    {
+      "id": "ecommerce-data-analysis",
+      "title": "E-commerce Data Analysis",
+      "description": "End-to-end analysis of a public e-commerce dataset: SQL exploration and cleaning, RFM customer segmentation, and a Power BI dashboard of sales trends.",
+      "longDescription": "A complete data analysis workflow answering three business questions: who are the most valuable customers, which products drive revenue, and how do sales trend over time. The dataset is explored and cleaned in SQL (nulls, duplicates, date ranges), customers are segmented with RFM (Recency, Frequency, Monetary) analysis, and the results are delivered as a Power BI dashboard for business stakeholders.",
+      "category": "data-analytics",
+      "github": "https://github.com/akmalariq/ecommerce-data-analysis",
+      "demo": null,
+      "image": null,
+      "tags": ["SQL", "Power BI", "RFM Analysis", "Data Cleaning", "Data Visualization"],
+      "stats": {
+        "workflow": "Explore → Clean → Segment (RFM) → Visualize",
+        "analysis": "SQL-based RFM customer segmentation",
+        "output": "Power BI sales trend dashboard",
+        "dataset": "Public e-commerce dataset"
+      },
+      "highlights": [
+        "Explored the dataset in SQL: schema inventory, null checks, duplicate detection, and date-range profiling.",
+        "Cleaned and standardized data: status/category normalization, invalid-amount handling, and derived time dimensions.",
+        "Built an RFM segmentation model grouping customers into Champions, Loyal, At-Risk, and Lost segments.",
+        "Delivered findings as a Power BI dashboard covering sales trends, category performance, and segment value."
+      ]
+    },
+    {
+      "id": "duckdb-medallion-warehouse",
+      "title": "Modern Data Warehouse with DuckDB",
+      "description": "Bronze → Silver → Gold data pipeline built with DuckDB and Python, demonstrating the Medallion Architecture end-to-end.",
+      "longDescription": "A hands-on implementation of a modern data warehouse stack. Raw CSV files are ingested into a Bronze layer as-is, cleansed and deduplicated into Silver, then modeled into star-schema marts in Gold — all with DuckDB and Python, no server required. Includes runnable sample data and a monthly revenue query against the final mart.",
+      "category": "data-engineering",
+      "github": "https://github.com/akmalariq/duckdb-medallion-warehouse",
+      "demo": null,
+      "image": null,
+      "tags": ["DuckDB", "Python", "Medallion Architecture", "Data Modeling", "Star Schema"],
+      "stats": {
+        "architecture": "Bronze → Silver → Gold (Medallion)",
+        "engine": "DuckDB (embedded, zero-server)",
+        "modeling": "Star-schema marts (dimensions + facts)",
+        "quality": "Deduplication, type casting, constraint checks"
+      },
+      "highlights": [
+        "Implemented a three-layer medallion pipeline: raw Bronze ingestion, cleansed Silver layer, and analytics-ready Gold marts.",
+        "Used DuckDB for an embedded, zero-infrastructure data warehouse experience.",
+        "Modeled gold.fact_sales and gold.dim_customer following star-schema conventions.",
+        "Ships with sample data and a monthly revenue query, runnable with a single command."
+      ]
     }
   ]
 }
