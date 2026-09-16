@@ -1,0 +1,16 @@
+{
+  "name": "akmalariq-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "akmalariq.dev — static portfolio + blog, deployed to Cloudflare Pages",
+  "scripts": {
+    "build:blog": "cd blog-src && npm ci --no-audit --no-fund && npm run build",
+    "build:site": "node scripts/build-site.mjs",
+    "build": "npm run build:blog && npm run build:site",
+    "dev:blog": "cd blog-src && npm run dev",
+    "deploy": "npm run build && npx wrangler pages deploy dist --project-name akmalariq --branch main"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

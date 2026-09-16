@@ -1,14 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "portfolio",
+  "name": "akmalariq",
   "compatibility_date": "2026-06-18",
-  "observability": {
-    "enabled": true
-  },
-  "assets": {
-    "directory": "."
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+  "pages_build_output_dir": "dist"
 }

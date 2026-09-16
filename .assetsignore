@@ -3,3 +3,13 @@
 .gitignore
 wrangler.jsonc
 *.md
+blog-src
+node_modules
+package.json
+bun.lock
+bun.lockb
+package-lock.json
+# Astro build internals that land in the output dir — never serve these
+blog/astro
+blog/chunks
+blog/manifest_*.mjs

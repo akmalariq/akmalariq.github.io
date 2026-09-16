@@ -1,0 +1,51 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PostCard from "../../components/PostCard.astro";
+import { url, slugify } from "../../lib/url";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  const bySeries = new Map<string, typeof posts>();
+  for (const post of posts) {
+    if (!post.data.series) continue;
+    if (!bySeries.has(post.data.series)) bySeries.set(post.data.series, []);
+    bySeries.get(post.data.series)!.push(post);
+  }
+  return [...bySeries.entries()].map(([series, list]) => ({
+    params: { series: slugify(series) },
+    props: {
+      series,
+      posts: list.sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()),
+    },
+  }));
+}
+
+const { series, posts } = Astro.props;
+---
+
+<Base
+  title={`${series} — Akmal Ariq Blog`}
+  description={`The ${series} series on the Akmal Ariq blog.`}
+>
+  <section class="page-head">
+    <div class="container container--narrow">
+      <p class="page-head__eyebrow">Series</p>
+      <h1>{series}</h1>
+      <p>
+        {posts.length} part{posts.length === 1 ? "" : "s"}, in reading order.
+        <a href={url("/")}> All posts</a>
+      </p>
+    </div>
+  </section>
+
+  <div class="container container--narrow">
+    <ul class="post-list">
+      {posts.map((post) => (
+        <li>
+          <PostCard post={post} />
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>

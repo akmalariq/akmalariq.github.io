@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { url } from "../lib/url";
+import { formatDateShort, isoDate, readingTime } from "../lib/format";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const { data } = post;
+const minutes = data.readingTime ?? readingTime(post.body);
+---
+
+<a class="post-card" href={url(`${post.slug}/`)}>
+  <div class="post-card__meta">
+    <time datetime={isoDate(data.pubDate)}>{formatDateShort(data.pubDate)}</time>
+    {data.series && <span aria-hidden="true">·</span>}
+    {data.series && <span>{data.series}</span>}
+    <span aria-hidden="true">·</span>
+    <span>{minutes}</span>
+  </div>
+  <h2 class="post-card__title">{data.title}</h2>
+  <p class="post-card__desc">{data.description}</p>
+  {
+    data.tags.length > 0 && (
+      <div class="tag-row" style="margin-top:1rem">
+        {data.tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )
+  }
+</a>

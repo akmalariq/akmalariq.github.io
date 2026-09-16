@@ -1,0 +1,56 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import PostCard from "../components/PostCard.astro";
+import { url } from "../lib/url";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+---
+
+<Base
+  title="Blog — Akmal Ariq · Data Engineering Notes"
+  description="Notes on data engineering, storage, and system design — written to be re-read. English-first; Indonesian translations to follow."
+>
+  <section class="page-head">
+    <div class="container container--narrow">
+      <p class="page-head__eyebrow">Notes</p>
+      <h1>Data engineering, explained slowly</h1>
+      <p>
+        Working notes on storage, pipelines, and system design — the fundamentals I keep
+        coming back to. English-first; Indonesian translations to follow.
+      </p>
+    </div>
+  </section>
+
+  <div class="container container--narrow">
+    {
+      posts.length === 0 ? (
+        <p class="empty">No posts yet.</p>
+      ) : (
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li>
+              <PostCard post={post} />
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      tags.length > 0 && (
+        <div class="tag-row" style="padding-bottom:3rem">
+          {tags.map((tag) => (
+            <a class="tag" href={url(`tags/${tag}/`)}>
+              {tag}
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</Base>

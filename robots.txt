@@ -1,14 +1,8 @@
-# Robots.txt for GitHub Pages portfolio
+# Robots.txt for akmalariq.dev
 
 User-agent: *
 Allow: /
 
-# Sitemap location
+# Sitemaps
 Sitemap: https://akmalariq.dev/sitemap.xml
-
-# Disallow specific files if needed
-# Disallow: /private/
-# Disallow: /temp/
-
-# Crawl-delay (optional, respectful crawling)
-Crawl-delay: 1
+Sitemap: https://akmalariq.dev/blog/sitemap.xml

@@ -1,0 +1,28 @@
+---
+interface Props {
+  title?: string;
+  text?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+
+const {
+  title = "Building something with data?",
+  text = "I design and build data platforms, pipelines, and decision dashboards — and I write about how they work.",
+  primaryLabel = "Work with me",
+  primaryHref = "https://akmalariq.dev/#contact",
+  secondaryLabel = "See my work",
+  secondaryHref = "https://akmalariq.dev/#projects",
+} = Astro.props;
+---
+
+<section class="cta">
+  <h2 class="cta__title">{title}</h2>
+  <p class="cta__text">{text}</p>
+  <div class="cta__actions">
+    <a class="btn btn--primary" href={primaryHref}>{primaryLabel}</a>
+    <a class="btn btn--ghost" href={secondaryHref}>{secondaryLabel}</a>
+  </div>
+</section>
