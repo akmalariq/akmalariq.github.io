@@ -4,7 +4,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://akmalariq.github.io/sitemap.xml
+Sitemap: https://akmalariq.dev/sitemap.xml
 
 # Disallow specific files if needed
 # Disallow: /private/

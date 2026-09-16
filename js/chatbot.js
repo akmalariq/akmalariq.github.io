@@ -302,7 +302,7 @@
         let telemetryHtml = `<p class="bot-title">📟 WSL Developer Server Diagnostics</p>`;
         
         // Fetch it synchronously via XMLHttp/Fetch inside timeout
-        return fetch('https://akmalariq.github.io/data/telemetry.json')
+        return fetch('https://akmalariq.dev/data/telemetry.json')
             .then(res => res.json())
             .then(data => {
                 const modelClean = data.cpu.model.replace(/Intel\(R\)|Core\(TM\)|\(R\)/g, '').trim();
