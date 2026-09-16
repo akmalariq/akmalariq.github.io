@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page not found — Akmal Ariq</title>
+    <meta name="description" content="That page doesn't exist. Head back to the homepage or browse the data engineering blog.">
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml" href="/blog/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+    <style>
+        :root {
+            --bg: #0d0d0c;
+            --panel: #141413;
+            --text: #f0efec;
+            --muted: #9a9a97;
+            --border: #222221;
+            --accent: #e5c183;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 2rem;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .wrap { max-width: 34rem; text-align: center; }
+        .code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(3.5rem, 14vw, 6rem);
+            font-weight: 500;
+            letter-spacing: -0.04em;
+            color: var(--accent);
+            line-height: 1;
+        }
+        h1 {
+            margin-top: 1rem;
+            font-family: 'EB Garamond', Georgia, serif;
+            font-weight: 600;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            letter-spacing: -0.01em;
+        }
+        p { margin-top: 0.75rem; color: var(--muted); }
+        .actions {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+        a.btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.65rem 1.15rem;
+            border-radius: 999px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: background-color .25s ease, border-color .25s ease, color .25s ease;
+        }
+        a.btn-primary { background: var(--accent); color: var(--bg); }
+        a.btn-primary:hover { background: #efd6a6; }
+        a.btn-ghost { border-color: #33322f; color: var(--text); }
+        a.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+        footer { margin-top: 2.5rem; font-size: 0.85rem; color: #6f6f6c; }
+        footer a { color: var(--muted); }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <div class="code">404</div>
+        <h1>This page took a wrong turn</h1>
+        <p>The URL you followed doesn't exist (or moved). Nothing broke — it just isn't here.</p>
+        <div class="actions">
+            <a class="btn btn-primary" href="https://akmalariq.dev/">Back to homepage</a>
+            <a class="btn btn-ghost" href="https://akmalariq.dev/blog/">Read the blog</a>
+        </div>
+        <footer>
+            <a href="https://akmalariq.dev/#projects">Projects</a> ·
+            <a href="https://akmalariq.dev/#contact">Contact</a>
+        </footer>
+    </main>
+</body>
+</html>
