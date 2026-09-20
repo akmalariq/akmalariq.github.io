@@ -1,0 +1,236 @@
+---
+title: "File storage vs block storage vs object storage"
+description: "The differences that actually matter to a data engineer — and why your lakehouse lives on objects while your database lives on blocks."
+pubDate: 2026-09-16
+tags: ["storage", "fundamentals", "system-design"]
+series: "DE Foundations"
+level: "Foundations"
+---
+
+import Figure from "../../components/Figure.astro";
+import Callout from "../../components/Callout.astro";
+import Quiz from "../../components/Quiz.astro";
+
+## Why a data engineer should care
+
+Ask a room of engineers to name the three kinds of cloud storage and most can. Ask them *why*
+a database refuses to run directly on S3, why you cannot append to a Parquet file, or why
+"just mount the bucket as a folder" is a trap — and the room gets quiet.
+
+This is the first post in a series where I re-derive the fundamentals of data engineering and
+system design from first principles. Storage is the right place to start, because almost every
+architectural argument that sounds like a matter of taste is actually a matter of *access
+semantics*. Once you see the three storage types as three different **contracts** — not three
+different products — a lot of the stack stops looking arbitrary.
+
+## The one-line definitions
+
+- **Block storage** exposes a device made of fixed-size, addressable blocks. It has no concept
+  of a file or a folder. You read and write blocks by number. A filesystem is something you put
+  *on top* of it. Examples: AWS EBS, SAN/iSCSI volumes, local NVMe, a Kubernetes PersistentVolume,
+  a Docker volume.
+- **File storage** exposes a hierarchy — directories and files — with normal POSIX semantics
+  (open, read, write, rename, lock), usually shared across many clients over a network.
+  Examples: NFS, SMB/CIFS, AWS EFS, a NAS appliance.
+- **Object storage** exposes a flat namespace of **objects**. Each object is a blob of bytes plus
+  metadata plus a key, and you reach it over an HTTP API. You cannot edit an object in place —
+  you replace it. Examples: Amazon S3, Google Cloud Storage, Azure Blob, Cloudflare R2, MinIO,
+  and self-hosted systems like RustFS.
+
+The important thing is not the list. It is that each one answers a different question about
+*how you are allowed to touch the data*.
+
+## The mental model: three axes, one contract
+
+Instead of memorising products, hold three axes in your head:
+
+1. **How you address data.** Block: by block number. File: by path (`/data/2026/orders.csv`).
+   Object: by key (`s3://bucket/orders/2026/part-0001.parquet`).
+2. **What operations are allowed.** Block: read/write a range of bytes in place. File: the full
+   POSIX surface, including in-place mutation and rename. Object: essentially `PUT` (whole
+   object), `GET`, `DELETE`, and list — with a strong bias toward *write-once, read-many*.
+3. **How compute attaches.** Block: a device must be *attached* to one machine. File: *mounted*
+   by many machines over a network protocol. Object: *called* over HTTP by anyone with
+   credentials.
+
+That third axis is the one people underestimate. Block storage is bound to a single compute
+host — it is fast precisely because it is close and exclusive. Object storage is reachable from
+anywhere — it is scalable precisely because it is a stateless HTTP service. You are trading
+locality for universality, and the price is latency and mutability.
+
+<Figure caption="The three contracts. Left: a device attached to one host. Middle: a shared filesystem mounted by many. Right: an HTTP service reachable from anything.">
+  <svg viewBox="0 0 720 260" role="img" aria-label="Diagram comparing block, file, and object storage access models" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="currentColor" stroke-width="1.3" opacity="0.9">
+      {/* Block column */}
+      <rect x="20" y="30" width="180" height="70" rx="10" />
+      <text x="110" y="60" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" fill="currentColor" stroke="none">compute (one host)</text>
+      <text x="110" y="80" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor" stroke="none" opacity="0.7">attached</text>
+      <line x1="110" y1="100" x2="110" y2="140" />
+      <rect x="20" y="140" width="180" height="70" rx="10" />
+      <text x="110" y="170" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" fill="currentColor" stroke="none">block volume</text>
+      <text x="110" y="190" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor" stroke="none" opacity="0.7">blocks by number</text>
+
+      {/* File column */}
+      <rect x="270" y="30" width="180" height="70" rx="10" />
+      <text x="360" y="60" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" fill="currentColor" stroke="none">many hosts</text>
+      <text x="360" y="80" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor" stroke="none" opacity="0.7">mount over NFS/SMB</text>
+      <line x1="360" y1="100" x2="360" y2="140" />
+      <rect x="270" y="140" width="180" height="70" rx="10" />
+      <text x="360" y="170" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" fill="currentColor" stroke="none">file system</text>
+      <text x="360" y="190" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor" stroke="none" opacity="0.7">paths + POSIX</text>
+
+      {/* Object column */}
+      <rect x="520" y="30" width="180" height="70" rx="10" />
+      <text x="610" y="60" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" fill="currentColor" stroke="none">anything, anywhere</text>
+      <text x="610" y="80" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor" stroke="none" opacity="0.7">HTTP request</text>
+      <line x1="610" y1="100" x2="610" y2="140" stroke-dasharray="4 4" />
+      <rect x="520" y="140" width="180" height="70" rx="10" stroke="#e5c183" />
+      <text x="610" y="170" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" fill="currentColor" stroke="none">object store</text>
+      <text x="610" y="190" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor" stroke="none" opacity="0.7">keys, immutable</text>
+    </g>
+  </svg>
+</Figure>
+
+## Side by side
+
+| | Block | File | Object |
+|---|---|---|---|
+| Address by | block number | path | key |
+| Semantics | raw device | POSIX | HTTP verbs |
+| Mutate in place | yes | yes | no (replace) |
+| Rename | cheap | cheap | copy + delete |
+| Latency | microseconds–low ms | low ms | tens of ms |
+| Scale ceiling | a volume | a filesystem | effectively unlimited |
+| Cost model | per GB provisioned | per GB provisioned | per GB stored + requests + egress |
+| Consistency | strong | strong | strong (S3 has been strongly consistent since 2020) |
+| Typical use | databases, logs, boot disks | shared working sets, lift-and-shift | lakes, lakehouses, backups, artifacts |
+| Examples | EBS, SAN, NVMe | NFS, EFS, SMB | S3, GCS, Blob, R2, MinIO, RustFS |
+
+The row that quietly drives most decisions is **mutate in place**. Databases, message logs, and
+anything with a write-ahead log *need* it. Analytics workloads mostly do not — and once you give
+up in-place mutation, you unlock the economics of object storage.
+
+Here is the same logical operation — "read one thing" — expressed through each contract:
+
+```bash
+# File storage — read by path over a mount; the OS gives you a file handle
+cat /mnt/shared/orders/2026-09-16.csv
+
+# Object storage — GET by key over HTTP; no mount, no handle, whole-object semantics
+aws s3api get-object --bucket lake --key orders/2026-09-16.parquet out.parquet
+mc cp lake/orders/2026-09-16.parquet ./     # MinIO / RustFS client
+
+# Block storage — you never address the data directly; a filesystem or database does
+lsblk                                       # shows the device, not the objects
+```
+
+## Where each one actually lives
+
+Pull this apart for any data platform you have ever worked on and you will find all three:
+
+- **Block**: the disks under your PostgreSQL or SQL Server, the log directory of a Kafka broker,
+  the local volumes a ClickHouse replica writes to, and the PersistentVolumes under a Kubernetes
+  StatefulSet. Anything that needs low-latency, in-place writes.
+- **File**: shared landing zones where several systems drop and pick up files, legacy ETL that
+  expects a mount point, and on-premises NAS that predates the cloud. Convenient, but a single
+  filesystem is a scaling and locking liability.
+- **Object**: the data lake and the lakehouse — raw Parquet, partitioned datasets, Delta or
+  Iceberg metadata, backups, model artifacts, and the static files for a website. Anything that
+  is written once, read many times, and lives longer than any single machine.
+
+<Callout type="info" title="Your lakehouse is object storage wearing a costume">
+Iceberg, Delta Lake, and Hudi did not invent new storage. They are **translation layers** that
+emulate filesystem-like guarantees — atomic commits, snapshots, time travel, schema evolution —
+on top of immutable objects. Understanding that single sentence explains their entire design.
+</Callout>
+
+## Why object storage won — and what it costs
+
+Object storage is the default home for analytical data, and the reasons are blunt:
+
+- **Durability and scale.** Eleven nines of durability across many devices, and no cap on total
+  size. You never resize a bucket.
+- **Cost.** Commodity hardware behind an HTTP service is far cheaper per terabyte than a
+  provisioned volume.
+- **Universality.** Any engine in any language on any machine can read it with an HTTP client.
+  No mount, no driver, no attachment step.
+
+But it is not free of trade-offs — these are the taxes you pay, and knowing them separates
+"uses S3" from "understands S3":
+
+- **Renaming is a lie.** There is no rename. It is a copy followed by a delete, which is both slow
+  and double-charged on requests.
+- **`LIST` is slow and expensive.** Listing a prefix with millions of objects is a paginated,
+  rate-limited, billable operation. This is why table formats keep a manifest or catalog instead
+  of listing the bucket.
+- **Small files hurt.** Thousands of tiny objects mean thousands of requests and poor read
+  throughput. Batch your writes; compact regularly.
+- **Latency per request.** Tens of milliseconds per `GET` is fine for analytics and terrible for
+  a database's hot path.
+- **Egress is the hidden line item.** Reading data *out* of a cloud often costs more than storing
+  it. Keep compute next to the bucket.
+
+<Callout type="warn" title="The mounted bucket trap">
+Tools like s3fs or blobfuse let you mount a bucket as a folder. It looks like a filesystem, but
+every POSIX operation becomes one or more HTTP calls. `ls` a large prefix, or run software that
+assumes cheap `rename` and `fsync`, and performance collapses. Mount an object store only when
+the workload was written for objects.
+
+</Callout>
+
+## Why block storage is not going anywhere
+
+Because latency and in-place mutation are not negotiable for some workloads. A database's
+performance story is built on writing a page, fsyncing it, and mutating it again a moment later —
+cheaply, in microseconds. No HTTP round trip competes with that.
+
+So the split you should expect to see for the next decade is:
+
+- **Hot, transactional, mutable state** → block storage, close to the compute.
+- **Cold, analytical, immutable data** → object storage, reachable from everywhere.
+
+That is not a temporary arrangement. It is the two contracts, each doing what it is best at.
+
+## Why file storage persists
+
+File storage survives for three unglamorous reasons: **compatibility**, **lift-and-shift**, and
+**shared access**. Decades of software assumes a POSIX filesystem with flock, mmap, and atomic
+rename. When you migrate that software, a network filesystem is the shortest path.
+
+It is also the most common compromise in a hybrid world — an NFS share that both an on-premises
+job and a cloud job can see. It works, until contention, metadata bottlenecks, or a single
+filesystem's size limit make themselves known. Treat it as a bridge, not a foundation.
+
+## The cheat-sheet
+
+- **Choose object storage** when data is written once and read many times, must outlive any single
+  machine, needs to be reachable from many engines, and cost per terabyte matters. Lakes,
+  lakehouses, backups, artifacts, archives.
+- **Choose block storage** when you need low-latency, in-place, transactional writes attached to
+  one host. Databases, message logs, stateful services.
+- **Choose file storage** when you need shared POSIX semantics and are migrating software that
+  assumes a filesystem. Bridges, legacy ETL, shared working sets.
+
+If you remember one thing: **you are not choosing a product, you are choosing an access
+contract.** Pick the contract your workload actually needs, then pick whatever implements it
+cheapest.
+
+<Quiz title="Check yourself">
+1. Why can't you append a row to a Parquet file stored in S3 the way you append to a log file on disk?
+   <details><summary>Answer</summary>Objects are immutable — you replace the whole object. Appending would require rewriting it. Columnar formats are also written as sealed row groups, so the "append" model does not apply.</details>
+2. Why do Iceberg and Delta Lake keep manifests and a catalog instead of just listing the bucket?
+   <details><summary>Answer</summary>`LIST` on object storage is slow, paginated, and billable. A manifest/catalog gives O(1) discovery of the current snapshot and makes atomic commits and time travel possible.</details>
+3. A team mounts an S3 bucket with s3fs and runs a job that does thousands of small renames. What happens, and why?
+   <details><summary>Answer</summary>Each rename becomes a copy + delete over HTTP; each becomes multiple requests with tens of milliseconds of latency. Performance collapses and request costs spike, because object storage has no cheap rename.</details>
+4. Kafka runs on block storage, not object storage. What property is it protecting?
+   <details><summary>Answer</summary>Low-latency in-place writes and appends to its commit log, with fsync guarantees. The HTTP-based, immutable object contract is the wrong shape for that access pattern.</details>
+5. You need a dataset readable by Spark, DuckDB, and a BI tool simultaneously, cheaply, for years. Which contract fits, and what will you lose?
+   <details><summary>Answer</summary>Object storage. You accept higher per-request latency, expensive listing, and no in-place mutation — and you add a table format if you want atomic commits and schema evolution.</details>
+</Quiz>
+
+## Further reading
+
+- Martin Kleppmann, *Designing Data-Intensive Applications*, chapter 3 — "Storage and Retrieval".
+- Amazon S3 — "Consistency model" documentation (strong consistency since December 2020).
+- Apache Iceberg — the spec's sections on manifests, snapshots, and atomic commits.
+- Cloudflare R2 / MinIO — provider-neutral object storage APIs worth testing against locally.

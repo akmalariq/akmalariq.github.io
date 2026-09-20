@@ -1,0 +1,217 @@
+---
+title: "Effectively-once: making a Kafka → ClickHouse sink idempotent"
+description: "Kafka only promises at-least-once. Here is how write-then-commit, source-timestamp versions, and ReplacingMergeTree make duplicates harmless — without claiming exactly-once."
+pubDate: 2026-09-29
+tags: ["clickhouse", "kafka", "idempotency", "exactly-once", "streaming"]
+series: "Streaming CDC"
+level: "Advanced"
+draft: true
+---
+
+import Callout from "../../components/Callout.astro";
+import Quiz from "../../components/Quiz.astro";
+
+## "Exactly-once" is usually a marketing word
+
+Ask a streaming pipeline whether it delivers each event exactly once and you will often get a
+confident yes. Press on it and the answer dissolves. Kafka's own documentation is careful:
+producers and consumers give you **at-least-once** delivery, and exactly-once semantics exist but
+require transactional producers, transactional consumers, and a broker that supports them — a
+narrower guarantee than the phrase suggests.
+
+So start from reality: **duplicates are going to happen.** If a consumer crashes after writing to the
+sink but before recording its position, the message is redelivered. The question is not how to
+prevent duplication. It is how to make duplication harmless.
+
+This post is part 2 of the CDC series. [Part 1](/blog/change-data-capture-explained/) built the
+Debezium → Kafka → consumer path; this one is about the guarantee at the end of it. All code is from
+the [runnable repo](https://github.com/akmalariq/streaming-cdc-pipeline-with-debezium-and-kafka).
+
+## The ordering decision: write first, commit second
+
+Every consumer faces one ordering choice, and it is not symmetric.
+
+```python
+def flush(self) -> int:
+    written = 0
+    for target, rows in self.buffers.items():
+        if not rows:
+            continue
+        written += self.sink.write(target, rows)   # 1. land the data
+        rows.clear()
+
+    if written:
+        consumer = self._ensure_consumer()
+        commit = getattr(consumer, "commit", None)
+        if callable(commit):
+            commit(asynchronous=False)              # 2. then record the position
+            self.metrics.committed += 1
+    return written
+```
+
+The alternative — commit the offset, *then* write — is faster to reason about and wrong:
+
+- **Commit then write:** crash in between and the message is gone forever. You told Kafka you handled
+  it before you did. This is **data loss.**
+- **Write then commit:** crash in between and the message is redelivered. You may write it twice.
+  This is **replay.**
+
+Replay is recoverable. Loss is not. The repo asserts the ordering with a test, because it is exactly
+the kind of thing a refactor quietly reverses:
+
+```python
+def test_flush_writes_before_committing_offsets(...):
+    ...
+    assert calls == ["write", "commit"]
+```
+
+<Callout type="warn" title="The one-line bug that loses data silently">
+Swapping `write` and `commit` is a one-line change that passes code review and tests green in the
+happy path. It only fails during a crash window you will not reproduce locally — which is precisely
+when it matters.
+</Callout>
+
+## Version every row
+
+Duplicates are only harmless if the sink can tell which copy is correct. So every row carries a
+version, and the version is the **source** change timestamp, not the ingestion time:
+
+```python
+row["op"] = event.op
+row["source_ts_ms"] = event.source_ts_ms
+row["is_deleted"] = 1 if event.is_delete else 0
+row["_version"] = event.source_ts_ms
+```
+
+Why the *source* timestamp rather than `now()`? Because ingestion order is not business order. Two
+consumers replaying the same log can land the same rows in different orders; if the version came from
+arrival time, the final state would depend on which copy arrived last. Using the database's own
+change timestamp makes the outcome deterministic: the event that happened later always wins,
+regardless of when it was processed.
+
+<Callout type="info" title="This is the whole trick">
+Replay safety is not about preventing redelivery. It is about making the redelivered copy carry
+information the sink can use to resolve the conflict — here, a monotonic version derived from the
+source.
+</Callout>
+
+## Let the storage engine resolve the conflict
+
+ClickHouse's `ReplacingMergeTree` keeps, per sort key, the row with the highest version. That is the
+entire deduplication mechanism:
+
+```sql
+CREATE TABLE cdc.customers
+(
+    customer_id   UInt64,
+    name          String,
+    email         String,
+    city          String,
+    updated_at    DateTime64(3),
+    op            LowCardinality(String),
+    source_ts_ms  UInt64,
+    is_deleted    UInt8 DEFAULT 0,
+    _version      UInt64
+)
+ENGINE = ReplacingMergeTree(_version, is_deleted)
+ORDER BY customer_id;
+```
+
+The two arguments to the engine are doing distinct work:
+
+- `_version` — the row kept per key is the one with the **highest** version. An old replay loses.
+- `is_deleted` — the winning row can also carry a deletion flag, which gives soft deletes.
+
+Consequences worth spelling out:
+
+- **Replaying an old event is harmless.** It has a lower version, so it loses the merge. No
+  application-level dedup table, no `WHERE NOT EXISTS`.
+- **Deletes need no physical `DELETE`.** A delete becomes a row with `is_deleted = 1` and the delete's
+  version. A late replay of the pre-delete row has a lower version and cannot resurrect it.
+- **Merges are lazy.** `ReplacingMergeTree` collapses duplicates in the background, not at insert
+  time. Query time is where this becomes visible.
+
+## Merges are lazy — so reads must be explicit
+
+Immediately after a write, the table can physically contain several versions of the same key. A naive
+count therefore over-reports. The fix is `FINAL`, which forces merge-on-read:
+
+```python
+def count(self, target: str, final: bool = True) -> int:
+    suffix = " FINAL" if final else ""
+    result = self._client.query(f"SELECT count(*) FROM {target}{suffix}")
+    return int(result.result_rows[0][0])
+```
+
+`FINAL` is not free — it does merge work at query time. For dashboards it is usually the right
+default; for high-frequency queries, a materialized view or a scheduled `OPTIMIZE TABLE ... FINAL` is
+better.
+
+## The proof
+
+Claims about delivery guarantees should come with a demonstration. The test is simple: read the
+current counts, replay the entire log twice using two brand-new consumer groups, and read the counts
+again.
+
+![Two full replays each report 17 written, and the merged counts are unchanged](/blog/images/cdc/idempotency.png)
+
+Both replays wrote 17 rows. The merged table did not move — `4` customers, `3` orders, `3` order
+items before and after. That is the property, and it is reproducible in the repo with three commands.
+
+## Stated honestly
+
+This design gives **at-least-once delivery plus an idempotent merge, which behaves like
+effectively-once.** It is not a distributed transaction and it is not true exactly-once. The
+differences matter:
+
+- **No cross-system atomicity.** The ClickHouse write and the Kafka offset commit are two separate
+  operations. There is no transaction spanning them.
+- **Replay is a real, frequent event.** It is handled, not eliminated.
+- **It is a batch committer, not a per-record processor.** Buffering by size or interval trades
+  latency for throughput; if you need per-event latency, that is a different design.
+- **Schema evolution is out of scope here.** The connector runs with schemas disabled. A schema
+  registry plus data contracts is the natural next step.
+
+Naming the limitation is part of the design. A pipeline that claims exactly-once and cannot produce a
+transaction boundary is harder to trust than one that documents its actual guarantee — and easier to
+break, because nobody looks for the failure mode they were told does not exist.
+
+## The cheat-sheet
+
+- **Assume at-least-once.** Design for duplicates instead of denying them.
+- **Write before you commit.** Prefer replay over loss, every time.
+- **Version with the source timestamp**, never ingestion time.
+- **Let the engine resolve conflicts:** `ReplacingMergeTree(version, is_deleted)`, `ORDER BY` the key.
+- **Soft-delete with a version** so late replays cannot resurrect rows.
+- **Remember merges are lazy** — use `FINAL` when you need the merged view.
+- **State the real guarantee.** "Effectively-once" is defensible; "exactly-once" usually is not.
+
+## Check yourself
+
+<Quiz title="Check yourself">
+1. Why is write-then-commit the correct order, even though it can duplicate data?
+   <details><summary>Answer</summary>Because the two failure modes are not equivalent. Commit-then-write can permanently lose an event; write-then-commit can replay it. Replay is absorbed by the idempotent merge, loss is not recoverable.</details>
+2. Why use `source.ts_ms` as the version instead of the consumer's arrival time?
+   <details><summary>Answer</summary>Arrival order is not business order. Replays and multiple consumers can deliver the same rows in different orders; a source timestamp makes "which version is newer" deterministic. With arrival times, the final state could depend on delivery order.</details>
+3. What do the two arguments to `ReplacingMergeTree(_version, is_deleted)` each do?
+   <details><summary>Answer</summary>`_version` selects the row kept per sort key (highest wins), which absorbs replays. `is_deleted` lets the winning row mark a deletion, giving soft deletes.</details>
+4. Counts look inflated right after a load. Is the pipeline broken?
+   <details><summary>Answer</summary>Probably not — merges are lazy. The table can hold multiple versions of a key until background merges run. Query with `FINAL` (or `OPTIMIZE TABLE ... FINAL`) to see the collapsed state.</details>
+5. A delete event is replayed after the delete was processed. What happens, and why is that correct?
+   <details><summary>Answer</summary>The replayed pre-delete row has a lower `_version` than the delete row, so it loses the merge and the row stays deleted. Correctness comes from versioning, not from ordering.</details>
+</Quiz>
+
+## Next in the series
+
+Part 3 makes this concrete by breaking the pipeline on purpose: killing the consumer mid-batch,
+poisoning the topic, and replaying a consumer group — then watching each guarantee hold. It also
+includes the bug this pipeline shipped with, which taught me more than any feature did.
+
+The code and the lab are in the repo:
+**`github.com/akmalariq/streaming-cdc-pipeline-with-debezium-and-kafka`**.
+
+## References
+
+- Apache Kafka documentation — message delivery semantics.
+- ClickHouse documentation — [`ReplacingMergeTree`](https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/replacingmergetree) and `FINAL`.
+- Jay Kreps, "Questioning the Lambda Architecture" — on delivery guarantees and replayable logs.

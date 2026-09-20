@@ -1,0 +1,233 @@
+---
+title: "Change data capture, explained by building it"
+description: "Why a nightly sync is never enough — and how Debezium, Kafka, and a Python consumer turn the write-ahead log into a live replica of your database."
+pubDate: 2026-09-22
+tags: ["cdc", "streaming", "debezium", "kafka", "postgres"]
+series: "Streaming CDC"
+level: "Intermediate"
+---
+
+import Figure from "../../components/Figure.astro";
+import Callout from "../../components/Callout.astro";
+import Quiz from "../../components/Quiz.astro";
+
+## The sync job everyone writes first
+
+Your OLTP database is the source of truth. Your warehouse needs a copy for analytics. So you write
+the obvious thing: a nightly job that queries everything changed since yesterday.
+
+```sql
+SELECT * FROM customers WHERE updated_at > now() - interval '1 day';
+```
+
+It works. It is also wrong in three specific ways, and all three bite eventually.
+
+1. **Load.** That query scans the production database on a schedule you do not control, while real
+   users are on it. Add more tables and more columns and it gets worse.
+2. **Deletes are invisible.** A deleted row does not have a later `updated_at`. It simply stops
+   appearing. Your warehouse keeps it forever, silently, and your revenue numbers drift.
+3. **Latency.** Best case, your analytics are a day old. That is fine until someone asks a question
+   about *today*.
+
+The deeper problem is that you are reconstructing change by *interrogating* the database. But the
+database already recorded every change. It is sitting in the write-ahead log.
+
+## The WAL is already a change log
+
+Every relational database keeps a log of intended writes before it applies them — Postgres calls it
+the write-ahead log. It exists for crash recovery, but it happens to contain exactly what a replica
+needs: **every insert, update, and delete, in commit order, with before and after values.**
+
+Reading that log instead of polling tables is **Change Data Capture (CDC)**. In Postgres you enable
+it with one setting:
+
+```yaml
+# infra/docker-compose.yml
+command: [postgres, -c, wal_level=logical, ...]
+```
+
+`wal_level=logical` makes Postgres publish row-level change data that a logical decoding plugin
+(`pgoutput`) can stream to a client. Turn it up to `logical`, and the log becomes an API.
+
+<Callout type="info" title="CDC is older than your data stack">
+Logical decoding is not a Kafka-era invention. Databases have shipped replication via the log for
+decades. Debezium did not invent a new capability — it made the log stream into a *standard,
+schema-aware, replayable* feed that any consumer can read.
+</Callout>
+
+## The shape of the system
+
+A production-shaped CDC pipeline has five parts, each of which earns its place:
+
+```
+Postgres (WAL)  ->  Debezium (decode)  ->  Kafka (log)  ->  consumer  ->  ClickHouse
+   source            translator             buffer          transform      store
+```
+
+| Part | Job | Why it cannot be skipped |
+|---|---|---|
+| **Postgres** | Writes change data to the WAL | It is the source of truth; we never poll it |
+| **Debezium** | Decodes the WAL into a JSON envelope | Handles replication slots, snapshots, and before/after diffing |
+| **Kafka** | Durable, ordered, replayable log | Decouples producer from consumer; events wait while the consumer is down |
+| **Consumer** | Decode, transform, batch, write, commit | Where correctness actually lives |
+| **ClickHouse** | Columnar analytics store | Its merge engine absorbs duplicate writes cleanly (part 2) |
+
+<Figure caption="A row-level change flows from the Postgres WAL, through Debezium and Kafka, into a versioned ClickHouse table.">
+  <svg viewBox="0 0 760 300" role="img" aria-label="Architecture: Postgres WAL to Debezium to Kafka to consumer to ClickHouse" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="currentColor" stroke-width="1.3">
+      <rect x="20" y="40" width="180" height="64" rx="10" />
+      <text x="110" y="68" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" fill="currentColor" stroke="none">Postgres</text>
+      <text x="110" y="86" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" stroke="none" opacity="0.65">WAL (wal_level=logical)</text>
+
+      <rect x="240" y="40" width="180" height="64" rx="10" />
+      <text x="330" y="68" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" fill="currentColor" stroke="none">Debezium</text>
+      <text x="330" y="86" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" stroke="none" opacity="0.65">decode -> envelope</text>
+
+      <rect x="460" y="40" width="180" height="64" rx="10" />
+      <text x="550" y="68" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" fill="currentColor" stroke="none">Kafka</text>
+      <text x="550" y="86" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" stroke="none" opacity="0.65">ordered, replayable</text>
+
+      <rect x="240" y="196" width="180" height="64" rx="10" />
+      <text x="330" y="224" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" fill="currentColor" stroke="none">Python consumer</text>
+      <text x="330" y="242" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" stroke="none" opacity="0.65">decode, batch, commit</text>
+
+      <rect x="460" y="196" width="180" height="64" rx="10" stroke="#e5c183" />
+      <text x="550" y="224" text-anchor="middle" font-family="Manrope, sans-serif" font-size="13" fill="currentColor" stroke="none">ClickHouse</text>
+      <text x="550" y="242" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" stroke="none" opacity="0.65">ReplacingMergeTree</text>
+
+      <line x1="200" y1="72" x2="240" y2="72" />
+      <line x1="420" y1="72" x2="460" y2="72" />
+      <path d="M550 104 L550 150 L330 150 L330 196" />
+      <path d="M420 228 L460 228" />
+      <path d="M550 196 L550 150" stroke-dasharray="4 4" />
+    </g>
+  </svg>
+</Figure>
+
+## The Debezium envelope
+
+Debezium does not forward raw WAL bytes — those are not portable. It emits a **JSON envelope** with a
+stable shape:
+
+```json
+{
+  "before": { "customer_id": 101, "city": "Jakarta" },
+  "after":  { "customer_id": 101, "city": "Bandung" },
+  "source": { "db": "shopdb", "schema": "public", "table": "customers", "ts_ms": 1789899890000 },
+  "op": "u",
+  "ts_ms": 1789899890123
+}
+```
+
+The `op` field is the whole story, and it determines which image holds your data:
+
+| `op` | Meaning | Data lives in |
+|---|---|---|
+| `c` | create | `after` |
+| `u` | update | `before` and `after` |
+| `d` | delete | `before` only — `after` is `null` |
+| `r` | read (initial snapshot) | `after` |
+
+Two details matter more than they look:
+
+- **`source.ts_ms` is the database's change timestamp.** Part 2 of this series uses it as a version
+  number, and that choice is what makes replays safe.
+- **`op = r` means "snapshot", not "insert".** Your very first run does not stream; it reads every
+  existing row and labels it `r`. Skip understanding this and your first deployment looks like a
+  mass insert event.
+
+## Snapshot, then stream
+
+With `snapshot.mode: initial`, the connector does a consistent read of every included table and
+emits those rows as `op = r`, then switches to streaming live changes from the log. The source
+connector config is small enough to read in one sitting:
+
+```json
+{
+  "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+  "topic.prefix": "shopdb",
+  "table.include.list": "public.customers,public.orders,public.order_items",
+  "plugin.name": "pgoutput",
+  "slot.name": "debezium_shop",
+  "snapshot.mode": "initial"
+}
+```
+
+`topic.prefix` plus schema plus table yields the topic name `shopdb.public.customers`. One topic per
+table, appended to in commit order.
+
+## Why Kafka sits in the middle
+
+You could, technically, run a consumer directly against the logical replication slot. People do, and
+they get hurt by it. A replication slot is a piece of state on your *production database* — if the
+consumer is down too long, the slot retains WAL and your disk fills up.
+
+Kafka's job is to absorb that coupling:
+
+- **Durability.** Events persist and stay replayable; a consumer outage does not back up the source.
+- **Replayability.** A new consumer group can re-read the log from the beginning. That property is
+  the entire foundation of part 3, where we deliberately break the pipeline.
+- **Fan-out.** One change stream, many independent readers, later.
+
+<Callout type="warn" title="The slot is the thing that breaks at 3 a.m.">
+If nothing consumes from the replication slot, Postgres holds WAL for it. The failure mode is not a
+crash — it is a full disk on your primary. Alert on `pg_replication_slots` retention before you learn
+this the hard way.
+</Callout>
+
+## What this looks like running
+
+Five containers, healthchecked, started with one command:
+
+![docker compose output showing four CDC services all healthy](/blog/images/cdc/stack-healthy.png)
+
+And the consumer, logging every lifecycle event as structured JSON plus a per-run report:
+
+![cdc consume output: subscribed, batch_flushed, consumer_stopped, then a run report](/blog/images/cdc/consume-run.png)
+
+That report is the honest record of a run: how many events were processed, how many rows landed, how
+many failed to decode, and the observed lag. If you cannot answer those four questions about a
+pipeline run, you cannot operate the pipeline.
+
+## The cheat-sheet
+
+- **Poll tables for changes** and you inherit load, invisible deletes, and latency.
+- **Read the WAL instead** — the change log already exists.
+- **`wal_level=logical`** is the single line that enables it in Postgres.
+- **Debezium** turns the log into a versioned JSON envelope with `op ∈ {c, u, d, r}`.
+- **`source.ts_ms`** is the change's true time — keep it, you will need it.
+- **Kafka in the middle** decouples the source from the consumer and makes replay possible.
+- **Watch the replication slot**, not just the consumer.
+
+## Check yourself
+
+<Quiz title="Check yourself">
+1. Your nightly sync uses `updated_at > yesterday`. Why does a deleted row never disappear from the warehouse?
+   <details><summary>Answer</summary>A delete removes the row; it does not produce a later `updated_at`. The row stops matching the query but is never updated or removed, so the warehouse keeps a stale copy forever. Deletes are simply invisible to a polling sync.</details>
+2. What does `wal_level=logical` actually enable?
+   <details><summary>Answer</summary>It makes Postgres publish row-level change data that a logical decoding plugin (`pgoutput`) can stream to a client. At lower levels, the WAL exists but does not carry enough information to reconstruct row images.</details>
+3. An event arrives with `op = "d"` and `after = null`. Which image holds the data, and why?
+   <details><summary>Answer</summary>The `before` image. A delete has no after-state, so the last-known values live in `before`. Emitting `after` for a delete is a common bug that produces null rows.</details>
+4. Why is a replication slot a production risk, and what is Kafka's role in reducing it?
+   <details><summary>Answer</summary>A slot retains WAL until it is consumed, so an idle consumer fills the source database's disk. Kafka decouples consumption: the connector keeps draining the slot into a durable, replayable log, so a downstream consumer can be down without stalling the slot.</details>
+5. Why does the first run of the pipeline look like a bulk insert?
+   <details><summary>Answer</summary>`snapshot.mode: initial` reads every existing row first and emits them as `op = "r"` before streaming live changes. It is a consistent initial load, not a flood of new inserts.</details>
+</Quiz>
+
+## Where this goes next
+
+This post built the path. The next two in the series attack the parts that actually break:
+
+- **Part 2 — Effectively-once:** Kafka only gives you at-least-once delivery, so duplicates are
+  inevitable. Making them harmless is a design decision, not a setting.
+- **Part 3 — Break it on purpose:** a lab where we kill the consumer mid-batch, poison the topic, and
+  replay a consumer group, then watch the safety mechanisms behave.
+
+The whole thing is runnable: **`github.com/akmalariq/streaming-cdc-pipeline-with-debezium-and-kafka`**
+— `make up`, `make register-connector`, `make consume`. Start there.
+
+## References
+
+- Martin Kleppmann, *Designing Data-Intensive Applications*, chapter 11 — stream processing and log-based messaging.
+- Postgres documentation — [Logical Decoding](https://www.postgresql.org/docs/current/logicaldecoding.html) and `wal_level`.
+- Debezium documentation — the Postgres connector and the `op` field semantics.

@@ -8,5 +8,5 @@
 # blog source deps + generated output
 blog-src/node_modules
 blog-src/.astro
-blog/
-dist/
+/blog/
+/dist/

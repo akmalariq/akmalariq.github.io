@@ -1,0 +1,215 @@
+---
+title: "Break your CDC pipeline on purpose"
+description: "A lab that kills the consumer mid-batch, poisons the topic, and replays a consumer group — plus the bug this pipeline shipped with and how I found it."
+pubDate: 2026-10-06
+tags: ["kafka", "dlq", "observability", "testing", "streaming"]
+series: "Streaming CDC"
+level: "Intermediate"
+draft: true
+---
+
+import Callout from "../../components/Callout.astro";
+import Quiz from "../../components/Quiz.astro";
+
+## You do not understand a pipeline until you have broken it
+
+Reading about at-least-once delivery is easy. Believing it is different. The gap between the two is
+closed by one thing: watching your own pipeline survive a failure you caused on purpose.
+
+This is part 3 of the CDC series. [Part 1](/blog/change-data-capture-explained/) built the path from
+the Postgres WAL to ClickHouse; [part 2](/blog/effectively-once-cdc-clickhouse/) explained why
+duplicates are harmless by design. This post is the lab that proves both — and the bug that taught me
+more than any feature did.
+
+Everything below runs against the
+[repo](https://github.com/akmalariq/streaming-cdc-pipeline-with-debezium-and-kafka) with four
+containers: `make up`, `make register-connector`, `make consume`.
+
+<Callout type="info" title="Predict before you run">
+Before each lab, write down what you expect. The value is not in the command — it is in the moment
+your prediction and the output disagree. That moment is the lesson.
+</Callout>
+
+## Lab 1: kill the consumer mid-batch
+
+The claim from part 2 is that write-then-commit turns a crash into a replay, and the merge absorbs it.
+Test it by making batches tiny and killing the process mid-drain.
+
+```bash
+CDC_BATCH_SIZE=1 CDC_CONSUMER_GROUP=lab-kill \
+  cdc consume --max-messages 100 &      # one row per batch
+sleep 4 && kill -9 $!                   # hard crash: no graceful flush
+```
+
+`kill -9` matters. A graceful shutdown runs the `finally` block, flushes the buffer, and commits —
+which is the happy path, not the failure you are testing. SIGKILL simulates the crash.
+
+![Killing the consumer mid-batch, then replaying the log: counts are identical before, after the crash, and after the replay](/blog/images/cdc/kill-midbatch.png)
+
+The counts never move. The interrupted batch was redelivered on the next run, and the versioned merge
+made the duplicate a no-op. **Prediction check:** if you expected "at least one duplicate row in
+ClickHouse", you were right — and it was invisible, which is the point.
+
+<Callout type="warn" title="The test that almost hid this">
+An idempotency bug does not show up in counts. If the table had no version column, the crash would
+have left a duplicate that a `count(*)` would happily include — with no error and no alert. Grep for
+duplicates by key, not just for errors.
+</Callout>
+
+## Lab 2: poison the topic
+
+A malformed message is the most common real-world failure: a producer ships a bad payload, and the
+consumer dies on every restart, stuck replaying the same poison message forever. A pipeline that
+cannot make progress because of one bad record is a pipeline with a single point of failure.
+
+Send something that is not JSON, then consume with a fresh group:
+
+```bash
+echo 'this is not json' | rpk topic produce shopdb.public.customers \
+  --key '{"customer_id":999}'
+CDC_CONSUMER_GROUP=lab-dlq cdc consume --max-messages 50
+```
+
+![A poison message logged as decode_failed, routed to cdc.dlq with x-error and x-origin-topic headers, while the run still writes 17 rows](/blog/images/cdc/dlq.png)
+
+The run processed 18 messages, wrote 17, logged one `decode_failed`, and kept going. The bad payload
+landed in `cdc.dlq` with two headers that make triage possible:
+
+- `x-error` — why it was rejected (`payload is not valid JSON`)
+- `x-origin-topic` — where it came from
+
+That is the difference between "the pipeline is stuck" and "the pipeline is running; here is the 1
+record that needs a human."
+
+## Lab 3: replay a consumer group
+
+The strongest test of idempotency is not a crash — it is replaying the *entire* log. A brand-new
+consumer group reads from the beginning, so every event is delivered a second time.
+
+```bash
+cdc verify --optimize                       # baseline
+CDC_CONSUMER_GROUP=lab-idem-1 cdc consume --max-messages 200
+CDC_CONSUMER_GROUP=lab-idem-2 cdc consume --max-messages 200
+cdc verify --optimize                       # must be unchanged
+```
+
+![Two full replays, each writing 17 rows, with identical merged counts before and after](/blog/images/cdc/idempotency.png)
+
+Two complete replays, 34 writes, and the merged table is byte-for-byte the same as before. This is
+what "effectively-once" means in practice: not that the events are delivered once, but that
+delivering them *n* times has the same result as delivering them once.
+
+## Bonus lab: pause the connector
+
+One more guarantee worth checking is upstream. Pause the connector, write to Postgres, resume:
+
+```bash
+curl -X PUT localhost:8083/connectors/shop-postgres-connector/pause
+psql -c "UPDATE customers SET city='Surabaya' WHERE customer_id=1;"
+curl -X PUT localhost:8083/connectors/shop-postgres-connector/resume
+```
+
+The event still arrives after the resume. The replication slot held its position, so a paused
+connector loses nothing — which is precisely why the slot is also the thing that fills your disk if
+nobody drains it. Convenience and risk, same mechanism.
+
+## The bug this pipeline shipped with
+
+Now the part that matters more than any lab.
+
+**Symptom:** `cdc consume --max-messages 20` ran for five minutes and printed nothing.
+
+**Why the symptom lied:** I piped the output through `tail`. `tail` buffers until the process exits,
+so the real signal was not "no output" — it was "the process never exits." Silence in a terminal is
+usually a buffering artifact, not a missing log line. I lost ten minutes to that alone.
+
+**The actual defect** was four lines in the poll loop:
+
+```python
+while max_messages is None or self.metrics.processed < max_messages:
+    message = consumer.poll(poll_timeout)
+```
+
+The topic had 12 messages. The target was 20. `poll()` returned `None` forever, `processed` never
+reached 20, and the loop spun indefinitely on an empty topic. An infinite loop with no data is the
+worst kind: no exception, no log, no CPU spike — just a process that never finishes.
+
+**The lesson:** any "wait for N items" loop needs a termination condition that does not depend on the
+data arriving. The fix was an idle timeout — stop after 15 seconds with no new message, whichever
+comes first:
+
+```python
+elif max_messages is not None and (now - self._last_message_at) >= idle_timeout:
+    self.log.info("idle_timeout_reached", idle_seconds=round(now - self._last_message_at, 1))
+    break
+```
+
+**The regression test** uses a fake clock that advances one second per read, so the test exercises
+the timeout without actually waiting:
+
+```python
+def test_bounded_run_stops_on_idle(...):
+    ...
+    assert metrics.processed == 0          # never reached the target
+    assert consumer.closed is True         # but it did stop
+```
+
+<Callout type="info" title="Why this is the most useful part of the project">
+The features were easy. The bug taught me that "it hangs" has a taxonomy: deadlock, infinite loop,
+blocked I/O, buffered output. Learning to tell them apart is the actual skill — and it is not
+something you pick up by reading about streaming.
+</Callout>
+
+## Exercise: add a table end to end
+
+The real test of understanding is extending it. Add a `products` table and trace it through every
+layer:
+
+1. `infra/postgres/init.sql` — create the table.
+2. `infra/debezium/postgres-connector.json` — add it to `table.include.list`.
+3. `src/cdc_pipeline/transforms.py` — add an `EntitySpec` (target, key, columns, types).
+4. `infra/clickhouse/init.sql` — add a `ReplacingMergeTree(_version, is_deleted)` table.
+5. `make down && make up && make register-connector`.
+6. Insert a row, `make consume`, `make verify`.
+
+If that works unaided, you understand the pipeline — including the two places people forget: the
+connector's include list, and the ClickHouse engine that makes replay safe.
+
+## The cheat-sheet
+
+- **Break it on purpose.** Reading about guarantees is not the same as watching them hold.
+- **Use `kill -9`**, not Ctrl-C, when testing crash safety.
+- **Structured logs are the run's memory** — `run_id`, processed, written, errors, lag.
+- **A DLQ turns a stall into a queue.** Route poison messages with error context, not silence.
+- **Replay is the real idempotency test**, not a single crash.
+- **Every "wait for N" loop needs a data-independent exit.**
+- **Distrust silent terminals** — check for buffering before concluding "nothing happened."
+
+## Check yourself
+
+<Quiz title="Check yourself">
+1. Why does `kill -9` test something different from Ctrl-C in lab 1?
+   <details><summary>Answer</summary>Ctrl-C triggers the graceful shutdown path, which flushes the buffer and commits before exiting — the happy path. SIGKILL skips all of that, so the last batch is written-but-not-committed (or not written), which is the actual crash window you want to test.</details>
+2. The pipeline logged `decode_failed` and continued. What would happen without a dead-letter path?
+   <details><summary>Answer</summary>The consumer would retry the same poison message forever, unable to advance its offset — a single bad record stalls the entire pipeline. Routing it to a DLQ preserves progress and gives a human the context to fix it.</details>
+3. Replaying the whole log twice wrote 34 rows. Why are the counts unchanged?
+   <details><summary>Answer</summary>Every row carries the source change timestamp as `_version`, and `ReplacingMergeTree` keeps only the highest version per key. The replayed rows are older-or-equal versions, so they lose the merge. The writes happened; they just do not change the outcome.</details>
+4. Your bounded drain prints nothing and never exits. What are the two most likely explanations?
+   <details><summary>Answer</summary>Either the loop's termination condition depends on data that is not arriving (an infinite poll), or the output is buffered by a pipe/pager so logs exist but are not flushed. Check for buffering first, then audit the loop for a data-independent exit.</details>
+5. Why is the replication slot both a feature and a risk?
+   <details><summary>Answer</summary>It lets a paused or lagging consumer resume without data loss, because Postgres retains WAL for it. The same retention will fill the primary's disk if nothing consumes it — so it must be monitored.</details>
+</Quiz>
+
+## The series, and the repo
+
+- [Part 1 — Change data capture, explained by building it](/blog/change-data-capture-explained/)
+- [Part 2 — Effectively-once: making a Kafka → ClickHouse sink idempotent](/blog/effectively-once-cdc-clickhouse/)
+
+Everything here is runnable, including all eight labs:
+**`github.com/akmalariq/streaming-cdc-pipeline-with-debezium-and-kafka`**.
+
+## References
+
+- Apache Kafka documentation — consumer groups, offsets, and delivery semantics.
+- Debezium documentation — the dead-letter topic configuration and `x-error` headers.
+- Postgres documentation — [replication slots](https://www.postgresql.org/docs/current/view-pg-replication-slots.html) and WAL retention.
