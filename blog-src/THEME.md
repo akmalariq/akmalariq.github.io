@@ -38,3 +38,12 @@ before first paint; the toggle button persists the choice in `localStorage`.
 Fonts are loaded from Google Fonts via a `<link>` in the head. If you later want
 self-hosted or system fonts, swap that link for a `@font-face` block inside `tokens.css`
 (or add a `public/fonts/` directory) — again, no layout changes required.
+
+## Shared with the rest of the site
+
+The portfolio and the case-study pages load `/css/site.css`, which carries the
+**same token values** as `tokens.css` here. The blog is the reference for the
+visual language; `site.css` is the copy.
+
+If you change a colour or font here, mirror it in `css/site.css` (and vice
+versa) so `akmalariq.dev` and `akmalariq.dev/blog` stay identical.

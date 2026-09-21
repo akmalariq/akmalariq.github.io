@@ -62,6 +62,7 @@
     <!-- Stylesheets -->
     <link rel="preload" href="css/style.css" as="style">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/site.css">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -207,7 +208,7 @@
                 <!-- Medallion Data Pipeline Flow Visual -->
                 <div class="pipeline-card">
                     <div class="pipeline-header">
-                        <span class="pipeline-title">📟 Active Data Pipeline Flow</span>
+                        <span class="pipeline-title">Active Data Pipeline Flow</span>
                         <span class="pipeline-status">
                             <span class="pipeline-pulse-dot"></span> Active
                         </span>
@@ -322,17 +323,17 @@
                 <div class="showcase-header">
                     <span class="showcase-subtitle">Interactive Product Specimen</span>
                     <h3 class="showcase-title">Spreadsheet-to-Platform Showcase</h3>
-                    <div class="showcase-tabs">
-                        <button class="tab-btn active" data-tab="excel">Before (Excel Chaos)</button>
-                        <button class="tab-btn" data-tab="cloud">After (Cloud Enablement)</button>
+                    <div class="showcase-tabs" role="tablist" aria-label="Before and after comparison">
+                        <button type="button" class="tab-btn active" data-tab="excel" id="tab-excel" role="tab" aria-selected="true" aria-controls="pane-excel">Before (Excel Chaos)</button>
+                        <button type="button" class="tab-btn" data-tab="cloud" id="tab-cloud" role="tab" aria-selected="false" aria-controls="pane-cloud">After (Cloud Enablement)</button>
                     </div>
                 </div>
 
                 <div class="showcase-content">
                     <!-- Before Tab: Excel Chaos -->
-                    <div class="tab-pane active" id="pane-excel">
+                    <div class="tab-pane active" id="pane-excel" role="tabpanel" aria-labelledby="tab-excel">
                         <div class="excel-view">
-                            <div class="excel-title">📊 master_sales_rekon_v4_FINAL_copy.xlsx</div>
+                            <div class="excel-title">master_sales_rekon_v4_FINAL_copy.xlsx</div>
                             <div class="excel-table-wrapper">
                                 <table class="excel-table">
                                     <thead>
@@ -382,16 +383,16 @@
                                 </table>
                             </div>
                             <div class="excel-footer-alert">
-                                ⚠ <strong>Silo Alert:</strong> 2 data schema errors detected. Manual BCA bank mutation reconciliation required.
+                                <strong>Silo Alert:</strong> 2 data schema errors detected. Manual BCA bank mutation reconciliation required.
                             </div>
                         </div>
                     </div>
 
                     <!-- After Tab: Clean Cloud Platform -->
-                    <div class="tab-pane" id="pane-cloud">
+                    <div class="tab-pane" id="pane-cloud" role="tabpanel" aria-labelledby="tab-cloud">
                         <div class="cloud-view">
                             <div class="cloud-title-bar">
-                                <div class="cloud-logo">📟 AKMAL_BI_MUTASI</div>
+                                <div class="cloud-logo">AKMAL_BI_MUTASI</div>
                                 <div class="cloud-badge"><span class="cloud-dot-active"></span> Pipeline Online</div>
                             </div>
                             <div class="cloud-grid">
@@ -413,9 +414,9 @@
                             </div>
                             <div class="cloud-log-terminal">
                                 <div>&gt; dbt run --select recon_bank_mutation</div>
-                                <div class="text-green">✔ [OK] Ingested Tokopedia &amp; Shopee mutation streams in 2.4s</div>
-                                <div class="text-green">✔ [OK] Auto-matched BCA bank transfers to invoice database</div>
-                                <div class="text-green">✔ [OK] Database single version of truth (Postgres) successfully compiled</div>
+                                <div class="text-green">[OK] Ingested Tokopedia &amp; Shopee mutation streams in 2.4s</div>
+                                <div class="text-green">[OK] Auto-matched BCA bank transfers to invoice database</div>
+                                <div class="text-green">[OK] Database single version of truth (Postgres) successfully compiled</div>
                             </div>
                         </div>
                     </div>
@@ -714,10 +715,10 @@
             
             <div class="chatbot-input-container">
                 <div id="chatbotChips" class="chatbot-chips">
-                    <button class="chip" data-query="services">💼 Freelance &amp; Consulting</button>
-                    <button class="chip" data-query="projects">📈 Case Studies</button>
-                    <button class="chip" data-query="skills">🛠️ Technical Stack</button>
-                    <button class="chip" data-query="contact">✉️ Get in Touch</button>
+                    <button class="chip" data-query="services">Freelance &amp; Consulting</button>
+                    <button class="chip" data-query="projects">Case Studies</button>
+                    <button class="chip" data-query="skills">Technical Stack</button>
+                    <button class="chip" data-query="contact">Get in Touch</button>
                 </div>
                 <form id="chatbotForm" class="chatbot-form">
                     <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask about services, projects, rate..." aria-label="Message to AI Partner">

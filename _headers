@@ -1,7 +1,13 @@
 # Security + caching headers for akmalariq.dev (Cloudflare Pages)
-# Note: script-src keeps 'unsafe-inline' because the theme bootstrapper must run
-# before paint and JSON-LD blocks are inline. The remaining directives still do
-# the real work: no framing, no object embedding, no base-uri hijack.
+#
+# script-src keeps 'unsafe-inline' because the theme bootstrapper must run before
+# paint and JSON-LD blocks are inline. The remaining directives still do the real
+# work: no framing, no object embedding, no base-uri hijack.
+#
+# Third-party origins are allow-listed per page need:
+#   cdn.jsdelivr.net          MapLibre GL (Jakarta case study)
+#   basemaps.cartocdn.com     MapLibre basemap style + tiles
+#   lookerstudio.google.com   embedded dashboard (earthquake case study)
 
 /*
   X-Content-Type-Options: nosniff
@@ -9,7 +15,7 @@
   X-Frame-Options: DENY
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   Strict-Transport-Security: max-age=31536000
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.github.com https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com; connect-src 'self' https://api.github.com https://cloudflareinsights.com https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com; worker-src 'self' blob:; frame-src https://lookerstudio.google.com https://datastudio.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
 
 # Content-hashed build assets can be cached forever
 /blog/_assets/*

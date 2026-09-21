@@ -316,6 +316,48 @@ function initThemeToggle() {
 }
 
 // ==============================
+// Showcase Tabs (progressive enhancement)
+// Tabs are a JS affordance; without JS both panes stack and stay readable.
+// ==============================
+function initShowcaseTabs() {
+    const tabs = Array.from(document.querySelectorAll('.showcase-tabs [role="tab"]'));
+    if (tabs.length === 0) return;
+
+    const panes = tabs
+        .map(tab => document.getElementById(tab.getAttribute('aria-controls')))
+        .filter(Boolean);
+
+    const select = (tab) => {
+        tabs.forEach(t => {
+            const on = t === tab;
+            t.classList.toggle('active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+            t.tabIndex = on ? 0 : -1;
+        });
+        panes.forEach(pane => {
+            const on = pane.id === tab.getAttribute('aria-controls');
+            pane.classList.toggle('active', on);
+            pane.hidden = !on;
+        });
+    };
+
+    tabs.forEach((tab, i) => {
+        tab.addEventListener('click', () => select(tab));
+        tab.addEventListener('keydown', (e) => {
+            const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+            if (!dir) return;
+            e.preventDefault();
+            const next = tabs[(i + dir + tabs.length) % tabs.length];
+            next.focus();
+            select(next);
+        });
+    });
+
+    // Establish the initial state so the inactive pane is properly hidden.
+    select(tabs.find(t => t.getAttribute('aria-selected') === 'true') || tabs[0]);
+}
+
+// ==============================
 // Init
 // ==============================
 async function initPortfolio() {
@@ -329,6 +371,7 @@ async function initPortfolio() {
     initBackToTop();
     initScrollspy();
     updateFooterYear();
+    initShowcaseTabs();
 
     // Load and render projects
     const projects = await loadProjects();

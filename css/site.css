@@ -1,0 +1,1104 @@
+/* ==============================================================================
+   akmalariq.dev — shared design language
+   ------------------------------------------------------------------------------
+   The blog (/blog) is the reference. This file brings the portfolio and the
+   case-study pages onto the same system: same tokens, same shell, same
+   component treatment, same restraint.
+
+   Loaded AFTER css/style.css so these rules win. The blog keeps its own copy of
+   the tokens at blog-src/src/styles/tokens.css — keep the two in sync.
+
+   House rules:
+   - 1px borders instead of shadows. Panels are flat.
+   - One accent (bronze). Everything else is a tinted neutral.
+   - Mono type is for labels only, never for prose.
+   - Motion is short, eased out, and only on state change.
+   ============================================================================== */
+
+/* ---------------------------------------------------------------- tokens --- */
+
+:root {
+  --font-display: 'EB Garamond', Georgia, serif;
+  --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --container-max: 1300px;
+  --measure: 68ch;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Emil's curves: strong ease-out for UI, smooth for reveals */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --dur-press: 160ms;
+  --dur-hover: 200ms;
+  --dur-panel: 250ms;
+  --dur-reveal: 600ms;
+
+  /* Kept for compatibility with existing rules */
+  --transition: var(--dur-hover) var(--ease-out);
+  --transition-slow: var(--dur-reveal) var(--ease-smooth);
+
+  --spacing-xs: clamp(0.5rem, 1vw, 0.75rem);
+  --spacing-sm: clamp(0.75rem, 1.5vw, 1.25rem);
+  --spacing-md: clamp(1.5rem, 3vw, 2.5rem);
+  --spacing-lg: clamp(3rem, 6vw, 5rem);
+  --spacing-xl: clamp(4.5rem, 9vw, 8rem);
+}
+
+/* Default dark palette */
+:root,
+html.dark {
+  --bg-primary: oklch(0.13 0.008 75);
+  --bg-secondary: oklch(0.16 0.01 75);
+  --bg-elevated: oklch(0.19 0.012 75);
+  --text-primary: oklch(0.94 0.006 75);
+  --text-secondary: oklch(0.65 0.008 75);
+  --text-muted: oklch(0.58 0.008 75);
+  --border: oklch(0.24 0.01 75);
+  --border-strong: oklch(0.32 0.012 75);
+  --accent: oklch(0.79 0.12 80);
+  --accent-dim: oklch(0.26 0.04 80);
+  --accent-text: var(--accent);
+  --bg-header: rgba(13, 13, 12, 0.85);
+  --code-bg: oklch(0.17 0.01 75);
+  --status-online: oklch(0.78 0.13 155);
+  --status-offline: oklch(0.72 0.15 25);
+  --btn-primary-hover-text: var(--bg-primary);
+  --btn-demo-hover-text: var(--bg-primary);
+  --user-chat-text: var(--bg-primary);
+}
+
+/* Light palette */
+html.light {
+  --bg-primary: oklch(0.97 0.006 80);
+  --bg-secondary: oklch(0.94 0.008 80);
+  --bg-elevated: oklch(0.99 0.004 80);
+  --text-primary: oklch(0.16 0.01 75);
+  --text-secondary: oklch(0.45 0.008 75);
+  --text-muted: oklch(0.54 0.008 80);
+  --border: oklch(0.88 0.006 80);
+  --border-strong: oklch(0.8 0.008 80);
+  --accent: oklch(0.55 0.12 75);
+  --accent-dim: oklch(0.92 0.04 75);
+  --accent-text: oklch(0.45 0.12 75);
+  --bg-header: rgba(247, 245, 242, 0.85);
+  --code-bg: oklch(0.93 0.008 80);
+  --status-online: oklch(0.55 0.13 155);
+  --status-offline: oklch(0.55 0.16 25);
+}
+
+/* ------------------------------------------------------------------ base --- */
+
+body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent-dim);
+  color: var(--text-primary);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+}
+
+/* ----------------------------------------------------------------- shell --- */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-header);
+  backdrop-filter: saturate(160%) blur(10px);
+  box-shadow: none;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.9rem;
+}
+
+.header-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  text-decoration: none;
+}
+
+.header-logo .name {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.header-logo .title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.nav {
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.nav-link {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--dur-hover) var(--ease-out);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text-primary);
+}
+
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out);
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.mobile-menu-btn {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+}
+
+.mobile-menu {
+  border-top: 1px solid var(--border);
+  background: var(--bg-primary);
+}
+
+.mobile-nav-link {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  transition: color var(--dur-hover) var(--ease-out);
+}
+
+.mobile-nav-link:hover {
+  color: var(--text-primary);
+}
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding-block: clamp(2rem, 5vw, 3rem);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  background: transparent;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.footer-links a {
+  color: var(--text-secondary);
+  transition: color var(--dur-hover) var(--ease-out);
+}
+
+.footer-links a:hover {
+  color: var(--accent-text);
+}
+
+/* ------------------------------------------------------------ typography --- */
+
+.section-title,
+.hero-title,
+.project-title,
+.solution-title,
+.skill-category-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.section-title {
+  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  text-align: left;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0;
+}
+
+.section-description {
+  color: var(--text-secondary);
+  max-width: var(--measure);
+  font-size: 1.02rem;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+/* Section header blocks read like the blog's page head: a rule underneath. */
+.solutions-header,
+.projects > .container > .section-title,
+.about > .container > .section-title {
+  border: 0;
+}
+
+.section-subtitle {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+/* --------------------------------------------------------------- buttons --- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg-primary);
+}
+
+.btn-primary:hover {
+  background: color-mix(in oklab, var(--accent) 88%, white);
+  border-color: color-mix(in oklab, var(--accent) 88%, white);
+  color: var(--bg-primary);
+}
+
+.btn-secondary,
+.btn-github,
+.btn-demo,
+.btn-case-study {
+  background: transparent;
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover,
+.btn-github:hover,
+.btn-demo:hover,
+.btn-case-study:hover {
+  border-color: var(--accent);
+  color: var(--accent-text);
+  background: transparent;
+}
+
+.btn-icon {
+  flex: none;
+}
+
+/* ----------------------------------------------------------------- cards --- */
+
+.project-card,
+.solution-card,
+.skill-category,
+.pipeline-card,
+.stat,
+.chatbot-window {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: none;
+}
+
+.project-card,
+.solution-card {
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    transform var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover,
+  .solution-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+  }
+}
+
+/* The featured card is emphasised by a stronger border, not a glow. */
+.project-card.featured {
+  border-color: var(--border-strong);
+  box-shadow: none;
+}
+
+.project-title {
+  font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.project-description,
+.solution-text,
+.about-content p,
+.contact-text {
+  color: var(--text-secondary);
+  line-height: 1.72;
+}
+
+.project-description {
+  max-width: var(--measure);
+}
+
+.project-stats,
+.telemetry-log {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+}
+
+.stat-label {
+  color: var(--text-muted);
+}
+
+.stat-value {
+  color: var(--text-primary);
+}
+
+.project-highlights {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+
+.project-highlights strong {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.github-stats {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.github-stat {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  background: var(--bg-primary);
+}
+
+.tag,
+.chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+}
+
+.tag:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+/* Project pipeline diagrams already follow the system; tighten the chrome. */
+.project-flow {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.7rem 0.75rem;
+}
+
+.flow-step {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+}
+
+.flow-arrow {
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------------------ hero --- */
+
+.hero {
+  padding-block: clamp(3rem, 8vw, 6rem) clamp(2.5rem, 6vw, 4.5rem);
+  background: transparent;
+}
+
+.hero-title {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--accent-text);
+}
+
+.hero-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+
+.hero-description {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  max-width: 46ch;
+  margin-top: 1.25rem;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.badge-dot,
+.pipeline-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--status-online);
+  animation: none;
+}
+
+/* ------------------------------------------------------- pipeline panel --- */
+
+.pipeline-card {
+  padding: 1.5rem;
+}
+
+.pipeline-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.9rem;
+  margin-bottom: 1.1rem;
+}
+
+.pipeline-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.pipeline-status {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  background: var(--bg-primary);
+}
+
+.pipeline-node {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.node-icon {
+  color: var(--accent);
+}
+
+.node-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.node-value {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.pipeline-connector {
+  background: var(--border);
+}
+
+.connector-pulse {
+  background: var(--accent);
+  animation: none;
+  opacity: 0.5;
+}
+
+.pipeline-footer {
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pipeline-footer-label {
+  color: var(--text-muted);
+}
+
+.pipeline-footer-value {
+  color: var(--accent-text);
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------------- skills --- */
+
+.skill-name {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.skill-bar {
+  background: var(--border);
+  border-radius: 999px;
+  height: 6px;
+  overflow: hidden;
+}
+
+.skill-bar-fill {
+  background: var(--accent);
+  border-radius: 999px;
+}
+
+/* --------------------------------------------------------------- chatbot --- */
+
+.chatbot-window {
+  border-radius: var(--radius-lg);
+}
+
+.chatbot-header {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+
+.chatbot-header-profile,
+.bot-title {
+  font-family: var(--font-display);
+  color: var(--text-primary);
+}
+
+.chatbot-messages {
+  background: var(--bg-primary);
+}
+
+.chat-bubble {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.chat-bubble.user {
+  background: var(--accent-dim);
+  border-color: transparent;
+  color: var(--text-primary);
+}
+
+.chatbot-input,
+.chatbot-input-container {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.chatbot-input::placeholder {
+  color: var(--text-muted);
+}
+
+.chatbot-chips .chip {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.chatbot-send-btn {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-radius: 999px;
+}
+
+.chatbot-bubble {
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+.back-to-top {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  box-shadow: none;
+}
+
+.back-to-top:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------- contact --- */
+
+.contact-icon {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  color: var(--accent-text);
+}
+
+.contact-link {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  transition: border-color var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out);
+}
+
+.contact-link:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+/* ------------------------------------------------------------------ misc --- */
+
+.solution-icon {
+  color: var(--accent-text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+}
+
+.section-description a,
+.about-content a {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--accent) 40%, transparent);
+  text-underline-offset: 3px;
+}
+
+/* --------------------------------------------- showcase (before / after) --- */
+/* This block previously had no CSS at all. Styled here in the shared language:
+   flat panels, 1px rules, mono labels, status colours from the token set. */
+
+.showcase-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  margin-top: var(--spacing-md);
+}
+
+.showcase-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.showcase-subtitle {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.showcase-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 0.4rem;
+  color: var(--text-primary);
+}
+
+.showcase-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1.1rem;
+}
+
+.tab-btn {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+.tab-btn:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.tab-btn:active {
+  transform: scale(0.97);
+}
+
+.tab-btn.active {
+  background: var(--accent-dim);
+  border-color: transparent;
+  color: var(--accent-text);
+}
+
+/* Tabs only make sense with JS. Without it both panes stack, nothing hides. */
+.js .tab-pane {
+  display: none;
+}
+
+.js .tab-pane.active {
+  display: block;
+}
+
+.excel-view,
+.cloud-view {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.excel-title,
+.cloud-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.excel-title {
+  color: var(--text-muted);
+}
+
+.excel-table-wrapper {
+  overflow-x: auto;
+}
+
+.excel-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.excel-table th {
+  text-align: left;
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.excel-table td {
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.excel-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.excel-row-error td {
+  background: color-mix(in oklab, var(--status-offline) 7%, transparent);
+}
+
+.excel-row-corrupt td {
+  background: color-mix(in oklab, var(--status-offline) 13%, transparent);
+  color: var(--text-muted);
+}
+
+.status-warning {
+  color: var(--accent-text);
+}
+
+.status-success {
+  color: var(--status-online);
+}
+
+.status-danger {
+  color: var(--status-offline);
+}
+
+.excel-footer-alert {
+  padding: 0.7rem 0.85rem;
+  border-top: 1px solid var(--border);
+  background: color-mix(in oklab, oklch(0.72 0.15 60) 8%, transparent);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.excel-footer-alert strong {
+  color: var(--text-primary);
+}
+
+.cloud-logo {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.cloud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.cloud-dot-active {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--status-online);
+}
+
+.cloud-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1px;
+  background: var(--border);
+}
+
+.cloud-metric-card {
+  background: var(--bg-secondary);
+  padding: 1rem;
+}
+
+.cloud-metric-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cloud-metric-value {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.cloud-metric-sub {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.cloud-log-terminal {
+  padding: 0.85rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.text-green {
+  color: var(--status-online);
+}
+
+.text-red {
+  color: var(--status-offline);
+}
+
+/* ------------------------------------------------------------ responsive --- */
+
+/* The long mono role label needs room; below tablet it just crowds the bar. */
+@media (max-width: 992px) {
+  .header-logo .title {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-logo .name {
+    font-size: 0.95rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.75rem, 6vw, 2.25rem);
+  }
+
+  .showcase-card {
+    padding: 1rem;
+  }
+
+  .cloud-metric-value {
+    font-size: 1.25rem;
+  }
+
+  .pipeline-card {
+    padding: 1.15rem;
+  }
+}
+
+/* ---------------------------------------------------------------- motion --- */
+
+/* Reveals keep the blog's cadence but never gate visibility (html.js scoped). */
+.js .reveal,
+.js .reveal-grid .project-card {
+  transition:
+    opacity var(--dur-reveal) var(--ease-smooth),
+    transform var(--dur-reveal) var(--ease-smooth);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .project-card,
+  .solution-card,
+  .nav-link,
+  .contact-link,
+  .theme-toggle-btn {
+    transition-duration: 0.01ms !important;
+  }
+
+  .js .reveal,
+  .js .reveal-grid .project-card {
+    opacity: 1;
+    transform: none;
+  }
+}
