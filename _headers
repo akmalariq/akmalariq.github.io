@@ -1,0 +1,23 @@
+# Security + caching headers for akmalariq.dev (Cloudflare Pages)
+# Note: script-src keeps 'unsafe-inline' because the theme bootstrapper must run
+# before paint and JSON-LD blocks are inline. The remaining directives still do
+# the real work: no framing, no object embedding, no base-uri hijack.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Strict-Transport-Security: max-age=31536000
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.github.com https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+
+# Content-hashed build assets can be cached forever
+/blog/_assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Post images change rarely but are not hashed
+/blog/images/*
+  Cache-Control: public, max-age=604800
+
+/blog/rss.xml
+  Cache-Control: public, max-age=3600

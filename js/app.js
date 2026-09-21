@@ -283,11 +283,11 @@ function initThemeToggle() {
         if (isCurrentlyLight) {
             root.classList.remove('light');
             root.classList.add('dark');
-            localStorage.setItem('akmal-portfolio-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
         } else {
             root.classList.remove('dark');
             root.classList.add('light');
-            localStorage.setItem('akmal-portfolio-theme', 'light');
+            localStorage.setItem('theme', 'light');
         }
     };
 

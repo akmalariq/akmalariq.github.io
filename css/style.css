@@ -881,15 +881,22 @@ section {
     overflow: hidden;
 }
 
+/* Fill width is correct without JS; with JS the fill animates in via a
+   transform, so no layout property is animated. */
 .skill-bar-fill {
     height: 100%;
     background: var(--accent);
-    width: 0;
-    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    width: var(--skill-width);
+    transform-origin: left center;
 }
 
-.skills-animated .skill-bar-fill {
-    width: var(--skill-width);
+.js .skill-bar-fill {
+    transform: scaleX(0);
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.js .skills-animated .skill-bar-fill {
+    transform: scaleX(1);
 }
 
 /* ==============================================================================
@@ -1044,24 +1051,26 @@ section {
 }
 
 /* Scroll reveal states */
-.reveal {
+/* Content is visible by default. Only pages where JS is confirmed running
+   (html.js) start it hidden, so a JS failure can never blank a section. */
+.js .reveal {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.8s var(--transition-slow), transform 0.8s var(--transition-slow);
 }
 
-.reveal.visible {
+.js .reveal.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-.reveal-grid .project-card {
+.js .reveal-grid .project-card {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.8s var(--transition-slow), transform 0.8s var(--transition-slow), border-color var(--transition), box-shadow var(--transition);
 }
 
-.reveal-grid.visible .project-card {
+.js .reveal-grid.visible .project-card {
     opacity: 1;
     transform: translateY(0);
 }
@@ -1601,5 +1610,32 @@ html.dark .moon-icon { display: none; }
         bottom: 0;
         right: 0;
         top: 0;
+    }
+}
+
+/* ==============================================================================
+   ♿ Reduced motion
+   Every animation above has a still equivalent: reveals appear instantly,
+   skill bars are simply correct, the typing indicator stops bouncing, and
+   the chatbot panel opens without the layout push.
+   ============================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .js .reveal,
+    .js .reveal-grid .project-card {
+        opacity: 1;
+        transform: none;
+    }
+
+    .js .skill-bar-fill {
+        transform: none;
     }
 }

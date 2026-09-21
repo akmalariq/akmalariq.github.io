@@ -461,10 +461,9 @@ html.dark .astro-code span {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 0.85rem;
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  border: 1px solid color-mix(in oklab, var(--accent) 28%, var(--border));
   border-radius: var(--radius-md);
-  background: var(--bg-secondary);
+  background: color-mix(in oklab, var(--accent) 7%, var(--bg-secondary));
   padding: 1rem 1.15rem;
   margin-block: 1.75em;
   max-width: var(--measure);
@@ -472,6 +471,7 @@ html.dark .astro-code span {
 .callout__icon {
   font-size: 1.1rem;
   line-height: 1.4;
+  color: var(--accent);
 }
 .callout__body > * + * {
   margin-top: 0.5em;
@@ -482,10 +482,18 @@ html.dark .astro-code span {
   margin-bottom: 0.15rem;
 }
 .callout--warn {
-  border-left-color: oklch(0.7 0.15 60);
+  border-color: color-mix(in oklab, oklch(0.72 0.15 60) 32%, var(--border));
+  background: color-mix(in oklab, oklch(0.72 0.15 60) 8%, var(--bg-secondary));
+}
+.callout--warn .callout__icon {
+  color: oklch(0.72 0.15 60);
 }
 .callout--win {
-  border-left-color: oklch(0.72 0.14 150);
+  border-color: color-mix(in oklab, oklch(0.72 0.14 150) 32%, var(--border));
+  background: color-mix(in oklab, oklch(0.72 0.14 150) 8%, var(--bg-secondary));
+}
+.callout--win .callout__icon {
+  color: oklch(0.72 0.14 150);
 }
 
 /* ---------------------------------------------------------------- figure --- */
@@ -643,5 +651,19 @@ html.dark .astro-code span {
   body {
     background: #fff;
     color: #000;
+  }
+}
+
+/* ==============================================================================
+   ♿ Reduced motion
+   ============================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

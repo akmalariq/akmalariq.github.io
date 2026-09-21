@@ -4,25 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Instant Timezone-Based Theme Switcher -->
+    <!-- Instant theme + JS flag. Runs before paint.
+         Theme key and default match the blog (shared 'theme' key, OS preference
+         as the default) so the choice carries across akmalariq.dev/blog. -->
     <script>
         (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
             try {
-                const savedTheme = localStorage.getItem('akmal-portfolio-theme');
-                const root = document.documentElement;
-                if (savedTheme === 'light') {
-                    root.classList.add('light');
-                } else if (savedTheme === 'dark') {
-                    root.classList.add('dark');
-                } else {
-                    const hour = new Date().getHours();
-                    if (hour >= 6 && hour < 18) {
-                        root.classList.add('light');
-                    } else {
-                        root.classList.add('dark');
-                    }
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
                 }
-            } catch (e) {}
+                root.classList.add(saved === 'light' ? 'light' : 'dark');
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.classList.add('dark');
+            }
         })();
     </script>
 
@@ -50,7 +48,7 @@
     <meta property="og:url" content="https://akmalariq.dev/">
     <meta property="og:title" content="Akmal Ariq | Data &amp; Analytics Engineer">
     <meta property="og:description" content="Senior Analytics Engineer in Jakarta. Production data pipelines, lakehouses, and automated business dashboards. ClickHouse · dbt · Dagster · Databricks.">
-    <meta property="og:image" content="https://akmalariq.dev/images/og-image.svg">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
     <meta property="og:site_name" content="Akmal Ariq Portfolio">
 
     <!-- Twitter Card -->
@@ -58,7 +56,7 @@
     <meta name="twitter:url" content="https://akmalariq.dev/">
     <meta name="twitter:title" content="Akmal Ariq | Data &amp; Analytics Engineer">
     <meta name="twitter:description" content="Senior Analytics Engineer in Jakarta. Production data pipelines, lakehouses, and automated business dashboards.">
-    <meta name="twitter:image" content="https://akmalariq.dev/images/og-image.svg">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
     <meta name="twitter:creator" content="@akmalariq">
 
     <!-- Stylesheets -->
