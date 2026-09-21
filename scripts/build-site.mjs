@@ -25,7 +25,6 @@ const ENTRIES = [
   "css",
   "js",
   "data",
-  "images",
 ];
 
 // Root-level single files that should ship as-is (e.g. search-console

@@ -164,4 +164,4 @@ Feel free to use this portfolio as a template for your own!
 
 ## Credits
 
-Designed and developed by Akmal Ariq for Data & AI Engineering portfolio.
+Designed and developed by Akmal Ariq for a Data Analytics & AI Engineering portfolio.

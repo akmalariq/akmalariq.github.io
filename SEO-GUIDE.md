@@ -35,7 +35,7 @@ Your portfolio is now well-optimized for search engines and scrapers. Here's the
 ### **Excellent for Scrapers:**
 
 **LinkedIn Profile Scanner:**
-- ✅ Clear job titles ("Data & AI Engineer")
+- ✅ Clear job titles ("Data Analytics & AI Engineer")
 - ✅ Company name ("Bank SMBC Indonesia")
 - ✅ Location ("Jakarta, Indonesia")
 - ✅ Skills clearly listed
@@ -112,7 +112,7 @@ Your portfolio is now well-optimized for search engines and scrapers. Here's the
 
 1. **Add Social Images:**
    ```
-   Create: images/og-image.png (1200x630px)
+   Create: og.png at the repo root (1200x630px) — already present
    Create: images/twitter-card.png (1200x630px)
    ```
 
