@@ -1,9 +1,37 @@
 {
   "projects": [
     {
+      "id": "jakarta-geomarketing",
+      "title": "Jakarta Retail Site Selection",
+      "featured": true,
+      "caseStudy": "/projects/jakarta-geomarketing/",
+      "description": "Location intelligence platform scoring every H3 hexagon in DKI Jakarta for retail and F&B opportunity, built from 289,000 Overture Maps POIs with BigQuery and dbt. Interactive map included.",
+      "longDescription": "A site-selection platform for retail and F&B expansion across DKI Jakarta. It ingests 289,015 OpenStreetMap-derived points of interest from Overture Maps, assigns each to an H3 resolution 8 hexagon, and classifies them as F&B competitors or demand generators (offices, education, retail anchors, lodging, lifestyle, health, leisure). dbt on BigQuery then scores every hexagon on demand density, category diversity, and competition, with the weights exposed as dbt variables and enforced by data tests. The result is an interactive MapLibre map with 1,564 scored cells, KPI summary, drill-down detail per cell, and a documented methodology with honest caveats.",
+      "category": "data-engineering",
+      "github": "https://github.com/akmalariq/jakarta-geomarketing",
+      "demo": "/projects/jakarta-geomarketing/",
+      "image": null,
+      "tags": ["Overture Maps", "H3", "BigQuery", "dbt", "Google Cloud", "MapLibre", "Geospatial"],
+      "stats": {
+        "dataset scale": "289,015 POIs across DKI Jakarta",
+        "spatial indexing": "H3 resolution 8 (1,564 candidate cells)",
+        "data warehousing": "BigQuery (raw, staging, intermediate, marts)",
+        "data modeling": "dbt (20 passing data tests, weights as variables)",
+        "scoring": "Demand, diversity, and competition components",
+        "cost": "Always-free GCP tier plus one small Dataflow batch job"
+      },
+      "highlights": [
+        "Ingested and flattened 289,015 Overture Maps places for the DKI Jakarta bounding box, from GeoParquet through Cloud Storage into BigQuery.",
+        "Assigned every place to an H3 resolution 8 hexagon with the reference h3 library, the same grid Overture uses, then kept all business logic in dbt on BigQuery.",
+        "Classified 1,062 distinct POI categories into competitor and demand-generator roles using lists derived from the actual data distribution, not assumptions.",
+        "Scored 1,564 hexagons on demand density, category diversity, and competition, with the weights exposed as dbt variables and data tests enforcing a 0 to 100 range.",
+        "Built an interactive MapLibre dashboard with metric switching, score filtering, tier selection, per-cell drill-down, and lazy-loaded category detail."
+      ]
+    },
+    {
       "id": "earthquake-analytics-pipeline",
       "title": "Earthquake Analytics Pipeline",
-      "featured": true,
+      "featured": false,
       "caseStudy": "/projects/earthquake/",
       "description": "End-to-end Google Cloud data platform over approximately 500,000 earthquake events. Terraform-provisioned infrastructure, Kestra orchestration, and a BigQuery warehouse partitioned by month and clustered for query cost-efficiency.",
       "longDescription": "An end-to-end data platform built to ingest, process, and analyze approximately 500,000 earthquake events from the USGS catalog (2015 to 2025). Infrastructure is fully provisioned with Terraform, ingestion runs as a monthly Kestra batch into Cloud Storage, and dbt models the data in three layers: staging, intermediate, and marts. The BigQuery fact table is partitioned by month and clustered by magnitude category and region, which keeps dashboard queries fast and cheap. The result is an interactive Looker Studio report that is embedded directly in the case study.",
