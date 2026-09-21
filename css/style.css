@@ -329,6 +329,28 @@ body {
     margin-bottom: 20px;
 }
 
+.pipeline-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.pipeline-footer-label {
+    color: var(--text-secondary);
+}
+
+.pipeline-footer-value {
+    color: var(--accent);
+    font-weight: 600;
+}
+
 .pipeline-title {
     font-family: var(--font-mono);
     font-size: 0.75rem;
@@ -736,6 +758,37 @@ section {
 }
 
 /* Project Specs/Stats Table */
+/* Project pipeline diagram (rendered from the `flow` array in projects.json) */
+.project-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 1rem 0 1.25rem;
+    padding: 0.7rem 0.75rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.01em;
+}
+
+.flow-step {
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    white-space: nowrap;
+}
+
+.flow-arrow {
+    color: var(--accent);
+    font-size: 0.85rem;
+    line-height: 1;
+}
+
 .project-stats {
     display: grid;
     gap: 6px;

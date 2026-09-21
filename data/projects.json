@@ -11,7 +11,15 @@
       "github": "https://github.com/akmalariq/jakarta-geomarketing",
       "demo": "/projects/jakarta-geomarketing/",
       "image": null,
-      "tags": ["Overture Maps", "H3", "BigQuery", "dbt", "Google Cloud", "MapLibre", "Geospatial"],
+      "tags": [
+        "Overture Maps",
+        "H3",
+        "BigQuery",
+        "dbt",
+        "Google Cloud",
+        "MapLibre",
+        "Geospatial"
+      ],
       "stats": {
         "dataset scale": "289,015 POIs across DKI Jakarta",
         "spatial indexing": "H3 resolution 8 (1,564 candidate cells)",
@@ -26,6 +34,53 @@
         "Classified 1,062 distinct POI categories into competitor and demand-generator roles using lists derived from the actual data distribution, not assumptions.",
         "Scored 1,564 hexagons on demand density, category diversity, and competition, with the weights exposed as dbt variables and data tests enforcing a 0 to 100 range.",
         "Built an interactive MapLibre dashboard with metric switching, score filtering, tier selection, per-cell drill-down, and lazy-loaded category detail."
+      ],
+      "flow": [
+        "Overture Maps",
+        "BigQuery",
+        "H3 cells",
+        "dbt scoring",
+        "MapLibre"
+      ]
+    },
+    {
+      "id": "streaming-cdc-pipeline",
+      "title": "Streaming CDC Pipeline with Debezium and Kafka",
+      "featured": false,
+      "caseStudy": null,
+      "description": "Change data capture end to end: Postgres logical decoding via Debezium into Kafka, then a Python consumer writing an idempotent ClickHouse sink. At-least-once delivery made effectively-once, with dead-letter routing, consumer-lag metrics, and Dagster orchestration.",
+      "longDescription": "A production-shaped CDC pipeline built to exercise the parts of streaming that actually break: offset handling, duplicate delivery, deletes, poison messages, and schema-shaped payloads. Postgres runs with wal_level=logical; a Debezium connector decodes the write-ahead log into JSON envelopes on Kafka topics. A Python consumer decodes the envelope, transforms it into the sink row shape, batches by size or interval, writes to ClickHouse, and only then commits offsets, so a crash replays at most one batch. Replays are harmless because every row carries the source change timestamp as _version and ClickHouse ReplacingMergeTree(_version, is_deleted) keeps the highest version per key. Deletes become soft flags, so an older replay cannot resurrect a row. Poison messages are routed to a dead-letter topic with x-error and x-origin-topic headers instead of stalling the pipeline. Comes with 27 offline tests (no broker required), CI, and an eight-lab study guide that breaks the pipeline on purpose.",
+      "category": "data-engineering",
+      "github": "https://github.com/akmalariq/streaming-cdc-pipeline-with-debezium-and-kafka",
+      "demo": null,
+      "image": null,
+      "flow": [
+        "Postgres WAL",
+        "Debezium",
+        "Kafka",
+        "Python consumer",
+        "ClickHouse"
+      ],
+      "tags": [
+        "Debezium",
+        "Apache Kafka",
+        "ClickHouse",
+        "PostgreSQL",
+        "CDC",
+        "Python",
+        "Docker",
+        "Dagster"
+      ],
+      "stats": {
+        "delivery guarantee": "at-least-once + idempotent merge",
+        "tests": "27 offline tests, no broker required",
+        "labs": "8 break-it-and-fix-it labs"
+      },
+      "highlights": [
+        "Write-then-commit ordering asserted by a test, so a crash replays instead of losing data.",
+        "Source-timestamp versioning plus ReplacingMergeTree makes replays and deletes converge to one truth.",
+        "Poison messages go to a dead-letter topic with error context instead of stalling the consumer.",
+        "Documented honestly as effectively-once, not exactly-once."
       ]
     },
     {
@@ -39,7 +94,14 @@
       "github": "https://github.com/akmalariq/earthquake-analytics",
       "demo": "https://lookerstudio.google.com/reporting/8312b457-452d-4256-a34a-da6c348271c6",
       "image": null,
-      "tags": ["Terraform", "Kestra", "Google Cloud Storage", "BigQuery", "dbt", "Looker Studio"],
+      "tags": [
+        "Terraform",
+        "Kestra",
+        "Google Cloud Storage",
+        "BigQuery",
+        "dbt",
+        "Looker Studio"
+      ],
       "stats": {
         "dataset scale": "~500,000 earthquake events (2015-2025)",
         "infrastructure": "Terraform (100% automated IaC)",
@@ -54,6 +116,13 @@
         "Engineered a layered BigQuery warehouse, partitioning tables by month and clustering by magnitude category and region to optimize scan volumes and reduce querying costs.",
         "Modeled robust SQL transformations with dbt across staging, intermediate, and marts layers.",
         "Created an interactive Looker Studio report, embedded on this site, with sub-second report response times."
+      ],
+      "flow": [
+        "GCS",
+        "Kestra",
+        "BigQuery",
+        "dbt",
+        "Looker Studio"
       ]
     },
     {
@@ -65,7 +134,16 @@
       "github": null,
       "demo": null,
       "image": null,
-      "tags": ["Apache Airflow", "dbt", "BigQuery", "Google Cloud Storage", "Python", "Docker", "Looker Studio", "Terraform"],
+      "tags": [
+        "Apache Airflow",
+        "dbt",
+        "BigQuery",
+        "Google Cloud Storage",
+        "Python",
+        "Docker",
+        "Looker Studio",
+        "Terraform"
+      ],
       "stats": {
         "throughput": "150K+ transaction items · 10K customers",
         "orchestration": "Apache Airflow 2.9 (Docker, LocalExecutor)",
@@ -79,6 +157,13 @@
         "Implemented 20+ automated data quality constraints (primary key uniqueness, category domain checks) to enforce data integrity.",
         "Engineered a medallion architecture in BigQuery to isolate raw streams (Bronze) from analytics-ready business models (Gold).",
         "Constructed high-density Looker Studio dashboards visualizing customer cohort retention, revenue trends, and catalog product rankings."
+      ],
+      "flow": [
+        "GCS",
+        "Airflow",
+        "BigQuery",
+        "dbt",
+        "Looker Studio"
       ]
     },
     {
@@ -90,7 +175,15 @@
       "github": null,
       "demo": null,
       "image": null,
-      "tags": ["Python", "FastAPI", "Qdrant", "LangChain", "SentenceTransformers", "Docker", "Pytest"],
+      "tags": [
+        "Python",
+        "FastAPI",
+        "Qdrant",
+        "LangChain",
+        "SentenceTransformers",
+        "Docker",
+        "Pytest"
+      ],
       "stats": {
         "embedding model": "sentence-transformers/all-MiniLM-L6-v2",
         "vector size": "384 dimensions",
@@ -105,6 +198,13 @@
         "Built strict query length validation and secure protocol scheme Allow-lists to mitigate SSRF and buffer-overflow security risks.",
         "Designed custom prompt engineering context builders to feed local Ollama LLMs with relevant source metadata.",
         "Developed a containerized stack utilizing Docker Compose and automated testing suites via FastAPI TestClient."
+      ],
+      "flow": [
+        "Documents",
+        "Chunking",
+        "Embeddings",
+        "Qdrant",
+        "FastAPI"
       ]
     },
     {
@@ -116,7 +216,13 @@
       "github": "https://github.com/akmalariq/ecommerce-data-analysis",
       "demo": null,
       "image": null,
-      "tags": ["SQL", "Power BI", "RFM Analysis", "Data Cleaning", "Data Visualization"],
+      "tags": [
+        "SQL",
+        "Power BI",
+        "RFM Analysis",
+        "Data Cleaning",
+        "Data Visualization"
+      ],
       "stats": {
         "workflow": "Explore → Clean → Segment (RFM) → Visualize",
         "analysis": "SQL-based RFM customer segmentation",
@@ -128,6 +234,12 @@
         "Cleaned and standardized data: status/category normalization, invalid-amount handling, and derived time dimensions.",
         "Built an RFM segmentation model grouping customers into Champions, Loyal, At-Risk, and Lost segments.",
         "Delivered findings as a Power BI dashboard covering sales trends, category performance, and segment value."
+      ],
+      "flow": [
+        "Raw dataset",
+        "SQL cleaning",
+        "RFM segments",
+        "Power BI"
       ]
     },
     {
@@ -139,7 +251,13 @@
       "github": "https://github.com/akmalariq/duckdb-medallion-warehouse",
       "demo": null,
       "image": null,
-      "tags": ["DuckDB", "Python", "Medallion Architecture", "Data Modeling", "Star Schema"],
+      "tags": [
+        "DuckDB",
+        "Python",
+        "Medallion Architecture",
+        "Data Modeling",
+        "Star Schema"
+      ],
       "stats": {
         "architecture": "Bronze → Silver → Gold (Medallion)",
         "engine": "DuckDB (embedded, zero-server)",
@@ -151,6 +269,13 @@
         "Used DuckDB for an embedded, zero-infrastructure data warehouse experience.",
         "Modeled gold.fact_sales and gold.dim_customer following star-schema conventions.",
         "Ships with sample data and a monthly revenue query, runnable with a single command."
+      ],
+      "flow": [
+        "Raw files",
+        "Bronze",
+        "Silver",
+        "Gold",
+        "DuckDB"
       ]
     }
   ]

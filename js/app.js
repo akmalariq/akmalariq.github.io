@@ -55,6 +55,17 @@ function createProjectCard(project) {
         .map(tag => `<span class="tag">${escapeHtml(tag)}</span>`)
         .join('');
 
+    // Data-driven pipeline diagram: one strip per project, rendered from the
+    // `flow` array in projects.json. Text-based so it stays crisp, themeable,
+    // and readable by assistive tech.
+    const flowHtml = Array.isArray(project.flow) && project.flow.length
+        ? `<div class="project-flow" role="img" aria-label="Pipeline: ${escapeHtml(project.flow.join(' to '))}">
+            ${project.flow.map((step, i) =>
+                `${i ? '<span class="flow-arrow" aria-hidden="true">&rarr;</span>' : ''}<span class="flow-step">${escapeHtml(step)}</span>`
+            ).join('')}
+        </div>`
+        : '';
+
     const demoButton = project.demo
         ? `<a href="${escapeHtml(project.demo)}" target="_blank" rel="noopener noreferrer" class="btn btn-demo">Live Demo</a>`
         : '';
@@ -93,6 +104,8 @@ function createProjectCard(project) {
         <div class="project-content">
             <h3 class="project-title">${escapeHtml(project.title)}</h3>
             <p class="project-description">${escapeHtml(project.description)}</p>
+
+            ${flowHtml}
 
             ${githubStatsHtml}
 
