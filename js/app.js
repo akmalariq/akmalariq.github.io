@@ -48,7 +48,7 @@ async function loadProjects() {
 // ==============================
 function createProjectCard(project) {
     const card = document.createElement('article');
-    card.className = 'project-card';
+    card.className = project.featured ? 'project-card featured' : 'project-card';
     card.dataset.category = project.category;
 
     const tagsHtml = project.tags
@@ -111,6 +111,7 @@ function createProjectCard(project) {
                     View on GitHub
                 </a>` : ''}
                 ${demoButton}
+                ${project.caseStudy ? `<a href="${escapeHtml(project.caseStudy)}" class="btn btn-case-study">Read case study</a>` : ''}
             </div>
         </div>`;
 

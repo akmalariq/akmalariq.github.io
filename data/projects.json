@@ -3,27 +3,29 @@
     {
       "id": "earthquake-analytics-pipeline",
       "title": "Earthquake Analytics Pipeline",
-      "description": "Cloud-native data lakehouse analyzing 10+ years of global seismic activity. Implements Infrastructure as Code (Terraform), event-driven orchestration (Kestra), and partitioned/clustered warehouses optimized for query cost-efficiency.",
-      "longDescription": "An end-to-end data platform engineered to ingest, process, and analyze 500K+ seismic events from the USGS catalog. It features a fully reproducible cloud infrastructure provisioned via Terraform, resilient monthly batch orchestration using Kestra, and a medallion data model in BigQuery. Optimized query execution and storage costs by applying partitioning and clustering strategies on fact tables, exposing insights on Looker Studio.",
+      "featured": true,
+      "caseStudy": "/projects/earthquake/",
+      "description": "End-to-end Google Cloud data platform over approximately 500,000 earthquake events. Terraform-provisioned infrastructure, Kestra orchestration, and a BigQuery warehouse partitioned by month and clustered for query cost-efficiency.",
+      "longDescription": "An end-to-end data platform built to ingest, process, and analyze approximately 500,000 earthquake events from the USGS catalog (2015 to 2025). Infrastructure is fully provisioned with Terraform, ingestion runs as a monthly Kestra batch into Cloud Storage, and dbt models the data in three layers: staging, intermediate, and marts. The BigQuery fact table is partitioned by month and clustered by magnitude category and region, which keeps dashboard queries fast and cheap. The result is an interactive Looker Studio report that is embedded directly in the case study.",
       "category": "data-engineering",
       "github": "https://github.com/akmalariq/earthquake-analytics",
       "demo": "https://lookerstudio.google.com/reporting/8312b457-452d-4256-a34a-da6c348271c6",
       "image": null,
       "tags": ["Terraform", "Kestra", "Google Cloud Storage", "BigQuery", "dbt", "Looker Studio"],
       "stats": {
-        "dataset scale": "500K+ seismic records (2015-2025)",
+        "dataset scale": "~500,000 earthquake events (2015-2025)",
         "infrastructure": "Terraform (100% automated IaC)",
         "orchestration": "Kestra (scheduled monthly workflows)",
-        "data warehousing": "BigQuery (partitioned & clustered)",
+        "data warehousing": "BigQuery (partitioned by month, clustered)",
         "data modeling": "dbt (staging, intermediate, marts)",
         "FinOps optimization": "Minimized compute costs via partitioned fact tables"
       },
       "highlights": [
         "Developed a fully automated, version-controlled cloud infrastructure using Terraform for GCP setup.",
         "Designed a resilient, monthly ingestion pipeline utilizing Kestra workflows with built-in retries.",
-        "Engineered a BigQuery-centered medallion data warehouse, partitioning tables by month and clustering by magnitude/region to optimize scan volumes and reduce querying costs.",
-        "Modeled robust SQL transformations with dbt, encapsulating raw data into clean marts and aggregate tables.",
-        "Created interactive, high-performance dashboards in Looker Studio with sub-second report response times."
+        "Engineered a layered BigQuery warehouse, partitioning tables by month and clustering by magnitude category and region to optimize scan volumes and reduce querying costs.",
+        "Modeled robust SQL transformations with dbt across staging, intermediate, and marts layers.",
+        "Created an interactive Looker Studio report, embedded on this site, with sub-second report response times."
       ]
     },
     {

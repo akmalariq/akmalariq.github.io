@@ -514,6 +514,57 @@ body {
     transform: translateY(-1px);
 }
 
+/* Featured project card: spans the grid and carries an accent edge */
+.project-card.featured {
+    grid-column: 1 / -1;
+    border-color: var(--accent);
+    background:
+        linear-gradient(180deg, var(--accent-dim) 0%, transparent 45%),
+        var(--bg-secondary);
+}
+
+.project-card.featured::before {
+    content: "Featured";
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+}
+
+.project-card.featured .project-title {
+    font-size: 2.1rem;
+}
+
+.btn-case-study {
+    background: var(--accent);
+    color: var(--btn-primary-hover-text, var(--bg-primary));
+    border-color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.btn-case-study:hover {
+    background: var(--accent-dim);
+    color: var(--accent);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+    .project-card.featured::before {
+        position: static;
+        display: inline-block;
+        margin-bottom: 0.75rem;
+    }
+}
+
 /* ==============================================================================
    🏛️ Main Content & Section Layouts
    ============================================================================== */

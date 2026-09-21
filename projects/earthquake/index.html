@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant Timezone-Based Theme Switcher -->
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('akmal-portfolio-theme');
+                const root = document.documentElement;
+                if (savedTheme === 'light') {
+                    root.classList.add('light');
+                } else if (savedTheme === 'dark') {
+                    root.classList.add('dark');
+                } else {
+                    const hour = new Date().getHours();
+                    if (hour >= 6 && hour < 18) {
+                        root.classList.add('light');
+                    } else {
+                        root.classList.add('dark');
+                    }
+                }
+            } catch (e) {}
+        })();
+    </script>
+
+    <!-- Primary SEO Meta Tags -->
+    <title>Earthquake Analytics Pipeline: GCP Data Platform Case Study | Akmal Ariq</title>
+    <meta name="description" content="Case study: an end-to-end Google Cloud data platform over approximately 500,000 USGS earthquake events, built with Terraform, Kestra, Cloud Storage, BigQuery (partitioned and clustered), dbt, and a live Looker Studio dashboard.">
+    <meta name="keywords" content="Data Engineering, GCP, BigQuery, Cloud Storage, Terraform, Kestra, dbt, Looker Studio, Partitioning, Clustering, USGS, Geospatial, Case Study">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+
+    <link rel="canonical" href="https://akmalariq.dev/projects/earthquake/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://akmalariq.dev/projects/earthquake/">
+    <meta property="og:title" content="Earthquake Analytics Pipeline: GCP Data Platform Case Study">
+    <meta property="og:description" content="Terraform-provisioned GCP platform: Cloud Storage lake, partitioned and clustered BigQuery warehouse, dbt transformations, Kestra orchestration, and an interactive Looker Studio dashboard over approximately 500,000 earthquake events.">
+    <meta property="og:image" content="https://akmalariq.dev/images/og-image.svg">
+    <meta property="og:site_name" content="Akmal Ariq Portfolio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Earthquake Analytics Pipeline: GCP Case Study">
+    <meta name="twitter:description" content="End-to-end GCP data platform: Terraform, Cloud Storage, BigQuery (partitioned and clustered), dbt, Kestra, Looker Studio.">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareSourceCode",
+      "name": "Earthquake Analytics Pipeline",
+      "description": "End-to-end Google Cloud data platform over approximately 500,000 USGS earthquake events (2015 to 2025): Terraform infrastructure, Kestra orchestration, Cloud Storage data lake, partitioned and clustered BigQuery warehouse, dbt transformations, and a Looker Studio dashboard.",
+      "programmingLanguage": ["Python", "SQL"],
+      "codeRepository": "https://github.com/akmalariq/earthquake-analytics",
+      "author": { "@type": "Person", "name": "Akmal Ariq", "url": "https://akmalariq.dev" },
+      "datePublished": "2026"
+    }
+    </script>
+
+    <style>
+        .case-study {
+            padding: calc(var(--spacing-xl, 4rem) + 2rem) 0 var(--spacing-xl, 4rem);
+        }
+
+        .cs-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: var(--spacing-md, 2rem);
+        }
+
+        .cs-back:hover { color: var(--accent); }
+
+        .cs-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .cs-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm, 1rem);
+        }
+
+        .cs-lede {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            max-width: 62ch;
+            margin-bottom: var(--spacing-md, 2rem);
+        }
+
+        .cs-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: var(--spacing-xl, 4rem);
+        }
+
+        .cs-section { margin-bottom: var(--spacing-xl, 4rem); }
+
+        .cs-h2 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm, 1rem);
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cs-facts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .cs-fact {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md, 2rem);
+        }
+
+        .cs-fact dt {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .cs-fact dd {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .cs-embed-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            min-height: 420px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg-secondary);
+        }
+
+        .cs-embed-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .cs-embed-note {
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .cs-embed-note a { color: var(--accent); }
+
+        .cs-flow {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 2;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: var(--spacing-md, 2rem);
+            overflow-x: auto;
+        }
+
+        .cs-flow span { color: var(--accent); }
+
+        .cs-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .cs-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.85rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .cs-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.65em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .cs-list li strong { color: var(--text-primary); font-weight: 600; }
+
+        .cs-code {
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.1rem 0.35rem;
+        }
+
+        .cs-note {
+            border-left: 2px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: var(--spacing-md, 2rem);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .cs-note p:last-child { margin-bottom: 0; }
+
+        .cs-note p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+        }
+
+        .cs-note strong { color: var(--text-primary); font-weight: 600; }
+
+        @media (max-width: 640px) {
+            .cs-embed-wrap { min-height: 320px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#projects" class="nav-link">Projects</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#skills" class="nav-link">Skills</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <a href="/#contact" class="nav-link">Contact</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="case-study">
+        <div class="container">
+            <a href="/#projects" class="cs-back">&larr; All projects</a>
+
+            <p class="cs-eyebrow">Case study &middot; Data platform</p>
+            <h1 class="cs-title">Earthquake Analytics Pipeline</h1>
+            <p class="cs-lede">
+                An end-to-end Google Cloud data platform over approximately 500,000 earthquake events
+                from the USGS catalog (2015 to 2025). Infrastructure is provisioned with Terraform,
+                ingestion runs monthly through Kestra into Cloud Storage, transformations happen in dbt,
+                and the warehouse is a BigQuery table partitioned by month and clustered by magnitude
+                category and region. The result is exposed as an interactive Looker Studio dashboard.
+            </p>
+
+            <div class="cs-actions">
+                <a href="https://github.com/akmalariq/earthquake-analytics" target="_blank" rel="noopener noreferrer" class="btn btn-github">
+                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    View on GitHub
+                </a>
+                <a href="https://lookerstudio.google.com/reporting/8312b457-452d-4256-a34a-da6c348271c6" target="_blank" rel="noopener noreferrer" class="btn btn-demo">
+                    Open dashboard
+                </a>
+            </div>
+
+            <section class="cs-section" aria-labelledby="cs-glance">
+                <h2 class="cs-h2" id="cs-glance">At a glance</h2>
+                <dl class="cs-facts">
+                    <div class="cs-fact">
+                        <dt>Dataset</dt>
+                        <dd>Approximately 500,000 earthquake events, magnitude 1.0 and above, 2015 to 2025 (USGS Earthquake Catalog)</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Infrastructure</dt>
+                        <dd>Terraform: Cloud Storage bucket, BigQuery dataset, and a service account scoped to GCS and BigQuery</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Orchestration</dt>
+                        <dd>Kestra (Docker), monthly batch runs with a backfill entry point from January 2015</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Data lake</dt>
+                        <dd>Cloud Storage, raw Parquet written per month</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Warehouse</dt>
+                        <dd>BigQuery, partitioned by month and clustered by magnitude category and region</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Modeling</dt>
+                        <dd>dbt in three layers: staging, intermediate, and marts, including a fact table and a monthly aggregate</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Geospatial</dt>
+                        <dd>Latitude, longitude, and depth carried through to the mart for mapping and regional analysis</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Dashboard</dt>
+                        <dd>Looker Studio, embeddable and filterable by magnitude (see below)</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-dashboard">
+                <h2 class="cs-h2" id="cs-dashboard">Interactive dashboard</h2>
+                <div class="cs-embed-wrap">
+                    <iframe
+                        src="https://lookerstudio.google.com/embed/reporting/8312b457-452d-4256-a34a-da6c348271c6"
+                        title="Earthquake Analytics dashboard (Looker Studio)"
+                        loading="lazy"
+                        allowfullscreen
+                        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                </div>
+                <p class="cs-embed-note">
+                    Filter by magnitude category and hover the tiles to explore. If the embed does not load,
+                    <a href="https://lookerstudio.google.com/reporting/8312b457-452d-4256-a34a-da6c348271c6" target="_blank" rel="noopener noreferrer">open the report directly in Looker Studio</a>.
+                </p>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-architecture">
+                <h2 class="cs-h2" id="cs-architecture">Architecture</h2>
+                <div class="cs-flow">
+USGS API  <span>&rarr;</span>  Kestra (monthly batch)  <span>&rarr;</span>  Cloud Storage (Parquet lake)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>&rarr;</span>  BigQuery (external table, then partitioned and clustered table)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>&rarr;</span>  dbt (staging, intermediate, marts)  <span>&rarr;</span>  Looker Studio
+                </div>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-built">
+                <h2 class="cs-h2" id="cs-built">What I built</h2>
+                <ul class="cs-list">
+                    <li><strong>Reproducible infrastructure.</strong> Terraform provisions the storage bucket, the BigQuery dataset, and a least-privilege service account, so the whole platform can be torn down and rebuilt from code.</li>
+                    <li><strong>Monthly batch ingestion.</strong> A Python extractor pulls each month from the USGS API (magnitude 1.0 and above) and writes Parquet to Cloud Storage, with a backfill path that replays from January 2015 to the present.</li>
+                    <li><strong>Cost-aware warehouse design.</strong> An external table reads the raw Parquet, then a materialized table is defined with <span class="cs-code">PARTITION BY DATE_TRUNC(event_date, MONTH)</span> and <span class="cs-code">CLUSTER BY mag_category, region</span>, which limits bytes scanned for the dashboard's most common filters.</li>
+                    <li><strong>Layered transformations.</strong> dbt stages the raw events, enriches them with derived fields such as magnitude and depth categories, and produces a fact table plus a monthly aggregate.</li>
+                    <li><strong>Geospatial output.</strong> Coordinates and depth survive into the mart, so the same model supports mapping, regional ranking, and depth-versus-magnitude analysis.</li>
+                    <li><strong>Dashboard.</strong> A Looker Studio report showing earthquake frequency per month (filterable by magnitude category) and the top countries by count for magnitude 5.0 and above, coloured by average magnitude.</li>
+                </ul>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-decisions">
+                <h2 class="cs-h2" id="cs-decisions">Engineering decisions worth noting</h2>
+                <ul class="cs-list">
+                    <li><strong>Why partition by month and cluster by magnitude and region.</strong> The dashboard always filters by time and usually by magnitude band or country. Partitioning on the date column prunes whole months, and clustering on the two most filtered columns keeps scans small, which is the main cost lever in BigQuery.</li>
+                    <li><strong>Why Terraform instead of clicking through the console.</strong> A migration or rebuild should be a code change and a diff, not a set of undocumented console actions. This is also the habit I bring to client work.</li>
+                    <li><strong>Why an external table before a materialized table.</strong> It keeps the raw Parquet auditable in Cloud Storage while the materialized, partitioned table does the heavy lifting for queries.</li>
+                    <li><strong>Why monthly batches.</strong> The source updates continuously, but the analytical questions here are monthly trends. Batching monthly is the cheapest design that answers them.</li>
+                </ul>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-honest">
+                <h2 class="cs-h2" id="cs-honest">Honest notes</h2>
+                <div class="cs-note">
+                    <p><strong>This was my capstone project</strong> for the DataTalks.Club Data Engineering Zoomcamp 2026. The repository says so openly, and I built every layer of it end to end.</p>
+                    <p><strong>Orchestration here is Kestra, not Cloud Composer.</strong> I run Apache Airflow in production at work, and Composer is managed Airflow, but the Composer claim is transferability rather than hands-on use in this project.</p>
+                    <p><strong>The dbt layers are staging, intermediate, and marts.</strong> That is a layered warehouse, and I describe it that way rather than calling it a bronze, silver, and gold medallion build.</p>
+                    <p><strong>There are no automated dbt tests in this repository.</strong> My data-quality testing experience comes from production pipelines elsewhere, including reconciliation and freshness checks.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq. Built with modern web technologies.</p>
+                <div class="footer-links">
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LinkedIn</a>
+                    <a href="/sitemap.xml" aria-label="Sitemap">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const toggle = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            if (toggle) {
+                toggle.addEventListener('click', function () {
+                    root.classList.toggle('light');
+                    root.classList.toggle('dark');
+                    try {
+                        localStorage.setItem(
+                            'akmal-portfolio-theme',
+                            root.classList.contains('light') ? 'light' : 'dark'
+                        );
+                    } catch (e) {}
+                });
+            }
+            const year = document.getElementById('footer-year');
+            if (year) year.textContent = new Date().getFullYear();
+        })();
+    </script>
+</body>
+</html>
