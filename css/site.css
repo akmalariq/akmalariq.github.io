@@ -369,8 +369,7 @@ body {
 .solution-card,
 .skill-category,
 .pipeline-card,
-.stat,
-.chatbot-window {
+.stat {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -662,82 +661,6 @@ body {
 .skill-bar-fill {
   background: var(--accent);
   border-radius: 999px;
-}
-
-/* --------------------------------------------------------------- chatbot --- */
-
-.chatbot-window {
-  border-radius: var(--radius-lg);
-}
-
-.chatbot-header {
-  border-bottom: 1px solid var(--border);
-  background: var(--bg-secondary);
-}
-
-.chatbot-header-profile,
-.bot-title {
-  font-family: var(--font-display);
-  color: var(--text-primary);
-}
-
-.chatbot-messages {
-  background: var(--bg-primary);
-}
-
-.chat-bubble {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--bg-secondary);
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.chat-bubble.user {
-  background: var(--accent-dim);
-  border-color: transparent;
-  color: var(--text-primary);
-}
-
-.chatbot-input,
-.chatbot-input-container {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-}
-
-.chatbot-input::placeholder {
-  color: var(--text-muted);
-}
-
-.chatbot-chips .chip {
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
-}
-
-.chatbot-send-btn {
-  background: var(--accent);
-  color: var(--bg-primary);
-  border-radius: 999px;
-}
-
-.chatbot-bubble {
-  border: 1px solid var(--border);
-  box-shadow: none;
-}
-
-.back-to-top {
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
-  box-shadow: none;
-}
-
-.back-to-top:hover {
-  border-color: var(--border-strong);
-  color: var(--text-primary);
 }
 
 /* --------------------------------------------------------------- contact --- */
@@ -1073,6 +996,115 @@ body {
 
   .pipeline-card {
     padding: 1.15rem;
+  }
+}
+
+/* ------------------------------------------------------------- utilities --- */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  background: var(--accent);
+  color: var(--bg-primary);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+/* Header CTA: the contact action is the point of the site, so it is a button. */
+.nav-cta {
+  padding: 0.5rem 0.95rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+/* Hero proof strip: the numbers a client screens on. */
+.proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.proof strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Low-emphasis tertiary action next to the two buttons. */
+.hero-cv {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 4px;
+  transition: color var(--dur-hover) var(--ease-out), text-decoration-color var(--dur-hover) var(--ease-out);
+}
+
+.hero-cv:hover {
+  color: var(--text-primary);
+  text-decoration-color: var(--accent);
+}
+
+.hero-actions {
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Touch targets: WCAG 2.5.8 wants 44px. */
+.mobile-menu-btn {
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-btn {
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+}
+
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.header-logo {
+  min-height: 44px;
+  align-items: center;
+  padding-block: 0.6rem;
+}
+
+.theme-toggle-btn {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+@media (max-width: 992px) {
+  .nav-cta {
+    display: none;
   }
 }
 

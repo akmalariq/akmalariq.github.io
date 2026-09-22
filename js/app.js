@@ -67,7 +67,7 @@ function createProjectCard(project) {
         : '';
 
     const demoButton = project.demo
-        ? `<a href="${escapeHtml(project.demo)}" target="_blank" rel="noopener noreferrer" class="btn btn-demo">Live Demo</a>`
+        ? `<a href="${escapeHtml(project.demo)}" target="_blank" rel="noopener noreferrer" class="btn btn-demo">Open the live dashboard</a>`
         : '';
 
     let githubStatsHtml = '';
@@ -124,7 +124,7 @@ function createProjectCard(project) {
                     View on GitHub
                 </a>` : ''}
                 ${demoButton}
-                ${project.caseStudy ? `<a href="${escapeHtml(project.caseStudy)}" class="btn btn-case-study">Read case study</a>` : ''}
+                ${project.caseStudy ? `<a href="${escapeHtml(project.caseStudy)}" class="btn btn-case-study">Read the case study</a>` : ''}
             </div>
         </div>`;
 
@@ -158,9 +158,14 @@ function initScrollspy() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${entry.target.id}`) {
-                        link.classList.add('active');
+                    const on = link.getAttribute('href') === `#${entry.target.id}`;
+                    link.classList.toggle('active', on);
+                    // aria-current tells screen-reader users where they are,
+                    // which the .active class alone cannot do.
+                    if (on) {
+                        link.setAttribute('aria-current', 'true');
+                    } else {
+                        link.removeAttribute('aria-current');
                     }
                 });
             }
