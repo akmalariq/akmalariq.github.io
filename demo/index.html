@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint.
+         Theme key and default match the homepage and the blog (shared 'theme' key,
+         OS preference as the default) so the choice carries across pages. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                root.classList.add(saved === 'light' ? 'light' : 'dark');
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.classList.add('dark');
+            }
+        })();
+    </script>
+
+    <title>Sample report — see what you'd get | Akmal Ariq</title>
+    <meta name="description" content="A sample of the automated weekly report: one page with revenue across every channel, best sellers, and the few items that actually need your attention. Built for small retail and F&B businesses.">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://akmalariq.dev/demo/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akmalariq.dev/demo/">
+    <meta property="og:title" content="Sample report — see what you'd get">
+    <meta property="og:description" content="One page: revenue across every channel, best sellers, and the few items that need your attention. Delivered every Monday.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sample report — see what you'd get">
+    <meta name="twitter:description" content="One page: revenue across every channel, best sellers, and the few items that need your attention.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Fonts: self-hosted, preloaded, latin subset -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#projects" class="nav-link">Work</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#projects" class="mobile-nav-link">Work</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="case-study">
+        <div class="container">
+            <a href="/#pricing" class="cs-back">&larr; Back to pricing</a>
+
+            <p class="cs-eyebrow">Sample report &middot; Starter deliverable</p>
+            <h1 class="cs-title">See what you&rsquo;d get</h1>
+            <p class="cs-lede">
+                This is the weekly report an owner actually receives: revenue across every channel in one
+                place, this week&rsquo;s best sellers, and the handful of items that need a human decision.
+                It is built from the same scattered exports you already have &mdash; marketplace files,
+                a bank statement, your POS &mdash; and it arrives every Monday morning without anyone
+                assembling it.
+            </p>
+
+            <article class="report" aria-label="Sample weekly report for Dapur Senja">
+                <div class="report-header">
+                    <span class="report-brand">Dapur Senja</span>
+                    <span class="report-meta">Week 39 &middot; sent every Monday, 07:00 WIB</span>
+                </div>
+
+                <div class="report-kpis">
+                    <div class="report-kpi">
+                        <span class="report-kpi-label">Revenue this week</span>
+                        <span class="report-kpi-value">Rp 9.240.000</span>
+                        <span class="report-kpi-delta">&#9650; 11% vs last week</span>
+                    </div>
+                    <div class="report-kpi">
+                        <span class="report-kpi-label">Orders</span>
+                        <span class="report-kpi-value">214</span>
+                        <span class="report-kpi-delta">across 4 channels</span>
+                    </div>
+                    <div class="report-kpi">
+                        <span class="report-kpi-label">Average basket</span>
+                        <span class="report-kpi-value">Rp 43.000</span>
+                        <span class="report-kpi-delta">&#9650; 3% vs last week</span>
+                    </div>
+                    <div class="report-kpi">
+                        <span class="report-kpi-label">Reconciled</span>
+                        <span class="report-kpi-value">97%</span>
+                        <span class="report-kpi-delta">211 of 214 payments matched</span>
+                    </div>
+                </div>
+
+                <div class="report-body">
+                    <section aria-labelledby="rep-channels">
+                        <h2 class="report-section-title" id="rep-channels">Where the money came from</h2>
+                        <div class="report-bars">
+                            <div class="report-bar-row">
+                                <span class="report-bar-label">Shopee</span>
+                                <span class="report-bar-track"><span class="report-bar-fill" style="width:42%"></span></span>
+                                <span class="report-bar-value">42% &middot; Rp 3.9jt</span>
+                            </div>
+                            <div class="report-bar-row">
+                                <span class="report-bar-label">Tokopedia</span>
+                                <span class="report-bar-track"><span class="report-bar-fill" style="width:27%"></span></span>
+                                <span class="report-bar-value">27% &middot; Rp 2.5jt</span>
+                            </div>
+                            <div class="report-bar-row">
+                                <span class="report-bar-label">TikTok Shop</span>
+                                <span class="report-bar-track"><span class="report-bar-fill" style="width:19%"></span></span>
+                                <span class="report-bar-value">19% &middot; Rp 1.8jt</span>
+                            </div>
+                            <div class="report-bar-row">
+                                <span class="report-bar-label">Instagram DM</span>
+                                <span class="report-bar-track"><span class="report-bar-fill" style="width:12%"></span></span>
+                                <span class="report-bar-value">12% &middot; Rp 1.1jt</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section aria-labelledby="rep-skus">
+                        <h2 class="report-section-title" id="rep-skus">Best sellers this week</h2>
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Orders</th>
+                                    <th scope="col">Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Ayam Bakar Madu &middot; 12 pcs</td><td>38</td><td>Rp 1.710.000</td></tr>
+                                <tr><td>Rendang Daging &middot; 500 gr</td><td>31</td><td>Rp 1.116.000</td></tr>
+                                <tr><td>Nasi Kuning Family Pack</td><td>24</td><td>Rp 864.000</td></tr>
+                                <tr><td>Sambal Ijo &middot; 200 ml</td><td>22</td><td>Rp 308.000</td></tr>
+                                <tr><td>Bakpao Kacang &middot; 10 pcs</td><td>18</td><td>Rp 288.000</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="report-review" aria-labelledby="rep-review">
+                        <h2 class="report-section-title" id="rep-review">Needs your review &middot; 3 items</h2>
+                        <ul class="report-review-list">
+                            <li class="report-review-item">
+                                <strong>3 bank transfers with no order reference</strong>
+                                <span>Rp 412.000 total &mdash; 2 to BCA, 1 to GoPay. The report matches them once you confirm which order they belong to.</span>
+                            </li>
+                            <li class="report-review-item">
+                                <strong>Shopee COD settlement pending</strong>
+                                <span>Rp 1.128.000 waiting to clear. Expected Wednesday &mdash; flagged so it is not counted as lost.</span>
+                            </li>
+                            <li class="report-review-item">
+                                <strong>Low stock: Ayam Bakar Madu, 12 pcs</strong>
+                                <span>4 packs left, and it sells about 38 a week. Worth restocking before the weekend.</span>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section aria-labelledby="rep-sources">
+                        <h2 class="report-section-title" id="rep-sources">What it is built from</h2>
+                        <div class="project-flow" role="img" aria-label="Sources: Shopee, Tokopedia, TikTok Shop and the bank statement flow into one warehouse, which produces this report">
+                            <span class="flow-step">Shopee</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">Tokopedia</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">TikTok Shop</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">Bank statement</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">One warehouse</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">This report</span>
+                        </div>
+                        <p class="report-footnote">
+                            Dapur Senja is a fictional brand and the figures above are sample data. Your report would
+                            carry your products, your channels, and your numbers &mdash; and it runs on accounts you own.
+                        </p>
+                    </section>
+                </div>
+            </article>
+
+            <section class="cta-band" aria-label="Get this for your business" style="padding-bottom:0">
+                <div class="cta-band__inner reveal">
+                    <p class="cta-band__title">Four hours of your Sunday, back. Every week.</p>
+                    <div class="cta-band__actions">
+                        <a class="btn btn-primary" href="mailto:akmalariqs@gmail.com?subject=Free%20consult%20request&amp;body=Hi%20Akmal%20%E2%80%94%20I%27d%20like%20to%20book%20a%20free%2020-minute%20consult.%0D%0A%0D%0AMy%20pain%20point%20in%20one%20line%3A%20">Book a free consult</a>
+                        <a class="cta-band__link" href="/#pricing">See pricing &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

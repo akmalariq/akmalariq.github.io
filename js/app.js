@@ -378,10 +378,12 @@ async function initPortfolio() {
     updateFooterYear();
     initShowcaseTabs();
 
-    // Load and render projects
-    const projects = await loadProjects();
+    // Projects render only where the grid exists (homepage). Check first so
+    // subpages do not fire a doomed fetch for data/projects.json.
     const grid = document.getElementById('projectsGrid');
     if (!grid) return;
+
+    const projects = await loadProjects();
 
     // Clear noscript fallback
     grid.replaceChildren();

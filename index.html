@@ -156,9 +156,10 @@
                 <nav class="nav" aria-label="Main navigation">
                     <a href="#solutions" class="nav-link">Services</a>
                     <a href="#projects" class="nav-link">Work</a>
+                    <a href="#pricing" class="nav-link">Pricing</a>
                     <a href="/blog/" class="nav-link">Blog</a>
                     <a href="#about" class="nav-link">About</a>
-                    <a href="mailto:akmalariqs@gmail.com" class="btn btn-primary nav-cta">Get in touch</a>
+                    <a href="#contact" class="btn btn-primary nav-cta">Get in touch</a>
                     <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
                         <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
                         <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
@@ -174,9 +175,10 @@
             <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
                 <a href="#solutions" class="mobile-nav-link">Services</a>
                 <a href="#projects" class="mobile-nav-link">Work</a>
+                <a href="#pricing" class="mobile-nav-link">Pricing</a>
                 <a href="/blog/" class="mobile-nav-link">Blog</a>
                 <a href="#about" class="mobile-nav-link">About</a>
-                <a href="mailto:akmalariqs@gmail.com" class="mobile-nav-link">Get in touch</a>
+                <a href="#contact" class="mobile-nav-link">Get in touch</a>
                 <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;">
                     Toggle Dark/Light Mode
                 </button>
@@ -205,6 +207,13 @@
                     <li><strong>83%</strong> faster regulatory reporting</li>
                     <li><strong>100%</strong> accuracy on OJK / BI submissions</li>
                 </ul>
+
+                <!-- Testimonial slot: populate from TESTIMONIAL_STRATEGY.md, then remove `hidden`.
+                     Never publish a quote that is not real. -->
+                <figure class="testimonial" hidden>
+                    <blockquote><p>Quote goes here.</p></blockquote>
+                    <figcaption><strong>Name</strong><span>Role, Company</span></figcaption>
+                </figure>
                 <div class="hero-actions">
                     <a href="#projects" class="btn btn-primary">See my work</a>
                     <a href="#contact" class="btn btn-secondary">Get in touch</a>
@@ -294,9 +303,9 @@
     <section id="solutions" class="solutions" aria-labelledby="solutions-heading">
         <div class="container">
             <div class="solutions-header reveal">
-                <span class="section-subtitle">Digital Enablement &amp; Transformation</span>
-                <h2 class="section-title" id="solutions-heading">Problems We Solve</h2>
-                <p class="section-description">Helping local businesses and teams automate manual spreadsheets, eliminate marketplace reporting silos, and build centralized cloud database systems.</p>
+                <span class="section-subtitle">Consulting</span>
+                <h2 class="section-title" id="solutions-heading">What I can build for you</h2>
+                <p class="section-description">I turn manual spreadsheets, marketplace silos, and disconnected systems into one reporting layer your team trusts.</p>
             </div>
             
             <div class="solutions-grid reveal-grid">
@@ -304,24 +313,27 @@
                     <div class="solution-icon">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     </div>
-                    <h3 class="solution-title">Excel-to-Cloud Migration</h3>
-                    <p class="solution-text">Transitioning slow, error-prone manual spreadsheets and desktop databases into secure, centralized cloud databases (PostgreSQL/ClickHouse) to establish a single, trusted source of truth.</p>
+                    <h3 class="solution-title">You reconcile marketplaces and bank statements by hand</h3>
+                    <p class="solution-text">I move those spreadsheets into one cloud database that updates itself, so the numbers agree by Monday morning.</p>
+                    <a class="solution-cta" href="#contact">Sounds like your week? &rarr;</a>
                 </article>
 
                 <article class="solution-card">
                     <div class="solution-icon">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                     </div>
-                    <h3 class="solution-title">Omnichannel Data Ingestion</h3>
-                    <p class="solution-text">Replacing slow manual CSV downloads and WhatsApp updates with automated pipelines that pull order, stock, and pricing metrics from Tokopedia, Shopee, and TikTok Shop into unified dashboards.</p>
+                    <h3 class="solution-title">Your reports live in CSV exports and chat messages</h3>
+                    <p class="solution-text">I connect Tokopedia, Shopee, TikTok Shop, your POS and your accounting into one dashboard that refreshes on a schedule.</p>
+                    <a class="solution-cta" href="#contact">Sounds like your week? &rarr;</a>
                 </article>
 
                 <article class="solution-card">
                     <div class="solution-icon">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
                     </div>
-                    <h3 class="solution-title">Resilient Web Scraping</h3>
-                    <p class="solution-text">Building high-throughput, scheduled Python extractors that bypass anti-bot shields (Cloudflare) to automate pricing intelligence sweeps, product catalog matching, and market data sweeps.</p>
+                    <h3 class="solution-title">You check competitors&rsquo; prices manually</h3>
+                    <p class="solution-text">I build scheduled extractors that collect pricing and catalog data for you, so you read a report instead of browsing listings.</p>
+                    <a class="solution-cta" href="#contact">Sounds like your week? &rarr;</a>
                 </article>
             </div>
 
@@ -432,6 +444,50 @@
         </div>
     </section>
 
+    <!-- Mid-page CTA -->
+    <section class="cta-band" aria-label="Work with me">
+        <div class="container">
+            <div class="cta-band__inner reveal">
+                <p class="cta-band__title">Your weekly reconciliation could be a report that builds itself.</p>
+                <div class="cta-band__actions">
+                    <a class="btn btn-primary" href="mailto:akmalariqs@gmail.com?subject=Free%20consult%20request&body=Hi%20Akmal%20%E2%80%94%20I%27d%20like%20to%20book%20a%20free%2020-minute%20consult.%0D%0A%0D%0AMy%20pain%20point%20in%20one%20line%3A%20">Book a free consult</a>
+                    <a class="cta-band__link" href="#pricing">See pricing &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="process" class="process" aria-labelledby="process-heading">
+        <div class="container">
+            <span class="section-subtitle">How it works</span>
+            <h2 class="section-title" id="process-heading">From first call to handover</h2>
+            <p class="section-description">A small, legible process. You always know what happens next and what it costs.</p>
+            <ol class="process-list reveal-grid">
+                <li class="process-step">
+                    <span class="process-num">01</span>
+                    <h3 class="process-title">Free consult</h3>
+                    <p class="process-text">Twenty minutes. You describe the pain; I tell you honestly whether I can help.</p>
+                </li>
+                <li class="process-step">
+                    <span class="process-num">02</span>
+                    <h3 class="process-title">Fixed-scope proposal</h3>
+                    <p class="process-text">What I&rsquo;ll deliver, when, and what it costs &mdash; in writing, before anything starts.</p>
+                </li>
+                <li class="process-step">
+                    <span class="process-num">03</span>
+                    <h3 class="process-title">Build</h3>
+                    <p class="process-text">Weekly updates in plain language. No black box, no silence.</p>
+                </li>
+                <li class="process-step">
+                    <span class="process-num">04</span>
+                    <h3 class="process-title">Handover</h3>
+                    <p class="process-text">Documentation included, and everything runs on accounts you own.</p>
+                </li>
+            </ol>
+        </div>
+    </section>
+
     <!-- Projects Section -->
     <section id="projects" class="projects" aria-labelledby="projects-heading">
         <div class="container">
@@ -508,6 +564,90 @@
                     </div>
                 </noscript>
             </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing" aria-labelledby="pricing-heading">
+        <div class="container">
+            <span class="section-subtitle">Pricing</span>
+            <h2 class="section-title" id="pricing-heading">What it costs</h2>
+            <p class="section-description">Fixed prices and a written scope, so you never sign a blank cheque. Every engagement starts with a free 20-minute consult.</p>
+
+            <div class="pricing-grid reveal-grid">
+                <article class="pricing-card pricing-card--featured">
+                    <span class="pricing-badge">Start here</span>
+                    <h3 class="pricing-title">The report that builds itself</h3>
+                    <p class="pricing-for">For a business drowning in one manual report.</p>
+                    <p class="pricing-price"><s>Rp 10.000.000</s> <strong>Rp 7.500.000</strong></p>
+                    <p class="pricing-note">for the first three founding clients</p>
+                    <ul class="pricing-includes">
+                        <li>Point me at your most painful weekly report</li>
+                        <li>I automate it end to end: data in, report out, on a schedule</li>
+                        <li>Runs on accounts you own</li>
+                        <li>Documentation included</li>
+                        <li>Two weeks of support after handover</li>
+                    </ul>
+                    <p class="pricing-founding">Founding rate &mdash; in exchange I&rsquo;ll ask for a short testimonial and permission to publish the case study.</p>
+                    <p class="pricing-payback">Pays for itself within one to two quarters of reclaimed hours.</p>
+                    <a class="btn btn-primary pricing-cta" href="mailto:akmalariqs@gmail.com?subject=Free%20consult%20request&body=Hi%20Akmal%20%E2%80%94%20I%27d%20like%20to%20book%20a%20free%2020-minute%20consult.%0D%0A%0D%0AMy%20pain%20point%20in%20one%20line%3A%20">Book a free consult</a>
+                    <a class="pricing-demo" href="/demo/">See a sample report &rarr;</a>
+                </article>
+
+                <article class="pricing-card">
+                    <h3 class="pricing-title">One platform for all your numbers</h3>
+                    <p class="pricing-for">For POS, marketplaces, ads, and accounting living in separate worlds.</p>
+                    <p class="pricing-price pricing-price--quote">Fixed quote after the free consult</p>
+                    <ul class="pricing-includes">
+                        <li>Pipelines from every source into one warehouse</li>
+                        <li>A reporting layer and dashboards your team can actually read</li>
+                        <li>Weekly plain-language updates while I build</li>
+                        <li>Handover with documentation; the accounts stay yours</li>
+                    </ul>
+                    <p class="pricing-payback">Typical engagements run one to three weeks.</p>
+                    <a class="btn btn-secondary pricing-cta" href="mailto:akmalariqs@gmail.com?subject=Free%20consult%20request&body=Hi%20Akmal%20%E2%80%94%20I%27d%20like%20to%20book%20a%20free%2020-minute%20consult.%0D%0A%0D%0AMy%20pain%20point%20in%20one%20line%3A%20">Book a free consult</a>
+                </article>
+
+                <article class="pricing-card">
+                    <h3 class="pricing-title">Your data person, on call</h3>
+                    <p class="pricing-for">For teams whose reports are now load-bearing.</p>
+                    <p class="pricing-price">from <strong>Rp 4.000.000</strong> <span class="pricing-per">/ month</span></p>
+                    <table class="pricing-tiers">
+                        <caption class="visually-hidden">Retainer tiers</caption>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Lite<span>Rp 4jt / mo</span></th>
+                                <td>Monitoring &middot; 4 hours of changes &middot; 2 requests a month</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Standard<span>Rp 8jt / mo</span></th>
+                                <td>12 hours &middot; 5 requests &middot; quarterly health check</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Dedicated<span>Rp 15jt / mo</span></th>
+                                <td>25 hours &middot; unlimited in-scope requests &middot; monthly health check and a small roadmap</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="pricing-note">Every tier, the same reply promise: one business day. 3-month initial term, then rolling; 30 days&rsquo; notice; unused hours don&rsquo;t roll over.</p>
+                    <p class="pricing-payback">A senior data person for less than the cost of a junior hire.</p>
+                    <a class="btn btn-secondary pricing-cta" href="mailto:akmalariqs@gmail.com?subject=Free%20consult%20request&body=Hi%20Akmal%20%E2%80%94%20I%27d%20like%20to%20book%20a%20free%2020-minute%20consult.%0D%0A%0D%0AMy%20pain%20point%20in%20one%20line%3A%20">Book a free consult</a>
+                </article>
+            </div>
+
+            <p class="pricing-smallprint">
+                Every engagement starts with a free 20-minute consult and a fixed written scope. Starter: 50% to start,
+                50% at handover &mdash; or three instalments (founding: 3 &times; Rp 2.500.000; standard: 3 &times; Rp 3.500.000).
+                Projects: 30/40/30 across signing, working demo, and handover. Retainers are billed monthly in advance &mdash;
+                prepay three months for 10% off. Founding clients: if the first deliverable misses the brief, you don&rsquo;t pay the balance.
+            </p>
+
+            <!-- Testimonial slot: populate from TESTIMONIAL_STRATEGY.md, then remove `hidden`.
+                 Never publish a quote that is not real. -->
+            <figure class="testimonial" hidden>
+                <blockquote><p>Quote goes here.</p></blockquote>
+                <figcaption><strong>Name</strong><span>Role, Company</span></figcaption>
+            </figure>
         </div>
     </section>
 
@@ -628,8 +768,16 @@
     <!-- About Section -->
     <section id="about" class="about" aria-labelledby="about-heading">
         <div class="container">
-            <h2 class="section-title" id="about-heading">About Me</h2>
-            <div class="about-content reveal">
+            <h2 class="section-title" id="about-heading">About</h2>
+            <div class="about-grid reveal">
+                <div class="about-mark" aria-hidden="true">
+                    <svg width="112" height="112" viewBox="0 0 112 112" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0.5" y="0.5" width="111" height="111" rx="24" fill="var(--bg-secondary)" stroke="var(--border)"/>
+                        <text x="52" y="80" text-anchor="middle" font-family="EB Garamond, Georgia, serif" font-size="68" font-weight="600" fill="var(--accent)">a</text>
+                        <circle cx="80" cy="74" r="6" fill="var(--accent)"/>
+                    </svg>
+                </div>
+                <div class="about-content">
                 <p>
                     I'm a Data Analytics &amp; AI Engineer with 4 years across banking and retail, building production pipelines
                     and analytics platforms end to end — from profiling and data modeling to quality assurance and reporting.
@@ -645,6 +793,48 @@
                     retail brands and applying AI/agentic workflows to data quality and analytics. I also help growing
                     brands turn fragmented systems into dashboards and automated reports.
                 </p>
+                <ul class="about-timeline">
+                    <li><span class="timeline-when">2026 &mdash; now</span><span class="timeline-what">Senior Analytics Engineer &middot; Kanmo Group</span></li>
+                    <li><span class="timeline-when">2025 &mdash; 2026</span><span class="timeline-what">Senior Data Engineer &middot; Kanmo Group</span></li>
+                    <li><span class="timeline-when">2023 &mdash; 2025</span><span class="timeline-what">Data Engineer &middot; PT Bank SMBC Indonesia</span></li>
+                    <li><span class="timeline-when">earlier</span><span class="timeline-what">PT Bank Sinarmas &middot; PT Bank Mandiri</span></li>
+                </ul>
+                <p class="about-languages">Languages: English (IELTS 7.5) &middot; Bahasa Indonesia (native).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq" aria-labelledby="faq-heading">
+        <div class="container">
+            <span class="section-subtitle">Questions</span>
+            <h2 class="section-title" id="faq-heading">Before you get in touch</h2>
+            <div class="faq-list reveal">
+                <details class="faq-item">
+                    <summary>What does something cost?</summary>
+                    <p>The Starter report is Rp 7.5jt for founding clients. Bigger work gets a fixed quote after the free consult &mdash; so you know the number before anything starts.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>How long does a project take?</summary>
+                    <p>Most engagements land in one to three weeks. The Starter report is typically live within two.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Do you work with my existing tools?</summary>
+                    <p>Yes. Excel exports, SQL Server, POS systems, and marketplace reports are the usual starting point. I don&rsquo;t require you to replace anything.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Who owns the code and data?</summary>
+                    <p>You do. Always. Everything runs on accounts you own, from day one.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>What happens after handover?</summary>
+                    <p>You get documentation, and the Starter includes two weeks of support. Ongoing changes and monitoring are the retainer.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Can you sign an NDA?</summary>
+                    <p>Yes &mdash; before we discuss anything sensitive. I&rsquo;ve worked with regulated banking data under OJK and Bank Indonesia reporting rules.</p>
+                </details>
             </div>
         </div>
     </section>
@@ -652,25 +842,36 @@
     <!-- Contact Section -->
     <section id="contact" class="contact" aria-labelledby="contact-heading">
         <div class="container">
-            <h2 class="section-title" id="contact-heading">Get In Touch</h2>
+            <span class="section-subtitle">Contact</span>
+            <h2 class="section-title" id="contact-heading">Let&rsquo;s talk</h2>
             <div class="contact-content reveal">
                 <p class="contact-text">
-                    Open to freelance projects and collaborations — dashboards, automated reports, and data pipelines
-                    for growing brands. Feel free to reach out!
+                    Tell me the report you dread every week. If I can help, you&rsquo;ll have a fixed scope and price
+                    in writing within a day &mdash; and a working report shortly after.
                 </p>
-                <div class="contact-links">
-                    <a href="mailto:akmalariqs@gmail.com" class="contact-link" aria-label="Send email to akmalariqs@gmail.com">
-                        <svg class="contact-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                        akmalariqs@gmail.com
-                    </a>
-                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="Visit GitHub profile (opens in new tab)">
-                        <svg class="contact-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-                        github.com/akmalariq
-                    </a>
-                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="Visit LinkedIn profile (opens in new tab)">
-                        <svg class="contact-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                        linkedin.com/in/akmalariq
-                    </a>
+
+                <div class="contact-actions">
+                    <a class="btn btn-primary" href="mailto:akmalariqs@gmail.com?subject=Free%20consult%20request&body=Hi%20Akmal%20%E2%80%94%20I%27d%20like%20to%20book%20a%20free%2020-minute%20consult.%0D%0A%0D%0AMy%20pain%20point%20in%20one%20line%3A%20">Book a free 20-minute consult</a>
+                    <a class="btn btn-secondary" href="mailto:akmalariqs@gmail.com">Email me</a>
+                </div>
+
+                <p class="response-promise">I reply within one business day (Jakarta, UTC+7).</p>
+
+                <p class="contact-email-line">
+                    Prefer email?
+                    <a class="contact-email" href="mailto:akmalariqs@gmail.com" aria-label="Email akmalariqs at gmail dot com"><span>akmalariqs</span><span>@gmail.com</span></a>
+                </p>
+
+                <ul class="risk-list">
+                    <li>Fixed scope and price before work starts</li>
+                    <li>You own all code, data, and infrastructure</li>
+                    <li>Handover includes documentation</li>
+                </ul>
+
+                <div class="contact-alt">
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="/cv.pdf">Download CV</a>
                 </div>
             </div>
         </div>
@@ -681,12 +882,19 @@
     <!-- Footer -->
     <footer class="footer" role="contentinfo">
         <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
             <div class="footer-content">
-                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq. Built with modern web technologies.</p>
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
                 <div class="footer-links">
-                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GitHub</a>
-                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LinkedIn</a>
-                    <a href="sitemap.xml" aria-label="Sitemap">Sitemap</a>
+                    <a href="mailto:akmalariqs@gmail.com?subject=Free%20consult%20request&body=Hi%20Akmal%20%E2%80%94%20I%27d%20like%20to%20book%20a%20free%2020-minute%20consult.%0D%0A%0D%0AMy%20pain%20point%20in%20one%20line%3A%20">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 </div>
             </div>
         </div>

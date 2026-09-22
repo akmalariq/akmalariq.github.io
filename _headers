@@ -1,5 +1,11 @@
 # Security + caching headers for akmalariq.dev (Cloudflare Pages)
 #
+# NOTE: Pages does not honour Cache-Control from this file for non-hashed
+# assets (it applies its own 4-hour default). That is why /css and /js are
+# referenced with a content version query (?v=<hash>) generated in
+# scripts/build-site.mjs — a changed file gets a new URL, so staleness cannot
+# happen regardless of the cache header.
+#
 # script-src keeps 'unsafe-inline' because the theme bootstrapper must run before
 # paint and JSON-LD blocks are inline. The remaining directives still do the real
 # work: no framing, no object embedding, no base-uri hijack.
@@ -9,6 +15,9 @@
 #   basemaps.cartocdn.com     MapLibre basemap style + tiles
 #   lookerstudio.google.com   embedded dashboard (earthquake case study)
 
+/js/*
+  Cache-Control: public, max-age=60, must-revalidate
+
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
@@ -16,6 +25,7 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   Strict-Transport-Security: max-age=31536000
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self'; img-src 'self' data: blob: https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com; connect-src 'self' https://api.github.com https://cloudflareinsights.com https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com; worker-src 'self' blob:; frame-src https://lookerstudio.google.com https://datastudio.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+
 
 # Content-hashed build assets can be cached forever
 /blog/_assets/*

@@ -4,25 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Instant Timezone-Based Theme Switcher -->
+    <!-- Instant theme + JS flag. Runs before paint.
+         Theme key and default match the homepage and the blog (shared 'theme' key,
+         OS preference as the default) so the choice carries across pages. -->
     <script>
         (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
             try {
-                const savedTheme = localStorage.getItem('akmal-portfolio-theme');
-                const root = document.documentElement;
-                if (savedTheme === 'light') {
-                    root.classList.add('light');
-                } else if (savedTheme === 'dark') {
-                    root.classList.add('dark');
-                } else {
-                    const hour = new Date().getHours();
-                    if (hour >= 6 && hour < 18) {
-                        root.classList.add('light');
-                    } else {
-                        root.classList.add('dark');
-                    }
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
                 }
-            } catch (e) {}
+                root.classList.add(saved === 'light' ? 'light' : 'dark');
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.classList.add('dark');
+            }
         })();
     </script>
 
@@ -285,17 +283,34 @@
                 </div>
                 <nav class="nav" aria-label="Main navigation">
                     <a href="/#solutions" class="nav-link">Services</a>
-                    <a href="/#projects" class="nav-link">Projects</a>
+                    <a href="/#projects" class="nav-link">Work</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
                     <a href="/blog/" class="nav-link">Blog</a>
-                    <a href="/#skills" class="nav-link">Skills</a>
                     <a href="/#about" class="nav-link">About</a>
-                    <a href="/#contact" class="nav-link">Contact</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
                     <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
                         <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
                         <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
                     </button>
                 </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#projects" class="mobile-nav-link">Work</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
         </div>
     </header>
 
@@ -423,12 +438,19 @@ USGS API  <span>&rarr;</span>  Kestra (monthly batch)  <span>&rarr;</span>  Clou
     <!-- Footer -->
     <footer class="footer" role="contentinfo">
         <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
             <div class="footer-content">
-                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq. Built with modern web technologies.</p>
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
                 <div class="footer-links">
-                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GitHub</a>
-                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LinkedIn</a>
-                    <a href="/sitemap.xml" aria-label="Sitemap">Sitemap</a>
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 </div>
             </div>
         </div>
@@ -454,5 +476,6 @@ USGS API  <span>&rarr;</span>  Kestra (monthly batch)  <span>&rarr;</span>  Clou
             if (year) year.textContent = new Date().getFullYear();
         })();
     </script>
+    <script src="/js/app.js"></script>
 </body>
 </html>
