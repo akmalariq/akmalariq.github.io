@@ -52,6 +52,7 @@ async function main() {
 
   await pruneAstroInternals();
   await minifyCssDir(join(OUT, "css"));
+  await injectAnalytics();
   await versionAssets();
 
   // root-level loose files (search console tokens etc.)
@@ -174,6 +175,82 @@ async function pruneAstroInternals() {
   }
 }
 
+
+// Inject Google Tag Manager (or a direct GA4 tag) into every assembled HTML
+// page, plus the first-party analytics helper. IDs come from data/analytics.json
+// or the GTM_ID / GA4_ID environment variables. When neither is set, nothing is
+// injected, so the site ships clean.
+const ANALYTICS_MARKER = "<!-- analytics:akmal -->";
+
+async function loadAnalyticsConfig() {
+  let config = { gtmId: "", ga4Id: "" };
+  const file = join(ROOT, "data", "analytics.json");
+  if (existsSync(file)) {
+    try {
+      config = { ...config, ...JSON.parse(await readFile(file, "utf8")) };
+    } catch (err) {
+      console.warn(`  ! data/analytics.json unreadable: ${err.message}`);
+    }
+  }
+  return {
+    gtmId: (process.env.GTM_ID || config.gtmId || "").trim(),
+    ga4Id: (process.env.GA4_ID || config.ga4Id || "").trim(),
+  };
+}
+
+function gtmHead(gtmId) {
+  return `${ANALYTICS_MARKER}
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');</script>`;
+}
+
+function gtmBody(gtmId) {
+  return `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>`;
+}
+
+function ga4Head(ga4Id) {
+  return `${ANALYTICS_MARKER}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${ga4Id}"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ga4Id}');</script>`;
+}
+
+async function injectAnalytics() {
+  const { gtmId, ga4Id } = await loadAnalyticsConfig();
+  if (!gtmId && !ga4Id) {
+    console.log("  i analytics not configured (set data/analytics.json, or GTM_ID / GA4_ID)");
+    return;
+  }
+
+  const headSnippet = gtmId ? gtmHead(gtmId) : ga4Head(ga4Id);
+  const bodySnippet = gtmId ? gtmBody(gtmId) : "";
+  const helper = `<script src="/js/analytics.js" defer></script>`;
+
+  let pages = 0;
+  const walk = async (dir) => {
+    for (const name of await readdir(dir)) {
+      const full = join(dir, name);
+      const info = await stat(full);
+      if (info.isDirectory()) {
+        await walk(full);
+        continue;
+      }
+      if (!name.endsWith(".html")) continue;
+
+      let html = await readFile(full, "utf8");
+      if (html.includes(ANALYTICS_MARKER) || !/<\/head>/i.test(html)) continue;
+
+      html = html.replace(/<\/head>/i, `${headSnippet}\n    ${helper}\n</head>`);
+      if (bodySnippet) {
+        html = html.replace(/(<body[^>]*>)/i, `$1\n${bodySnippet}`);
+      }
+      await writeFile(full, html);
+      pages++;
+    }
+  };
+  await walk(OUT);
+  console.log(
+    `  + analytics injected on ${pages} pages (${gtmId ? `GTM ${gtmId}` : `GA4 ${ga4Id}`})`
+  );
+}
 
 main().catch((err) => {
   console.error(err);

@@ -1,0 +1,253 @@
+---
+title: "Late-arriving data: when the event shows up after the report closed"
+description: "Event time is not arrival time. How late data breaks closed reports and incremental loads, and the patterns that make it harmless: watermarking, lookback reprocessing, idempotent partitions, and versioned event logs."
+pubDate: 2026-10-13
+tags: ["streaming", "event-time", "watermarks", "idempotency", "data-quality"]
+series: "Data Reliability"
+level: "Intermediate"
+draft: true
+---
+
+import Figure from "../../components/Figure.astro";
+import Callout from "../../components/Callout.astro";
+import CompareTable from "../../components/CompareTable.astro";
+import Quiz from "../../components/Quiz.astro";
+
+## The order that arrived three days late
+
+The store closed at 22:00. The report ran at 06:00 the next morning and went to finance. By lunch, the
+revenue number had moved, and nobody could explain why.
+
+The cause was mundane. A point-of-sale terminal lost network at 21:40 and kept selling offline. It
+synced its queue on Thursday. Three days of orders landed at once, stamped with the dates they
+actually happened — which is *last week* in event time and *today* in arrival time. The daily report
+for those days had already been written, signed off, and looked at.
+
+Nothing was broken. Every row was correct. The pipeline was doing exactly what it was told. It was
+told that the data would arrive before the report ran, and that assumption was never written down.
+
+## Event time is not arrival time
+
+Almost every hard bug in this area comes from conflating two clocks:
+
+| Clock | Meaning | Example |
+|---|---|---|
+| **Event time** | When the thing actually happened | The order was placed at 21:40 on Monday |
+| **Arrival time** | When your system first saw it | The row landed at 06:12 on Thursday upstream |
+
+Lateness is simply `arrival_time - event_time`. For the offline terminal above, it is three days. A CDN
+log can be a minute late. A partner's nightly file could be a day late. A clock-skewed device could be
+*later than now*, which is its own small nightmare.
+
+Two consequences follow, and they are the whole post:
+
+1. **Windowing on arrival time gives you wrong windows.** You need event time to know which day a
+   sale belongs to.
+2. **Event time is incomplete at the moment you process it.** You can never be sure a window is
+   finished, because more events for it may still show up.
+
+## Watermarks: how long do you wait?
+
+A **watermark** is a moving promise: "I believe I have now seen every event up to time T". It is a
+heuristic, not a guarantee — most systems define it as "the maximum event timestamp seen, minus some
+allowed lateness", and advance it as data flows.
+
+```
+watermark = max(event_time seen) - allowed_lateness
+```
+
+A window closes when the watermark passes its end. Events that arrive after their window is closed are
+**too late**, and they take one of three paths:
+
+- **Dropped.** Fast and silent, so the number is quietly wrong forever.
+- **Routed to a side output.** Counted, alerted, and reconciled later. This is the honest default.
+- **Accepted, with the window reopened.** Correct, but the downstream consumer sees the window emit
+  twice, which means it must be ready for that.
+
+<Callout type="warn" title="Lateness is unbounded until you prove otherwise">
+Nothing in the data prevents an event arriving a month from now. "It is never more than a day" is a
+belief, not a fact, until you have measured the lateness distribution and watched it. Set allowed
+lateness from a measured percentile (say p99), route the rest to a side output, and alert on the rate.
+</Callout>
+
+## Why late data breaks things
+
+The failure is rarely in the streaming layer. It is in everything downstream that assumed the data was
+complete.
+
+- **The report already closed.** A daily figure was materialized and sent. The late rows do not
+  "update" it unless something explicitly restates it.
+- **The incremental load already ran.** If the loader keys on `event_date` and only ever processes
+  new dates, last week's partition will never be revisited. The row is in the source and absent from
+  the warehouse.
+- **The aggregate is now stale.** Revenue, stock, and conversion were rolled up from facts that were
+  later corrected. The sum is not wrong because of a bug; it is wrong because it was computed early.
+- **The dimension does not exist yet.** A fact references a store or customer first seen in that late
+  batch. If the fact arrives before its dimension, the join drops it.
+
+<Figure caption="Event time versus arrival time: an on-time event and an offline event whose window has already closed.">
+  <svg viewBox="0 0 760 260" role="img" aria-label="Timeline showing an on-time event inside its window and a late event arriving after the day's report closed" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="currentColor" stroke-width="1.3">
+      <line x1="40" y1="150" x2="720" y2="150" />
+      <line x1="120" y1="60" x2="120" y2="150" />
+      <line x1="320" y1="60" x2="320" y2="150" />
+      <line x1="520" y1="60" x2="520" y2="150" stroke-dasharray="5 4" />
+      <line x1="640" y1="90" x2="640" y2="150" stroke-dasharray="5 4" />
+      <circle cx="200" cy="150" r="6" fill="currentColor" />
+      <circle cx="640" cy="150" r="6" stroke="#e5c183" />
+      <path d="M470 96 L640 96 L640 144" stroke="#e5c183" />
+      <text x="200" y="184" text-anchor="middle" font-family="Manrope, sans-serif" font-size="12" fill="currentColor" stroke="none">Monday 21:40</text>
+      <text x="200" y="200" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" stroke="none" opacity="0.65">event + arrival</text>
+      <text x="520" y="200" text-anchor="middle" font-family="Manrope, sans-serif" font-size="12" fill="currentColor" stroke="none">window closed</text>
+      <text x="520" y="216" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" stroke="none" opacity="0.65">watermark passed</text>
+      <text x="640" y="184" text-anchor="middle" font-family="Manrope, sans-serif" font-size="12" fill="currentColor" stroke="none" opacity="0.9">Thursday 06:12</text>
+      <text x="640" y="200" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" stroke="none" opacity="0.65">arrival only</text>
+      <text x="470" y="88" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" stroke="none" opacity="0.75">3 days late</text>
+    </g>
+  </svg>
+</Figure>
+
+## The patterns that fix it
+
+None of these is exotic. The trick is choosing one on purpose instead of discovering it in production.
+
+### 1. An immutable, versioned event log
+
+Keep every event as it arrived, with the source's own timestamp as a version. Do not overwrite;
+append. Current state is then a *derived* view, computed by keeping the highest version per key.
+
+That is exactly what the CDC series does with `source.ts_ms` and `ReplacingMergeTree(_version)`:
+a replay, or a late duplicate, converges to one truth instead of corrupting it. The same idea covers
+late-arriving data — a late row is just a version that showed up out of order.
+
+<Callout type="win" title="Immutable log turns restatement into a re-query">
+If the raw event is never mutated, "fix the number" stops being an update to production data and
+becomes a recomputation over the log. That is a much safer thing to do on a Friday.
+</Callout>
+
+### 2. Idempotent partition rebuild
+
+The cheapest way to absorb late data in batch is to **reprocess the affected partition**, not patch
+the aggregate. If the write is idempotent, reprocessing the same day twice is harmless.
+
+```sql
+-- The affected partition, recomputed from source and swapped in whole.
+MERGE INTO mart.daily_sales AS t
+USING (
+  SELECT event_date, store_id, SUM(amount) AS revenue
+  FROM staging.orders
+  WHERE event_date = DATE '2026-10-06'
+  GROUP BY event_date, store_id
+) AS s
+ON t.event_date = s.event_date AND t.store_id = s.store_id
+WHEN MATCHED THEN UPDATE SET revenue = s.revenue
+WHEN NOT MATCHED THEN INSERT (event_date, store_id, revenue)
+                  VALUES (s.event_date, s.store_id, s.revenue);
+```
+
+In dbt, the same shape is an incremental model with a delete-and-insert on the key, so a rerun of the
+same window replaces rather than duplicates.
+
+### 3. A lookback window
+
+If lateness is bounded in practice, make it explicit: every run, reprocess the last *N* days, not just
+the newest. Choose *N* from the measured lateness distribution, not from a feeling.
+
+```python
+# Reprocess a trailing window every run. N is driven by the p99 of observed lateness.
+LOOKBACK_DAYS = 3
+
+for event_date in daterange(today - LOOKBACK_DAYS, today):
+    rebuild_partition(event_date)   # idempotent, so re-running is safe
+```
+
+The tradeoff is cost: a wide lookback re-scans data that is almost always unchanged. That is fine up
+to a point, and then it is a bill. Measure before widening it.
+
+### 4. Late-arriving facts and inferred members
+
+When a fact arrives before its dimension, do not drop it. Kimball's answer is timeless: create an
+**inferred member** — a placeholder dimension row keyed on the natural key — attach the fact, and
+restate the member when the real attributes show up. The alternative, dropping the fact, loses revenue
+silently and is much worse.
+
+### 5. Watermark, allowed lateness, and a side output
+
+In streaming, set the watermark from a measured percentile, close windows on it, and route anything
+later to a side output rather than dropping it. The side output is not a failure — it is your lateness
+ledger, and it should be reconciled on a schedule.
+
+<CompareTable caption="Choosing a pattern by how late the data is">
+| How late | Typical source | Pattern |
+|---|---|---|
+| Seconds to minutes | Normal network jitter | Watermark with a small allowed lateness |
+| Minutes to hours | Mobile sync, retries, CDN logs | Watermark plus a side output, reconciled hourly |
+| Hours to a day | Partner files, batch uploads | Lookback window in the batch loader |
+| Days, occasionally | Offline devices, backfills | Partition rebuild on demand plus restatement |
+| Unbounded | Unknown third parties | Versioned log, always; treat lateness as a fact, not an exception |
+</CompareTable>
+
+## Separate "as-of" from "current"
+
+The most useful mental shift: keep **two** answers to every number.
+
+- **As-of** — what we knew at the time, frozen. This is what you sent finance, and it should stay
+  reproducible.
+- **Current** — the best restated value after all late data is in.
+
+Both are legitimate. Confusing them is what makes a dashboard "wrong" one hour and "right" the next
+with no explanation. Label the figures, keep the as-of snapshot immutable, and restate current
+deliberately.
+
+## Observability: measure the lateness
+
+You cannot manage what you do not measure, and lateness is measured, not assumed.
+
+- **Lateness distribution.** Histogram of `arrival_ts - event_ts`. Its p99 sets your allowed lateness
+  and your lookback. Watch it drift.
+- **Beyond-allowed-lateness rate.** The fraction of events on the side output. This is the number to
+  alert on, because it is the pipeline telling you its assumptions just broke.
+- **Freshness versus completeness.** "The last row arrived a minute ago" (freshness) says nothing
+  about whether the window is complete. Track them separately.
+- **Reconciliation counts.** Source rows for a window versus warehouse rows for the same window. A gap
+  is late data; a surplus is duplication.
+
+<Callout type="info" title="Freshness lies about completeness">
+A pipeline can be perfectly fresh and badly incomplete: the newest event is one second old, and
+yesterday is still missing a third of its rows. If your only alert is freshness, you will be confident
+and wrong.
+</Callout>
+
+## Honest notes
+
+- **A lookback window is a cost, not a virtue.** Wider is safer and slower; the right width comes from
+  the lateness distribution.
+- **Watermarks are heuristics.** They can be wrong in both directions, closing a window early or
+  holding it open forever. Design for the reopen, not for the perfect watermark.
+- **Restatement needs versioning.** If consumers see a window emit twice, they must be idempotent too,
+  or they will double-count. That is the same discipline as the CDC series, one layer up.
+- **Some lateness never ends.** Event streams from unknown sources are effectively unbounded; the
+  versioned log plus deliberate restatement is the only stable answer.
+
+## Check yourself
+
+<Quiz title="Check yourself">
+1. A daily revenue report ran at 06:00 and a POS terminal synced three days of offline sales at 06:12. Why is the report wrong even though every row is correct?
+   <details><summary>Answer</summary>The report was computed before the rows arrived. The rows carry event dates from three days ago, but the report for those days had already been materialized and sent. Correct data that arrives after the computation is late data, and nothing restated the earlier result.</details>
+2. What is a watermark, exactly, and why is it a heuristic rather than a guarantee?
+   <details><summary>Answer</summary>A watermark is a moving estimate of "all events up to time T have been seen". It is usually computed as the maximum event timestamp seen minus an allowed lateness, so it cannot be a hard guarantee; events older than the watermark can still arrive.</details>
+3. Why is reprocessing an entire partition often safer than incrementally patching an aggregate?
+   <details><summary>Answer</summary>If the write is idempotent, rebuilding the partition from source is self-correcting: rerunning it twice produces the same result and any late rows are naturally included. Patching an aggregate by hand has to correctly account for every late row and each prior assumption, which is easy to get subtly wrong.</details>
+4. A fact arrives for a store your dimension table has never seen. What should happen, and what happens if you drop it?
+   <details><summary>Answer</summary>Create an inferred member: a placeholder dimension row keyed on the natural key, attach the fact, and restate the member when the real attributes arrive. Dropping the fact silently loses revenue and breaks reconciliation.</details>
+5. Why should freshness and completeness be tracked separately?
+   <details><summary>Answer</summary>Freshness measures how recent the newest data is; completeness measures whether a time window is fully populated. A pipeline can be maximally fresh while yesterday is missing a third of its rows, so a freshness-only alert gives false confidence.</details>
+</Quiz>
+
+## References
+
+- Martin Kleppmann, *Designing Data-Intensive Applications*, chapter 11 — event time versus processing time and stream processing.
+- Tyler Akidau et al., *The Dataflow Model* (VLDB 2015) and *Streaming Systems* — watermarks, triggers, and allowed lateness.
+- Ralph Kimball, *The Data Warehouse Toolkit* — late-arriving facts, inferred members, and slowly changing dimensions.
+- dbt documentation — incremental models and delete-insert strategies for reprocessing a window.
+- Apache Flink and Apache Beam documentation — allowed lateness and side outputs.

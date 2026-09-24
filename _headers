@@ -14,6 +14,14 @@
 #   cdn.jsdelivr.net          MapLibre GL (Jakarta case study)
 #   basemaps.cartocdn.com     MapLibre basemap style + tiles
 #   lookerstudio.google.com   embedded dashboard (earthquake case study)
+#   www.googletagmanager.com  Google Tag Manager container + gtag.js
+#   www.google-analytics.com  GA4 measurement and beacon endpoints
+#   analytics.google.com      GA4 signals
+#   stats.g.doubleclick.net   Google Ads / signals
+#
+# Analytics is injected by scripts/build-site.mjs only when data/analytics.json
+# (or GTM_ID / GA4_ID) is set. The CSP entries below stay allow-listed regardless
+# so that enabling analytics needs no header change.
 
 /js/*
   Cache-Control: public, max-age=60, must-revalidate
@@ -24,7 +32,7 @@
   X-Frame-Options: DENY
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   Strict-Transport-Security: max-age=31536000
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self'; img-src 'self' data: blob: https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com; connect-src 'self' https://api.github.com https://cloudflareinsights.com https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com; worker-src 'self' blob:; frame-src https://lookerstudio.google.com https://datastudio.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self'; img-src 'self' data: blob: https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com; connect-src 'self' https://api.github.com https://cloudflareinsights.com https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net; worker-src 'self' blob:; frame-src https://lookerstudio.google.com https://datastudio.google.com https://www.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
 
 
 # Content-hashed build assets can be cached forever

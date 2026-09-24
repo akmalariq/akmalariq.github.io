@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                root.classList.add(saved === 'light' ? 'light' : 'dark');
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.classList.add('dark');
+            }
+        })();
+    </script>
+
+    <!-- Primary SEO Meta Tags -->
+    <title>Promotion Lift and Trade Optimization: Causal Data Science Case Study | Akmal Ariq</title>
+    <meta name="description" content="Case study: estimating incremental promotion lift. A counterfactual baseline isolates price elasticity (naive -0.25 vs controlled -1.45 against a true -1.5), 55% of promotions are shown to be margin-negative, and a mixed-integer program reallocates the same budget from -143.6M to +321.4M.">
+    <meta name="keywords" content="Promotion Lift, Incremental Margin, Price Elasticity, Causal Inference, Trade Promotion Optimization, Uplift, Mixed-Integer Programming, Counterfactual, FMCG, Retail Analytics, Case Study">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+
+    <link rel="canonical" href="https://akmalariq.dev/projects/promotion-lift-optimization/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://akmalariq.dev/projects/promotion-lift-optimization/">
+    <meta property="og:title" content="Promotion Lift and Trade Optimization: Case Study">
+    <meta property="og:description" content="Causal promotion lift: counterfactual baseline, controlled price elasticity, incremental margin, and a mixed-integer promotion plan that turns a budget from -143.6M to +321.4M.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta property="og:site_name" content="Akmal Ariq Portfolio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Promotion Lift and Trade Optimization: Case Study">
+    <meta name="twitter:description" content="Counterfactual lift, controlled elasticity (-1.45 vs true -1.5), and a mixed-integer promotion plan. 55% of promotions were margin-negative.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareSourceCode",
+      "name": "Promotion Lift and Trade Optimization",
+      "description": "A causal promotion analytics system: a no-promo counterfactual baseline, controlled price elasticity, a promotion lift curve, incremental margin, and a budget-constrained promotion calendar solved with mixed-integer programming.",
+      "programmingLanguage": ["Python"],
+      "codeRepository": "https://github.com/akmalariq/promotion-lift-optimization",
+      "author": { "@type": "Person", "name": "Akmal Ariq", "url": "https://akmalariq.dev" },
+      "datePublished": "2026"
+    }
+    </script>
+
+    <style>
+        .case-study { padding: calc(var(--spacing-xl, 4rem) + 2rem) 0 var(--spacing-xl, 4rem); }
+        .cs-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; margin-bottom: var(--spacing-md, 2rem); }
+        .cs-back:hover { color: var(--accent); }
+        .cs-eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+        .cs-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); font-weight: 400; line-height: 1.1; color: var(--text-primary); margin-bottom: var(--spacing-sm, 1rem); }
+        .cs-lede { font-size: 1.05rem; line-height: 1.7; color: var(--text-secondary); max-width: 62ch; margin-bottom: var(--spacing-md, 2rem); }
+        .cs-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: var(--spacing-xl, 4rem); }
+        .cs-section { margin-bottom: var(--spacing-xl, 4rem); }
+        .cs-h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; color: var(--text-primary); margin-bottom: var(--spacing-sm, 1rem); padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+        .cs-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+        .cs-fact { background: var(--bg-secondary); padding: var(--spacing-md, 2rem); }
+        .cs-fact dt { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+        .cs-fact dd { margin: 0; font-size: 0.95rem; line-height: 1.6; color: var(--text-primary); }
+        .cs-flow { font-family: var(--font-mono); font-size: 0.85rem; line-height: 2; color: var(--text-primary); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: var(--spacing-md, 2rem); overflow-x: auto; }
+        .cs-flow span { color: var(--accent); }
+        .cs-list { list-style: none; padding: 0; margin: 0; }
+        .cs-list li { position: relative; padding-left: 1.5rem; margin-bottom: 0.85rem; line-height: 1.7; color: var(--text-secondary); }
+        .cs-list li::before { content: ""; position: absolute; left: 0; top: 0.65em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+        .cs-list li strong { color: var(--text-primary); font-weight: 600; }
+        .cs-code { font-family: var(--font-mono); font-size: 0.85em; color: var(--text-primary); background: var(--bg-primary); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.35rem; }
+        .cs-note { border-left: 2px solid var(--accent); background: var(--bg-secondary); padding: var(--spacing-md, 2rem); border-radius: 0 8px 8px 0; }
+        .cs-note p:last-child { margin-bottom: 0; }
+        .cs-note p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 0.75rem; }
+        .cs-note strong { color: var(--text-primary); font-weight: 600; }
+        .cs-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+        .cs-table th, .cs-table td { text-align: left; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--border); font-size: 0.92rem; }
+        .cs-table th { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+        .cs-table td { color: var(--text-secondary); }
+        .cs-table td strong { color: var(--text-primary); }
+    </style>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#projects" class="nav-link">Work</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#projects" class="mobile-nav-link">Work</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="case-study">
+        <div class="container">
+            <a href="/#projects" class="cs-back">&larr; All projects</a>
+
+            <p class="cs-eyebrow">Case study &middot; Data science &amp; causal inference</p>
+            <h1 class="cs-title">Promotion Lift and Trade Optimization</h1>
+            <p class="cs-lede">
+                Whether a promotion created profit or merely moved volume is a causal question, and most
+                trade reporting cannot answer it because it has no counterfactual. This system builds one:
+                a no-promo baseline, a controlled price elasticity, a promotion lift curve, incremental
+                margin net of the discount, and a mixed-integer program that plans the next calendar under
+                a fixed budget.
+            </p>
+
+            <div class="cs-actions">
+                <a href="https://github.com/akmalariq/promotion-lift-optimization" target="_blank" rel="noopener noreferrer" class="btn btn-github">
+                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    View on GitHub
+                </a>
+            </div>
+
+            <section class="cs-section" aria-labelledby="cs-glance">
+                <h2 class="cs-h2" id="cs-glance">At a glance</h2>
+                <dl class="cs-facts">
+                    <div class="cs-fact">
+                        <dt>The question</dt>
+                        <dd>Did a promotion create incremental profit, or move volume that would have sold anyway</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Counterfactual</dt>
+                        <dd>A no-promo demand baseline trained only on non-promoted store-weeks</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Elasticity</dt>
+                        <dd>Log-log price response, naive <strong>-0.25</strong> versus controlled <strong>-1.45</strong>, against a true -1.5</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Lift curve</dt>
+                        <dd>Observed over counterfactual demand by discount depth: 1.38 at 5% rising to 4.37 at 35%</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Incremental margin</dt>
+                        <dd>Promoted margin minus no-promo margin, net of the discount on every promoted unit</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Optimization</dt>
+                        <dd>Mixed-integer program: one depth per store-week under a fixed budget and a per-store frequency cap</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Finding</dt>
+                        <dd><strong>55%</strong> of promotions were margin-negative; the program was net-negative in aggregate</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Result</dt>
+                        <dd>Same budget, margin from <strong>-143.6M to +321.4M</strong> (+465.0M), Python, scipy, Dagster, 8 tests</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-pipeline">
+                <h2 class="cs-h2" id="cs-pipeline">Pipeline</h2>
+                <div class="cs-flow">
+Store-week panel  <span>&rarr;</span>  Counterfactual baseline  <span>&rarr;</span>  Lift + elasticity  <span>&rarr;</span>  Incremental margin  <span>&rarr;</span>  MILP promotion calendar
+                </div>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-built">
+                <h2 class="cs-h2" id="cs-built">What I built</h2>
+                <ul class="cs-list">
+                    <li><strong>Counterfactual demand.</strong> A gradient-boosted no-promo baseline trained on non-promoted store-weeks, so every promoted week can be compared to what would plausibly have happened without the promotion.</li>
+                    <li><strong>Price elasticity, done honestly.</strong> A log-log regression of units on price, shown both naively and with controls for discount depth, display, season, and store fixed effects. The naive estimate is confounded because price moves mainly during promotions.</li>
+                    <li><strong>Lift curve and incremental margin.</strong> The observed-to-counterfactual ratio by discount depth, and incremental profit computed as promoted margin minus no-promo margin, charging the discount on all promoted units rather than only the incremental ones.</li>
+                    <li><strong>Budget-constrained planner.</strong> A mixed-integer program (<span class="cs-code">scipy.optimize.milp</span>) selects at most one discount depth per store-week to maximize incremental margin under the trade budget, with a per-store frequency cap so the solver cannot simply promote everything.</li>
+                    <li><strong>Orchestration and tests.</strong> A Dagster job wires data, lift metrics, the optimized plan, and reporting; 8 tests cover elasticity recovery, the confounding contrast, lift positivity, and the optimizer's budget and frequency constraints.</li>
+                </ul>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-results">
+                <h2 class="cs-h2" id="cs-results">Results</h2>
+                <p>Synthetic panel, 40 stores, 104 weeks, 26-week evaluation window.</p>
+
+                <table class="cs-table">
+                    <thead>
+                        <tr><th>Elasticity estimate (true -1.5)</th><th>Value</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Naive (log price only)</td><td>-0.25</td></tr>
+                        <tr><td>Controlled (discount, display, season, store)</td><td><strong>-1.45</strong></td></tr>
+                    </tbody>
+                </table>
+
+                <table class="cs-table" style="margin-top:1.5rem;">
+                    <thead>
+                        <tr><th>Discount depth</th><th>5%</th><th>10%</th><th>15%</th><th>20%</th><th>25%</th><th>30%</th><th>35%</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Lift</td><td>1.38</td><td>1.71</td><td>2.00</td><td>2.47</td><td>2.97</td><td>3.66</td><td>4.37</td></tr>
+                    </tbody>
+                </table>
+
+                <table class="cs-table" style="margin-top:1.5rem;">
+                    <thead>
+                        <tr><th>Metric</th><th>Historical</th><th>Optimized</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Promotions</td><td>269</td><td>280 (capped at 7 per store)</td></tr>
+                        <tr><td>Trade spend</td><td>2.01B</td><td>0.75B (under the same ceiling)</td></tr>
+                        <tr><td>Incremental margin</td><td>-143.6M</td><td><strong>+321.4M</strong></td></tr>
+                        <tr><td>Share margin-negative</td><td>55.0%</td><td>-</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-decisions">
+                <h2 class="cs-h2" id="cs-decisions">Decisions worth noting</h2>
+                <ul class="cs-list">
+                    <li><strong>Why a counterfactual, not promoted sales.</strong> Promoted sales count units that would have sold anyway, and the discount is given on all of them. Without a no-promo baseline, promotion ROI is unknowable.</li>
+                    <li><strong>Why the naive elasticity is shown.</strong> Price is near-unidentifiable when it only moves during promotions, so the naive estimate is biased. Showing both makes the confounding visible instead of hiding it.</li>
+                    <li><strong>Why regular price variation was added to the panel.</strong> To identify elasticity honestly, price must move for reasons other than the promotion. That is a data-design point, not a modelling trick.</li>
+                    <li><strong>Why a frequency cap in the optimizer.</strong> Left unconstrained, the solver promotes every store every week because shallow discounts are individually profitable. Real calendars are constrained, so the model is too.</li>
+                </ul>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-honest">
+                <h2 class="cs-h2" id="cs-honest">Honest notes</h2>
+                <div class="cs-note">
+                    <p><strong>All figures are synthetic.</strong> The panel embeds a known elasticity and lift, which is what makes the recovery checkable. These are not a business result.</p>
+                    <p><strong>This is a portfolio project.</strong> No retailer's promotion calendar was used, and the planner is not wired into a trade-spend system.</p>
+                    <p><strong>Real promotion response is richer.</strong> Cannibalization across SKUs, display compliance, and competitor response are all absent here; the structure leaves room for them as additional data and constraints.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const toggle = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            if (toggle) {
+                toggle.addEventListener('click', function () {
+                    root.classList.toggle('light');
+                    root.classList.toggle('dark');
+                    try {
+                        localStorage.setItem('akmal-portfolio-theme', root.classList.contains('light') ? 'light' : 'dark');
+                    } catch (e) {}
+                });
+            }
+            const year = document.getElementById('footer-year');
+            if (year) year.textContent = new Date().getFullYear();
+        })();
+    </script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

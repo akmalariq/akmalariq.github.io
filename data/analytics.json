@@ -1,0 +1,5 @@
+{
+  "gtmId": "GTM-NCBX5SVS",
+  "ga4Id": "G-WJGF1SGCQ2",
+  "note": "Google Tag Manager container ID (GTM-XXXXXXX) and GA4 measurement ID (G-XXXXXXXXXX). Both are public identifiers, not secrets. If gtmId is set it takes precedence; otherwise the GA4 tag is loaded directly."
+}

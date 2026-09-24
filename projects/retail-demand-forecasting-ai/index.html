@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint.
+         Theme key and default match the homepage and the blog (shared 'theme' key,
+         OS preference as the default) so the choice carries across pages. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                root.classList.add(saved === 'light' ? 'light' : 'dark');
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.classList.add('dark');
+            }
+        })();
+    </script>
+
+    <!-- Primary SEO Meta Tags -->
+    <title>Retail Demand Forecasting with AI: Data Science Case Study | Akmal Ariq</title>
+    <meta name="description" content="Case study: a store-level demand forecasting system for multi-branch retail. Gradient-boosted daily sales forecasting with walk-forward validation, MAE/RMSE/MAPE evaluation, 44.8 percent lower error than a naive baseline, and a GenAI insight layer, orchestrated with Dagster.">
+    <meta name="keywords" content="Demand Forecasting, Data Science, Machine Learning, Gradient Boosting, Walk-Forward Validation, Time Series, MAPE, Retail Analytics, GenAI, Dagster, Python, Case Study">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+
+    <link rel="canonical" href="https://akmalariq.dev/projects/retail-demand-forecasting-ai/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://akmalariq.dev/projects/retail-demand-forecasting-ai/">
+    <meta property="og:title" content="Retail Demand Forecasting with AI: Data Science Case Study">
+    <meta property="og:description" content="Gradient-boosted store-level demand forecasting with walk-forward validation and an honest baseline: 6.2% MAPE and 44.8% lower error than a naive forecast, plus a GenAI layer that turns forecasts into store recommendations.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta property="og:site_name" content="Akmal Ariq Portfolio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Retail Demand Forecasting with AI: Case Study">
+    <meta name="twitter:description" content="Store-level demand forecasting: gradient boosting, walk-forward validation, MAPE 6.2%, 44.8% better than a naive baseline, and a GenAI insight layer.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <!-- Fonts: self-hosted, preloaded, latin subset -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareSourceCode",
+      "name": "Retail Demand Forecasting with AI",
+      "description": "A store-level demand forecasting system for multi-branch retail: gradient-boosted daily sales forecasting with walk-forward validation, MAE/RMSE/MAPE evaluation, a naive-baseline comparison, and a GenAI insight layer, orchestrated with Dagster.",
+      "programmingLanguage": ["Python", "SQL"],
+      "codeRepository": "https://github.com/akmalariq/retail-demand-forecasting-ai",
+      "author": { "@type": "Person", "name": "Akmal Ariq", "url": "https://akmalariq.dev" },
+      "datePublished": "2026"
+    }
+    </script>
+
+    <style>
+        .case-study {
+            padding: calc(var(--spacing-xl, 4rem) + 2rem) 0 var(--spacing-xl, 4rem);
+        }
+
+        .cs-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: var(--spacing-md, 2rem);
+        }
+
+        .cs-back:hover { color: var(--accent); }
+
+        .cs-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .cs-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm, 1rem);
+        }
+
+        .cs-lede {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            max-width: 62ch;
+            margin-bottom: var(--spacing-md, 2rem);
+        }
+
+        .cs-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: var(--spacing-xl, 4rem);
+        }
+
+        .cs-section { margin-bottom: var(--spacing-xl, 4rem); }
+
+        .cs-h2 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm, 1rem);
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cs-facts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .cs-fact {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md, 2rem);
+        }
+
+        .cs-fact dt {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .cs-fact dd {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .cs-flow {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 2;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: var(--spacing-md, 2rem);
+            overflow-x: auto;
+        }
+
+        .cs-flow span { color: var(--accent); }
+
+        .cs-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .cs-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.85rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .cs-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.65em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .cs-list li strong { color: var(--text-primary); font-weight: 600; }
+
+        .cs-code {
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.1rem 0.35rem;
+        }
+
+        .cs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+        }
+
+        .cs-table th,
+        .cs-table td {
+            text-align: left;
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cs-table th {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .cs-table td { color: var(--text-secondary); }
+        .cs-table td strong { color: var(--text-primary); }
+
+        .cs-note {
+            border-left: 2px solid var(--accent);
+            background: var(--bg-secondary);
+            padding: var(--spacing-md, 2rem);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .cs-note p:last-child { margin-bottom: 0; }
+
+        .cs-note p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+        }
+
+        .cs-note strong { color: var(--text-primary); font-weight: 600; }
+    </style>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#projects" class="nav-link">Work</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#projects" class="mobile-nav-link">Work</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="case-study">
+        <div class="container">
+            <a href="/#projects" class="cs-back">&larr; All projects</a>
+
+            <p class="cs-eyebrow">Case study &middot; Data science</p>
+            <h1 class="cs-title">Retail Demand Forecasting with AI</h1>
+            <p class="cs-lede">
+                A store-level demand forecasting system for multi-branch retail. A gradient-boosted model
+                predicts each store's daily sales up to 30 days ahead, validated walk-forward against a
+                naive baseline, and a GenAI layer turns the forecast into plain-language, store-specific
+                recommendations for operations teams. Orchestrated with Dagster.
+            </p>
+
+            <div class="cs-actions">
+                <a href="https://github.com/akmalariq/retail-demand-forecasting-ai" target="_blank" rel="noopener noreferrer" class="btn btn-github">
+                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    View on GitHub
+                </a>
+            </div>
+
+            <section class="cs-section" aria-labelledby="cs-glance">
+                <h2 class="cs-h2" id="cs-glance">At a glance</h2>
+                <dl class="cs-facts">
+                    <div class="cs-fact">
+                        <dt>Dataset</dt>
+                        <dd>Rossmann Store Sales (public, 1,115 stores), with a bundled synthetic sample that runs the full pipeline offline</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Model</dt>
+                        <dd>Gradient-boosted regression (HistGradientBoostingRegressor) over calendar, lag, and rolling features</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Validation</dt>
+                        <dd>Walk-forward holdout: the last 30 days per store, with MAE, RMSE, and MAPE</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Accuracy</dt>
+                        <dd>MAE 223.4, RMSE 312.8, MAPE 6.2%</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Baseline</dt>
+                        <dd>44.8% lower MAE than a naive lag-7 forecast</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Horizon</dt>
+                        <dd>30-day daily forecast per store, produced iteratively</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Insight layer</dt>
+                        <dd>An LLM converts forecasts into store recommendations, with a fully offline heuristic fallback</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Orchestration</dt>
+                        <dd>Dagster job: engineer, train, evaluate, forecast, insights. Python, pandas, scikit-learn</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-pipeline">
+                <h2 class="cs-h2" id="cs-pipeline">Pipeline</h2>
+                <div class="cs-flow">
+Sales history  <span>&rarr;</span>  Feature engineering  <span>&rarr;</span>  Gradient-boosted model  <span>&rarr;</span>  Walk-forward validation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>&rarr;</span>  30-day forecast per store  <span>&rarr;</span>  GenAI insights
+                </div>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-built">
+                <h2 class="cs-h2" id="cs-built">What I built</h2>
+                <ul class="cs-list">
+                    <li><strong>Feature engineering.</strong> Calendar features (day of week, month, weekend, holidays), promotion and school-holiday flags, and lag plus rolling-window statistics that capture weekly seasonality and recent store momentum.</li>
+                    <li><strong>One model across stores.</strong> A single gradient-boosted regressor trained on all stores, using store type as a categorical feature, so each store borrows strength from the others.</li>
+                    <li><strong>Walk-forward evaluation.</strong> The last 30 days per store are held out and scored with MAE, RMSE, and MAPE, compared against a naive lag-7 baseline so the score has a reference point.</li>
+                    <li><strong>Iterative horizon forecast.</strong> Because future lags are unknown, the model feeds on its own predictions to produce a 30-day daily forecast per store without observed future sales.</li>
+                    <li><strong>GenAI insight layer.</strong> An LLM writes the briefing an operations lead would otherwise write by hand, turning forecast numbers into store-specific guidance; without an API key, a fully offline heuristic produces the same report shape.</li>
+                    <li><strong>Orchestration.</strong> A Dagster job wires the stages together so the pipeline runs as one production-shaped unit.</li>
+                </ul>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-results">
+                <h2 class="cs-h2" id="cs-results">Results</h2>
+                <table class="cs-table">
+                    <thead>
+                        <tr><th>Metric</th><th>Value</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>MAE</td><td><strong>223.4</strong></td></tr>
+                        <tr><td>RMSE</td><td><strong>312.8</strong></td></tr>
+                        <tr><td>MAPE</td><td><strong>6.2%</strong></td></tr>
+                        <tr><td>Naive baseline MAE (lag 7)</td><td>405.1</td></tr>
+                        <tr><td>Improvement vs baseline</td><td><strong>44.8% lower MAE</strong></td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-decisions">
+                <h2 class="cs-h2" id="cs-decisions">Decisions worth noting</h2>
+                <ul class="cs-list">
+                    <li><strong>Why walk-forward, not a random split.</strong> A time series must be validated on a future window. A random split leaks future information into training and inflates the score, which is the most common way forecasting projects fool themselves.</li>
+                    <li><strong>Why a naive baseline.</strong> A lag-7 carry-forward is the bar any forecast has to clear. Reporting the improvement over it keeps the result honest and readable to a non-specialist.</li>
+                    <li><strong>Why the forecast feeds on itself.</strong> At prediction time the future lags do not exist, so the model uses its own previous predictions. The alternative, assuming the last lag holds constant, is simply a worse model.</li>
+                    <li><strong>Why a GenAI layer at all.</strong> A forecast is only useful if someone acts on it. The insight layer closes the gap between a numeric output and a decision an operations lead can make.</li>
+                </ul>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-honest">
+                <h2 class="cs-h2" id="cs-honest">Honest notes</h2>
+                <div class="cs-note">
+                    <p><strong>This is a portfolio project, not a production deployment.</strong> The model is not served behind an API or retrained on a schedule; what it demonstrates is the modelling, validation, and evaluation discipline.</p>
+                    <p><strong>The data is public.</strong> The pipeline targets the Rossmann Store Sales dataset, and ships a synthetic sample with the same schema so reviewers without Kaggle access can run it end to end.</p>
+                    <p><strong>The metrics shown are from the bundled sample.</strong> Real-dataset numbers differ once the Kaggle download is used; the pipeline and the evaluation logic do not change.</p>
+                    <p><strong>The GenAI layer is optional.</strong> It calls an OpenAI-compatible model when a key is present and otherwise falls back to a deterministic heuristic, so the pipeline is never blocked on an external API.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const toggle = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            if (toggle) {
+                toggle.addEventListener('click', function () {
+                    root.classList.toggle('light');
+                    root.classList.toggle('dark');
+                    try {
+                        localStorage.setItem(
+                            'akmal-portfolio-theme',
+                            root.classList.contains('light') ? 'light' : 'dark'
+                        );
+                    } catch (e) {}
+                });
+            }
+            const year = document.getElementById('footer-year');
+            if (year) year.textContent = new Date().getFullYear();
+        })();
+    </script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

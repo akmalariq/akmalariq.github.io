@@ -44,6 +44,139 @@
       ]
     },
     {
+      "id": "retail-replenishment-optimization",
+      "title": "Demand-Driven Replenishment Optimization",
+      "featured": false,
+      "caseStudy": "/projects/retail-replenishment-optimization/",
+      "description": "An ML demand forecast feeding safety-stock and reorder-point decisions, scored in an inventory simulation. Fill rate rose from 81% to 98% and total cost fell 88% against a naive days-of-supply policy.",
+      "longDescription": "A replenishment decision system for multi-store retail. A gradient-boosted demand forecast sizes each store's safety stock from its own forecast error, which sets the reorder point and base-stock level. Every policy is scored in a period-by-period inventory simulation with supplier lead time, review period, and backorders, tracking fill rate, stockout units, average on-hand, and cost. Each store's service level is then chosen to minimize simulated total cost, and a limited inventory budget is allocated across stores by marginal fill-rate gain per unit of holding cost. In a synthetic backtest against a naive days-of-supply policy, fill rate rose from 81% to 98% and total cost fell 88%. Orchestrated with Dagster.",
+      "category": "data-science",
+      "github": "https://github.com/akmalariq/retail-replenishment-optimization",
+      "demo": null,
+      "image": null,
+      "tags": [
+        "Inventory Optimization",
+        "Demand Forecasting",
+        "Safety Stock",
+        "Reorder Point",
+        "Simulation",
+        "Operations Research",
+        "Python",
+        "Dagster"
+      ],
+      "stats": {
+        "fill rate": "81% naive to 98% forecast-driven, demand-weighted",
+        "total cost": "down 88% against a naive days-of-supply policy",
+        "policy": "safety stock z * sigma * sqrt(protection period), reorder point, base stock",
+        "simulation": "period-by-period model with lead time, review period, and backorders",
+        "optimization": "per-store service level (0.50 to 0.99) minimizing total cost",
+        "tests": "10 tests, CI green"
+      },
+      "highlights": [
+        "Turned a demand forecast into decisions: safety stock sized from forecast error, then a reorder point and base stock.",
+        "Built an inventory simulation with lead time, review period, and backorders, so the policy cost is measured rather than assumed.",
+        "Chose each store's service level by minimizing simulated total cost, making the holding-versus-stockout trade-off explicit.",
+        "Allocated a limited inventory budget across stores by marginal fill-rate gain per unit of holding cost.",
+        "Backtested against a naive days-of-supply baseline: fill rate 81% to 98%, total cost down 88%."
+      ],
+      "flow": [
+        "Demand history",
+        "ML forecast",
+        "Safety stock + reorder point",
+        "Inventory simulation",
+        "Service-level optimization",
+        "Budget allocation"
+      ]
+    },
+    {
+      "id": "promotion-lift-optimization",
+      "title": "Promotion Lift and Trade Optimization",
+      "featured": false,
+      "caseStudy": "/projects/promotion-lift-optimization/",
+      "description": "Estimating incremental promotion lift with a counterfactual baseline, controlled price elasticity, and incremental margin, then planning a promotion calendar under a fixed trade budget with mixed-integer programming.",
+      "longDescription": "A causal promotion analytics system. A no-promo demand baseline trained on non-promoted store-weeks provides the counterfactual, so incremental units and margin can be separated from volume that would have sold anyway. Price elasticity is estimated two ways: naively on price alone, and controlled for discount depth, display, season, and store fixed effects, which exposes the confounding when price only moves during promotions. A lift curve maps discount depth to observed-versus-counterfactual demand, and incremental margin charges the discount on every promoted unit. Finally, a mixed-integer program selects at most one discount depth per store-week to maximize incremental margin under a fixed trade budget and a per-store frequency cap. In a synthetic panel, 55 percent of promotions were margin-negative and reallocating the same budget moved margin from -143.6M to +321.4M.",
+      "category": "data-science",
+      "github": "https://github.com/akmalariq/promotion-lift-optimization",
+      "demo": null,
+      "image": null,
+      "tags": [
+        "Causal Inference",
+        "Promotion Lift",
+        "Price Elasticity",
+        "Incremental Margin",
+        "Mixed-Integer Programming",
+        "FMCG",
+        "Python",
+        "Dagster"
+      ],
+      "stats": {
+        "elasticity": "naive -0.25 vs controlled -1.45 (true -1.5)",
+        "counterfactual": "no-promo baseline trained on non-promoted store-weeks",
+        "finding": "55% of promotions were margin-negative",
+        "optimization": "MILP under a fixed budget plus a per-store frequency cap",
+        "result": "same budget, margin -143.6M to +321.4M (+465.0M)",
+        "tests": "8 tests, CI green"
+      },
+      "highlights": [
+        "Built the counterfactual no-promo baseline that makes incremental promotion margin computable at all.",
+        "Showed the confounding directly: naive price elasticity -0.25 versus controlled -1.45 against a true -1.5.",
+        "Charged the discount on every promoted unit, not just the incremental ones, so margin is not overstated.",
+        "Planned a promotion calendar with a mixed-integer program under a fixed budget and a per-store frequency cap.",
+        "Found that 55% of promotions destroyed margin, and turned the same budget from -143.6M to +321.4M."
+      ],
+      "flow": [
+        "Store-week panel",
+        "Counterfactual baseline",
+        "Lift + elasticity",
+        "Incremental margin",
+        "MILP calendar"
+      ]
+    },
+    {
+      "id": "retail-demand-forecasting-ai",
+      "title": "Retail Demand Forecasting with AI",
+      "featured": false,
+      "caseStudy": "/projects/retail-demand-forecasting-ai/",
+      "description": "Store-level demand forecasting for multi-branch retail: gradient-boosted daily sales prediction with walk-forward validation, an honest naive-baseline comparison, and a GenAI layer that turns forecasts into store recommendations.",
+      "longDescription": "A store-level demand forecasting system for multi-branch retail. A gradient-boosted model predicts each store's daily sales up to 30 days ahead, using calendar, promotion, lag, and rolling features from the sales history. The model is validated walk-forward on the last 30 days per store and scored with MAE, RMSE, and MAPE against a naive lag-7 baseline, so the accuracy claim has a reference point. Because future lags are unknown, the horizon forecast feeds on the model's own predictions. A GenAI layer turns the numeric forecast into plain-language, store-specific recommendations for operations teams, with a fully offline heuristic fallback when no API key is present. Orchestrated with Dagster.",
+      "category": "data-science",
+      "github": "https://github.com/akmalariq/retail-demand-forecasting-ai",
+      "demo": null,
+      "image": null,
+      "tags": [
+        "Demand Forecasting",
+        "Machine Learning",
+        "Gradient Boosting",
+        "Walk-Forward Validation",
+        "GenAI",
+        "Dagster",
+        "Python"
+      ],
+      "stats": {
+        "accuracy": "MAE 223.4, RMSE 312.8, MAPE 6.2%",
+        "baseline": "44.8% lower MAE than a naive lag-7 forecast",
+        "horizon": "30-day daily forecast per store",
+        "validation": "walk-forward holdout, last 30 days per store",
+        "model": "HistGradientBoostingRegressor over calendar, lag, and rolling features",
+        "insight layer": "LLM with an offline heuristic fallback"
+      },
+      "highlights": [
+        "Engineered calendar, promotion, lag, and rolling-window features that capture weekly seasonality and recent store momentum.",
+        "Validated walk-forward instead of a random split, so no future information leaks into training.",
+        "Compared against a naive lag-7 baseline and reported a 44.8% reduction in MAE rather than an unanchored score.",
+        "Produced a 30-day per-store forecast iteratively, using the model's own predictions because future lags do not exist.",
+        "Added a GenAI insight layer that converts forecasts into store-specific recommendations, with an offline fallback when no API key is set."
+      ],
+      "flow": [
+        "Sales history",
+        "Feature engineering",
+        "Gradient boosting",
+        "Walk-forward eval",
+        "30-day forecast",
+        "GenAI insights"
+      ]
+    },
+    {
       "id": "streaming-cdc-pipeline",
       "title": "Streaming CDC Pipeline with Debezium and Kafka",
       "featured": false,
