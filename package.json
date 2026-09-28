@@ -6,10 +6,11 @@
   "scripts": {
     "build:blog": "node scripts/sync-tokens.mjs && cd blog-src && npm ci --no-audit --no-fund && npm run build",
     "build:site": "node scripts/build-site.mjs",
-    "build": "npm run build:blog && npm run build:site",
+    "build": "npm run check:structure && npm run build:blog && npm run build:site",
     "dev:blog": "cd blog-src && npm run dev",
     "deploy": "npm run build && npx wrangler pages deploy dist --project-name akmalariq --branch main",
-    "sync:tokens": "node scripts/sync-tokens.mjs"
+    "sync:tokens": "node scripts/sync-tokens.mjs",
+    "check:structure": "node scripts/check-structure.mjs"
   },
   "engines": {
     "node": ">=20"
