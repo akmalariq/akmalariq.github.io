@@ -27,7 +27,7 @@ async function getGitHubStats(repoUrl) {
 // ==============================
 async function loadProjects() {
     try {
-        const response = await fetch('data/projects.json');
+        const response = await fetch('/data/projects.json');
         const data = await response.json();
 
         const projectsWithStats = await Promise.all(
@@ -66,8 +66,9 @@ function createProjectCard(project) {
         </div>`
         : '';
 
+    // Label is per-project: some demos are dashboards, some are apps.
     const demoButton = project.demo
-        ? `<a href="${escapeHtml(project.demo)}" target="_blank" rel="noopener noreferrer" class="btn btn-demo">Open the live dashboard</a>`
+        ? `<a href="${escapeHtml(project.demo)}" target="_blank" rel="noopener noreferrer" class="btn btn-demo">${escapeHtml(project.demoLabel || 'Open the live dashboard')}</a>`
         : '';
 
     let githubStatsHtml = '';
@@ -378,8 +379,9 @@ async function initPortfolio() {
     updateFooterYear();
     initShowcaseTabs();
 
-    // Projects render only where the grid exists (homepage). Check first so
-    // subpages do not fire a doomed fetch for data/projects.json.
+    // The grid renders wherever #projectsGrid exists (homepage and /projects).
+    // The fetch below is root-absolute on purpose: on /projects a relative
+    // "data/projects.json" would resolve to /projects/data/... and 404.
     const grid = document.getElementById('projectsGrid');
     if (!grid) return;
 

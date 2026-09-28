@@ -704,6 +704,20 @@ section {
     gap: var(--spacing-md);
 }
 
+/* Homepage shows the highlights; the full list lives on /projects. */
+.projects-more {
+    margin-top: var(--spacing-md);
+    text-align: center;
+}
+
+.projects .section-subtitle {
+    display: block;
+    max-width: 62ch;
+    margin: 0 auto var(--spacing-md);
+    color: var(--text-secondary);
+    text-align: center;
+}
+
 .project-card {
     background: var(--bg-secondary);
     border: 1px solid var(--border);

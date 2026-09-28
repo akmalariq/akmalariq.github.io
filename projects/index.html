@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint.
+         Theme key and default match the homepage and the blog (shared 'theme' key,
+         OS preference as the default) so the choice carries across pages. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                root.classList.add(saved === 'light' ? 'light' : 'dark');
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.classList.add('dark');
+            }
+        })();
+    </script>
+
+    <!-- Primary SEO Meta Tags -->
+    <title>Projects: Data Platforms, Pipelines and Analytics | Akmal Ariq</title>
+    <meta name="description" content="Data engineering and analytics projects by Akmal Ariq: geospatial retail site selection for Jakarta, demand forecasting, promotion lift optimisation, replenishment, CDC streaming, warehouse modelling and an AI OOH media planner.">
+    <meta name="keywords" content="Data Engineering, Analytics, Portfolio, BigQuery, dbt, Dagster, ClickHouse, Cloudflare Workers, Geospatial, Forecasting, Optimisation, Machine Learning">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+
+    <link rel="canonical" href="https://akmalariq.dev/projects/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akmalariq.dev/projects/">
+    <meta property="og:title" content="Projects: Data Platforms, Pipelines and Analytics">
+    <meta property="og:description" content="Case studies in data engineering, geospatial analytics, forecasting and optimisation — built end to end, from ingestion to decision.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta property="og:site_name" content="Akmal Ariq Portfolio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Projects: Data Platforms, Pipelines and Analytics">
+    <meta name="twitter:description" content="Case studies in data engineering, geospatial analytics, forecasting and optimisation.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <!-- Fonts: self-hosted, preloaded, latin subset -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Structured data: this is the canonical list of work -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Projects",
+      "url": "https://akmalariq.dev/projects/",
+      "description": "Data engineering and analytics case studies by Akmal Ariq.",
+      "isPartOf": { "@type": "WebSite", "name": "Akmal Ariq Portfolio", "url": "https://akmalariq.dev/" },
+      "author": { "@type": "Person", "name": "Akmal Ariq", "url": "https://akmalariq.dev/" }
+    }
+    </script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/projects" class="nav-link" aria-current="page">Work</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/projects" class="mobile-nav-link" aria-current="page">Work</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="projects">
+            <div class="container">
+                <h1 class="section-title">Projects</h1>
+                <p class="section-subtitle">
+                    Data platforms, pipelines and analytics built end to end &mdash; from ingestion to the decision
+                    they support. Each case study covers the problem, the build, and what the numbers did.
+                </p>
+
+                <!-- Projects Grid. Populated from /data/projects.json by js/app.js,
+                     which renders wherever this id exists. -->
+                <div class="projects-grid reveal-grid" id="projectsGrid">
+                    <!-- SEO: fallback content for crawlers and users without JavaScript -->
+                    <noscript>
+                        <div class="project-card">
+                            <div class="project-content">
+                                <h3 class="project-title">Jakarta Retail Site Selection</h3>
+                                <p class="project-description">Location intelligence scoring every H3 hexagon in DKI Jakarta for retail and F&amp;B opportunity, built from 289,000 Overture Maps points of interest with BigQuery and dbt. Includes a live interactive map.</p>
+                                <div class="project-links">
+                                    <a href="/projects/jakarta-geomarketing/" class="btn btn-case-study">Read case study</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-content">
+                                <h3 class="project-title">Demand-Driven Replenishment Optimization</h3>
+                                <p class="project-description">An ML demand forecast feeding safety-stock and reorder-point decisions, scored in an inventory simulation. Fill rate rose from 81% to 98% and total cost fell 88% against a naive days-of-supply policy.</p>
+                                <div class="project-links">
+                                    <a href="/projects/retail-replenishment-optimization/" class="btn btn-case-study">Read case study</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-content">
+                                <h3 class="project-title">Promotion Lift and Trade Optimization</h3>
+                                <p class="project-description">Estimating incremental promotion lift with a counterfactual baseline, controlled price elasticity, and incremental margin, then planning a promotion calendar under a fixed trade budget with mixed-integer programming.</p>
+                                <div class="project-links">
+                                    <a href="/projects/promotion-lift-optimization/" class="btn btn-case-study">Read case study</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-content">
+                                <h3 class="project-title">Retail Demand Forecasting with AI</h3>
+                                <p class="project-description">Store-level demand forecasting for multi-branch retail: gradient-boosted daily sales prediction with walk-forward validation, an honest naive-baseline comparison, and a GenAI layer that turns forecasts into store recommendations.</p>
+                                <div class="project-links">
+                                    <a href="/projects/retail-demand-forecasting-ai/" class="btn btn-case-study">Read case study</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-content">
+                                <h3 class="project-title">Earthquake Analytics Pipeline</h3>
+                                <p class="project-description">End-to-end Google Cloud data platform over approximately 500,000 earthquake events (2015-2025): Terraform-provisioned infrastructure, Kestra orchestration, a partitioned and clustered BigQuery warehouse, dbt models, and an interactive Looker Studio dashboard.</p>
+                                <div class="project-links">
+                                    <a href="/projects/earthquake/" class="btn btn-case-study">Read case study</a>
+                                </div>
+                            </div>
+                        </div>
+                        <p><a href="https://github.com/akmalariq">More on GitHub</a></p>
+                    </noscript>
+                </div>
+
+                <div class="cta" style="margin-top: 3rem">
+                    <h2 class="cta-title">Building something with data?</h2>
+                    <p class="cta-text">I design and build data platforms, pipelines and decision dashboards &mdash; and I write about how they work.</p>
+                    <div class="cta-actions">
+                        <a href="/#contact" class="btn btn-primary">Work with me</a>
+                        <a href="/blog/" class="btn btn-secondary">Read the blog</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/app.js" defer></script>
+</body>
+</html>

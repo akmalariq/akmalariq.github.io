@@ -1,6 +1,45 @@
 {
   "projects": [
     {
+      "id": "ooh-media-planner",
+      "title": "OOH Media Planner (AI)",
+      "featured": true,
+      "category": "data-engineering",
+      "demo": "https://akmalariq.dev/projects/ooh-media-planner",
+      "demoLabel": "Open the live planner",
+      "description": "An AI media planner for Indonesian out-of-home advertising. Type a brief in natural language and get a budget-validated plan on a map, with reach deduplication, CPM and shareable links. Runs entirely on Cloudflare Workers and D1.",
+      "longDescription": "A planning workspace where chat controls the plan and the workspace shows it. A media planner types a brief such as 'Rp300M, Jakarta, launch campaign, upper-middle-income young adults, one month' and receives a budget-validated shortlist of 20-50 sites on a map, a recommendation table, and the numbers to defend it. The architecture separates interpretation from execution: the model routes intent and explains trade-offs through seven tools, while selection, budgeting, reach deduplication and relaxation are deterministic server-side code, so a plan can never exceed budget and a question can never overwrite committed work.",
+      "tags": [
+        "LLM Tool Calling",
+        "Cloudflare Workers",
+        "D1",
+        "Next.js",
+        "Geospatial",
+        "React",
+        "Deterministic Planning"
+      ],
+      "stats": {
+        "inventory": "500 Jakarta OOH sites and 137 POIs",
+        "guarantee": "budget never exceeded, reach deduplicated",
+        "runtime": "Cloudflare Workers + D1, no server"
+      },
+      "highlights": [
+        "Seven model tools split between read-only discovery and plan-mutating commits, with intent routing so explore and what-if questions cannot overwrite a committed plan.",
+        "Deterministic plan engine: density targeting, overlap-aware selection, progressive filter relaxation and budget-valid curation all run server-side.",
+        "Reach deduplication with a redundancy guard, CPM, campaign impressions, and a delta bar showing what each change did to cost, reach and CPM.",
+        "Non-destructive A/B comparison: a what-if builds an alternative beside the plan, previewable on the map and adopted only on request.",
+        "Shareable read-only plan links with an auto-generated rationale, plus CSV export.",
+        "131 unit tests over the pure modules, with the suite having caught a live redundancy-guard defect."
+      ],
+      "flow": [
+        "Natural-language brief",
+        "Intent routing",
+        "Tool-calling agent",
+        "Deterministic curation",
+        "Budget-valid plan"
+      ]
+    },
+    {
       "id": "jakarta-geomarketing",
       "title": "Jakarta Retail Site Selection",
       "featured": true,
