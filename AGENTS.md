@@ -192,6 +192,33 @@ hash changes. If the hash looks unchanged, the build did not pick up your edit.
 
 ---
 
+## Cloudflare account
+
+Everything here and the OOH planner at `/projects/ooh-media-planner` share one
+Cloudflare account, currently on the **Free** tiers. Nothing is billed.
+
+| | Free ceiling | Actual use |
+| --- | --- | --- |
+| Pages requests | unlimited (static) | — |
+| Worker requests | 100,000/day | ~9/day |
+| Worker CPU | 10 ms/invocation | over, but absorbed — see below |
+| D1 rows read | 5,000,000/day | ~108,000/24h |
+
+**Worker CPU is the only tight limit.** The planner's CPU p50 peaks near 30 ms
+against a 10 ms cap, yet invocation status over 30 days reads 279 success,
+0 `exceededCpu`. Cloudflare allows each isolate *"built-in flexibility ... where
+your Worker infrequently runs over the configured limit"*, and that Worker runs
+about nine times a day, so overages stay rare. **That is volume-dependent, not
+permanent** — sustained traffic would start producing `exceededCpu` and that,
+not a date, is what would justify Workers Paid ($5/month).
+
+Billing cannot be read with the OAuth token on this machine (it lacks the
+billing scope). Billing profile, subscriptions and the next payment date are
+only visible at **dash.cloudflare.com → account → Billing → Subscriptions**.
+
+Account: `Akmalariqs@gmail.com's Account` · `db18b6090d3cd75544c171d79d793f5a`
+· created 2026-01-14.
+
 ## Content conventions
 
 - SEO per page: unique `<title>`, `meta description`, `canonical`, OG and
