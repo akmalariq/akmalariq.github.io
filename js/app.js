@@ -179,38 +179,6 @@ function initScrollspy() {
 // ==============================
 // Header scroll shadow
 // ==============================
-function initHeaderScroll() {
-    const header = document.querySelector('.header');
-    const onScroll = () => {
-        header.classList.toggle('scrolled', window.scrollY > 20);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-}
-
-// ==============================
-// Mobile menu
-// ==============================
-function initMobileMenu() {
-    const btn = document.querySelector('.mobile-menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    if (!btn || !menu) return;
-
-    btn.addEventListener('click', () => {
-        const isOpen = btn.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(isOpen));
-        menu.hidden = !isOpen;
-    });
-
-    // Close on nav link click
-    menu.querySelectorAll('.mobile-nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            btn.classList.remove('open');
-            btn.setAttribute('aria-expanded', 'false');
-            menu.hidden = true;
-        });
-    });
-}
-
 // ==============================
 // Smooth scroll
 // ==============================
@@ -279,47 +247,6 @@ function initBackToTop() {
     });
 }
 
-// ==============================
-// Footer year
-// ==============================
-function updateFooterYear() {
-    const el = document.getElementById('footer-year');
-    if (el) el.textContent = new Date().getFullYear();
-}
-
-
-
-// ==============================
-// Theme Toggler
-// ==============================
-function initThemeToggle() {
-    const desktopToggle = document.getElementById('themeToggle');
-    const mobileToggle = document.getElementById('themeToggleMobile');
-    const root = document.documentElement;
-
-    const toggleTheme = () => {
-        const isCurrentlyLight = root.classList.contains('light');
-        if (isCurrentlyLight) {
-            root.classList.remove('light');
-            root.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            root.classList.remove('dark');
-            root.classList.add('light');
-            localStorage.setItem('theme', 'light');
-        }
-    };
-
-    if (desktopToggle) {
-        desktopToggle.addEventListener('click', toggleTheme);
-    }
-    if (mobileToggle) {
-        mobileToggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            toggleTheme();
-        });
-    }
-}
 
 // ==============================
 // Showcase Tabs (progressive enhancement)
@@ -368,15 +295,11 @@ function initShowcaseTabs() {
 // ==============================
 async function initPortfolio() {
     // Non-blocking UI setup first
-    initThemeToggle();
-    initHeaderScroll();
-    initMobileMenu();
     initSmoothScroll();
     initScrollReveal();
     initSkillBars();
     initBackToTop();
     initScrollspy();
-    updateFooterYear();
     initShowcaseTabs();
 
     // The grid renders wherever #projectsGrid exists (homepage and /projects).
