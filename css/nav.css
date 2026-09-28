@@ -2,16 +2,22 @@
    Shared site header — ONE navbar for every page.
 
    Loaded by the homepage, /projects, the case studies and the blog, so the
-   header cannot drift between them. This replaces three divergent copies that
-   used to live in style.css, site.css and the blog's own stylesheet.
+   header cannot drift between them. Replaces three divergent copies that used
+   to live in style.css, site.css and the blog's own stylesheet.
 
-   Tokens come from the design system every page already defines. Two are
-   blog-only gaps, so they carry fallbacks:
-     --dur-hover   the blog defines --transition instead
-     --ease-out    the blog defines --transition-slow instead
+   Two rules govern this file:
 
-   .name and .title are scoped under .header-logo because they are generic
-   enough to collide with page-level classes.
+   1. The header owns its appearance. Host pages style bare <a> elements (the
+      blog underlines every hovered link, the main site does not), so anything
+      a page could leak in is stated explicitly rather than inherited.
+
+   2. Hover is a bonus, never the only signal. Pointer-only effects are gated
+      behind a hover-capable media query; touch devices trigger :hover on tap,
+      which otherwise leaves a link stuck in its hover state.
+
+   Tokens come from the design system every page defines. Two are blog-only
+   gaps and carry fallbacks: --dur-hover (the blog defines --transition) and
+   --ease-out (the blog defines --transition-slow).
    ============================================================================== */
 
 .header {
@@ -22,6 +28,17 @@
     background: var(--bg-header);
     backdrop-filter: saturate(160%) blur(10px);
     -webkit-backdrop-filter: saturate(160%) blur(10px);
+    /* Own the type metrics so a page's body styles cannot shift the header. */
+    font-family: var(--font-sans);
+    line-height: 1.2;
+    letter-spacing: normal;
+}
+
+/* Host pages style bare <a>; the header opts out of all of it. */
+.header a,
+.header a:hover,
+.header a:focus {
+    text-decoration: none;
 }
 
 .header-content {
@@ -36,7 +53,6 @@
     display: flex;
     align-items: baseline;
     gap: 0.55rem;
-    text-decoration: none;
 }
 
 .header-logo .name {
@@ -61,48 +77,72 @@
 .nav {
     display: flex;
     align-items: center;
-    gap: clamp(0.75rem, 2vw, 1.5rem);
+    gap: clamp(0.5rem, 1.6vw, 1.1rem);
+}
+
+/* Separates the in-page links from the ones that leave this page, so the
+   grouping reads as intentional rather than as link soup. */
+.nav-divider {
+    width: 1px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-inline: 0.35rem;
+    background: var(--border);
 }
 
 .nav-link {
+    position: relative;
     font-family: var(--font-sans);
     font-size: 0.92rem;
     font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: normal;
     color: var(--text-secondary);
-    text-decoration: none;
+    padding: 0.35rem 0.25rem;
     transition: color var(--dur-hover, 0.2s) var(--ease-out, ease);
 }
 
-.nav-link:hover,
 .nav-link.active,
 .nav-link[aria-current="page"] {
     color: var(--text-primary);
 }
 
-/* The contact action is the point of the site, so it is a button.
-   Styled here rather than inherited: the main site names this .btn-primary and
-   the blog names it .btn--primary, so neither convention is safe to rely on. */
+/* A hairline under the current section: a state a colour alone cannot carry
+   for a visitor who cannot distinguish the two greys. */
+.nav-link.active::after,
+.nav-link[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0.25rem;
+    bottom: -0.1rem;
+    height: 1px;
+    background: var(--accent);
+}
+
+/* The contact action is the point of the site, so it is a button. Styled here
+   rather than inherited, because the main site names this .btn-primary and the
+   blog names it .btn--primary. */
 .nav-cta,
 .nav-cta[aria-current="page"] {
     padding: 0.5rem 0.95rem;
     font-size: 0.875rem;
+    font-weight: 600;
     white-space: nowrap;
     background: var(--accent);
-    border-color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
     color: var(--bg-primary);
-    text-decoration: none;
+    transition:
+        background-color var(--dur-hover, 0.2s) var(--ease-out, ease),
+        border-color var(--dur-hover, 0.2s) var(--ease-out, ease),
+        transform 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
 }
 
-.nav-cta:hover {
-    background: color-mix(in oklab, var(--accent) 88%, white);
-    border-color: color-mix(in oklab, var(--accent) 88%, white);
-    color: var(--bg-primary);
-    text-decoration: none;
-}
-
-/* The blog underlines every hovered link by default. */
-.header-logo:hover {
-    text-decoration: none;
+/* Press feedback: instant confirmation that the interface heard the click. */
+.nav-cta:active,
+.theme-toggle-btn:active,
+.mobile-menu-btn:active {
+    transform: scale(0.97);
 }
 
 /* ---- Theme toggle ------------------------------------------------------ */
@@ -113,6 +153,8 @@
     justify-content: center;
     width: 2.25rem;
     height: 2.25rem;
+    flex-shrink: 0;
+    padding: 0;
     border: 1px solid var(--border);
     border-radius: 999px;
     background: transparent;
@@ -120,12 +162,8 @@
     cursor: pointer;
     transition:
         border-color var(--dur-hover, 0.2s) var(--ease-out, ease),
-        color var(--dur-hover, 0.2s) var(--ease-out, ease);
-}
-
-.theme-toggle-btn:hover {
-    border-color: var(--border-strong, var(--text-secondary));
-    color: var(--text-primary);
+        color var(--dur-hover, 0.2s) var(--ease-out, ease),
+        transform 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
 }
 
 /* Both the main site and the blog put .light / .dark on <html>. */
@@ -142,12 +180,15 @@ html.dark .moon-icon { display: none; }
 .mobile-menu-btn {
     display: none;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 6px;
+    padding: 0.5rem;
     border: 1px solid var(--border);
     border-radius: var(--radius-sm, 4px);
     background: transparent;
     cursor: pointer;
-    padding: 0.5rem;
+    transition: transform 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
 }
 
 .mobile-menu-btn span {
@@ -155,7 +196,9 @@ html.dark .moon-icon { display: none; }
     width: 20px;
     height: 2px;
     background: var(--text-primary);
-    transition: transform var(--dur-hover, 0.2s) var(--ease-out, ease), opacity var(--dur-hover, 0.2s) var(--ease-out, ease);
+    transition:
+        transform var(--dur-hover, 0.2s) var(--ease-out, ease),
+        opacity var(--dur-hover, 0.2s) var(--ease-out, ease);
 }
 
 .mobile-menu-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
@@ -179,18 +222,41 @@ html.dark .moon-icon { display: none; }
     align-items: center;
     min-height: 44px;
     padding: 0.75rem 1rem;
+    font-family: var(--font-sans);
     font-size: 0.95rem;
     font-weight: 500;
+    letter-spacing: normal;
     color: var(--text-secondary);
-    text-decoration: none;
     border-bottom: 1px solid var(--border);
     transition: color var(--dur-hover, 0.2s) var(--ease-out, ease);
 }
 
-.mobile-nav-link:hover,
 .mobile-nav-link.active,
 .mobile-nav-link[aria-current="page"] {
     color: var(--text-primary);
+}
+
+/* ---- Hover, for pointers only ------------------------------------------ */
+
+@media (hover: hover) and (pointer: fine) {
+    .nav-link:hover {
+        color: var(--text-primary);
+    }
+
+    .theme-toggle-btn:hover {
+        border-color: var(--border-strong, var(--text-secondary));
+        color: var(--text-primary);
+    }
+
+    .nav-cta:hover {
+        background: color-mix(in oklab, var(--accent) 88%, white);
+        border-color: color-mix(in oklab, var(--accent) 88%, white);
+        color: var(--bg-primary);
+    }
+
+    .mobile-nav-link:hover {
+        color: var(--text-primary);
+    }
 }
 
 @media (max-width: 768px) {
@@ -212,5 +278,19 @@ html.dark .moon-icon { display: none; }
     .header-logo {
         align-items: center;
         min-height: 44px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .header a,
+    .header button,
+    .mobile-menu-btn span {
+        transition-duration: 0.01ms;
+    }
+
+    .nav-cta:active,
+    .theme-toggle-btn:active,
+    .mobile-menu-btn:active {
+        transform: none;
     }
 }
