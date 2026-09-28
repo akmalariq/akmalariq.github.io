@@ -71,79 +71,6 @@ svg {
 
 /* ---------------------------------------------------------------- header --- */
 
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg-header);
-  backdrop-filter: saturate(160%) blur(10px);
-}
-
-.site-header__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-block: 0.9rem;
-}
-
-.brand {
-  font-family: var(--font-sans);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-}
-.brand:hover {
-  text-decoration: none;
-}
-.brand__accent {
-  color: var(--accent-text);
-}
-.brand__crumb {
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-.site-nav {
-  display: flex;
-  align-items: center;
-  gap: clamp(0.75rem, 2vw, 1.5rem);
-}
-
-.site-nav a {
-  color: var(--text-secondary);
-  font-size: 0.92rem;
-  font-weight: 500;
-}
-.site-nav a:hover,
-.site-nav a[aria-current="page"] {
-  color: var(--text-primary);
-  text-decoration: none;
-}
-
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: border-color var(--transition), color var(--transition);
-}
-.theme-toggle:hover {
-  border-color: var(--border-strong);
-  color: var(--text-primary);
-}
-html.dark .theme-toggle .icon-sun,
-html.light .theme-toggle .icon-moon {
-  display: none;
-}
-
 /* ------------------------------------------------------------------ hero --- */
 
 .page-head {
@@ -390,8 +317,8 @@ html.light .theme-toggle .icon-moon {
   color: var(--shiki-light);
   background-color: var(--shiki-light-bg);
 }
-html.dark .astro-code,
-html.dark .astro-code span {
+[data-theme="dark"] .astro-code,
+[data-theme="dark"] .astro-code span {
   color: var(--shiki-dark);
   background-color: var(--shiki-dark-bg);
 }

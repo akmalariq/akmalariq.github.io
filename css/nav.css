@@ -166,14 +166,25 @@
         transform 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
 }
 
-/* Both the main site and the blog put .light / .dark on <html>. */
-html.light .sun-icon { display: none; }
-html.light .moon-icon { display: block; color: var(--accent); }
-html.dark .sun-icon { display: block; color: var(--accent); }
-html.dark .moon-icon { display: none; }
+/* The theme lives on <html data-theme="..."> (see css/tokens.css). The icon
+   previews the NEXT theme in the cycle, so the button always says what it
+   will do rather than what you are already looking at:
 
-.sun-icon { display: block; }
-.moon-icon { display: none; }
+       dark  (sun)      ->  light
+       light (contrast) ->  contrast
+       contrast (moon)  ->  dark */
+
+.sun-icon { display: block; color: var(--accent); }
+.moon-icon,
+.contrast-icon { display: none; }
+
+[data-theme="light"] .sun-icon { display: none; }
+[data-theme="light"] .moon-icon { display: none; }
+[data-theme="light"] .contrast-icon { display: block; color: var(--accent); }
+
+[data-theme="contrast"] .sun-icon { display: none; }
+[data-theme="contrast"] .contrast-icon { display: none; }
+[data-theme="contrast"] .moon-icon { display: block; color: var(--accent); }
 
 /* ---- Mobile ------------------------------------------------------------ */
 

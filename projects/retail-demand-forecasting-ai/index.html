@@ -11,15 +11,18 @@
         (function () {
             var root = document.documentElement;
             root.classList.add('js');
+            // Themes are enumerated in css/tokens.css; keep this list in step.
+            var THEMES = ['dark', 'light', 'contrast'];
             try {
                 var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
                 if (!saved) {
                     saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
                 }
-                root.classList.add(saved === 'light' ? 'light' : 'dark');
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
                 localStorage.setItem('theme', saved);
             } catch (e) {
-                root.classList.add('dark');
+                root.setAttribute('data-theme', 'dark');
             }
         })();
     </script>
@@ -56,6 +59,7 @@
     <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
     <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
     <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
     <link rel="stylesheet" href="/css/style.css">
 
     <!-- Structured Data -->
@@ -285,6 +289,7 @@
                     <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
                         <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
                         <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        <svg class="contrast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg>
                     </button>
                 </nav>
                 <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">

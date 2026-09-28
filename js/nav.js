@@ -7,28 +7,56 @@
 (function () {
     'use strict';
 
+    // Themes are defined in css/tokens.css. Keep this list in step with the
+    // palette blocks there, and with the bootstrap in each page's <head>.
+    var THEMES = ['dark', 'light', 'contrast'];
+    var LABELS = { dark: 'dark', light: 'light', contrast: 'high contrast' };
+
+    function currentTheme() {
+        return document.documentElement.getAttribute('data-theme') || 'dark';
+    }
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        try {
+            localStorage.setItem('theme', theme);
+        } catch (e) {
+            /* private mode: the attribute still applies for this page */
+        }
+    }
+
+    function nextTheme() {
+        var i = THEMES.indexOf(currentTheme());
+        return THEMES[(i + 1) % THEMES.length];
+    }
+
     function initThemeToggle() {
-        var toggle = document.getElementById('themeToggle');
-        var mobileToggle = document.getElementById('themeToggleMobile');
         var root = document.documentElement;
+        var toggles = [
+            document.getElementById('themeToggle'),
+            document.getElementById('themeToggleMobile'),
+        ].filter(Boolean);
 
-        function apply(theme) {
-            root.classList.remove('light', 'dark');
-            root.classList.add(theme);
-            try {
-                localStorage.setItem('theme', theme);
-            } catch (e) {
-                /* private mode: the class still applies for this page */
-            }
+        // Say what the button will do, not what it currently is.
+        function describe() {
+            var upcoming = nextTheme();
+            toggles.forEach(function (el) {
+                el.setAttribute('title', 'Switch to ' + LABELS[upcoming] + ' theme');
+                el.setAttribute('aria-label', 'Switch to ' + LABELS[upcoming] + ' theme');
+            });
         }
 
-        function toggleTheme(event) {
+        function advance(event) {
             if (event) event.preventDefault();
-            apply(root.classList.contains('light') ? 'dark' : 'light');
+            applyTheme(nextTheme());
+            describe();
         }
 
-        if (toggle) toggle.addEventListener('click', toggleTheme);
-        if (mobileToggle) mobileToggle.addEventListener('click', toggleTheme);
+        toggles.forEach(function (el) {
+            el.addEventListener('click', advance);
+        });
+
+        describe();
     }
 
     function initMobileMenu() {

@@ -11,59 +11,9 @@
     box-sizing: border-box;
 }
 
-/* 🎨 Design Tokens (Warm Dark Specimen Strategy) */
-:root {
-    /* Typography Hierarchy */
-    --font-display: 'EB Garamond', Georgia, serif;
-    --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
+/* Design tokens live in css/tokens.css — loaded before this file. Edit that
+   one file to change the palette or add a theme. */
 
-    /* Spacing Scale (Fluid clamp) */
-    --spacing-xs: clamp(0.5rem, 1vw, 0.75rem);
-    --spacing-sm: clamp(0.75rem, 1.5vw, 1.25rem);
-    --spacing-md: clamp(1.5rem, 3vw, 2.5rem);
-    --spacing-lg: clamp(3rem, 6vw, 5rem);
-    --spacing-xl: clamp(4.5rem, 9vw, 8rem);
-
-    /* Layout Constraints */
-    --container-max: 1300px;
-    --transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Default Dark Theme variables */
-:root, html.dark {
-    --bg-primary: oklch(0.13 0.008 75);      /* Muted slate-tinted charcoal #0d0d0c */
-    --bg-secondary: oklch(0.16 0.01 75);    /* Integrated slate panel #141413 */
-    --text-primary: oklch(0.94 0.006 75);    /* Soft print-paper alabaster #f0efec */
-    --text-secondary: oklch(0.65 0.008 75);   /* Sophisticated cool grey #9a9a97 */
-    --border: oklch(0.24 0.01 75);          /* Crisp low-contrast gridline #222221 */
-    --accent: oklch(0.79 0.12 80);           /* Technical muted gold/bronze #e5c183 */
-    --accent-dim: oklch(0.26 0.04 80);       /* Dim bronze backing tint */
-    --bg-header: rgba(13, 13, 12, 0.9);      /* Translucent dark header */
-    --status-online: #34d399;                /* Vibrant green for dark */
-    --status-offline: #f87171;               /* Vibrant red for dark */
-    --btn-primary-hover-text: var(--bg-primary);
-    --btn-demo-hover-text: var(--bg-primary);
-    --user-chat-text: var(--bg-primary);
-}
-
-/* Elegant Light Theme variables (Timezone-Triggered) */
-html.light {
-    --bg-primary: oklch(0.97 0.006 80);      /* Warm alabaster print paper #f7f5f2 */
-    --bg-secondary: oklch(0.94 0.008 80);    /* Integrated panel light sandstone #efece7 */
-    --text-primary: oklch(0.16 0.01 75);     /* Deep warm dark slate #14181a */
-    --text-secondary: oklch(0.45 0.008 75);  /* Muted warm sandstone-grey #6b6a65 */
-    --border: oklch(0.88 0.006 80);          /* Thin crisp grey borders #dbd8d2 */
-    --accent: oklch(0.55 0.12 75);           /* High-contrast intellectual amber #b27830 */
-    --accent-dim: oklch(0.92 0.04 75);       /* Sandstone amber backing tint */
-    --bg-header: rgba(247, 245, 242, 0.9);   /* Translucent light header */
-    --status-online: #059669;                /* High-contrast forest green for light */
-    --status-offline: #dc2626;               /* High-contrast deep red for light */
-    --btn-primary-hover-text: var(--text-primary);
-    --btn-demo-hover-text: var(--text-primary);
-    --user-chat-text: var(--text-primary);
-}
 
 /* Base Body Setup */
 html {
