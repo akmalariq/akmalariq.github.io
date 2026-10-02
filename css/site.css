@@ -401,6 +401,151 @@ body {
   margin-top: 0;
 }
 
+/* --- featured carousel -------------------------------------------------- */
+/* The homepage leads with a swipeable track of the featured projects and
+   leaves the rest in the grid below. Native scroll-snap does the work, so
+   touch, trackpad, the buttons, and the arrow keys all agree. */
+
+.featured-carousel {
+  margin-bottom: var(--spacing-md);
+}
+
+.featured-carousel__viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  border-radius: var(--radius-lg);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.featured-carousel__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.featured-carousel__viewport:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.featured-carousel__track {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.featured-carousel__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* The card already knows how to lay itself out; it just fills the slide.
+   The children need min-width: 0 or the screenshot's intrinsic width wins
+   over the column and the media overflows the card. */
+.featured-carousel__slide .project-card.featured {
+  grid-column: auto;
+  height: 100%;
+}
+
+.featured-carousel__slide .project-card.featured > * {
+  min-width: 0;
+}
+
+/* Pinning the screenshot to the column stops the stretched card height from
+   feeding back through aspect-ratio and widening the media past the card. */
+.featured-carousel__slide .project-media {
+  width: 100%;
+  align-self: start;
+}
+
+.featured-carousel__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.featured-carousel__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color var(--dur-hover) var(--ease-out),
+              border-color var(--dur-hover) var(--ease-out),
+              transform var(--dur-press) var(--ease-out);
+}
+
+.featured-carousel__btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.featured-carousel__btn:active {
+  transform: scale(0.97);
+}
+
+.featured-carousel__btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.featured-carousel__dots {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* The grid below the carousel gets its own heading, at a step under the
+   section title, so the page reads as featured work then the rest. */
+.projects-subheading {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.featured-carousel__dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--border-strong);
+  cursor: pointer;
+  transition: transform var(--dur-hover) var(--ease-out),
+              background var(--dur-hover) var(--ease-out);
+}
+
+.featured-carousel__dot[aria-current="true"] {
+  background: var(--accent);
+  transform: scale(1.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featured-carousel__viewport {
+    scroll-behavior: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .featured-carousel__slide .project-card.featured {
+    grid-template-columns: 1fr;
+  }
+}
+
 .project-media img {
   display: block;
   width: 100%;
@@ -637,7 +782,7 @@ body {
 /* ------------------------------------------------------------------ hero --- */
 
 .hero {
-  padding-block: clamp(3rem, 8vw, 6rem) clamp(2.5rem, 6vw, 4.5rem);
+  padding-block: clamp(1.5rem, 3.5vw, 2.75rem) clamp(2.5rem, 6vw, 4.5rem);
   background: transparent;
 }
 

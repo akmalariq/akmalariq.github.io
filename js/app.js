@@ -32,6 +32,8 @@ const GITHUB_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="curre
 
 const ARROW_EXTERNAL = '<svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>';
 const ARROW_INTERNAL = '<svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>';
+const CHEVRON_LEFT = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>';
+const CHEVRON_RIGHT = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>';
 
 function createProjectCard(project, options = {}) {
     // `hero` is decided by the caller. The /projects/ index promotes exactly one
@@ -127,6 +129,115 @@ function escapeHtml(str) {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+}
+
+// ==============================
+// Featured carousel
+// ==============================
+// A swipeable track of the featured projects. Native scroll-snap does the
+// motion, so touch, trackpad, the buttons, and the arrow keys all agree, and
+// it degrades to a normal horizontal scroller if the JS below never runs.
+function createFeaturedCarousel(projects) {
+    const carousel = document.createElement('div');
+    carousel.className = 'featured-carousel';
+
+    const viewport = document.createElement('div');
+    viewport.className = 'featured-carousel__viewport';
+    viewport.tabIndex = 0;
+    viewport.setAttribute('role', 'group');
+    viewport.setAttribute('aria-roledescription', 'carousel');
+    viewport.setAttribute('aria-label', 'Featured projects');
+
+    const track = document.createElement('ul');
+    track.className = 'featured-carousel__track';
+
+    projects.forEach((project, i) => {
+        const slide = document.createElement('li');
+        slide.className = 'featured-carousel__slide';
+        slide.setAttribute('role', 'group');
+        slide.setAttribute('aria-roledescription', 'slide');
+        slide.setAttribute('aria-label', `${i + 1} of ${projects.length}`);
+        slide.appendChild(createProjectCard(project, { hero: true, media: true }));
+        track.appendChild(slide);
+    });
+    viewport.appendChild(track);
+    carousel.appendChild(viewport);
+
+    const controls = document.createElement('div');
+    controls.className = 'featured-carousel__controls';
+
+    const prev = document.createElement('button');
+    prev.type = 'button';
+    prev.className = 'featured-carousel__btn';
+    prev.setAttribute('aria-label', 'Previous project');
+    prev.innerHTML = CHEVRON_LEFT;
+
+    const next = document.createElement('button');
+    next.type = 'button';
+    next.className = 'featured-carousel__btn';
+    next.setAttribute('aria-label', 'Next project');
+    next.innerHTML = CHEVRON_RIGHT;
+
+    const dots = document.createElement('div');
+    dots.className = 'featured-carousel__dots';
+
+    const dotButtons = projects.map((project, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'featured-carousel__dot';
+        dot.setAttribute('aria-label', `Show project ${i + 1}: ${project.title}`);
+        dot.addEventListener('click', () => go(i));
+        dots.appendChild(dot);
+        return dot;
+    });
+
+    controls.append(prev, dots, next);
+    carousel.appendChild(controls);
+
+    let index = 0;
+
+    function sync() {
+        prev.disabled = index === 0;
+        next.disabled = index === projects.length - 1;
+        dotButtons.forEach((dot, i) => dot.setAttribute('aria-current', i === index ? 'true' : 'false'));
+    }
+
+    function go(i) {
+        index = Math.max(0, Math.min(projects.length - 1, i));
+        viewport.scrollTo({ left: index * viewport.clientWidth, behavior: 'smooth' });
+        sync();
+    }
+
+    prev.addEventListener('click', () => go(index - 1));
+    next.addEventListener('click', () => go(index + 1));
+
+    viewport.addEventListener('scroll', () => {
+        requestAnimationFrame(() => {
+            const i = Math.round(viewport.scrollLeft / viewport.clientWidth);
+            if (i !== index) {
+                index = i;
+                sync();
+            }
+        });
+    }, { passive: true });
+
+    viewport.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            go(index + 1);
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            go(index - 1);
+        }
+    });
+
+    // Re-align after a resize so the active slide stays in view.
+    window.addEventListener('resize', () => {
+        viewport.scrollTo({ left: index * viewport.clientWidth });
+    });
+
+    sync();
+    return carousel;
 }
 
 // ==============================
@@ -363,15 +474,38 @@ async function initPortfolio() {
     // the index shows a single hero image, for the reason noted in the media
     // block above.
     const isListing = Boolean(document.getElementById('projectFilters'));
-    let heroAssigned = false;
-    projects.forEach(project => {
-        const wide = isListing
-            ? (project.featured === true && !heroAssigned)
-            : (project.featured === true);
-        if (wide) heroAssigned = true;
-        grid.appendChild(createProjectCard(project, { hero: wide, media: isListing ? wide : true }));
-    });
-    initProjectFilters(projects, grid);
+
+    if (isListing) {
+        // The /projects/ index promotes one card and keeps the rest uniform.
+        let heroAssigned = false;
+        projects.forEach(project => {
+            const wide = project.featured === true && !heroAssigned;
+            if (wide) heroAssigned = true;
+            grid.appendChild(createProjectCard(project, { hero: wide, media: wide }));
+        });
+        initProjectFilters(projects, grid);
+    } else {
+        // Homepage: the featured projects become a carousel, the rest stay in
+        // the grid under a small heading.
+        const featured = projects.filter(project => project.featured === true);
+        const rest = projects.filter(project => project.featured !== true);
+
+        if (featured.length > 0) {
+            grid.before(createFeaturedCarousel(featured));
+        }
+        if (featured.length > 0 && rest.length > 0) {
+            const subheading = document.createElement('h3');
+            subheading.className = 'projects-subheading';
+            subheading.textContent = 'More work';
+            grid.before(subheading);
+        }
+        if (rest.length > 0) {
+            rest.forEach(project => grid.appendChild(createProjectCard(project, { hero: false, media: true })));
+        } else {
+            grid.remove();
+        }
+    }
+
     updateProjectCount(projects.length, projects.length);
 
     // Trigger reveal now that cards are in the DOM
