@@ -539,6 +539,13 @@ body {
   }
 }
 
+/* The index sits directly under the sticky header, where the standard section
+   top padding (up to 128px) reads as a void rather than as rhythm. Trim it to
+   the large step. The homepage keeps the full section rhythm. */
+.projects-index {
+  padding-top: var(--spacing-lg);
+}
+
 /* Page head: the top stroke of the eye path. Identity sits top-left, the
    filters and count sit top-right, so the scan runs left to right before it
    falls into the grid. */
