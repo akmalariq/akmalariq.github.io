@@ -43,6 +43,7 @@ function createProjectCard(project, options = {}) {
     const card = document.createElement('article');
     card.className = hero ? 'project-card featured' : 'project-card';
     card.dataset.category = project.category || '';
+    card.dataset.format = projectFormat(project);
 
     const demoHref = project.demo || null;
     const caseHref = project.caseStudy || null;
@@ -394,20 +395,41 @@ function updateProjectCount(shown, total) {
 }
 
 // ==============================
-// Category filter (progressive enhancement)
-// Renders only where #projectFilters exists, so the homepage keeps one flat grid.
+// A project's format is what a visitor can DO with it, in the order the links
+// are prioritised: try it, read it, clone it. Derived from the data so it can
+// never drift, and exclusive — a project shows its strongest offer.
+// ==============================
+function projectFormat(project) {
+    if (project.demo) return 'demo';
+    if (project.caseStudy) return 'case';
+    if (project.github) return 'repo';
+    return 'private';
+}
+
+const FORMAT_ORDER = ['demo', 'case', 'repo'];
+const FORMAT_LABELS = {
+    demo: 'Live demos',
+    case: 'Case studies',
+    repo: 'Open source',
+};
+
+// ==============================
+// Format filter (progressive enhancement)
+// Filters by format rather than discipline: the card kicker already names the
+// discipline, and "can I try this or only read it" is the question a visitor
+// actually arrives with. Renders only where #projectFilters exists, so the
+// homepage keeps its single flat grid.
 // ==============================
 function initProjectFilters(projects, grid) {
     const bar = document.getElementById('projectFilters');
     if (!bar) return;
 
-    const categories = [];
-    projects.forEach(project => {
-        if (project.category && !categories.includes(project.category)) categories.push(project.category);
-    });
+    const present = FORMAT_ORDER.filter(format =>
+        projects.some(project => projectFormat(project) === format)
+    );
 
     const options = [{ value: 'all', label: 'All work' }]
-        .concat(categories.map(category => ({ value: category, label: categoryLabel(category) })));
+        .concat(present.map(format => ({ value: format, label: FORMAT_LABELS[format] })));
 
     const buttons = options.map(option => {
         const button = document.createElement('button');
@@ -428,7 +450,7 @@ function initProjectFilters(projects, grid) {
         const cards = grid.querySelectorAll('.project-card');
         let shown = 0;
         cards.forEach(card => {
-            const hide = value !== 'all' && card.dataset.category !== value;
+            const hide = value !== 'all' && card.dataset.format !== value;
             card.hidden = hide;
             if (!hide) shown += 1;
         });
