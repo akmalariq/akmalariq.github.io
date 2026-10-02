@@ -10,7 +10,8 @@
     "dev:blog": "cd blog-src && npm run dev",
     "deploy": "npm run build && npx wrangler pages deploy dist --project-name akmalariq --branch main",
     "sync:tokens": "node scripts/sync-tokens.mjs",
-    "check:structure": "node scripts/check-structure.mjs"
+    "check:structure": "node scripts/check-structure.mjs",
+    "publish:due": "node scripts/publish-due.mjs"
   },
   "engines": {
     "node": ">=20"

@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { url } from "../lib/url";
+import { isPublished } from "../lib/posts";
 
 const escape = (s: string) =>
   s
@@ -12,7 +13,7 @@ const escape = (s: string) =>
 
 export const GET: APIRoute = async ({ site }) => {
   const origin = site!.href.replace(/\/$/, "");
-  const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  const posts = (await getCollection("blog", isPublished)).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
 

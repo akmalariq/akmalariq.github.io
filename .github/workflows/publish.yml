@@ -1,0 +1,56 @@
+name: publish
+
+# A scheduled post goes live on its own date (Astro withholds anything whose
+# pubDate has not arrived — see blog-src/src/lib/posts.ts). All this workflow
+# does is make sure something rebuilds the site on the day, so a post never has
+# to be remembered and flipped by hand.
+#
+# It redeploys only when the repo and the live sitemap actually disagree. On a
+# quiet day the check reports "nothing due" and the job ends without touching
+# production.
+
+on:
+  schedule:
+    # 00:15 UTC is 07:15 WIB, just after a post dated that morning becomes due.
+    # The other three runs are cheap insurance against a failed deploy.
+    - cron: "15 0 * * *"
+    - cron: "0 6 * * *"
+    - cron: "0 12 * * *"
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Never let two deploys race for the same production alias.
+concurrency:
+  group: publish-production
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Needs no dependencies — it reads frontmatter and the live sitemap.
+      - name: Check whether a post is due
+        id: due
+        run: node scripts/publish-due.mjs
+
+      # `npm run build` runs check:structure first, so a build that would break
+      # the design system fails here instead of shipping.
+      - name: Build
+        if: steps.due.outputs.due == 'true'
+        run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        if: steps.due.outputs.due == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler pages deploy dist --project-name akmalariq --branch main
