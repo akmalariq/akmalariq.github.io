@@ -126,15 +126,27 @@
     <main>
         <section class="projects">
             <div class="container">
-                <h1 class="section-title">Projects</h1>
-                <p class="section-subtitle">
-                    Data platforms, pipelines and analytics built end to end &mdash; from ingestion to the decision
-                    they support. Each case study covers the problem, the build, and what the numbers did.
-                </p>
+                <!-- Page head = the top stroke of the scan path: identity on the
+                     left, wayfinding on the right. The eye then falls through the
+                     grid and lands bottom-right on the CTA panel. -->
+                <div class="projects-head">
+                    <div class="projects-head__intro">
+                        <p class="section-subtitle">Work</p>
+                        <h1 class="section-title">Projects</h1>
+                        <p class="projects-lede">
+                            Data platforms, pipelines and analytics built end to end &mdash; from ingestion to
+                            the decision they support. Each case study covers the problem, the build, and what
+                            the numbers did.
+                        </p>
+                    </div>
 
-                <!-- Category filter. Rendered by js/app.js only when this id is
-                     present, so the homepage keeps its single flat grid. -->
-                <div class="project-filters" id="projectFilters" role="group" aria-label="Filter projects by discipline"></div>
+                    <div class="projects-head__controls">
+                        <p class="projects-count" id="projectCount" aria-live="polite"></p>
+                        <!-- Category filter. Rendered by js/app.js only when this id is
+                             present, so the homepage keeps its single flat grid. -->
+                        <div class="project-filters" id="projectFilters" role="group" aria-label="Filter projects by discipline"></div>
+                    </div>
+                </div>
 
                 <!-- Projects Grid. Populated from /data/projects.json by js/app.js,
                      which renders wherever this id exists. -->
@@ -199,12 +211,11 @@
                     </noscript>
                 </div>
 
-                <div class="cta" style="margin-top: 3rem">
-                    <h2 class="cta-title">Building something with data?</h2>
-                    <p class="cta-text">I design and build data platforms, pipelines and decision dashboards &mdash; and I write about how they work.</p>
-                    <div class="cta-actions">
+                <div class="cta-band__inner reveal">
+                    <p class="cta-band__title">Building something with data?</p>
+                    <div class="cta-band__actions">
                         <a href="/#contact" class="btn btn-primary">Work with me</a>
-                        <a href="/blog/" class="btn btn-secondary">Read the blog</a>
+                        <a href="/blog/" class="cta-band__link">Read the blog &rarr;</a>
                     </div>
                 </div>
             </div>

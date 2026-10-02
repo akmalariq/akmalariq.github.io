@@ -334,7 +334,6 @@ body {
 .projects-grid {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
   gap: var(--spacing-sm);
-  align-items: start;
 }
 
 .project-card {
@@ -540,19 +539,55 @@ body {
   }
 }
 
-/* The /projects intro is a lead paragraph, not a mono eyebrow: it is applied
-   with .section-subtitle there, which is a kicker elsewhere. */
-.projects > .container > .section-subtitle {
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  font-weight: 400;
-  letter-spacing: normal;
-  text-transform: none;
-  color: var(--text-secondary);
-  text-align: left;
+/* Page head: the top stroke of the eye path. Identity sits top-left, the
+   filters and count sit top-right, so the scan runs left to right before it
+   falls into the grid. */
+.projects-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--spacing-md) var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.projects-lede {
   max-width: 62ch;
-  margin: 0 0 var(--spacing-md);
+  margin: 0;
+  font-size: 1.02rem;
   line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.projects-head__controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.85rem;
+}
+
+.projects-count {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.projects-head__controls .project-filters {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .projects-head {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .projects-head__controls {
+    align-items: flex-start;
+  }
 }
 
 /* --------------------------------------------------------- filter bar --- */
@@ -1225,6 +1260,12 @@ body {
   background: var(--bg-secondary);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
+}
+
+/* Same panel, used inside page content (the /projects/ index) where the
+   section wrapper's padding and rule would double up. */
+.projects .cta-band__inner {
+  margin-top: var(--spacing-lg);
 }
 
 .cta-band__title {

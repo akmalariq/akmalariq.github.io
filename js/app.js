@@ -33,9 +33,13 @@ const GITHUB_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="curre
 const ARROW_EXTERNAL = '<svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>';
 const ARROW_INTERNAL = '<svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>';
 
-function createProjectCard(project) {
+function createProjectCard(project, options = {}) {
+    // `hero` is decided by the caller. The /projects/ index promotes exactly one
+    // card so the grid below it stays uniform; the homepage keeps every
+    // featured card in its wide treatment.
+    const hero = options.hero === true;
     const card = document.createElement('article');
-    card.className = project.featured ? 'project-card featured' : 'project-card';
+    card.className = hero ? 'project-card featured' : 'project-card';
     card.dataset.category = project.category || '';
 
     const demoHref = project.demo || null;
@@ -60,7 +64,12 @@ function createProjectCard(project) {
     // The screenshot is the point of the card. It links to the same place as
     // the primary button, so it is decorative to assistive tech (the button is
     // the accessible link of record).
-    const media = project.preview && primaryHref
+    //
+    // Only four projects have a screenshot today, so the index shows one on the
+    // hero and keeps the rest text-only: a grid where a third of the cards are
+    // twice as tall as the others is not a grid. Turn `media` back on everywhere
+    // once every entry has a `preview`.
+    const media = options.media !== false && project.preview && primaryHref
         ? `<a class="project-media" href="${escapeHtml(primaryHref)}"${primaryExternal ? ' target="_blank" rel="noopener noreferrer"' : ''} tabindex="-1" aria-hidden="true">
             <img src="${escapeHtml(project.preview)}" alt="" width="1280" height="800" loading="lazy" decoding="async">
             ${demoHref ? '<span class="project-media__badge">Live demo</span>' : ''}
@@ -83,7 +92,7 @@ function createProjectCard(project) {
         : '';
 
     const kicker = [
-        project.featured ? '<span class="project-kicker__flag">Featured</span>' : '',
+        hero ? '<span class="project-kicker__flag">Featured</span>' : '',
         project.category ? escapeHtml(categoryLabel(project.category)) : '',
     ].filter(Boolean).join('<span class="project-kicker__sep" aria-hidden="true">/</span>');
 
@@ -263,6 +272,16 @@ function initShowcaseTabs() {
 }
 
 // ==============================
+// Project count (the /projects/ index reports what the filter is showing)
+// ==============================
+function updateProjectCount(shown, total) {
+    const el = document.getElementById('projectCount');
+    if (!el) return;
+    el.textContent = shown === total
+        ? `${total} projects`
+        : `${shown} of ${total} projects`;
+}
+
 // ==============================
 // Category filter (progressive enhancement)
 // Renders only where #projectFilters exists, so the homepage keeps one flat grid.
@@ -295,9 +314,14 @@ function initProjectFilters(projects, grid) {
         buttons.forEach(button => {
             button.setAttribute('aria-pressed', button.dataset.filter === value ? 'true' : 'false');
         });
-        grid.querySelectorAll('.project-card').forEach(card => {
-            card.hidden = value !== 'all' && card.dataset.category !== value;
+        const cards = grid.querySelectorAll('.project-card');
+        let shown = 0;
+        cards.forEach(card => {
+            const hide = value !== 'all' && card.dataset.category !== value;
+            card.hidden = hide;
+            if (!hide) shown += 1;
         });
+        updateProjectCount(shown, cards.length);
     }
 }
 
@@ -333,8 +357,22 @@ async function initPortfolio() {
         return;
     }
 
-    projects.forEach(project => grid.appendChild(createProjectCard(project)));
+    // The /projects/ index promotes exactly one card so the grid below it stays
+    // uniform; the homepage keeps every featured card in its wide treatment.
+    // Screenshots stay on the homepage (only featured cards have one there) but
+    // the index shows a single hero image, for the reason noted in the media
+    // block above.
+    const isListing = Boolean(document.getElementById('projectFilters'));
+    let heroAssigned = false;
+    projects.forEach(project => {
+        const wide = isListing
+            ? (project.featured === true && !heroAssigned)
+            : (project.featured === true);
+        if (wide) heroAssigned = true;
+        grid.appendChild(createProjectCard(project, { hero: wide, media: isListing ? wide : true }));
+    });
     initProjectFilters(projects, grid);
+    updateProjectCount(projects.length, projects.length);
 
     // Trigger reveal now that cards are in the DOM
     requestAnimationFrame(() => {
