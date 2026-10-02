@@ -1,131 +1,103 @@
 // ==============================
-// GitHub Stats
-// ==============================
-async function getGitHubStats(repoUrl) {
-    try {
-        const match = repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
-        if (!match) return null;
-
-        const [, owner, repo] = match;
-        const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
-        if (!response.ok) return null;
-
-        const data = await response.json();
-        return {
-            stars: data.stargazers_count,
-            forks: data.forks_count,
-            language: data.language,
-            updated: new Date(data.updated_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })
-        };
-    } catch {
-        return null;
-    }
-}
-
-// ==============================
 // Load Projects
 // ==============================
+// The grid is data-driven from /data/projects.json. It deliberately makes no
+// third-party calls: fetching GitHub stars for each card added a network
+// dependency and surfaced a row of zeroes, which read worse than no row at all.
 async function loadProjects() {
     try {
         const response = await fetch('/data/projects.json');
         const data = await response.json();
-
-        const projectsWithStats = await Promise.all(
-            data.projects.map(async (project) => {
-                const stats = await getGitHubStats(project.github);
-                return { ...project, githubStats: stats };
-            })
-        );
-
-        return projectsWithStats;
+        return Array.isArray(data.projects) ? data.projects : [];
     } catch {
         return [];
     }
 }
 
+const CATEGORY_LABELS = {
+    "data-engineering": "Data Engineering",
+    "data-science": "Data Science",
+    "data-analytics": "Data Analytics",
+    "product": "Product",
+};
+
+function categoryLabel(category) {
+    return CATEGORY_LABELS[category] || category;
+}
+
 // ==============================
 // Render Project Card
 // ==============================
+const GITHUB_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>';
+
+const ARROW_EXTERNAL = '<svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>';
+const ARROW_INTERNAL = '<svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>';
+
 function createProjectCard(project) {
     const card = document.createElement('article');
     card.className = project.featured ? 'project-card featured' : 'project-card';
-    card.dataset.category = project.category;
+    card.dataset.category = project.category || '';
 
-    const tagsHtml = project.tags
-        .map(tag => `<span class="tag">${escapeHtml(tag)}</span>`)
-        .join('');
+    const demoHref = project.demo || null;
+    const caseHref = project.caseStudy || null;
+    const ghHref = project.github || null;
 
-    // Data-driven pipeline diagram: one strip per project, rendered from the
-    // `flow` array in projects.json. Text-based so it stays crisp, themeable,
-    // and readable by assistive tech.
-    const flowHtml = Array.isArray(project.flow) && project.flow.length
-        ? `<div class="project-flow" role="img" aria-label="Pipeline: ${escapeHtml(project.flow.join(' to '))}">
-            ${project.flow.map((step, i) =>
-                `${i ? '<span class="flow-arrow" aria-hidden="true">&rarr;</span>' : ''}<span class="flow-step">${escapeHtml(step)}</span>`
-            ).join('')}
-        </div>`
-        : '';
-
-    // Label is per-project: some demos are dashboards, some are apps.
-    const demoButton = project.demo
-        ? `<a href="${escapeHtml(project.demo)}" target="_blank" rel="noopener noreferrer" class="btn btn-demo">${escapeHtml(project.demoLabel || 'Open the live dashboard')}</a>`
-        : '';
-
-    let githubStatsHtml = '';
-    if (project.githubStats) {
-        const { stars, forks, language, updated } = project.githubStats;
-        githubStatsHtml = `
-            <div class="github-stats" aria-label="GitHub statistics">
-                <span class="github-stat" title="Stars">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    ${stars ?? 0}
-                </span>
-                <span class="github-stat" title="Forks">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><path d="M12 12v3"/></svg>
-                    ${forks ?? 0}
-                </span>
-                ${language ? `<span class="github-stat">${escapeHtml(language)}</span>` : ''}
-                ${updated ? `<span class="github-stat">Updated ${escapeHtml(updated)}</span>` : ''}
-            </div>`;
+    // One primary action, and a live app always wins it.
+    let primaryHref = null;
+    let primaryLabel = '';
+    if (demoHref) {
+        primaryHref = demoHref;
+        primaryLabel = project.demoLabel || 'Open live demo';
+    } else if (caseHref) {
+        primaryHref = caseHref;
+        primaryLabel = 'Read case study';
+    } else if (ghHref) {
+        primaryHref = ghHref;
+        primaryLabel = 'View on GitHub';
     }
+    const primaryExternal = /^https?:\/\//i.test(primaryHref || '');
 
-    const statsHtml = Object.entries(project.stats)
-        .map(([key, value]) => `
-            <div class="stat">
-                <span class="stat-label">${escapeHtml(key)}:</span>
-                <span class="stat-value">${escapeHtml(value)}</span>
-            </div>`)
-        .join('');
+    // The screenshot is the point of the card. It links to the same place as
+    // the primary button, so it is decorative to assistive tech (the button is
+    // the accessible link of record).
+    const media = project.preview && primaryHref
+        ? `<a class="project-media" href="${escapeHtml(primaryHref)}"${primaryExternal ? ' target="_blank" rel="noopener noreferrer"' : ''} tabindex="-1" aria-hidden="true">
+            <img src="${escapeHtml(project.preview)}" alt="" width="1280" height="800" loading="lazy" decoding="async">
+            ${demoHref ? '<span class="project-media__badge">Live demo</span>' : ''}
+        </a>`
+        : '';
 
-    const highlightsHtml = project.highlights
-        .map(h => `<li>${escapeHtml(h)}</li>`)
-        .join('');
+    const tags = Array.isArray(project.tags) ? project.tags : [];
+    const tagsHtml = tags.slice(0, 3).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('');
+
+    const primaryButton = primaryHref
+        ? `<a class="btn btn-primary" href="${escapeHtml(primaryHref)}"${primaryExternal ? ' target="_blank" rel="noopener noreferrer"' : ''}>${escapeHtml(primaryLabel)}${primaryExternal ? ARROW_EXTERNAL : ARROW_INTERNAL}</a>`
+        : '';
+
+    const secondaryButton = caseHref && primaryHref !== caseHref
+        ? `<a class="btn btn-secondary" href="${escapeHtml(caseHref)}">Case study</a>`
+        : '';
+
+    const githubLink = ghHref && primaryHref !== ghHref
+        ? `<a class="project-link" href="${escapeHtml(ghHref)}" target="_blank" rel="noopener noreferrer">${GITHUB_ICON}<span>GitHub</span></a>`
+        : '';
+
+    const kicker = [
+        project.featured ? '<span class="project-kicker__flag">Featured</span>' : '',
+        project.category ? escapeHtml(categoryLabel(project.category)) : '',
+    ].filter(Boolean).join('<span class="project-kicker__sep" aria-hidden="true">/</span>');
 
     const htmlString = `
-        <div class="project-content">
+        ${media}
+        <div class="project-body">
+            ${kicker ? `<p class="project-kicker">${kicker}</p>` : ''}
             <h3 class="project-title">${escapeHtml(project.title)}</h3>
             <p class="project-description">${escapeHtml(project.description)}</p>
-
-            ${flowHtml}
-
-            ${githubStatsHtml}
-
-            <div class="project-stats">${statsHtml}</div>
-
-            <div class="project-highlights">
-                <strong>Key Highlights:</strong>
-                <ul>${highlightsHtml}</ul>
-            </div>
-
-            <div class="project-tags">${tagsHtml}</div>
-
+            ${tagsHtml ? `<div class="project-tags">${tagsHtml}</div>` : ''}
             <div class="project-links">
-                ${project.github ? `<a href="${escapeHtml(project.github)}" target="_blank" rel="noopener noreferrer" class="btn btn-github">
-                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-                    View on GitHub
-                </a>` : ''}
-                ${demoButton}
-                ${project.caseStudy ? `<a href="${escapeHtml(project.caseStudy)}" class="btn btn-case-study">Read the case study</a>` : ''}
+                ${primaryButton}
+                ${secondaryButton}
+                ${githubLink}
             </div>
         </div>`;
 
@@ -291,6 +263,45 @@ function initShowcaseTabs() {
 }
 
 // ==============================
+// ==============================
+// Category filter (progressive enhancement)
+// Renders only where #projectFilters exists, so the homepage keeps one flat grid.
+// ==============================
+function initProjectFilters(projects, grid) {
+    const bar = document.getElementById('projectFilters');
+    if (!bar) return;
+
+    const categories = [];
+    projects.forEach(project => {
+        if (project.category && !categories.includes(project.category)) categories.push(project.category);
+    });
+
+    const options = [{ value: 'all', label: 'All work' }]
+        .concat(categories.map(category => ({ value: category, label: categoryLabel(category) })));
+
+    const buttons = options.map(option => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'project-filter';
+        button.textContent = option.label;
+        button.dataset.filter = option.value;
+        button.setAttribute('aria-pressed', option.value === 'all' ? 'true' : 'false');
+        button.addEventListener('click', () => apply(option.value));
+        bar.appendChild(button);
+        return button;
+    });
+
+    function apply(value) {
+        buttons.forEach(button => {
+            button.setAttribute('aria-pressed', button.dataset.filter === value ? 'true' : 'false');
+        });
+        grid.querySelectorAll('.project-card').forEach(card => {
+            card.hidden = value !== 'all' && card.dataset.category !== value;
+        });
+    }
+}
+
+// ==============================
 // Init
 // ==============================
 async function initPortfolio() {
@@ -323,6 +334,7 @@ async function initPortfolio() {
     }
 
     projects.forEach(project => grid.appendChild(createProjectCard(project)));
+    initProjectFilters(projects, grid);
 
     // Trigger reveal now that cards are in the DOM
     requestAnimationFrame(() => {

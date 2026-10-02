@@ -218,7 +218,7 @@ pipeline run, you cannot operate the pipeline.
 
 This post built the path. The next two in the series attack the parts that actually break:
 
-- **Part 2 — Effectively-once:** Kafka only gives you at-least-once delivery, so duplicates are
+- **[Part 2 — Effectively-once](/blog/effectively-once-cdc-clickhouse/):** Kafka only gives you at-least-once delivery, so duplicates are
   inevitable. Making them harmless is a design decision, not a setting.
 - **Part 3 — Break it on purpose:** a lab where we kill the consumer mid-batch, poison the topic, and
   replay a consumer group, then watch the safety mechanisms behave.

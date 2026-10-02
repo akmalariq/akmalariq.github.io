@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            var THEMES = ['dark', 'light', 'contrast'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <title>Terms of Service | Akmal Ariq</title>
+    <meta name="description" content="Terms of service for akmalariq.dev and its apps, including Dompet.">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+
+    <link rel="canonical" href="https://akmalariq.dev/terms/">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akmalariq.dev/terms/">
+    <meta property="og:title" content="Terms of Service">
+    <meta property="og:description" content="Terms for using akmalariq.dev and its apps, including Dompet.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta property="og:site_name" content="Akmal Ariq Portfolio">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Terms of Service">
+    <meta name="twitter:description" content="Terms for using akmalariq.dev and its apps, including Dompet.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+
+    <style>
+        .legal { padding: 4rem 0 5rem; }
+        .legal .container { max-width: 760px; }
+        .legal h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: .5rem; }
+        .legal .legal-updated { color: var(--text-muted, #8a93a6); margin-bottom: 2.5rem; }
+        .legal h2 { font-size: 1.25rem; margin: 2.25rem 0 .6rem; }
+        .legal p, .legal li { line-height: 1.7; }
+        .legal ul { padding-left: 1.25rem; }
+        .legal a { color: inherit; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <span class="nav-divider" aria-hidden="true"></span>
+                    <a href="/projects" class="nav-link">Work</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        <svg class="contrast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/projects" class="mobile-nav-link">Work</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="legal">
+            <div class="container">
+                <h1>Terms of Service</h1>
+                <p class="legal-updated">Last updated: 30 September 2026</p>
+
+                <p>
+                    These terms cover <strong>akmalariq.dev</strong> and the apps hosted on it, including
+                    <strong>Dompet</strong>. By using the site or an app you agree to them. This is a personal
+                    project provided as-is.
+                </p>
+
+                <h2>Using the service</h2>
+                <ul>
+                    <li>Use the apps lawfully, and only with data you have the right to store.</li>
+                    <li>Access is invite-only. Don't share your sign-in, and don't attempt to access other
+                        users' accounts or data.</li>
+                    <li>Dompet is a tracking tool, not financial, tax or legal advice, and its figures depend on
+                        what you enter.</li>
+                </ul>
+
+                <h2>Availability and changes</h2>
+                <p>
+                    The service is provided on a best-effort basis and may change, break or be withdrawn at any
+                    time. Features may be added or removed without notice.
+                </p>
+
+                <h2>No warranty</h2>
+                <p>
+                    The service is provided &ldquo;as is&rdquo;, without warranties of any kind. To the extent
+                    permitted by law, Akmal Ariq is not liable for any loss arising from use of the service,
+                    including any loss based on figures it displays.
+                </p>
+
+                <h2>Your data</h2>
+                <p>
+                    You keep ownership of the data you enter. How it is handled is described in the
+                    <a href="/privacy/">Privacy Policy</a>. You can request deletion at any time.
+                </p>
+
+                <h2>Contact</h2>
+                <p>
+                    Questions? Email <a href="mailto:akmalariqs@gmail.com">akmalariqs@gmail.com</a>.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/privacy/">Privacy</a>
+                    <a href="/terms/">Terms</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/app.js" defer></script>
+</body>
+</html>

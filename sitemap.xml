@@ -7,6 +7,18 @@
         <priority>1.0</priority>
     </url>
     <url>
+        <loc>https://akmalariq.dev/privacy/</loc>
+        <lastmod>2026-09-30</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://akmalariq.dev/terms/</loc>
+        <lastmod>2026-09-30</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
         <loc>https://akmalariq.dev/projects/</loc>
         <lastmod>2026-09-28</lastmod>
         <changefreq>weekly</changefreq>
@@ -15,6 +27,12 @@
     <url>
         <loc>https://akmalariq.dev/demo/</loc>
         <lastmod>2026-09-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://akmalariq.dev/projects/dompet/</loc>
+        <lastmod>2026-09-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -45,6 +63,12 @@
     <url>
         <loc>https://akmalariq.dev/projects/ooh-media-planner/</loc>
         <lastmod>2026-09-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://akmalariq.dev/projects/dashboard-factory/</loc>
+        <lastmod>2026-09-29</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>

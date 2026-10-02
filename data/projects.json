@@ -1,12 +1,97 @@
 {
   "projects": [
     {
+      "id": "dompet",
+      "title": "Dompet — Money Manager",
+      "featured": true,
+      "category": "product",
+      "demo": "https://akmalariq.dev/projects/dompet",
+      "demoLabel": "Open Dompet",
+      "preview": "/images/projects/dompet.jpg",
+      "description": "A mobile-web money manager: log expenses in seconds, budget by payday cycle, and see where the money actually goes. Invite-only sign-in with Google, built on Cloudflare Workers and D1 with no server to run.",
+      "longDescription": "Dompet is a personal finance app built mobile-web-first, so it installs to a home screen and works like a native app without an app store. The whole product is one Cloudflare Worker and a D1 database: Google SSO with PKCE handles sign-in, and access is invite-only — the waiting list and invites are managed from an owner admin tab. Budgets run on a payday cycle rather than the calendar month, so a cycle starts the day you get paid and the home screen shows what is left to spend, the days remaining, and a safe daily allowance. Transactions support income and expenses across multiple accounts (bank, e-wallet, credit card, cash) with categories, search and month filters; Reports break spending down by category and show a monthly income-versus-spend trend. Data is scoped per user at the query layer, and every account is isolated.",
+      "tags": [
+        "Cloudflare Workers",
+        "D1",
+        "React",
+        "TypeScript",
+        "Google SSO",
+        "Mobile Web",
+        "PWA"
+      ],
+      "stats": {
+        "runtime": "one Worker + D1, no server to run",
+        "auth": "Google SSO (PKCE), invite-only with a waiting list",
+        "model": "payday-cycle budgets, multi-account, per-user isolation",
+        "ui": "mobile-first SPA with bottom nav, sheets and a PWA manifest",
+        "reports": "category breakdown, monthly income-versus-spend trend",
+        "cost": "Cloudflare Workers + D1 free tier"
+      },
+      "highlights": [
+        "Built mobile-web-first: a bottom-tab shell, bottom sheets and safe-area handling that installs to the home screen as a PWA.",
+        "Made budgets payday-based, so a cycle starts on your salary day and the home screen reports what is left, days remaining and a daily allowance.",
+        "Gated access with Google SSO (PKCE) and an invite-only waiting list, with an owner admin tab to invite and revoke.",
+        "Scoped every query by user at the data layer, so accounts, categories, transactions and budgets are isolated per person.",
+        "Ran the entire product on a single Cloudflare Worker plus D1, keeping it on the free tier with no server to operate."
+      ],
+      "flow": [
+        "Google SSO",
+        "Invite gate",
+        "Worker API + D1",
+        "Mobile SPA",
+        "Budgets & reports"
+      ]
+    },
+    {
+      "id": "dashboard-factory",
+      "title": "Dashboard Factory (AI)",
+      "featured": true,
+      "category": "data-engineering",
+      "demo": "https://akmalariq.dev/projects/dashboard-factory",
+      "demoLabel": "Open the dashboard factory",
+      "preview": "/images/projects/dashboard-factory.jpg",
+      "github": "https://github.com/akmalariq/dashboard-factory",
+      "description": "Chat builds analytics dashboards over a real grocery dataset. Ask for a metric and a working panel appears, drawn from a star schema in Cloudflare D1. The model never writes SQL or HTML: it picks a metric and a dimension, and deterministic code assembles the query and the chart.",
+      "longDescription": "A chat-driven dashboard workspace over the public Mancino Market dataset. The model proposes and deterministic code guarantees: it selects a metric and a dimension from a registry of 27 metrics across six facts, and a query builder assembles parameterised SQL from whitelisted identifiers. 46 MB of raw CSVs are aggregated by DuckDB into a 68,706-row star schema in Cloudflare D1, with facts split per grain so a basket count is never sliced by category. An empty board opens on a gallery of five goal-based templates, and boards are shared by URL with no database and no accounts.",
+      "tags": [
+        "LLM Tool Calling",
+        "Cloudflare Workers",
+        "D1",
+        "Next.js",
+        "React",
+        "Semantic Layer",
+        "DuckDB"
+      ],
+      "stats": {
+        "dataset": "68,706-row star schema in D1, built from 46 MB of raw CSVs",
+        "catalog": "27 metrics across 6 facts and 15 dimensions",
+        "guardrail": "the model picks ids; parameterised SQL is assembled server-side",
+        "tests": "46 unit tests over the pure layers"
+      },
+      "highlights": [
+        "Held the model to a short leash: it never writes SQL or HTML, only naming a metric and a dimension that the server validates against the registry.",
+        "Split the facts per grain so a non-additive measure like transactions can never be sliced by category, and the guard explains why instead of quietly charting the wrong thing.",
+        "Built the star schema with DuckDB and seeded Cloudflare D1, showing store and product names rather than ids via a dimension-table join.",
+        "Opened on a gallery of five goal-based templates so the first screen is never a blank canvas, each one generated deterministically from the registry.",
+        "Shared boards by URL, keeping the whole demo inside Cloudflare's free tier with no database writes and no accounts."
+      ],
+      "flow": [
+        "Raw CSVs",
+        "DuckDB star schema",
+        "D1",
+        "Tool-calling agent",
+        "Typed spec",
+        "Deterministic renderer"
+      ]
+    },
+    {
       "id": "ooh-media-planner",
       "title": "OOH Media Planner (AI)",
       "featured": true,
       "category": "data-engineering",
       "demo": "https://akmalariq.dev/projects/ooh-media-planner",
       "demoLabel": "Open the live planner",
+      "preview": "/images/projects/ooh-media-planner.jpg",
       "description": "An AI media planner for Indonesian out-of-home advertising. Type a brief in natural language and get a budget-validated plan on a map, with reach deduplication, CPM and shareable links. Runs entirely on Cloudflare Workers and D1.",
       "longDescription": "A planning workspace where chat controls the plan and the workspace shows it. A media planner types a brief such as 'Rp300M, Jakarta, launch campaign, upper-middle-income young adults, one month' and receives a budget-validated shortlist of 20-50 sites on a map, a recommendation table, and the numbers to defend it. The architecture separates interpretation from execution: the model routes intent and explains trade-offs through seven tools, while selection, budgeting, reach deduplication and relaxation are deterministic server-side code, so a plan can never exceed budget and a question can never overwrite committed work.",
       "tags": [
@@ -49,6 +134,7 @@
       "category": "data-engineering",
       "github": "https://github.com/akmalariq/jakarta-geomarketing",
       "demo": "/projects/jakarta-geomarketing/",
+      "preview": "/images/projects/jakarta-geomarketing.jpg",
       "image": null,
       "tags": [
         "Overture Maps",
@@ -80,6 +166,127 @@
         "H3 cells",
         "dbt scoring",
         "MapLibre"
+      ]
+    },
+    {
+      "id": "spark-iceberg-lakehouse",
+      "title": "Spark + Iceberg Lakehouse",
+      "featured": false,
+      "caseStudy": null,
+      "description": "A batch lakehouse built on PySpark with Apache Iceberg, Nessie, and MinIO: bronze, silver, and gold layers with SCD Type 2, time travel, and table compaction, plus automated data quality checks driving a specs file and an HTML report.",
+      "longDescription": "A batch lakehouse on object storage, built to exercise the parts of the lakehouse pattern that a warehouse hides. PySpark writes bronze, silver, and gold layers as Apache Iceberg tables on MinIO, with Nessie providing the catalog and branching. The silver layer carries Type 2 slowly changing dimensions so history is preserved rather than overwritten, and Iceberg time travel makes any previous state queryable. Compaction keeps the small-file problem in check. Automated data quality checks run against each layer and emit both a machine-readable specs file and a human-readable HTML report.",
+      "category": "data-engineering",
+      "github": "https://github.com/akmalariq/spark-iceberg-lakehouse",
+      "demo": null,
+      "preview": null,
+      "image": null,
+      "tags": [
+        "PySpark",
+        "Apache Iceberg",
+        "Nessie",
+        "MinIO",
+        "Lakehouse",
+        "SCD Type 2",
+        "Data Quality"
+      ],
+      "stats": {
+        "layers": "Bronze, silver, gold",
+        "modeling": "SCD Type 2 with Iceberg time travel",
+        "maintenance": "Table compaction",
+        "quality": "Automated checks to a specs file and an HTML report",
+        "stack": "PySpark · Apache Iceberg · Nessie · MinIO"
+      },
+      "highlights": [
+        "Bronze, silver, and gold layers written as Apache Iceberg tables with PySpark.",
+        "Type 2 slowly changing dimensions, with history queryable through Iceberg time travel.",
+        "Table compaction to keep file sizes healthy on object storage.",
+        "Automated data quality checks that emit a specs file and an HTML report."
+      ],
+      "flow": [
+        "Raw data",
+        "Bronze",
+        "Silver",
+        "Gold",
+        "Iceberg"
+      ]
+    },
+    {
+      "id": "agentic-data-quality-pipeline",
+      "title": "Agentic Data Quality Pipeline",
+      "featured": false,
+      "caseStudy": null,
+      "description": "An LLM/RAG agent that detects and fixes data quality issues against documented business rules, with safe-fix guardrails, Dagster orchestration, and a full test suite.",
+      "longDescription": "Data quality tooling where the rules live in documentation, not in scattered scripts. An LLM/RAG agent reads the documented business rules, detects where the data violates them, and proposes fixes. Every proposed fix passes through safe-fix guardrails before anything is applied, so the agent cannot make an unchecked change to real data. The whole pipeline is orchestrated with Dagster and covered by a full test suite.",
+      "category": "data-engineering",
+      "github": "https://github.com/akmalariq/agentic-data-quality-pipeline",
+      "demo": null,
+      "preview": null,
+      "image": null,
+      "tags": [
+        "LLM",
+        "RAG",
+        "Data Quality",
+        "Dagster",
+        "Python",
+        "Agents",
+        "Testing"
+      ],
+      "stats": {
+        "approach": "LLM/RAG agent against documented business rules",
+        "guardrails": "Safe-fix guardrails before any change is applied",
+        "orchestration": "Dagster",
+        "coverage": "Full test suite"
+      },
+      "highlights": [
+        "Detects data quality issues against documented business rules.",
+        "Uses an LLM/RAG agent to propose fixes rather than hard-coded checks alone.",
+        "Safe-fix guardrails so a proposed fix cannot be applied unchecked.",
+        "Orchestrated with Dagster and covered by a full test suite."
+      ],
+      "flow": [
+        "Business rules",
+        "Detection",
+        "Agent",
+        "Guardrailed fix",
+        "Report"
+      ]
+    },
+    {
+      "id": "db-health-dashboard",
+      "title": "Database Platform Health Dashboard",
+      "featured": false,
+      "caseStudy": null,
+      "description": "SQL data validation and platform health checks (freshness, duplicates, null rates, schema drift, table growth) with threshold verdicts and a status dashboard for reporting.",
+      "longDescription": "A health-check layer for a database platform. SQL validation covers the failures that quietly rot a warehouse: stale data, duplicate rows, rising null rates, schema drift, and unexpected table growth. Each check is compared against a threshold and resolved to a pass, warn, or fail verdict, and the results roll up into a status dashboard built for reporting rather than debugging.",
+      "category": "data-engineering",
+      "github": "https://github.com/akmalariq/db-health-dashboard",
+      "demo": null,
+      "preview": null,
+      "image": null,
+      "tags": [
+        "SQL",
+        "PostgreSQL",
+        "Data Quality",
+        "Observability",
+        "Monitoring",
+        "Dashboard"
+      ],
+      "stats": {
+        "checks": "Freshness, duplicates, null rates, schema drift, table growth",
+        "verdicts": "Threshold-based pass / warn / fail",
+        "output": "Status dashboard for reporting",
+        "database": "PostgreSQL"
+      },
+      "highlights": [
+        "SQL checks for freshness, duplicates, null rates, schema drift, and table growth.",
+        "Threshold verdicts turn raw check output into pass, warn, or fail.",
+        "A status dashboard built for reporting platform health."
+      ],
+      "flow": [
+        "Database",
+        "SQL checks",
+        "Thresholds",
+        "Dashboard"
       ]
     },
     {

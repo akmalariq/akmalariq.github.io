@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            var THEMES = ['dark', 'light', 'contrast'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <title>Privacy Policy | Akmal Ariq</title>
+    <meta name="description" content="Privacy policy for akmalariq.dev and Dompet: what data is collected, how it is used, where it is stored, and how to have it deleted.">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+
+    <link rel="canonical" href="https://akmalariq.dev/privacy/">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akmalariq.dev/privacy/">
+    <meta property="og:title" content="Privacy Policy">
+    <meta property="og:description" content="What data akmalariq.dev and Dompet collect, how it is used, and how to delete it.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta property="og:site_name" content="Akmal Ariq Portfolio">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Privacy Policy">
+    <meta name="twitter:description" content="What data akmalariq.dev and Dompet collect, how it is used, and how to delete it.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+
+    <style>
+        .legal { padding: 4rem 0 5rem; }
+        .legal .container { max-width: 760px; }
+        .legal h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: .5rem; }
+        .legal .legal-updated { color: var(--text-muted, #8a93a6); margin-bottom: 2.5rem; }
+        .legal h2 { font-size: 1.25rem; margin: 2.25rem 0 .6rem; }
+        .legal p, .legal li { line-height: 1.7; }
+        .legal ul { padding-left: 1.25rem; }
+        .legal a { color: inherit; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <span class="nav-divider" aria-hidden="true"></span>
+                    <a href="/projects" class="nav-link">Work</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        <svg class="contrast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/projects" class="mobile-nav-link">Work</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="legal">
+            <div class="container">
+                <h1>Privacy Policy</h1>
+                <p class="legal-updated">Last updated: 30 September 2026</p>
+
+                <p>
+                    This policy covers <strong>akmalariq.dev</strong> and the apps hosted on it, including
+                    <strong>Dompet</strong> (a personal money manager at
+                    <a href="/projects/dompet">akmalariq.dev/projects/dompet</a>). It explains what data is
+                    collected, how it is used, and how you can have it removed. It is a small, personal project run
+                    by Akmal Ariq &mdash; there is no advertising, and your data is never sold.
+                </p>
+
+                <h2>What is collected</h2>
+                <ul>
+                    <li><strong>Account basics from Google Sign-In.</strong> When you sign in with Google you share
+                        your name, email address and profile picture. We use this only to identify your account.
+                        We do not receive your password and cannot access your Gmail, Drive or other Google data.</li>
+                    <li><strong>Data you enter.</strong> The transactions, amounts, categories, accounts, budgets
+                        and notes you add to Dompet, and the email address (and optional name) you submit to the
+                        waiting list.</li>
+                    <li><strong>Basic technical data.</strong> Standard request information processed by our hosting
+                        provider to serve the site and keep it secure.</li>
+                </ul>
+
+                <h2>How it is used</h2>
+                <p>
+                    Your data is used solely to provide the app: to show your dashboard, budgets and reports, to
+                    keep your account secure, and to email you about your waiting-list invite. It is not used for
+                    advertising, profiling, or any purpose unrelated to the app, and it is not sold or rented.
+                </p>
+
+                <h2>Shared Dompets</h2>
+                <p>
+                    Dompet lets you share a ledger with other people. If you create or join a
+                    <strong>shared Dompet</strong>, its accounts, categories, transactions and budgets are
+                    visible to every member of that Dompet, and each entry shows who added it. If you leave a
+                    shared Dompet your access is removed immediately, but entries you added stay visible to
+                    the remaining members. The owner can remove members at any time.
+                </p>
+
+                <h2>Where it is stored and who processes it</h2>
+                <ul>
+                    <li><strong>Cloudflare</strong> &mdash; hosting for the site and app, and the database (D1)
+                        that stores your data.</li>
+                    <li><strong>Google</strong> &mdash; sign-in only.</li>
+                    <li><strong>Resend</strong> &mdash; sending waiting-list and invite emails.</li>
+                </ul>
+                <p>Your data is not shared with anyone else, except where required by law.</p>
+
+                <h2>Cookies and sessions</h2>
+                <p>
+                    Signing in sets a single secure, HTTP-only session cookie so you stay logged in. No tracking,
+                    analytics or advertising cookies are used.
+                </p>
+
+                <h2>Retention and deletion</h2>
+                <p>
+                    Your data is kept while your account is active. To delete your account and everything in it,
+                    email <a href="mailto:akmalariqs@gmail.com">akmalariqs@gmail.com</a> and it will be removed.
+                </p>
+
+                <h2>Changes</h2>
+                <p>
+                    If this policy changes, the date at the top will be updated. Continued use of the app after a
+                    change means you accept the updated policy.
+                </p>
+
+                <h2>Contact</h2>
+                <p>
+                    Questions about your data? Email <a href="mailto:akmalariqs@gmail.com">akmalariqs@gmail.com</a>.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/privacy/">Privacy</a>
+                    <a href="/terms/">Terms</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/app.js" defer></script>
+</body>
+</html>

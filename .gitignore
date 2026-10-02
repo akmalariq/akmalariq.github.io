@@ -10,3 +10,7 @@ blog-src/node_modules
 blog-src/.astro
 /blog/
 /dist/
+
+# Internal planning / strategy notes. This repo is PUBLIC — pricing strategy,
+# audience segmentation and go-to-market plans must not be published.
+/PLANS/

@@ -124,7 +124,8 @@ css/style.css         legacy base + components (no tokens)
 css/site.css          current components, loads after style.css (no tokens)
 js/nav.js             theme cycle, mobile menu, active nav state
 js/app.js             page behaviour: projects grid, reveals, tabs
-data/projects.json    project cards. stats/highlights/tags are REQUIRED keys
+data/projects.json    project cards. stats/highlights/tags/flow are REQUIRED keys
+images/projects/      card preview screenshots (see `preview` in projects.json)
 scripts/build-site.mjs   assembles dist/, minifies CSS, versions assets
 scripts/sync-tokens.mjs  copies css/tokens.css -> blog-src/src/styles/tokens.css
 blog-src/             Astro blog (outputs to ../blog, gitignored)
@@ -143,7 +144,8 @@ blog-src/             Astro blog (outputs to ../blog, gitignored)
 | Navbar styles stop applying | `nav.css` was loaded before `site.css` instead of after |
 | Theme toggle does nothing in the blog | The blog needs `js/nav.js`, and its tokens come from the **generated** file |
 | A new page 404s | Its directory is not in `ENTRIES` in `scripts/build-site.mjs` |
-| Project card renders blank | `data/projects.json` entry is missing `stats`, `highlights` or `tags` — the renderer calls `.map` on them |
+| Project card renders blank | `data/projects.json` entry is missing `tags` (or `title`/`description`) — the renderer uses them directly |
+| Card has no screenshot | the entry has no `preview`; add `images/projects/<id>.jpg` (16:10, top-left framed) and point `preview` at it |
 | Data fetch works on `/` but not a subpage | Relative URL; make it root-absolute |
 | Blog shows stale colours | `build:site` was run without `build:blog` |
 | Buttons vanish in the blog | Blog names its button `.btn--primary`, the main site `.btn-primary`. Navbar CTA is styled in `nav.css` for this reason |
