@@ -505,86 +505,93 @@
       ]
     },
     {
-      "id": "freshcart-analytics-pipeline",
-      "title": "FreshCart E-commerce Analytics Pipeline",
-      "description": "Production-grade e-commerce analytics platform orchestrating a 7-task Airflow pipeline. Features a medallion data warehouse structure, customer RFM behavior segmentation, and automated testing preventing schema drift.",
-      "longDescription": "A robust batch ETL data platform orchestrating the flow of 150K+ transactional records. Powered by Apache Airflow (Docker LocalExecutor), the pipeline automatically ingests data to Google Cloud Storage and loads it to BigQuery. Using dbt, the data is transformed across Bronze, Silver, and Gold layers. Built-in SQL algorithms compute RFM segmentation to group customers into 10 behavioral profiles for marketing activation, while 20+ data quality assertions protect downstream BI stability.",
+      "id": "batch-data-pipeline",
+      "title": "Batch Pipeline with Full Observability",
+      "description": "A containerised batch pipeline on the medallion architecture — Airflow, Delta Lake, Trino and Metabase — with data quality, lineage and monitoring wired in from the start.",
+      "longDescription": "A batch sales pipeline built to be operated, not just run. A generator emits deliberately dirty transactions, Bronze lands them in MinIO unvalidated, Silver cleans and deduplicates them into Delta Lake, and Soda Core gates the layer before Gold aggregates it. Trino queries the tables and Metabase serves the dashboards, while Marquez records lineage and Prometheus and Grafana watch the run. Every part ships in one docker compose stack.",
       "category": "data-engineering",
-      "github": null,
+      "github": "https://github.com/akmalariq/batch-data-pipeline",
       "demo": null,
       "image": null,
+      "preview": "/images/projects/batch-data-pipeline.jpg",
       "tags": [
         "Apache Airflow",
-        "dbt",
-        "BigQuery",
-        "Google Cloud Storage",
-        "Python",
-        "Docker",
-        "Looker Studio",
-        "Terraform"
+        "DuckDB",
+        "Delta Lake",
+        "Trino",
+        "MinIO",
+        "Soda Core",
+        "OpenLineage",
+        "Grafana",
+        "Docker"
       ],
       "stats": {
-        "throughput": "150K+ transaction items · 10K customers",
-        "orchestration": "Apache Airflow 2.9 (Docker, LocalExecutor)",
-        "analytics engine": "SQL-based RFM customer segmentation model",
-        "data quality": "20+ automated data validation assertions",
-        "data architecture": "Bronze (views) → Silver (tables) → Gold (marts)"
+        "orchestration": "Apache Airflow DAG, containerised with Docker Compose",
+        "storage": "MinIO (S3-compatible) Bronze → Delta Lake Silver",
+        "query engine": "Trino over Delta Lake tables",
+        "data quality": "Soda Core, 15+ checks gating the Silver layer",
+        "lineage": "Marquez + OpenLineage, end to end",
+        "observability": "Prometheus metrics + Grafana dashboards",
+        "test data": "~20% intentional dirty rows, generated with Faker"
       },
       "highlights": [
-        "Orchestrated a 7-task parallel Apache Airflow DAG on a Dockerized LocalExecutor, automating raw extraction, GCS loading, and multi-tier dbt compilation.",
-        "Designed a SQL-native RFM (Recency, Frequency, Monetary) analytics model directly in dbt, grouping buyers into actionable marketing segments like Champions, Loyalists, and At-Risk.",
-        "Implemented 20+ automated data quality constraints (primary key uniqueness, category domain checks) to enforce data integrity.",
-        "Engineered a medallion architecture in BigQuery to isolate raw streams (Bronze) from analytics-ready business models (Gold).",
-        "Constructed high-density Looker Studio dashboards visualizing customer cohort retention, revenue trends, and catalog product rankings."
+        "Built the full medallion path — unvalidated Bronze in object storage, cleansed Silver in Delta Lake, aggregated Gold marts — behind a single Airflow DAG.",
+        "Generated source data with roughly 20% realistic defects, so the quality gates have something real to catch rather than a clean fixture.",
+        "Gated the Silver layer with 15+ Soda Core checks, so bad rows fail the pipeline instead of reaching the dashboards.",
+        "Tracked lineage end to end with Marquez and OpenLineage, making the path from raw JSON to business metric traceable.",
+        "Shipped Prometheus and Grafana alongside the pipeline, so orchestration health and data freshness are visible without reading logs."
       ],
       "flow": [
-        "GCS",
-        "Airflow",
-        "BigQuery",
-        "dbt",
-        "Looker Studio"
+        "Faker generator",
+        "MinIO Bronze",
+        "Delta Lake Silver",
+        "Soda Core",
+        "Gold marts",
+        "Trino",
+        "Metabase"
       ]
     },
     {
-      "id": "ai-rag-ingestion-pipeline",
-      "title": "AI-Native RAG Ingestion Pipeline",
-      "description": "Modular background ingestion pipeline parsing unstructured files, generating local dense vector embeddings, and serving semantic search queries via FastAPI.",
-      "longDescription": "A production-grade, secure, and self-contained Retrieval-Augmented Generation (RAG) backend data platform. It parses raw unstructured documents, splits them into semantic text chunks using recursive splitters, generates dense vector representations locally using sentence-transformers, and stores them in Qdrant. Exposes FastAPI endpoints for semantic search and prompt-engineered RAG queries.",
+      "id": "data-catalog-rag-agent",
+      "title": "RAG Agent Over the Data Catalog",
+      "description": "An analyst asks the warehouse what a metric means and gets an answer with the tables cited. ChromaDB retrieval over the data dictionary, ingested and refreshed by Dagster.",
+      "longDescription": "Data documentation is the most underused asset in a warehouse, and the most expensive to dig through. This turns the data dictionary into a queryable layer: Dagster ingests the catalog markdown as an asset, ChromaDB indexes it with an embedded offline embedding model, and a retrieval agent answers questions like \"what does roas mean?\" or \"which table tracks live-stream sales?\" Every answer cites the tables it drew on, so an analyst or auditor can verify it. No API key and no hosted vector database — the index is local and the project runs offline.",
       "category": "data-engineering",
-      "github": null,
+      "github": "https://github.com/akmalariq/data-catalog-rag-agent",
       "demo": null,
       "image": null,
       "tags": [
         "Python",
-        "FastAPI",
-        "Qdrant",
-        "LangChain",
-        "SentenceTransformers",
-        "Docker",
-        "Pytest"
+        "Dagster",
+        "ChromaDB",
+        "RAG",
+        "Vector Search",
+        "Embeddings",
+        "uv"
       ],
       "stats": {
-        "embedding model": "sentence-transformers/all-MiniLM-L6-v2",
-        "vector size": "384 dimensions",
-        "database": "Qdrant (memory / persistent failover)",
-        "chunking strategy": "Recursive split (500 chars, 50 overlap)",
-        "security layers": "SSRF scheme filter + request length restrictions",
-        "testing coverage": "FastAPI TestClient suite (95%+ code coverage)"
+        "orchestration": "Dagster assets for catalog ingestion and index refresh",
+        "vector store": "ChromaDB, embedded and local",
+        "embeddings": "Offline default model — runs with no API key",
+        "grounding": "Every answer cites its source tables",
+        "agent": "Offline heuristic retrieval, optional LLM",
+        "quality": "Test suite + CI on push"
       },
       "highlights": [
-        "Implemented local open-source dense vector embeddings using SentenceTransformers, completely eliminating third-party API dependencies.",
-        "Created a resilient database client wrapper that automatically falls back to local disk-based storage if the server connection fails.",
-        "Built strict query length validation and secure protocol scheme Allow-lists to mitigate SSRF and buffer-overflow security risks.",
-        "Designed custom prompt engineering context builders to feed local Ollama LLMs with relevant source metadata.",
-        "Developed a containerized stack utilizing Docker Compose and automated testing suites via FastAPI TestClient."
+        "Made the warehouse data dictionary queryable, so metric definitions stop living in scattered markdown nobody reads.",
+        "Ingested the catalog with Dagster as an asset, so the vector index is refreshed by the pipeline instead of drifting from the docs it mirrors.",
+        "Grounded every response in retrieved chunks with source citations, making the output auditable rather than a plausible-sounding guess.",
+        "Ran fully offline on an embedded ChromaDB index with no third-party API call, removing both the key and the per-query cost.",
+        "Shipped a test suite and CI, since a retrieval index that silently rots is worse than no index at all."
       ],
       "flow": [
-        "Documents",
-        "Chunking",
-        "Embeddings",
-        "Qdrant",
-        "FastAPI"
-      ]
+        "Catalog docs",
+        "Dagster ingestion",
+        "ChromaDB index",
+        "Retrieval",
+        "Cited answer"
+      ],
+      "preview": null
     },
     {
       "id": "ecommerce-data-analysis",

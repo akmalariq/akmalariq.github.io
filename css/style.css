@@ -11,6 +11,16 @@
     box-sizing: border-box;
 }
 
+/* Part of the HTML5 reset, made unconditional. The UA stylesheet's
+   `[hidden] { display: none }` is the weakest rule in the cascade, so any
+   component that sets its own `display` beats it: `.project-card[hidden]` and
+   `.project-card.featured` are the same specificity, and `.featured` is
+   declared later, so the index hero stayed painted while the format filter
+   reported it hidden. `hidden` has to mean hidden. */
+[hidden] {
+    display: none !important;
+}
+
 /* Design tokens live in css/tokens.css — loaded before this file. Edit that
    one file to change the palette or add a theme. */
 
