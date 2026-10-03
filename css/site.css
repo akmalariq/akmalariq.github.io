@@ -817,7 +817,14 @@ body {
 }
 
 .project-filter {
-  padding: 0.35rem 0.8rem;
+  /* 44px, matching .tab-btn, .footer-links a and .nav-cta. These pills were
+     27.2px, which is under the WCAG 2.5.5 target size and a third below the
+     site's own standard — and they are a filter, so they are the one control a
+     touch user has to hit accurately before they can narrow 16 cards down. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: transparent;
