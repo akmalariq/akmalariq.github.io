@@ -82,6 +82,22 @@ function createProjectCard(project, options = {}) {
     const tags = Array.isArray(project.tags) ? project.tags : [];
     const tagsHtml = tags.slice(0, 3).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('');
 
+    // The lead stat is named per project in projects.json rather than inferred.
+    // Inference looked tempting and was wrong: "one Worker + D1", "MinIO (S3)"
+    // and "SCD Type 2" all contain digits, so a rule that promoted the first
+    // numeric stat would lead with a version number on three of sixteen cards.
+    // Each lead is chosen because it is the strongest evidence on that card.
+    const leadStat = project.leadStat && project.stats && project.stats[project.leadStat]
+        ? { label: project.leadStat, value: project.stats[project.leadStat] }
+        : null;
+
+    const leadHtml = leadStat
+        ? `<p class="project-stat">
+               <span class="project-stat__label">${escapeHtml(leadStat.label)}</span>
+               <span class="project-stat__value">${escapeHtml(leadStat.value)}</span>
+           </p>`
+        : '';
+
     const primaryButton = primaryHref
         ? `<a class="btn btn-primary" href="${escapeHtml(primaryHref)}"${primaryExternal ? ' target="_blank" rel="noopener noreferrer"' : ''}>${escapeHtml(primaryLabel)}${primaryExternal ? ARROW_EXTERNAL : ARROW_INTERNAL}</a>`
         : '';
@@ -104,6 +120,7 @@ function createProjectCard(project, options = {}) {
         <div class="project-body">
             ${kicker ? `<p class="project-kicker">${kicker}</p>` : ''}
             <h3 class="project-title">${escapeHtml(project.title)}</h3>
+            ${leadHtml}
             <p class="project-description">${escapeHtml(project.description)}</p>
             ${tagsHtml ? `<div class="project-tags">${tagsHtml}</div>` : ''}
             <div class="project-links">

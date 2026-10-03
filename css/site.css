@@ -243,25 +243,38 @@ body {
   max-width: var(--measure);
 }
 
-.project-stats,
-.telemetry-log {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--bg-primary);
+/* Lead stat — the one measured fact that makes the card worth a click. Sits
+   between title and description so the number leads and the prose supports. */
+.project-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 0.85rem;
+    padding: 0.55rem 0.7rem;
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: var(--bg-secondary);
 }
 
-.stat-label {
-  color: var(--text-muted);
+.project-stat__label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    /* text-muted is 4.26:1 on the stat surface at this size — under the 4.5:1
+       floor for normal text. text-secondary clears it at 6.24:1. */
+    color: var(--text-secondary);
 }
 
-.stat-value {
-  color: var(--text-primary);
+.project-stat__value {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--text-primary);
 }
 
 .project-highlights {
-  color: var(--text-secondary);
+    color: var(--text-secondary);
   font-size: 0.92rem;
 }
 
