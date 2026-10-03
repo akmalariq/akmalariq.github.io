@@ -69,7 +69,77 @@ Edit the CSS variables in `css/style.css`:
 
 Add new sections to `index.html` and update the navigation in the `<header>`.
 
-## Deployment to GitHub Pages
+## Deployment
+
+### akmalariq.dev is Cloudflare Pages, deployed by push or by hand
+
+The live site is Cloudflare Pages (project `akmalariq`), not GitHub Pages. Two
+ways to ship:
+
+```bash
+npm run deploy     # build + wrangler pages deploy dist --project-name akmalariq
+```
+
+Authoritative for correctness; needs no credentials beyond your local `wrangler login`.
+
+### The scheduled `publish` workflow
+
+`.github/workflows/publish.yml` runs four times a day and redeploys **only** when a
+blog post's `pubDate` has arrived but is not yet live. On a quiet day it prints
+`nothing due` and exits without touching production — that is the pass condition,
+not a failure. See `blog-src/README.md` for the two-knob publishing model.
+
+It needs two repository secrets under **Settings → Secrets and variables → Actions**:
+
+| Secret | Value |
+|---|---|
+| `CLOUDFLARE_ACCOUNT_ID` | `db18b6090d3cd75544c171d79d793f5a` |
+| `CLOUDFLARE_API_TOKEN` | value of the token below |
+
+Trigger it by hand from the **Actions** tab → `publish` → **Run workflow**.
+
+#### ⚠️ The deploy token expires — rotate before it does
+
+The Cloudflare API token is named **`ci-akmalariq-github-io`** and was created with a
+**7-day lifetime**, so it expires around **2026-10-10**.
+
+- Scope: **Account → Cloudflare Pages → Edit**, restricted to the account above.
+  Nothing else. No zone, KV, R2, or D1 permissions.
+- **This matters because** a scheduled post is due on 2026-10-13, one day or more
+  *after* the token dies. Without a refresh the deploy step fails and that post
+  never appears — the workflow goes red on GitHub but nothing announces it publicly.
+
+**Fix it now** rather than after a missed post:
+
+1. Cloudflare dashboard → **API Tokens** → `ci-akmalariq-github-io` → **Edit**
+2. Set **Time to Live** to **1 year** (or "until revoked" for a personal-account
+   token), then save
+3. Update the `CLOUDFLARE_API_TOKEN` secret in GitHub if the token string changed
+
+A one-year TTL is the right call here: the token can only push assets to one Pages
+project, so the long lifetime costs very little. If you would rather keep it short,
+re-run **Actions → publish → Run workflow** monthly and confirm it still shows green.
+
+### GitHub Pages is off, and its failing builds are harmless
+
+This repo is named `akmalariq.github.io`, so GitHub Pages is enabled on it and
+attempts a build on every push. Those builds fail, and always have:
+
+```
+Invalid YAML front matter in /github/workspace/blog-src/src/pages/index.astro
+```
+
+GitHub Pages runs Jekyll, which tries to parse `.astro` files as content and chokes
+on the `---` frontmatter block. This does **not** affect akmalariq.dev, which is
+served by Cloudflare Pages — the `pages-build-deployment` workflow is GitHub's, not
+Cloudflare's. If the `akmalariq.github.io` URL is not meant to serve anything, set
+**Settings → Pages → Source → None** to stop the red runs and the wasted minutes.
+
+## Deployment to GitHub Pages (legacy path, unused)
+
+The instructions below apply only if you deliberately want the site served from
+`akmalariq.github.io` rather than the Cloudflare domain. For the live site, use the
+section above.
 
 ### Option 1: Deploy to akmalariq.github.io
 
