@@ -2138,7 +2138,9 @@ body {
   font-size: 0.62rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  /* text-muted measures 4.26:1 on the report surface, under the 4.5:1 floor for
+     normal text. text-secondary clears it. Same reason as .project-stat__label. */
+  color: var(--text-secondary);
 }
 
 .report-kpi-value {
@@ -2285,7 +2287,8 @@ body {
 
 .report-footnote {
   margin-top: 1.25rem;
-  color: var(--text-muted);
+  /* 4.26:1 in light theme as text-muted — same fail as .report-kpi-label. */
+  color: var(--text-secondary);
   font-size: 0.82rem;
   line-height: 1.65;
 }

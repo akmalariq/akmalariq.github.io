@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint.
+         Theme key and default match the homepage and the blog (shared 'theme' key,
+         OS preference as the default) so the choice carries across pages. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            // Themes are enumerated in css/tokens.css; keep this list in step.
+            var THEMES = ['dark', 'light', 'contrast'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <title>Managed reporting — you send the exports, I keep the numbers current | Akmal Ariq</title>
+    <meta name="description" content="A monthly reporting service for multi-outlet retail and marketplace sellers: you send the exports you already have, I ingest them, validate them, and keep the dashboards and reorder recommendations current.">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://akmalariq.dev/product/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akmalariq.dev/product/">
+    <meta property="og:title" content="Managed reporting — you send the exports, I keep the numbers current">
+    <meta property="og:description" content="Monthly reporting for multi-outlet retail and marketplace sellers. You send the exports you already have; I ingest, validate, and keep the dashboards and reorder recommendations current.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Managed reporting — you send the exports, I keep the numbers current">
+    <meta name="twitter:description" content="You send the exports you already have. I ingest, validate, and keep the dashboards current — plus next week's order quantities.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Fonts: self-hosted, preloaded, latin subset -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <span class="nav-divider" aria-hidden="true"></span>
+                    <a href="/projects" class="nav-link">Work</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        <svg class="contrast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/projects" class="mobile-nav-link">Work</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="case-study">
+        <div class="container">
+            <a href="/#pricing" class="cs-back">&larr; Back to pricing</a>
+
+            <p class="cs-eyebrow">Monthly service &middot; For multi-outlet retail &amp; marketplace sellers</p>
+            <h1 class="cs-title">You send the exports. I keep the numbers current.</h1>
+            <p class="cs-lede">
+                Every month you send the files you already have &mdash; marketplace order exports, a bank
+                statement, your POS pull. I ingest them, check them, and refresh your dashboards, so the
+                reporting never depends on whoever happens to have time on a Monday.
+            </p>
+            <p class="cs-lede">
+                Shopee and TikTok Shop each show you your own orders. Neither will reconcile them against your
+                bank account, match one product across two platforms, or tell you how much to order next week.
+                That gap is the service.
+            </p>
+
+            <h2 class="report-section-title">What you send, what you get</h2>
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th scope="col">You send &mdash; files you already export</th>
+                        <th scope="col">You get &mdash; every month, without asking</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Shopee &amp; TikTok Shop order exports</td>
+                        <td>Revenue, orders and margin per channel, in one view</td>
+                    </tr>
+                    <tr>
+                        <td>Tokopedia or other channel exports</td>
+                        <td>One product, one stock position &mdash; matched across every channel</td>
+                    </tr>
+                    <tr>
+                        <td>Bank statement (CSV or PDF)</td>
+                        <td>Payouts matched to orders, with the unmatched ones named</td>
+                    </tr>
+                    <tr>
+                        <td>POS export, if you run one</td>
+                        <td>Reorder quantities per store for the week ahead</td>
+                    </tr>
+                    <tr>
+                        <td>Nothing else. No new tool to learn.</td>
+                        <td>A short list of things that need a human decision</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 class="report-section-title">The monthly rhythm</h2>
+            <ol class="process-list reveal-grid">
+                <li class="process-step">
+                    <span class="process-num">01</span>
+                    <h3 class="process-title">You export</h3>
+                    <p class="process-text">Four or five files from the places you already sell. Ten minutes, once a month.</p>
+                </li>
+                <li class="process-step">
+                    <span class="process-num">02</span>
+                    <h3 class="process-title">I ingest and check</h3>
+                    <p class="process-text">Files land in the warehouse, rows are validated, and anything that does not reconcile is flagged rather than quietly averaged away.</p>
+                </li>
+                <li class="process-step">
+                    <span class="process-num">03</span>
+                    <h3 class="process-title">Dashboards refresh</h3>
+                    <p class="process-text">Your views update, including the next-week order quantities and the promotion read-out.</p>
+                </li>
+                <li class="process-step">
+                    <span class="process-num">04</span>
+                    <h3 class="process-title">You decide</h3>
+                    <p class="process-text">A short list, not a dashboard to interpret. Reorder, or don't &mdash; the reasoning is written down.</p>
+                </li>
+            </ol>
+
+            <article class="report" aria-label="Sample month-end summary for a fictional retail chain">
+                <div class="report-header">
+                    <span class="report-brand">Sample chain &middot; 6 stores</span>
+                    <span class="report-meta">Refreshed monthly &middot; illustrative figures</span>
+                </div>
+
+                <div class="report-kpis">
+                    <div class="report-kpi">
+                        <span class="report-kpi-label">Revenue, all channels</span>
+                        <span class="report-kpi-value">Rp 412.600.000</span>
+                        <span class="report-kpi-delta">&#9650; 8% vs last month</span>
+                    </div>
+                    <div class="report-kpi">
+                        <span class="report-kpi-label">SKUs matched across channels</span>
+                        <span class="report-kpi-value">94%</span>
+                        <span class="report-kpi-delta">1,284 of 1,366 lines</span>
+                    </div>
+                    <div class="report-kpi">
+                        <span class="report-kpi-label">Projected fill rate</span>
+                        <span class="report-kpi-value">98%</span>
+                        <span class="report-kpi-delta">vs 81% on a fixed days-of-supply rule</span>
+                    </div>
+                    <div class="report-kpi">
+                        <span class="report-kpi-label">Promotions that paid back</span>
+                        <span class="report-kpi-value">6 of 11</span>
+                        <span class="report-kpi-delta">5 were margin-negative</span>
+                    </div>
+                </div>
+
+                <div class="report-body">
+                    <section aria-labelledby="prod-reorder">
+                        <h2 class="report-section-title" id="prod-reorder">What to reorder next week</h2>
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">On hand</th>
+                                    <th scope="col">Forecast, 7 days</th>
+                                    <th scope="col">Suggested order</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Ayam Bakar Madu &middot; 12 pcs</td><td>4</td><td>38</td><td>120</td></tr>
+                                <tr><td>Rendang Daging &middot; 500 gr</td><td>61</td><td>31</td><td>48</td></tr>
+                                <tr><td>Nasi Kuning Family Pack</td><td>18</td><td>24</td><td>60</td></tr>
+                                <tr><td>Sambal Ijo &middot; 200 ml</td><td>210</td><td>22</td><td>0</td></tr>
+                            </tbody>
+                        </table>
+                        <p class="report-footnote">
+                            Quantities come from safety-stock and reorder-point rules driven by a demand
+                            forecast, scored in an inventory simulation rather than a fixed days-of-supply rule.
+                        </p>
+                    </section>
+
+                    <section class="report-review" aria-labelledby="prod-review">
+                        <h2 class="report-section-title" id="prod-review">What the month flagged</h2>
+                        <ul class="report-review-list">
+                            <li class="report-review-item">
+                                <strong>82 orders sold on TikTok Shop, absent from Shopee exports</strong>
+                                <span>Different SKU format. Mapped by barcode &mdash; worth confirming, because a wrong map distorts per-channel margin.</span>
+                            </li>
+                            <li class="report-review-item">
+                                <strong>Two settlements still pending at month close</strong>
+                                <span>Rp 18.400.000 of COD not yet cleared. Flagged rather than counted as revenue, so the month is not overstated.</span>
+                            </li>
+                            <li class="report-review-item">
+                                <strong>5 of last month&rsquo;s promotions did not pay back</strong>
+                                <span>They moved volume and lost margin once the discount on non-incremental units is counted.</span>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section aria-labelledby="prod-sources">
+                        <h2 class="report-section-title" id="prod-sources">What it runs on</h2>
+                        <div class="project-flow" role="img" aria-label="Sources: marketplace exports, the bank statement and the POS pull flow into a warehouse, which produces the dashboards and the reorder recommendations">
+                            <span class="flow-step">Marketplace exports</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">Bank statement</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">POS pull</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">Warehouse</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">Dashboards</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">Order quantities</span>
+                        </div>
+                        <p class="report-footnote">
+                            Run on a cloud account you own, so the data and the history are yours if we part ways.
+                            I host it; you keep it.
+                        </p>
+                    </section>
+                </div>
+            </article>
+
+            <!-- The bare `section` rule carries page-level rhythm (128px top and
+                 bottom). Stacked directly before the CTA band that read as a 192px
+                 void, so the bottom is dropped here and the band's own padding does
+                 the separating — the same thing /demo/ does on its cta-band. -->
+            <section aria-labelledby="prod-fit" style="padding-bottom:0">
+                <h2 class="report-section-title" id="prod-fit">Who this is for</h2>
+                <ul class="report-review-list">
+                    <li class="report-review-item">
+                        <strong>Multi-outlet retail or FMCG</strong>
+                        <span>You re-order by gut, and you find out about a bad promotion a quarter later.</span>
+                    </li>
+                    <li class="report-review-item">
+                        <strong>High-volume marketplace sellers</strong>
+                        <span>Two or three platforms, each with its own dashboard, and no way to see them together.</span>
+                    </li>
+                    <li class="report-review-item">
+                        <strong>Wholesalers and distributors</strong>
+                        <span>Someone re-keys the same report every month, and it is always slightly wrong.</span>
+                    </li>
+                </ul>
+                <p class="report-footnote">
+                    Not a fit yet if you have under about Rp 50 million a month in sales, or if the reporting is
+                    already automated and working. I will say so on the first call.
+                </p>
+            </section>
+
+            <section class="cta-band" aria-label="Start managed reporting" style="padding-bottom:0">
+                <div class="cta-band__inner reveal">
+                    <p class="cta-band__title">Send me one month of exports. I&rsquo;ll tell you what&rsquo;s in them.</p>
+                    <div class="cta-band__actions">
+                        <a class="btn btn-primary" href="mailto:akmalariqs@gmail.com?subject=Managed%20reporting%20enquiry&amp;body=Hi%20Akmal%20%E2%80%94%20I%27d%20like%20to%20talk%20about%20managed%20reporting.%0D%0A%0D%0AChannels%20I%20sell%20on%3A%0D%0AMonthly%20revenue%20%28rough%29%3A%0D%0AWhat%20I%27m%20doing%20by%20hand%20today%3A%0D%0A">Start with a 20-minute call</a>
+                        <a class="cta-band__link" href="/#pricing">See pricing &rarr;</a>
+                    </div>
+                </div>
+            </section>
+
+            <p class="report-footnote">
+                <a href="/demo/">See the one-off sample report &rarr;</a> &mdash; the fixed-scope build, if you want
+                the deliverable and then run it yourself.
+            </p>
+        </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/privacy/">Privacy</a>
+                    <a href="/terms/">Terms</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
