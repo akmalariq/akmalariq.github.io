@@ -545,12 +545,19 @@ body {
 }
 
 .featured-carousel__dot {
-  width: 8px;
-  height: 8px;
-  padding: 0;
+  /* 8px dot, 24px target. The button is 24px with 8px padding and the background
+     clipped to the content box, so the visible dot is unchanged while the tap
+     area clears WCAG 2.5.8. 44px was not used here: a pagination dot that size
+     is disproportionate, and the AA floor is the one that applies to it. */
+  position: relative;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  padding: 8px;
   border: 0;
   border-radius: 999px;
   background: var(--border-strong);
+  background-clip: content-box;
   cursor: pointer;
   transition: transform var(--dur-hover) var(--ease-out),
               background var(--dur-hover) var(--ease-out);
@@ -703,7 +710,11 @@ body {
    0.25rem saves 12.8px of the 20.8px needed. Shortening a button label would buy
    tidiness with legibility. Reserving the height instead keeps every card the
    same at any viewport, and since .project-tags carries margin-top:auto the
-   surplus becomes breathing room above the actions rather than stretch. */
+   surplus becomes breathing room above the actions rather than stretch.
+
+   7rem, not 5.7rem: the GitHub link moved to a 44px target, so the wrapped row
+   measures 108.1px rather than 87.2px. At 5.7rem it overflowed, and Earthquake's
+   row pushed three cards to 448px while the rest sat at 431. */
 .project-links {
   display: flex;
   flex-wrap: wrap;
@@ -712,7 +723,7 @@ body {
   margin: 0;
   margin-top: auto;
   padding-top: 0.5rem;
-  min-height: 5.7rem;
+  min-height: 7rem;
 }
 
 .project-links .btn {
@@ -724,6 +735,8 @@ body {
 .project-link {
   display: inline-flex;
   align-items: center;
+  /* 44px target. This measured 23.1px — under the 24px WCAG 2.5.8 floor. */
+  min-height: 44px;
   gap: 0.4rem;
   color: var(--text-secondary);
   font-size: 0.85rem;

@@ -53,6 +53,10 @@
     display: flex;
     align-items: baseline;
     gap: 0.55rem;
+    /* 44px target. The logo is the way home from every page and measured
+       19.2px — under even the 24px WCAG 2.5.8 floor, let alone the 44px the rest
+       of the header now meets. */
+    min-height: 44px;
 }
 
 .header-logo .name {
@@ -92,6 +96,12 @@
 
 .nav-link {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    /* 44px, matching .nav-cta and the rest of the header. These measured 28.8px,
+       which clears the 24px AA floor but not 44px. align-items keeps the text
+       on the same baseline as before inside the taller box. */
+    min-height: 44px;
     font-family: var(--font-sans);
     font-size: 0.92rem;
     font-weight: 500;
@@ -158,8 +168,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
+    /* 44px target size, kept circular so the control still reads as a dial. */
+    width: 2.75rem;
+    height: 2.75rem;
     flex-shrink: 0;
     padding: 0;
     border: 1px solid var(--border);
