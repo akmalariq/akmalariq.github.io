@@ -124,6 +124,13 @@
    blog names it .btn--primary. */
 .nav-cta,
 .nav-cta[aria-current="page"] {
+    /* 44px, matching .project-filter, .tab-btn, .footer-links a and .btn.
+       Padding alone measured 34.8px, under the WCAG 2.5.5 target size — and this
+       is the primary conversion control in the header, on every page including
+       the blog, so it is the worst place on the site to be short. */
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     padding: 0.5rem 0.95rem;
     font-size: 0.875rem;
     font-weight: 600;
