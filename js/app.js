@@ -119,7 +119,7 @@ function createProjectCard(project, options = {}) {
         ${media}
         <div class="project-body">
             ${kicker ? `<p class="project-kicker">${kicker}</p>` : ''}
-            <h3 class="project-title">${escapeHtml(project.title)}</h3>
+            <h2 class="project-title">${escapeHtml(project.title)}</h2>
             ${leadHtml}
             <p class="project-description">${escapeHtml(project.description)}</p>
             ${tagsHtml ? `<div class="project-tags">${tagsHtml}</div>` : ''}
