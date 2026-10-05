@@ -103,7 +103,11 @@
 
     --text-primary: oklch(0.16 0.01 75);
     --text-secondary: oklch(0.45 0.008 75);
-    --text-muted: oklch(0.54 0.008 80);
+    /* 0.52, not 0.54. At 0.54 this measured 4.26:1 against --bg-secondary,
+       under the 4.5:1 floor for normal text, and it is used for table headers,
+       report section titles and bar values. 0.52 gives 4.66:1 there and 5.09:1
+       against --bg-primary. Dark needs no change and stays at 0.58. */
+    --text-muted: oklch(0.52 0.008 80);
 
     --border: oklch(0.88 0.006 80);
     --border-strong: oklch(0.8 0.008 80);
@@ -116,7 +120,11 @@
     --code-bg: oklch(0.93 0.008 80);
     --shadow: 0 1px 2px rgba(20, 18, 15, 0.06), 0 8px 24px rgba(20, 18, 15, 0.08);
 
-    --status-online: oklch(0.55 0.14 155);
+    /* 0.50, not 0.55. This token is used as text by .text-green, not just as a
+       status dot, and at 0.55 it measured 3.82:1 against the metric cards. 0.50
+       gives 4.64:1 there and 5.07:1 on --bg-primary. Dark and contrast need no
+       change. */
+    --status-online: oklch(0.5 0.14 155);
     --status-offline: oklch(0.55 0.18 25);
 
     --btn-primary-hover-text: var(--bg-primary);

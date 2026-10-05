@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint.
+         Theme key and default match the homepage and the blog (shared 'theme' key,
+         OS preference as the default) so the choice carries across pages. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            // Themes are enumerated in css/tokens.css; keep this list in step.
+            var THEMES = ['dark', 'light', 'contrast'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <title>Demos &mdash; sample reports and live apps | Akmal Ariq</title>
+    <meta name="description" content="Sample reports showing what a weekly reporting and reorder service produces, plus the live apps behind four of the projects. Illustrative figures throughout.">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://akmalariq.dev/demos/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akmalariq.dev/demos/">
+    <meta property="og:title" content="Demos &mdash; sample reports and live apps">
+    <meta property="og:description" content="Sample reports showing what a weekly reporting and reorder service produces, plus the live apps behind four of the projects.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Demos &mdash; sample reports and live apps">
+    <meta name="twitter:description" content="Sample reports showing what a weekly reporting and reorder service produces, plus the live apps behind four of the projects.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Fonts: self-hosted, preloaded, latin subset -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <span class="nav-divider" aria-hidden="true"></span>
+                    <a href="/projects" class="nav-link">Work</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        <svg class="contrast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/projects" class="mobile-nav-link">Work</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="case-study">
+        <div class="container">
+            <a href="/#pricing" class="cs-back">&larr; Back to pricing</a>
+
+            <p class="cs-eyebrow">Demos &middot; Sample reports and live apps</p>
+            <h1 class="cs-title">Look at the output before you talk to me</h1>
+            <p class="cs-lede">
+                Two sample reports, built on the same components I would use for you. Both use a
+                fictional business with illustrative figures &mdash; nothing here is a client&rsquo;s data.
+                Below them are the live apps behind four of the projects, which you can actually use.
+            </p>
+
+            <div class="demo-grid">
+                    <a class="demo-card" href="/demos/weekly-report/">
+                        <span class="demo-card__kicker">Sample report &middot; The numbers</span>
+                        <h2 class="demo-card__title">Sample weekly report</h2>
+                        <p class="demo-card__text">Revenue across every channel, best sellers, and the few items that need a human decision. The Monday-morning deliverable.</p>
+                        <span class="demo-card__more">Open the sample &rarr;</span>
+                    </a>
+                    <a class="demo-card" href="/demos/reorder-and-margin/">
+                        <span class="demo-card__kicker">Sample report &middot; The decision layer</span>
+                        <h2 class="demo-card__title">Sample reorder &amp; margin report</h2>
+                        <p class="demo-card__text">Reorder quantities per store scored in an inventory simulation, and the promotions that moved volume but lost money.</p>
+                        <span class="demo-card__more">Open the sample &rarr;</span>
+                    </a>
+            </div>
+
+            <h2 class="report-section-title">Live apps</h2>
+            <table class="report-table demo-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Project</th>
+                        <th scope="col">Where it runs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="/projects/dompet/">Dompet — Money Manager</a></td>
+                        <td class="demo-table__url">akmalariq.dev/projects/dompet</td>
+                    </tr>
+                    <tr>
+                        <td><a href="/projects/dashboard-factory/">Dashboard Factory (AI)</a></td>
+                        <td class="demo-table__url">akmalariq.dev/projects/dashboard-factory</td>
+                    </tr>
+                    <tr>
+                        <td><a href="/projects/ooh-media-planner/">OOH Media Planner (AI)</a></td>
+                        <td class="demo-table__url">akmalariq.dev/projects/ooh-media-planner</td>
+                    </tr>
+                    <tr>
+                        <td><a href="/projects/earthquake-analytics-pipeline/">Earthquake Analytics Pipeline</a></td>
+                        <td class="demo-table__url">lookerstudio.google.com/reporting/8312b457-452d-4256-a34a-da6c348271c6</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <section class="cta-band" aria-label="Get this for your business" style="padding-bottom:0">
+                <div class="cta-band__inner reveal">
+                    <p class="cta-band__title">Want yours built from your own exports?</p>
+                    <div class="cta-band__actions">
+                        <a class="btn btn-primary" href="mailto:akmalariqs@gmail.com?subject=Free%20consult%20request&amp;body=Hi%20Akmal%20%E2%80%94%20I%27d%20like%20to%20book%20a%20free%2020-minute%20consult.%0D%0A%0D%0AMy%20pain%20point%20in%20one%20line%3A%20">Book a free consult</a>
+                        <a class="cta-band__link" href="/#pricing">See pricing &rarr;</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/privacy/">Privacy</a>
+                    <a href="/terms/">Terms</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

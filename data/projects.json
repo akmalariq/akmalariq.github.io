@@ -5,12 +5,12 @@
       "title": "Jakarta Retail Site Selection",
       "featured": true,
       "caseStudy": "/projects/jakarta-geomarketing/",
+      "demos": [],
       "description": "Location intelligence platform scoring every H3 hexagon in DKI Jakarta for retail and F&B opportunity, built from 289,000 Overture Maps POIs with BigQuery and dbt. Interactive map included.",
       "leadStat": "dataset scale",
       "longDescription": "A site-selection platform for retail and F&B expansion across DKI Jakarta. It ingests 289,015 OpenStreetMap-derived points of interest from Overture Maps, assigns each to an H3 resolution 8 hexagon, and classifies them as F&B competitors or demand generators (offices, education, retail anchors, lodging, lifestyle, health, leisure). dbt on BigQuery then scores every hexagon on demand density, category diversity, and competition, with the weights exposed as dbt variables and enforced by data tests. The result is an interactive MapLibre map with 1,564 scored cells, KPI summary, drill-down detail per cell, and a documented methodology with honest caveats.",
       "category": "data-engineering",
       "github": "https://github.com/akmalariq/jakarta-geomarketing",
-      "demo": null,
       "preview": "/images/projects/jakarta-geomarketing.jpg",
       "image": null,
       "tags": [
@@ -50,8 +50,6 @@
       "title": "Dompet — Money Manager",
       "featured": true,
       "category": "product",
-      "demo": "https://akmalariq.dev/projects/dompet",
-      "demoLabel": "Open Dompet",
       "preview": "/images/projects/dompet.jpg",
       "description": "A mobile-web money manager: log expenses in seconds, budget by payday cycle, and see where the money actually goes. Invite-only sign-in with Google, built on Cloudflare Workers and D1 with no server to run.",
       "leadStat": "model",
@@ -86,6 +84,13 @@
         "Worker API + D1",
         "Mobile SPA",
         "Budgets & reports"
+      ],
+      "demos": [
+        {
+          "label": "Open the live app",
+          "url": "https://akmalariq.dev/projects/dompet",
+          "kind": "app"
+        }
       ]
     },
     {
@@ -93,8 +98,6 @@
       "title": "Dashboard Factory (AI)",
       "featured": true,
       "category": "data-engineering",
-      "demo": "https://akmalariq.dev/projects/dashboard-factory",
-      "demoLabel": "Open the dashboard factory",
       "preview": "/images/projects/dashboard-factory.jpg",
       "github": "https://github.com/akmalariq/dashboard-factory",
       "description": "Chat builds analytics dashboards over a real grocery dataset. Ask for a metric and a working panel appears, drawn from a star schema in Cloudflare D1. The model never writes SQL or HTML: it picks a metric and a dimension, and deterministic code assembles the query and the chart.",
@@ -129,6 +132,13 @@
         "Tool-calling agent",
         "Typed spec",
         "Deterministic renderer"
+      ],
+      "demos": [
+        {
+          "label": "Open the live dashboard factory",
+          "url": "https://akmalariq.dev/projects/dashboard-factory",
+          "kind": "app"
+        }
       ]
     },
     {
@@ -136,8 +146,6 @@
       "title": "OOH Media Planner (AI)",
       "featured": true,
       "category": "data-engineering",
-      "demo": "https://akmalariq.dev/projects/ooh-media-planner",
-      "demoLabel": "Open the live planner",
       "preview": "/images/projects/ooh-media-planner.jpg",
       "description": "An AI media planner for Indonesian out-of-home advertising. Type a brief in natural language and get a budget-validated plan on a map, with reach deduplication, CPM and shareable links. Runs entirely on Cloudflare Workers and D1.",
       "leadStat": "inventory",
@@ -170,6 +178,13 @@
         "Tool-calling agent",
         "Deterministic curation",
         "Budget-valid plan"
+      ],
+      "demos": [
+        {
+          "label": "Open the live planner",
+          "url": "https://akmalariq.dev/projects/ooh-media-planner",
+          "kind": "app"
+        }
       ]
     },
     {
@@ -177,12 +192,12 @@
       "title": "Spark + Iceberg Lakehouse",
       "featured": false,
       "caseStudy": null,
+      "demos": [],
       "description": "A batch lakehouse built on PySpark with Apache Iceberg, Nessie, and MinIO: bronze, silver, and gold layers with SCD Type 2, time travel, and table compaction, plus automated data quality checks driving a specs file and an HTML report.",
       "leadStat": "modeling",
       "longDescription": "A batch lakehouse on object storage, built to exercise the parts of the lakehouse pattern that a warehouse hides. PySpark writes bronze, silver, and gold layers as Apache Iceberg tables on MinIO, with Nessie providing the catalog and branching. The silver layer carries Type 2 slowly changing dimensions so history is preserved rather than overwritten, and Iceberg time travel makes any previous state queryable. Compaction keeps the small-file problem in check. Automated data quality checks run against each layer and emit both a machine-readable specs file and a human-readable HTML report.",
       "category": "data-engineering",
       "github": "https://github.com/akmalariq/spark-iceberg-lakehouse",
-      "demo": null,
       "preview": null,
       "image": null,
       "tags": [
@@ -220,12 +235,12 @@
       "title": "Agentic Data Quality Pipeline",
       "featured": false,
       "caseStudy": null,
+      "demos": [],
       "description": "An LLM/RAG agent that detects and fixes data quality issues against documented business rules, with safe-fix guardrails, Dagster orchestration, and a full test suite.",
       "leadStat": "guardrails",
       "longDescription": "Data quality tooling where the rules live in documentation, not in scattered scripts. An LLM/RAG agent reads the documented business rules, detects where the data violates them, and proposes fixes. Every proposed fix passes through safe-fix guardrails before anything is applied, so the agent cannot make an unchecked change to real data. The whole pipeline is orchestrated with Dagster and covered by a full test suite.",
       "category": "data-engineering",
       "github": "https://github.com/akmalariq/agentic-data-quality-pipeline",
-      "demo": null,
       "preview": null,
       "image": null,
       "tags": [
@@ -262,12 +277,12 @@
       "title": "Database Platform Health Dashboard",
       "featured": false,
       "caseStudy": null,
+      "demos": [],
       "description": "SQL data validation and platform health checks (freshness, duplicates, null rates, schema drift, table growth) with threshold verdicts and a status dashboard for reporting.",
       "leadStat": "checks",
       "longDescription": "A health-check layer for a database platform. SQL validation covers the failures that quietly rot a warehouse: stale data, duplicate rows, rising null rates, schema drift, and unexpected table growth. Each check is compared against a threshold and resolved to a pass, warn, or fail verdict, and the results roll up into a status dashboard built for reporting rather than debugging.",
       "category": "data-engineering",
       "github": "https://github.com/akmalariq/db-health-dashboard",
-      "demo": null,
       "preview": null,
       "image": null,
       "tags": [
@@ -301,12 +316,18 @@
       "title": "Demand-Driven Replenishment Optimization",
       "featured": false,
       "caseStudy": "/projects/retail-replenishment-optimization/",
+      "demos": [
+        {
+          "label": "See a sample output",
+          "url": "/demos/reorder-and-margin/",
+          "kind": "report"
+        }
+      ],
       "description": "An ML demand forecast feeding safety-stock and reorder-point decisions, scored in an inventory simulation. Fill rate rose from 81% to 98% and total cost fell 88% against a naive days-of-supply policy.",
       "leadStat": "fill rate",
       "longDescription": "A replenishment decision system for multi-store retail. A gradient-boosted demand forecast sizes each store's safety stock from its own forecast error, which sets the reorder point and base-stock level. Every policy is scored in a period-by-period inventory simulation with supplier lead time, review period, and backorders, tracking fill rate, stockout units, average on-hand, and cost. Each store's service level is then chosen to minimize simulated total cost, and a limited inventory budget is allocated across stores by marginal fill-rate gain per unit of holding cost. In a synthetic backtest against a naive days-of-supply policy, fill rate rose from 81% to 98% and total cost fell 88%. Orchestrated with Dagster.",
       "category": "data-science",
       "github": "https://github.com/akmalariq/retail-replenishment-optimization",
-      "demo": null,
       "image": null,
       "tags": [
         "Inventory Optimization",
@@ -347,12 +368,18 @@
       "title": "Promotion Lift and Trade Optimization",
       "featured": false,
       "caseStudy": "/projects/promotion-lift-optimization/",
+      "demos": [
+        {
+          "label": "See a sample output",
+          "url": "/demos/reorder-and-margin/",
+          "kind": "report"
+        }
+      ],
       "description": "Estimating incremental promotion lift with a counterfactual baseline, controlled price elasticity, and incremental margin, then planning a promotion calendar under a fixed trade budget with mixed-integer programming.",
       "leadStat": "result",
       "longDescription": "A causal promotion analytics system. A no-promo demand baseline trained on non-promoted store-weeks provides the counterfactual, so incremental units and margin can be separated from volume that would have sold anyway. Price elasticity is estimated two ways: naively on price alone, and controlled for discount depth, display, season, and store fixed effects, which exposes the confounding when price only moves during promotions. A lift curve maps discount depth to observed-versus-counterfactual demand, and incremental margin charges the discount on every promoted unit. Finally, a mixed-integer program selects at most one discount depth per store-week to maximize incremental margin under a fixed trade budget and a per-store frequency cap. In a synthetic panel, 55 percent of promotions were margin-negative and reallocating the same budget moved margin from -143.6M to +321.4M.",
       "category": "data-science",
       "github": "https://github.com/akmalariq/promotion-lift-optimization",
-      "demo": null,
       "image": null,
       "tags": [
         "Causal Inference",
@@ -392,12 +419,12 @@
       "title": "Retail Demand Forecasting with AI",
       "featured": false,
       "caseStudy": "/projects/retail-demand-forecasting-ai/",
+      "demos": [],
       "description": "Store-level demand forecasting for multi-branch retail: gradient-boosted daily sales prediction with walk-forward validation, an honest naive-baseline comparison, and a GenAI layer that turns forecasts into store recommendations.",
       "leadStat": "baseline",
       "longDescription": "A store-level demand forecasting system for multi-branch retail. A gradient-boosted model predicts each store's daily sales up to 30 days ahead, using calendar, promotion, lag, and rolling features from the sales history. The model is validated walk-forward on the last 30 days per store and scored with MAE, RMSE, and MAPE against a naive lag-7 baseline, so the accuracy claim has a reference point. Because future lags are unknown, the horizon forecast feeds on the model's own predictions. A GenAI layer turns the numeric forecast into plain-language, store-specific recommendations for operations teams, with a fully offline heuristic fallback when no API key is present. Orchestrated with Dagster.",
       "category": "data-science",
       "github": "https://github.com/akmalariq/retail-demand-forecasting-ai",
-      "demo": null,
       "image": null,
       "tags": [
         "Demand Forecasting",
@@ -437,12 +464,12 @@
       "title": "Streaming CDC Pipeline with Debezium and Kafka",
       "featured": false,
       "caseStudy": null,
+      "demos": [],
       "description": "Change data capture end to end: Postgres logical decoding via Debezium into Kafka, then a Python consumer writing an idempotent ClickHouse sink. At-least-once delivery made effectively-once, with dead-letter routing, consumer-lag metrics, and Dagster orchestration.",
       "leadStat": "tests",
       "longDescription": "A production-shaped CDC pipeline built to exercise the parts of streaming that actually break: offset handling, duplicate delivery, deletes, poison messages, and schema-shaped payloads. Postgres runs with wal_level=logical; a Debezium connector decodes the write-ahead log into JSON envelopes on Kafka topics. A Python consumer decodes the envelope, transforms it into the sink row shape, batches by size or interval, writes to ClickHouse, and only then commits offsets, so a crash replays at most one batch. Replays are harmless because every row carries the source change timestamp as _version and ClickHouse ReplacingMergeTree(_version, is_deleted) keeps the highest version per key. Deletes become soft flags, so an older replay cannot resurrect a row. Poison messages are routed to a dead-letter topic with x-error and x-origin-topic headers instead of stalling the pipeline. Comes with 27 offline tests (no broker required), CI, and an eight-lab study guide that breaks the pipeline on purpose.",
       "category": "data-engineering",
       "github": "https://github.com/akmalariq/streaming-cdc-pipeline-with-debezium-and-kafka",
-      "demo": null,
       "image": null,
       "flow": [
         "Postgres WAL",
@@ -478,12 +505,18 @@
       "title": "Earthquake Analytics Pipeline",
       "featured": false,
       "caseStudy": "/projects/earthquake/",
+      "demos": [
+        {
+          "label": "Open the live Looker dashboard",
+          "url": "https://lookerstudio.google.com/reporting/8312b457-452d-4256-a34a-da6c348271c6",
+          "kind": "dashboard"
+        }
+      ],
       "description": "End-to-end Google Cloud data platform over approximately 500,000 earthquake events. Terraform-provisioned infrastructure, Kestra orchestration, and a BigQuery warehouse partitioned by month and clustered for query cost-efficiency.",
       "leadStat": "dataset scale",
       "longDescription": "An end-to-end data platform built to ingest, process, and analyze approximately 500,000 earthquake events from the USGS catalog (2015 to 2025). Infrastructure is fully provisioned with Terraform, ingestion runs as a monthly Kestra batch into Cloud Storage, and dbt models the data in three layers: staging, intermediate, and marts. The BigQuery fact table is partitioned by month and clustered by magnitude category and region, which keeps dashboard queries fast and cheap. The result is an interactive Looker Studio report that is embedded directly in the case study.",
       "category": "data-engineering",
       "github": "https://github.com/akmalariq/earthquake-analytics",
-      "demo": "https://lookerstudio.google.com/reporting/8312b457-452d-4256-a34a-da6c348271c6",
       "image": null,
       "tags": [
         "Terraform",
@@ -524,7 +557,6 @@
       "longDescription": "A batch sales pipeline built to be operated, not just run. A generator emits deliberately dirty transactions, Bronze lands them in MinIO unvalidated, Silver cleans and deduplicates them into Delta Lake, and Soda Core gates the layer before Gold aggregates it. Trino queries the tables and Metabase serves the dashboards, while Marquez records lineage and Prometheus and Grafana watch the run. Every part ships in one docker compose stack.",
       "category": "data-engineering",
       "github": "https://github.com/akmalariq/batch-data-pipeline",
-      "demo": null,
       "image": null,
       "preview": "/images/projects/batch-data-pipeline.jpg",
       "tags": [
@@ -562,7 +594,8 @@
         "Gold marts",
         "Trino",
         "Metabase"
-      ]
+      ],
+      "demos": []
     },
     {
       "id": "data-catalog-rag-agent",
@@ -572,7 +605,6 @@
       "longDescription": "Data documentation is the most underused asset in a warehouse, and the most expensive to dig through. This turns the data dictionary into a queryable layer: Dagster ingests the catalog markdown as an asset, ChromaDB indexes it with an embedded offline embedding model, and a retrieval agent answers questions like \"what does roas mean?\" or \"which table tracks live-stream sales?\" Every answer cites the tables it drew on, so an analyst or auditor can verify it. No API key and no hosted vector database — the index is local and the project runs offline.",
       "category": "data-engineering",
       "github": "https://github.com/akmalariq/data-catalog-rag-agent",
-      "demo": null,
       "image": null,
       "tags": [
         "Python",
@@ -605,7 +637,8 @@
         "Retrieval",
         "Cited answer"
       ],
-      "preview": null
+      "preview": null,
+      "demos": []
     },
     {
       "id": "ecommerce-data-analysis",
@@ -615,7 +648,6 @@
       "longDescription": "A complete data analysis workflow answering three business questions: who are the most valuable customers, which products drive revenue, and how do sales trend over time. The dataset is explored and cleaned in SQL (nulls, duplicates, date ranges), customers are segmented with RFM (Recency, Frequency, Monetary) analysis, and the results are delivered as a Power BI dashboard for business stakeholders.",
       "category": "data-analytics",
       "github": "https://github.com/akmalariq/ecommerce-data-analysis",
-      "demo": null,
       "image": null,
       "tags": [
         "SQL",
@@ -641,7 +673,8 @@
         "SQL cleaning",
         "RFM segments",
         "Power BI"
-      ]
+      ],
+      "demos": []
     },
     {
       "id": "duckdb-medallion-warehouse",
@@ -651,7 +684,6 @@
       "longDescription": "A hands-on implementation of a modern data warehouse stack. Raw CSV files are ingested into a Bronze layer as-is, cleansed and deduplicated into Silver, then modeled into star-schema marts in Gold — all with DuckDB and Python, no server required. Includes runnable sample data and a monthly revenue query against the final mart.",
       "category": "data-engineering",
       "github": "https://github.com/akmalariq/duckdb-medallion-warehouse",
-      "demo": null,
       "image": null,
       "tags": [
         "DuckDB",
@@ -678,7 +710,8 @@
         "Silver",
         "Gold",
         "DuckDB"
-      ]
+      ],
+      "demos": []
     }
   ]
 }

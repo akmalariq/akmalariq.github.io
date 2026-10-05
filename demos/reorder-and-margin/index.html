@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint.
+         Theme key and default match the homepage and the blog (shared 'theme' key,
+         OS preference as the default) so the choice carries across pages. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            // Themes are enumerated in css/tokens.css; keep this list in step.
+            var THEMES = ['dark', 'light', 'contrast'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <title>Sample reorder and margin report &mdash; see the decision layer | Akmal Ariq</title>
+    <meta name="description" content="A sample of the decision layer behind a weekly report: reorder quantities per store scored in an inventory simulation, and the promotions that did not pay back. Illustrative figures.">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://akmalariq.dev/demos/reorder-and-margin/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akmalariq.dev/demos/reorder-and-margin/">
+    <meta property="og:title" content="Sample reorder and margin report">
+    <meta property="og:description" content="Reorder quantities per store, scored in an inventory simulation, plus the promotions that moved volume and lost money.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sample reorder and margin report">
+    <meta name="twitter:description" content="Reorder quantities per store, scored in an inventory simulation, plus the promotions that moved volume and lost money.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Fonts: self-hosted, preloaded, latin subset -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <span class="nav-divider" aria-hidden="true"></span>
+                    <a href="/projects" class="nav-link">Work</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        <svg class="contrast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/projects" class="mobile-nav-link">Work</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="case-study">
+        <div class="container">
+            <a href="/demos/" class="cs-back">&larr; All demos</a>
+
+            <p class="cs-eyebrow">Sample report &middot; The decision layer</p>
+            <h1 class="cs-title">What to reorder, and what not to promote again</h1>
+            <p class="cs-lede">
+                The weekly report shows what happened. This is the part that answers
+                what to do about it: how much to order for each store next week, and which
+                promotions last month quietly lost money while the volume numbers looked fine.
+            </p>
+            <p class="cs-lede">
+                Both come from models rather than rules of thumb. Reorder quantities are
+                scored in an inventory simulation, and a promotion only counts as incremental
+                if it would have sold anyway.
+            </p>
+
+            <article class="report" aria-label="Sample reorder and margin report for a fictional retail chain">
+                <div class="report-header">
+                    <span class="report-brand">Sample chain &middot; 6 stores</span>
+                    <span class="report-meta">Week 39 &middot; illustrative figures</span>
+                </div>
+
+                <div class="report-kpis">
+                    <div class="report-kpi">
+                        <span class="report-kpi-label">Fill rate, forecast-driven</span>
+                        <span class="report-kpi-value">98%</span>
+                        <span class="report-kpi-delta">vs 81% on a fixed rule</span>
+                    </div>
+                    <div class="report-kpi">
+                        <span class="report-kpi-label">Average inventory</span>
+                        <span class="report-kpi-value">Rp 287jt</span>
+                        <span class="report-kpi-delta">down 38% per store</span>
+                    </div>
+                    <div class="report-kpi">
+                        <span class="report-kpi-label">Stockouts prevented</span>
+                        <span class="report-kpi-value">41</span>
+                        <span class="report-kpi-delta">this quarter</span>
+                    </div>
+                    <div class="report-kpi">
+                        <span class="report-kpi-label">Promotions that paid back</span>
+                        <span class="report-kpi-value">6 of 11</span>
+                        <span class="report-kpi-delta">5 were margin-negative</span>
+                    </div>
+                </div>
+
+                <div class="report-body">
+                    <section aria-labelledby="demo-reorder">
+                        <h2 class="report-section-title" id="demo-reorder">Order quantities, next week</h2>
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Store</th>
+                                    <th scope="col">On hand</th>
+                                    <th scope="col">Forecast, 7 days</th>
+                                    <th scope="col">Order</th>
+                                    <th scope="col">Why</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ayam Bakar Madu &middot; 12 pcs</td>
+                                    <td>Kemang</td>
+                                    <td>4</td>
+                                    <td>38</td>
+                                    <td><strong>120</strong></td>
+                                    <td>4 days of cover against a 3-day lead time</td>
+                                </tr>
+                                <tr>
+                                    <td>Rendang Daging &middot; 500 gr</td>
+                                    <td>Kemang</td>
+                                    <td>61</td>
+                                    <td>31</td>
+                                    <td>48</td>
+                                    <td>Steady demand, 12 days of cover already</td>
+                                </tr>
+                                <tr>
+                                    <td>Nasi Kuning Family Pack</td>
+                                    <td>Sudirman</td>
+                                    <td>18</td>
+                                    <td>24</td>
+                                    <td>60</td>
+                                    <td>Weekend uplift, forecast is 2.1&times; weekday</td>
+                                </tr>
+                                <tr>
+                                    <td>Sambal Ijo &middot; 200 ml</td>
+                                    <td>All 6</td>
+                                    <td>210</td>
+                                    <td>22</td>
+                                    <td><strong>0</strong></td>
+                                    <td>Five weeks of cover; ordering more would tie up cash</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="report-footnote">
+                            Quantities are safety stock and reorder points driven by a demand
+                            forecast &mdash; <code>z &times; &sigma; &times; &radic;(protection period)</code> &mdash;
+                            then scored in a period-by-period simulation with lead time, review period and backorders.
+                            A fixed days-of-supply rule gives 81% fill rate on the same demand.
+                        </p>
+                    </section>
+
+                    <section class="report-review" aria-labelledby="demo-promo">
+                        <h2 class="report-section-title" id="demo-promo">Promotions that did not pay back</h2>
+                        <ul class="report-review-list">
+                            <li class="report-review-item">
+                                <strong>&ldquo;Buy 2 get 1&rdquo; on Rendang, week 36 &mdash; volume up 22%, margin down Rp 6.4jt</strong>
+                                <span>Elasticity of &minus;1.9 against a true &minus;1.2. The extra units were going to sell anyway.</span>
+                            </li>
+                            <li class="report-review-item">
+                                <strong>Flash sale on Nasi Kuning, week 37 &mdash; 41% of units sold at a loss</strong>
+                                <span>Discount applied to every unit, including the ones that were not incremental.</span>
+                            </li>
+                            <li class="report-review-item">
+                                <strong>Bundle discount on the sambal range, week 37 &mdash; cannibalised Sambal Ijo</strong>
+                                <span>Shifted demand between two products on the same shelf rather than adding any.</span>
+                            </li>
+                        </ul>
+                        <p class="report-footnote">
+                            Promoted units only count as incremental when they would not have sold
+                            otherwise. The baseline here is trained on your own non-promoted store-weeks,
+                            so the comparison is like-for-like rather than against last month&rsquo;s total.
+                        </p>
+                    </section>
+
+                    <section aria-labelledby="demo-next">
+                        <h2 class="report-section-title" id="demo-next">Next month&rsquo;s calendar</h2>
+                        <div class="report-bars">
+                            <div class="report-bar-row">
+                                <span class="report-bar-label">Keep</span>
+                                <span class="report-bar-track"><span class="report-bar-fill" style="width:55%"></span></span>
+                                <span class="report-bar-value">6 of 11 promotions</span>
+                            </div>
+                            <div class="report-bar-row">
+                                <span class="report-bar-label">Rework</span>
+                                <span class="report-bar-track"><span class="report-bar-fill" style="width:27%"></span></span>
+                                <span class="report-bar-value">3 &middot; same budget, narrower scope</span>
+                            </div>
+                            <div class="report-bar-row">
+                                <span class="report-bar-label">Drop</span>
+                                <span class="report-bar-track"><span class="report-bar-fill" style="width:18%"></span></span>
+                                <span class="report-bar-value">2 &middot; margin-negative</span>
+                            </div>
+                        </div>
+                        <p class="report-footnote">
+                            Planned under a fixed trade budget with a per-store frequency cap,
+                            so the calendar is something you can hand to a sales lead rather than
+                            a chart to interpret.
+                        </p>
+                    </section>
+
+                    <section aria-labelledby="demo-sources">
+                        <h2 class="report-section-title" id="demo-sources">What it runs on</h2>
+                        <div class="project-flow" role="img" aria-label="Sales and stock history feed a demand forecast, which drives safety-stock and reorder-point rules, scored in an inventory simulation; promotion history feeds a causal lift estimate, which plans the next calendar">
+                            <span class="flow-step">Sales &amp; stock history</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">Demand forecast</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">Safety stock</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">Inventory simulation</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">Order quantities</span>
+                        </div>
+                        <p class="report-footnote">
+                            A fictional chain with illustrative figures. The methods are the ones in the
+                            <a href="/projects/retail-replenishment-optimization/">replenishment</a> and
+                            <a href="/projects/promotion-lift-optimization/">promotion lift</a> case studies.
+                        </p>
+                    </section>
+                </div>
+            </article>
+
+            <section class="cta-band" aria-label="Get this for your business" style="padding-bottom:0">
+                <div class="cta-band__inner reveal">
+                    <p class="cta-band__title">Order by forecast instead of by gut.</p>
+                    <div class="cta-band__actions">
+                        <a class="btn btn-primary" href="mailto:akmalariqs@gmail.com?subject=Free%20consult%20request&amp;body=Hi%20Akmal%20%E2%80%94%20I%27d%20like%20to%20book%20a%20free%2020-minute%20consult.%0D%0A%0D%0AMy%20pain%20point%20in%20one%20line%3A%20">Book a free consult</a>
+                        <a class="cta-band__link" href="/#pricing">See pricing &rarr;</a>
+                    </div>
+                </div>
+            </section>
+
+            <p class="report-footnote">
+                <a href="/demos/weekly-report/">&larr; The weekly report sample</a> &mdash; what the numbers look like before any of this.
+            </p>
+        </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/privacy/">Privacy</a>
+                    <a href="/terms/">Terms</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

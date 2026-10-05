@@ -45,7 +45,14 @@ function createProjectCard(project, options = {}) {
     card.dataset.category = project.category || '';
     card.dataset.format = projectFormat(project);
 
-    const demoHref = project.demo || null;
+    // A project can have any number of demos — a live app, a hosted dashboard, a
+    // sample of the output it produces. They are ordered strongest-first, and the
+    // first one is the card's primary action.
+    const demos = (Array.isArray(project.demos) ? project.demos : [])
+        .filter(d => d && d.url)
+        .map(d => ({ label: d.label || 'Open live demo', url: d.url, kind: d.kind || 'app' }));
+
+    const demoHref = demos.length ? demos[0].url : null;
     const caseHref = project.caseStudy || null;
     const ghHref = project.github || null;
 
@@ -54,7 +61,7 @@ function createProjectCard(project, options = {}) {
     let primaryLabel = '';
     if (demoHref) {
         primaryHref = demoHref;
-        primaryLabel = project.demoLabel || 'Open live demo';
+        primaryLabel = demos[0].label;
     } else if (caseHref) {
         primaryHref = caseHref;
         primaryLabel = 'Read case study';
@@ -63,6 +70,13 @@ function createProjectCard(project, options = {}) {
         primaryLabel = 'View on GitHub';
     }
     const primaryExternal = /^https?:\/\//i.test(primaryHref || '');
+
+    // Any demos beyond the first get their own buttons, so a project with two or
+    // three ways to look at it does not hide the extras behind the primary.
+    const extraDemoButtons = demos.slice(1).map(d => {
+        const ext = /^https?:\/\//i.test(d.url);
+        return `<a class="btn btn-secondary" href="${escapeHtml(d.url)}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ''}>${escapeHtml(d.label)}${ext ? ARROW_EXTERNAL : ARROW_INTERNAL}</a>`;
+    }).join('');
 
     // The screenshot is the point of the card. It links to the same place as
     // the primary button, so it is decorative to assistive tech (the button is
@@ -75,7 +89,7 @@ function createProjectCard(project, options = {}) {
     const media = options.media !== false && project.preview && primaryHref
         ? `<a class="project-media" href="${escapeHtml(primaryHref)}"${primaryExternal ? ' target="_blank" rel="noopener noreferrer"' : ''} tabindex="-1" aria-hidden="true">
             <img src="${escapeHtml(project.preview)}" alt="" width="1280" height="800" loading="lazy" decoding="async">
-            ${demoHref ? '<span class="project-media__badge">Live demo</span>' : ''}
+            ${demos.length ? `<span class="project-media__badge">${demos.length > 1 ? `Live · ${demos.length} demos` : 'Live demo'}</span>` : ''}
         </a>`
         : '';
 
@@ -125,6 +139,7 @@ function createProjectCard(project, options = {}) {
             ${tagsHtml ? `<div class="project-tags">${tagsHtml}</div>` : ''}
             <div class="project-links">
                 ${primaryButton}
+                ${extraDemoButtons}
                 ${secondaryButton}
                 ${githubLink}
             </div>
@@ -417,7 +432,7 @@ function updateProjectCount(shown, total) {
 // never drift, and exclusive — a project shows its strongest offer.
 // ==============================
 function projectFormat(project) {
-    if (project.demo) return 'demo';
+    if (Array.isArray(project.demos) && project.demos.length) return 'demo';
     if (project.caseStudy) return 'case';
     if (project.github) return 'repo';
     return 'private';
