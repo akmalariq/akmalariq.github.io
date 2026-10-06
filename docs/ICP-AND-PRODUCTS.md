@@ -72,6 +72,12 @@ That third one is the business.
 
 ## 3. ICP
 
+> **Superseded by [`ICP.md`](ICP.md)** (2026-10-06). The four filters below are
+> kept because they still hold, and they became the shared qualification test in
+> the segmented version. What changed: there are **two** segments, not one, and
+> they buy different things. Read `ICP.md` instead of building from this section.
+
+
 The filter is not wealth. It is **who is blamed when the number is wrong.**
 
 A prospect buys this when all four are true:
