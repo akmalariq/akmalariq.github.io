@@ -80,6 +80,32 @@
     submit.textContent = "Sending…";
     say("Sending your request…", "pending");
 
+    // Hard stop. The endpoint has its own 8s upstream timeout, but a stuck
+    // connection, a sleeping phone, or a network that never fails — only hangs —
+    // would otherwise leave the button disabled and the visitor with no way to
+    // retry. Fifteen seconds is longer than any legitimate response.
+    var settled = false;
+    var bail = setTimeout(function () {
+      if (settled) return;
+      settled = true;
+      track("form_error", { form_id: "consult", lead_id: id, reason: "timeout" });
+      say("That took too long. Email me at akmalariqs@gmail.com and I will pick it up.", "error");
+      submit.disabled = false;
+      submit.removeAttribute("aria-busy");
+      submit.textContent = idle;
+    }, 15000);
+
+    function finish(tone, message, reason) {
+      if (settled) return;
+      settled = true;
+      clearTimeout(bail);
+      say(message, tone);
+      if (reason) track("form_error", { form_id: "consult", lead_id: id, reason: reason });
+      submit.disabled = false;
+      submit.removeAttribute("aria-busy");
+      submit.textContent = idle;
+    }
+
     fetch("/api/contact", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -101,11 +127,15 @@
           });
           var fallback = (result.body && result.body.fallback) || "akmalariqs@gmail.com";
           say("That did not send. Email me at " + fallback + " and I will pick it up.", "error");
+          settled = true;
+          clearTimeout(bail);
           submit.disabled = false;
           submit.removeAttribute("aria-busy");
           submit.textContent = idle;
           return;
         }
+        settled = true;
+        clearTimeout(bail);
         track("form_submit", { form_id: "consult", lead_id: id, has_company: !!payload.company });
         say("Sent. I reply within one business day (Jakarta, UTC+7).", "success");
         form.reset();
@@ -114,11 +144,7 @@
         if (status) status.focus();
       })
       .catch(function (error) {
-        track("form_error", { form_id: "consult", lead_id: id, reason: "network" });
-        say("That did not send. Check your connection, or email akmalariqs@gmail.com.", "error");
-        submit.disabled = false;
-        submit.removeAttribute("aria-busy");
-        submit.textContent = idle;
+        finish("error", "That did not send. Check your connection, or email akmalariqs@gmail.com.", "network");
       });
   });
 })();
