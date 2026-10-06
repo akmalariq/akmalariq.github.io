@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint.
+         Theme key and default match the homepage and the blog (shared 'theme' key,
+         OS preference as the default) so the choice carries across pages. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            // Themes are enumerated in css/tokens.css; keep this list in step.
+            var THEMES = ['dark', 'light', 'contrast'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <title>Reconciliation sample — the number, and what it could not prove | Akmal Ariq</title>
+    <meta name="description" content="Sample output of the reconciliation engine: one defensible number from Shopee and Shop | Tokopedia orders against a bank statement — plus exactly what it could not prove.">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://akmalariq.dev/demos/seller-ledger/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akmalariq.dev/demos/seller-ledger/">
+    <meta property="og:title" content="Reconciliation — the number, and what it could not prove">
+    <meta property="og:description" content="One defensible number from two marketplace exports and a bank statement — and the three things it could not prove.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sample report — see what you'd get">
+    <meta name="twitter:description" content="One page: revenue across every channel, best sellers, and the few items that need your attention.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Fonts: self-hosted, preloaded, latin subset -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <span class="nav-divider" aria-hidden="true"></span>
+                    <a href="/projects" class="nav-link">Work</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        <svg class="contrast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/projects" class="mobile-nav-link">Work</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="case-study">
+        <div class="container">
+            <a href="/demos/" class="cs-back">&larr; All demos</a>
+
+            <p class="cs-eyebrow">Reconciliation &middot; Sample output</p>
+            <h1 class="cs-title">The number, and what it could not prove</h1>
+            <p class="cs-lede">
+                Every order exported from two marketplaces, checked against a bank
+                statement. The platforms report order value their own way and settle
+                on their own schedule, so the three never agree &mdash; and nothing tells
+                a seller which side is wrong. This produces one number, then states
+                plainly everything it could not place.
+            </p>
+
+<article class="report" aria-label="Reconciliation for Dapur Senja">
+                <div class="report-header">
+                    <span class="report-brand">Dapur Senja</span>
+                    <span class="report-meta">2026-09-28 to 2026-10-18 &middot; illustrative figures</span>
+                </div>
+
+                <div class="report-kpis">
+                    <div class="report-kpi">
+                    <span class="report-kpi-label">Net earned</span>
+                    <span class="report-kpi-value">Rp 49.655.774</span>
+                    <span class="report-kpi-delta">after Rp 2.872.226 of platform fees</span>
+                </div>
+                    <div class="report-kpi">
+                    <span class="report-kpi-label">Paid out</span>
+                    <span class="report-kpi-value">Rp 52.337.774</span>
+                    <span class="report-kpi-delta">across 79 bank credits</span>
+                </div>
+                    <div class="report-kpi">
+                    <span class="report-kpi-label">Variance</span>
+                    <span class="report-kpi-value">Rp -2.682.000</span>
+                    <span class="report-kpi-delta">equals the unexplained credits, exactly</span>
+                </div>
+                    <div class="report-kpi">
+                    <span class="report-kpi-label">Products identified</span>
+                    <span class="report-kpi-value">95%</span>
+                    <span class="report-kpi-delta">62 orders across two channels</span>
+                </div>
+                </div>
+
+                <div class="report-body">
+                    <section aria-labelledby="lg-waterfall">
+                        <h2 class="report-section-title" id="lg-waterfall">How the number is built</h2>
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Line</th>
+                                    <th scope="col">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Gross sales</td><td>Rp 52.805.000</td></tr>
+                                <tr><td>Platform fees, nine components</td><td>Rp -2.872.226</td></tr>
+                                <tr><td>Your own discounts</td><td>Rp -277.000</td></tr>
+                                <tr><td>Platform-funded vouchers</td><td>Rp -683.000</td></tr>
+                                <tr><td><strong>Net earned</strong></td><td><strong>Rp 49.655.774</strong></td></tr>
+                            </tbody>
+                        </table>
+                        <p class="report-footnote">
+                            Platform-funded vouchers are shown but <em>not</em> deducted from income.
+                            The platform bears them, and counting them as money that never arrived
+                            is the most common way a seller overstates their own cost.
+                        </p>
+                    </section>
+
+                    <section aria-labelledby="lg-channel">
+                        <h2 class="report-section-title" id="lg-channel">Where it came from</h2>
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Channel</th>
+                                    <th scope="col">Net</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr><td>shoptopedia</td><td>Rp 26.274.375</td></tr>                        <tr><td>shopee</td><td>Rp 23.381.399</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section aria-labelledby="lg-products">
+                        <h2 class="report-section-title" id="lg-products">By product, across both channels</h2>
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Canonical product</th>
+                                    <th scope="col">Net</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr><td>TER-1</td><td>Rp 33.459.200</td></tr>                        <tr><td>ABM-12</td><td>Rp 6.693.300</td></tr>                        <tr><td>RD-500</td><td>Rp 2.674.720</td></tr>                        <tr><td>NKF-1</td><td>Rp 2.536.800</td></tr>                        <tr><td>KLC-200</td><td>Rp 1.511.045</td></tr>                        <tr><td>SKL-250</td><td>Rp 1.263.400</td></tr>
+                            </tbody>
+                        </table>
+                        <p class="report-footnote">
+                            Each marketplace uses its own seller-authored SKU strings, and nothing
+                            requires them to agree. Without a mapping every cross-channel figure is
+                            wrong in a way that is invisible, because each channel's own total
+                            still looks correct.
+                        </p>
+                    </section>
+    
+                    <section aria-labelledby="lg-unmatched">
+                        <h2 class="report-section-title" id="lg-unmatched">Money that arrived unexplained</h2>
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Received</th>
+                                    <th scope="col">Bank memo</th>
+                                    <th scope="col">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        <tr><td>2026-10-15</td><td>TRANSFER MASUK LAIN-LAIN</td><td>Rp 1.500.000</td></tr>
+                            </tbody>
+                        </table>
+                        <p class="report-footnote">
+                            Each of these is a real answer you did not have: money that arrived with
+                            no order behind it, a period boundary, or an adjustment someone made
+                            quietly. The variance above is exactly these amounts.
+                        </p>
+                    </section>
+
+    
+                    <section aria-labelledby="lg-carried">
+                        <h2 class="report-section-title" id="lg-carried">Arrived next statement</h2>
+                        <p class="report-footnote" style="margin-top:0">
+                            19 credit(s) totalling 7446872 arrived after 2026-10-18 and settle orders from this period: SHOPEE COD 12, SHOPEE COD 14, SHOPEE COD BALANCE 22 and 16 more. Next period&#x27;s cash, not a missing payment.
+                        </p>
+                    </section>
+
+                    <section class="report-review" aria-labelledby="lg-findings">
+                        <h2 class="report-section-title" id="lg-findings">What could not be established</h2>
+                        <ul class="report-review-list">
+                    <li class="report-review-item">
+                    <strong>A product exists on only one channel</strong>
+                    <span>BRAND-BARU-2026 on shopee (Kopi Susu Gula Aren Kemasan 1 L) is not in the catalogue across 3 orders, so Rp 287.909 of net cannot be attributed. Closest known product KLC-200 at 46%. &middot; Rp 287.909</span>
+                </li>
+                <li class="report-review-item">
+                    <strong>Re-exported rows removed</strong>
+                    <span>1 duplicate order rows removed from the export</span>
+                </li>
+                <li class="report-review-item">
+                    <strong>Money arrived that no order explains</strong>
+                    <span>TRANSFER MASUK LAIN-LAIN for 1500000 arrived 2026-10-15 and matches no order in this period &middot; Rp 1.500.000</span>
+                </li>
+                <li class="report-review-item">
+                    <strong>A return credited back after the order was paid</strong>
+                    <span>RETUR TKT-0003 for 1182000 arrived 2026-10-17 against an already-settled order &middot; Rp 1.182.000</span>
+                </li>
+                        </ul>
+                    </section>
+
+                    <section aria-labelledby="lg-method">
+                        <h2 class="report-section-title" id="lg-method">How it got there</h2>
+                        <div class="project-flow" role="img" aria-label="Shopee and Shop | Tokopedia exports and a bank statement are read, mapped to one product catalogue, reconciled against each other, and produce one number">
+                            <span class="flow-step">Shopee export</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">Shop | Tokopedia export</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">Bank statement</span><span class="flow-arrow" aria-hidden="true">&rarr;</span><span class="flow-step">One number</span>
+                        </div>
+                        <p class="report-footnote">
+                            Dapur Senja is a fictional business and these are illustrative figures,
+                            built from a synthetic export that reproduces what real ones do: a
+                            cancelled order, a duplicated row from re-exporting, grouped settlements,
+                            a credit with no order behind it, and a SKU that exists on only one
+                            channel. Every amount above is computed from those files, not written by
+                            hand, and rebuilding the same files produces the same number.
+                        </p>
+                    </section>
+                </div>
+            </article>
+
+            <p class="report-footnote" style="margin-top:2rem">
+                Every figure above is computed from a synthetic export &mdash; a cancelled
+                order, a duplicated row, split COD settlements, a credit with no order
+                behind it, a SKU on one channel only. Rebuilding the same files
+                reproduces the same number exactly.
+            </p>
+
+            <p style="margin-top:2rem">
+                <a href="/#contact" class="btn btn-primary">Reconcile my shop</a>
+            </p>
+        </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/privacy/">Privacy</a>
+                    <a href="/terms/">Terms</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
