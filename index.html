@@ -230,75 +230,60 @@
                 <!-- Medallion Data Pipeline Flow Visual -->
                 <div class="pipeline-card">
                     <div class="pipeline-header">
-                        <span class="pipeline-title">Active Data Pipeline Flow</span>
+                        <span class="pipeline-title">How the work gets done</span>
                         <span class="pipeline-status">
-                            <span class="pipeline-pulse-dot"></span> Active
+                            <span class="pipeline-pulse-dot"></span> Runs daily
                         </span>
                     </div>
-                    
+
                     <div class="pipeline-flow">
-                        <!-- Node 1: Ingestion -->
+                        <!-- 1. Gather -->
                         <div class="pipeline-node">
-                            <div class="node-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-                            </div>
                             <div class="node-meta">
-                                <span class="node-label">Sources</span>
-                                <span class="node-value">APIs, POS, Marketplaces, Ads</span>
+                                <span class="node-label">Gather</span>
+                                <span class="node-value">Everything you already have &mdash; sales, stock, payments, your spreadsheets</span>
                             </div>
                         </div>
 
-                        <!-- Connector 1 -->
                         <div class="pipeline-connector">
                             <div class="connector-pulse"></div>
                         </div>
 
-                        <!-- Node 2: Landing -->
+                        <!-- 2. Combine -->
                         <div class="pipeline-node">
-                            <div class="node-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
-                            </div>
                             <div class="node-meta">
-                                <span class="node-label">Cloud Lake</span>
-                                <span class="node-value">S3 / GCS &mdash; raw JSON &amp; Parquet</span>
+                                <span class="node-label">Combine</span>
+                                <span class="node-value">One place, updated on its own. No more pasting exports into each other</span>
                             </div>
                         </div>
 
-                        <!-- Connector 2 -->
                         <div class="pipeline-connector">
                             <div class="connector-pulse"></div>
                         </div>
 
-                        <!-- Node 3: Processing -->
+                        <!-- 3. Check -->
                         <div class="pipeline-node">
-                            <div class="node-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                            </div>
                             <div class="node-meta">
-                                <span class="node-label">Silver &amp; Gold</span>
-                                <span class="node-value">BigQuery &middot; ClickHouse &middot; dbt</span>
+                                <span class="node-label">Check</span>
+                                <span class="node-value">Numbers that don&rsquo;t match are flagged, not quietly averaged away</span>
                             </div>
                         </div>
 
-                        <!-- Connector 3 -->
                         <div class="pipeline-connector">
                             <div class="connector-pulse"></div>
                         </div>
 
-                        <!-- Node 4: Handoff -->
+                        <!-- 4. Hand over -->
                         <div class="pipeline-node">
-                            <div class="node-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m18.7 8-5.1 5.2-2.8-2.7L7 14.3"/></svg>
-                            </div>
                             <div class="node-meta">
-                                <span class="node-label">Downstream</span>
-                                <span class="node-value">Looker &middot; Superset dashboards</span>
+                                <span class="node-label">Hand over</span>
+                                <span class="node-value">A report or dashboard you read yourself &mdash; no data team required</span>
                             </div>
                         </div>
                     </div>
                     <div class="pipeline-footer">
-                        <span class="pipeline-footer-label">Orchestrated by</span>
-                        <span class="pipeline-footer-value">Dagster &middot; Airflow</span>
+                        <span class="pipeline-footer-label">Yours to keep</span>
+                        <span class="pipeline-footer-value">Documents included &middot; runs on your accounts</span>
                     </div>
                 </div>
             </div>

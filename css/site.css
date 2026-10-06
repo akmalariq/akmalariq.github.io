@@ -2788,3 +2788,39 @@ body {
 .build-band {
   padding-top: var(--spacing-md);
 }
+
+/* --- pipeline card: plain language ----------------------------------------
+   The four stages now carry a sentence rather than a product name, so each row
+   is taller and the text needs the full card width. The icon markup is gone from
+   the hero, so the meta block takes the full row instead of sitting in a narrower
+   grid track beside an absent icon.
+
+   The stage labels were a label weight at 0.62rem against 0.9rem copy beneath
+   them. Promoted to a heading weight so the four stage names become the thing
+   you scan — Gather, Combine, Check, Hand over is the message, and the
+   sentences under them are supporting detail. */
+.node-label {
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.pipeline-node {
+  padding: 0.85rem 1rem;
+}
+
+.node-meta {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.node-value {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.pipeline-footer-label { font-size: 0.72rem; }
+
+.pipeline-title { font-size: 0.82rem; }
