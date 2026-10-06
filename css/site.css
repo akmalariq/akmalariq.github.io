@@ -2179,12 +2179,20 @@ body {
   border-top: 1px solid var(--border);
 }
 
+/* Section headings, not labels. These sat at 0.66rem while the table text they
+   introduce rendered at 0.85rem — a heading smaller than its own body, so the
+   eye never found the structure. Now a clear step above the copy it heads and a
+   clear step below .cs-lede. Mono is kept because this is a ledger: the face
+   signals measured data, not decoration. Tracking eases off as size rises. */
 .report-section-title {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.14em;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  /* text-muted is a label weight and under-weighs a heading; text-secondary
+     reads as structure and clears the contrast floor on the report surface. */
+  color: var(--text-secondary);
   margin-bottom: 0.85rem;
 }
 
@@ -2242,11 +2250,13 @@ body {
 
 .report-table th {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  /* A column header is smaller than its data, but not by this much: at 0.62rem
+     against 0.85rem cells it read as a caption, not a header. */
+  font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  font-weight: 400;
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .report-table td {
