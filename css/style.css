@@ -95,18 +95,6 @@ body {
     text-transform: uppercase;
 }
 
-.badge-dot {
-    width: 6px;
-    height: 6px;
-    background: #10b981;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 6px #10b981; }
-    50% { opacity: 0.4; transform: scale(0.85); box-shadow: 0 0 2px #10b981; }
-}
 
 .hero-title {
     font-family: var(--font-display);
@@ -214,15 +202,6 @@ body {
     background: rgba(16, 185, 129, 0.08);
     color: var(--status-online);
     border: 1px solid rgba(16, 185, 129, 0.2);
-}
-
-.pipeline-pulse-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: currentColor;
-    box-shadow: 0 0 8px currentColor;
-    animation: pulse 2s infinite;
 }
 
 .pipeline-flow {

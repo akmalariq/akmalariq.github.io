@@ -918,15 +918,6 @@ body {
   margin-bottom: 1.5rem;
 }
 
-.badge-dot,
-.pipeline-pulse-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--status-online);
-  animation: none;
-}
-
 /* ------------------------------------------------------- pipeline panel --- */
 
 .pipeline-card {
@@ -2824,3 +2815,16 @@ body {
 .pipeline-footer-label { font-size: 0.72rem; }
 
 .pipeline-title { font-size: 0.82rem; }
+
+/* The availability badges used to lead with a green dot — the most recognisable
+   tell of a generated page, and it appeared in all three themes on six
+   headings. The sentence beside it already said everything, so the dot was pure
+   decoration. The signal it carried survives as one word in the accent colour,
+   which is the same information in a form that looks chosen. */
+.availability-word {
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+/* The pipeline card's "Runs daily" lost its pip with the rest. Nothing needed
+   to replace it — the words carry it. */
