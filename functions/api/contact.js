@@ -36,6 +36,20 @@ const FROM = "consult@akmalariq.dev";
 const HONEYPOT = "website";
 
 /**
+ * Bot gate: how long the form was on screen before submission, in ms.
+ *
+ * Deliberately not reCAPTCHA. Three fields is already the whole form, and a
+ * "prove you are human" checkbox is the single most-abandoned element on the
+ * web — it would cost real leads to catch bots that, on a site this size, do
+ * not exist. This costs the visitor nothing and catches the ones that do: a
+ * script that fills and submits in under a second. A person typing a name, an
+ * email and a sentence cannot beat 1.2s.
+ */
+const MIN_FILL_MS = 1200;
+/** A stale tab left open overnight is not a bot; don't reject real enquiries. */
+const MAX_FILL_MS = 24 * 60 * 60 * 1000;
+
+/**
  * Per-IP rate limit. In-memory and best-effort: a Pages Function isolate is
  * short-lived, so this stops a naive script, not a determined one. The real
  * gate is that a form costs an API call.
@@ -119,6 +133,17 @@ export async function onRequestPost({ request, env }) {
   // A filled honeypot gets a success response. Telling a bot it was caught only
   // teaches it to vary the field.
   if (clean(data?.[HONEYPOT], 200)) return json({ ok: true }, 200);
+
+  // Timing gate. The client reports when the form was first touched; a
+  // submission that claims to have been filled instantly is discarded.
+  // The value is client-supplied so this is a cheap filter, not a proof — the
+  // honeypot and rate limit are the other two layers, and none of the three
+  // needs to be sufficient on its own.
+  const fillMs = Number(data?.fill_ms);
+  if (Number.isFinite(fillMs) && (fillMs < MIN_FILL_MS || fillMs > MAX_FILL_MS)) {
+    console.warn(`discarded submission, fill time ${fillMs}ms`);
+    return json({ ok: true }, 200);
+  }
 
   const name = clean(data?.name, LIMITS.name);
   const email = clean(data?.email, LIMITS.email);

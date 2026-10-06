@@ -49,15 +49,17 @@
   // form_start: the first real interaction, not just focus on the first box.
   // Focusing and leaving is common and is not intent.
   var started = false;
+  var startedAt = 0;
   form.addEventListener(
     "input",
     function (event) {
-      if (started) return;
-      var target = event.target;
-      if (!target.name || target.tagName === "INPUT" && target.type === "hidden") return;
-      if (target.type === "checkbox") return;
-      started = true;
-      track("form_start", { form_id: "consult", lead_id: leadId() });
+      if (!started) {
+        var t = event.target;
+        if (!t.name || t.type === "hidden" || t.type === "checkbox") return;
+        started = true;
+        startedAt = Date.now();
+        track("form_start", { form_id: "consult", lead_id: leadId() });
+      }
     },
     true
   );
@@ -67,7 +69,7 @@
     if (submit.disabled) return;
 
     var id = leadId();
-    var payload = { lead_id: id, website: "" };
+    var payload = { lead_id: id, website: "", fill_ms: started ? Date.now() - startedAt : 0 };
     new FormData(form).forEach(function (value, key) {
       if (key === "lead_id" || key === "website") return;
       payload[key] = typeof value === "string" ? value : "";
