@@ -10,11 +10,17 @@
  * Delivery is Cloudflare Email Routing (`send_email` binding). No third-party
  * account, and the message goes straight to the inbox.
  *
- * Setup, once: enable Email Routing on the zone, verify the destination address,
- * then add the binding in wrangler.jsonc. If the binding is absent this returns
- * 503 with an explanatory message rather than silently dropping the lead —
- * a form that looks like it worked but swallowed the enquiry is the worst
- * possible failure for a sales page.
+ * Setup, once — all of it in the dashboard, because a Pages project's
+ * wrangler.jsonc does not accept a send_email binding (it fails validation):
+ *
+ *   1. Cloudflare dashboard -> akmalariq.dev -> Email -> Email Routing -> Enable
+ *   2. Add destination address akmalariqs@gmail.com and verify it
+ *   3. Workers & Pages -> akmalariq -> Settings -> Functions -> Bindings
+ *      -> Add -> "Send email", variable name SEND_EMAIL
+ *
+ * If the binding is absent this returns 503 with an explanation rather than
+ * silently dropping the lead — a form that looks like it worked but swallowed
+ * the enquiry is the worst possible failure for a sales page.
  */
 
 const DESTINATION = "akmalariqs@gmail.com";

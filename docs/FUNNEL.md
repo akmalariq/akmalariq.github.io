@@ -48,7 +48,7 @@ genuinely on screen.
 
 | Event | Parameters | Fires when |
 |---|---|---|
-| `funnel_section` | `section` | A `data-funnel` element is 35% visible, once ever |
+| `funnel_section` | `section` | A `data-funnel` element is enters the viewport, once ever |
 
 Section names, in document order:
 

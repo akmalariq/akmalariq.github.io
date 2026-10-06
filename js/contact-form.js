@@ -11,7 +11,7 @@
 // vanishing, so a broken script can never remove the only way to contact me.
 
 (function () {
-  var form = document.getElementById("consult-form");
+  var form = document.getElementById("consult");
   if (!form) return;
 
   var status = document.getElementById("consult-status");

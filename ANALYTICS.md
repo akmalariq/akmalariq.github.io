@@ -53,7 +53,7 @@ The site pushes GA4-style events into the data layer. Create:
 ### Funnel events
 
 Added for the consult funnel. `funnel_section` fires once per `data-funnel`
-section when it is 35% on screen; `placement` on `cta_click` is the enclosing
+section when it enters the viewport; `placement` on `cta_click` is the enclosing
 section, so the query can tell whether the nav or the pricing block is working.
 `lead_id` is a client-minted UUID that also travels with the submission email,
 which is what joins the on-site event to the offline stage recorded by hand.

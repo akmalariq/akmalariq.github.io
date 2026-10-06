@@ -76,14 +76,17 @@
         entries.forEach(function (entry) {
           var name = entry.target.getAttribute("data-funnel");
           if (seen[name]) return;
-          // Only count a section as reached once it is meaningfully on screen.
           if (!entry.isIntersecting) return;
           seen[name] = true;
           track("funnel_section", { section: name });
           observer.unobserve(entry.target);
         });
       },
-      { threshold: 0.35 }
+      // threshold 0 on purpose, not a ratio. Featured Projects is 3,182px tall,
+      // so 35% of it can never fit in a viewport and it silently never reported
+      // — the section a reader is most likely to leave on. Any part visible
+      // counts as reached; unobserve keeps it to once.
+      { threshold: 0 }
     );
     targets.forEach(function (el) { observer.observe(el); });
   }
