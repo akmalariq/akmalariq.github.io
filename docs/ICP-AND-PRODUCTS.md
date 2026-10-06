@@ -161,3 +161,42 @@ price-sensitive; the multi-outlet operator with a GM and a weekly cadence is not
   is a back-office tolerance they have lived with for years
 - Nothing here has been tested with a paying customer. Every claim above is either
   sourced above or explicitly reasoned.
+---
+
+## 8. Decisions taken — 2026-10-06
+
+**Software-first, service as the retention layer.** Not the reverse. The product is
+the thing; the retainer is what it earns once it is embedded. This is the harder
+path and it is the right one: the service is the wedge and the software is what
+scales.
+
+**Both platforms, Shopee first.** Shopee is 59% of SEA-6 combined GMV and stays a
+separate platform, while Shop | Tokopedia handles itself natively. Shopee-first is
+the sharper wedge and much less to build. Tokopedia is the second platform, and the
+no-history gap for late integrators is a possible migration play rather than the
+entry point.
+
+**Lifetime fee for the first few customers.** The stated purpose is to convert early
+revenue into marketing and product, so it is financing rather than pricing. It
+means the price for customer one is wrong on purpose, which is only defensible if
+it is explicitly time-boxed and the founding cohort is capped in number.
+
+**Keep the one-off projects.** Zero customers today, so capacity is not yet
+contended. They remain the acquisition engine and the cash flow that funds the
+software. The stated trigger for revisiting: hiring.
+
+### What the lifetime-fee decision implies
+
+- It must be **numbered** ("first five"), not "for a while".
+- It should be **written as a price that rises**, so the founding cohort has a
+  reason to say yes now rather than later.
+- It trades recurring revenue for **references and permission to publish the case
+  study** — the same bargain already offered on the pricing page.
+- The real risk is **anchoring**: a customer who paid a one-off learns the software
+  is worth a subscription and reopens the price. Decide now what the standing offer
+  is when that happens, before it happens with a customer.
+
+### Open, deliberately
+
+Pricing shape beyond the founding cohort — setup fee plus monthly, per outlet, or
+per store — is still unexplored. Not blocked on anything except the first customer.
