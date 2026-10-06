@@ -2668,3 +2668,123 @@ body {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+
+/* ============================================================ what i build ==
+   The deliverables list. Sits between "who I am" and "what I can help with" so
+   a visitor learns who you are, what you make, and what you solve, in that order.
+
+   A four-column row rather than four cards. The craft floor treats same-size
+   cards as the lazy container, and four cards would also sit oddly under a hero
+   that now opens with a person's name — this is a ledger line, not a feature
+   grid.
+   ========================================================================== */
+
+.build-band {
+  padding: var(--spacing-lg) 0;
+  border-top: 1px solid var(--border);
+}
+
+.build-header {
+  max-width: var(--measure);
+  margin-bottom: 2rem;
+}
+
+.build-header .section-description {
+  margin-bottom: 0;
+}
+
+.build-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Below four comfortable columns the measure per item drops under ~40ch and the
+   lines start breaking badly. Step down before that happens, not after. */
+@media (max-width: 68rem) {
+  .build-list { grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1.75rem; }
+}
+
+@media (max-width: 34rem) {
+  .build-list { grid-template-columns: 1fr; gap: 1.35rem; }
+}
+
+.build-name {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: 0 0 0.5rem;
+  padding-top: 0.7rem;
+  border-top: 2px solid var(--accent);
+}
+
+.build-detail {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* --- hero: the greeting leads, so the title has to carry it alone ---------- */
+
+.hero-title {
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  max-width: 34ch;
+}
+
+.hero-description {
+  max-width: var(--measure);
+}
+
+/* The subtitle used to be a kicker — uppercase mono at 0.72rem — which is right
+   for a label above a thesis and wrong for the sentence it now carries. At
+   11.5px it read as a caption to the greeting, so the lede below it looked like
+   the first thing you were actually told. */
+.hero .hero-subtitle {
+  font-family: var(--font-sans);
+  font-size: 1.12rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--text-primary);
+  margin-top: 0.9rem;
+  margin-bottom: var(--spacing-sm);
+  max-width: 40ch;
+  line-height: 1.45;
+}
+
+/* Same fault as .report-section-title before it was fixed: an h3 heading at
+   0.68rem above 0.92rem body copy. The heading must dominate the text it
+   introduces, and mono at 1.05rem keeps the ledger character without inverting
+   the hierarchy. */
+.build-name {
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+
+/* The proof list was a wrapping flex row, which worked when each item was a few
+   words. At sentence length it packed two onto one line and orphaned the third,
+   so it read as a broken sentence rather than three separate facts. A vertical
+   stack keeps them scannable and cannot orphan at any width. */
+.proof {
+  display: grid;
+  gap: 0.45rem;
+  margin: 1.4rem 0 0;
+  max-width: 42ch;
+}
+
+/* Tighten the join between the hero and the first section below it. The
+   spacing scale's large step is right between peer sections, not immediately
+   after a hero that already ends in a row of buttons. */
+.build-band {
+  padding-top: var(--spacing-md);
+}
