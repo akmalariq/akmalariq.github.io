@@ -87,13 +87,15 @@ header CTA.
 | Event | Parameters | Fires when |
 |---|---|---|
 | `form_start` | `form_id`, `lead_id` | First real keystroke in the form |
-| `form_submit` | `form_id`, `lead_id`, `segment`, `has_company` | Server returned 200 |
+| `form_submit` | `form_id`, `lead_id`, `segment`, `exports`, `cadence` | Server returned 200 |
 | `form_error` | `form_id`, `lead_id`, `reason` | Validation or network failure |
 
 `form_start` fires on the first **keystroke**, not on focus. Focusing a field
 and leaving is common and is not intent.
 
-`segment` is `business`, `freelancer`, `work` or `other` — who wrote, which is what routes the reply. The same label is in the subject line of the notification, so the inbox is already sorted.
+The three categorical answers are `segment` (who wrote — routes the reply, and lands in the subject line so the inbox is already sorted), `exports` (`full` / `pos` / `sheets` / `none`) and `cadence` (`daily` / `weekly` / `monthly` / `rarely`).
+
+`exports: none` is the one to watch. It means there is no exportable data, so the engagement is research rather than delivery — see `docs/ICP.md`. Expect it to be a large share of submissions and expect most of those to be unqualified. Counting it is more useful than filtering it out server-side, because the ratio of `none` to `full` is the only live signal on whether the ICP statement is true.
 
 `form_error.reason` is the field list joined by commas, or `network`. A field
 that errors repeatedly is a field that needs to go.

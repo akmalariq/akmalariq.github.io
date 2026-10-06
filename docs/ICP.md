@@ -106,11 +106,14 @@ Not "needs a data platform". The phrases that mean a deal:
 
 Not yet built. Recording the intent so it is not forgotten:
 
-1. **The contact form's first question should ask about data, not identity.**
-   Currently it asks *which describes you* — business, freelancer, work, other.
-   That routes the reply but not the fit. "Which describes you" should be joined
-   by, or replaced with, the one question that disqualifies fastest: **what can
-   you export today?**
+1. ~~The contact form should ask about data, not identity.~~ **Built
+   2026-10-06.** The form now asks exactly three categorical questions —
+   *which describes you*, *what can you export today*, *how often does a
+   decision ride on it* — and the first two ICP tests (`no data, no deal`, and
+   weekly cadence) are answered before a call rather than during one. `company`
+   was removed: the exports answer already implies the industry, and it was
+   optional text nobody acted on. `docs/FUNNEL.md` explains why `exports: none`
+   is counted rather than rejected.
 2. **The CTA should name the outcome, not the activity.** "Book a free consult"
    describes what the visitor does. Every segment-A and segment-B visitor wants to
    know what stops.

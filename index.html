@@ -977,15 +977,15 @@
                         <div class="consult-segment-options">
                             <label class="consult-option">
                                 <input type="radio" name="segment" value="business" required />
-                                <span><strong>I run a business</strong>Data, reports, or something that runs overnight</span>
+                                <span><strong>I run a business</strong>Sales, stock or numbers I&rsquo;m accountable for</span>
                             </label>
                             <label class="consult-option">
                                 <input type="radio" name="segment" value="freelancer" />
-                                <span><strong>I&rsquo;m a freelancer or agency</strong>Looking to collaborate or subcontract</span>
+                                <span><strong>I&rsquo;m a freelancer or agency</strong>Looking to subcontract or collaborate</span>
                             </label>
                             <label class="consult-option">
                                 <input type="radio" name="segment" value="work" />
-                                <span><strong>I&rsquo;m looking for work</strong>A role, an internship, or something full-time</span>
+                                <span><strong>I&rsquo;m looking for work</strong>A role or an internship</span>
                             </label>
                             <label class="consult-option">
                                 <input type="radio" name="segment" value="other" />
@@ -994,6 +994,54 @@
                         </div>
                         <span class="consult-error" id="cf-segment-err" data-error="segment" role="alert"></span>
                     </fieldset>
+
+                    <fieldset class="consult-chips" data-field="exports">
+                        <legend>What can you export today?</legend>
+                        <p class="consult-hint" id="exports-hint">No data, no deal &mdash; this is the first thing I check.</p>
+                        <div class="consult-chip-row" role="radiogroup" aria-describedby="exports-hint">
+                            <label class="consult-chip">
+                                <input type="radio" name="exports" value="full" />
+                                <span>Marketplaces + POS + bank</span>
+                            </label>
+                            <label class="consult-chip">
+                                <input type="radio" name="exports" value="pos" />
+                                <span>POS or accounting only</span>
+                            </label>
+                            <label class="consult-chip">
+                                <input type="radio" name="exports" value="sheets" />
+                                <span>Spreadsheets only</span>
+                            </label>
+                            <label class="consult-chip">
+                                <input type="radio" name="exports" value="none" />
+                                <span>Nothing exportable</span>
+                            </label>
+                        </div>
+                        <span class="consult-error" id="cf-exports-err" data-error="exports" role="alert"></span>
+                    </fieldset>
+
+                    <fieldset class="consult-chips" data-field="cadence">
+                        <legend>How often does a decision ride on it?</legend>
+                        <div class="consult-chip-row">
+                            <label class="consult-chip">
+                                <input type="radio" name="cadence" value="daily" />
+                                <span>Daily</span>
+                            </label>
+                            <label class="consult-chip">
+                                <input type="radio" name="cadence" value="weekly" />
+                                <span>Weekly</span>
+                            </label>
+                            <label class="consult-chip">
+                                <input type="radio" name="cadence" value="monthly" />
+                                <span>Monthly</span>
+                            </label>
+                            <label class="consult-chip">
+                                <input type="radio" name="cadence" value="rarely" />
+                                <span>Rarely</span>
+                            </label>
+                        </div>
+                        <span class="consult-error" id="cf-cadence-err" data-error="cadence" role="alert"></span>
+                    </fieldset>
+
 
                     <div class="consult-row">
                         <div class="consult-field">
@@ -1008,11 +1056,6 @@
                                    data-error-id="cf-email-err" aria-describedby="cf-email-err" />
                             <span class="consult-error" id="cf-email-err" data-error="email" role="alert"></span>
                         </div>
-                    </div>
-
-                    <div class="consult-field">
-                        <label for="cf-company">Company <span class="consult-optional">optional</span></label>
-                        <input id="cf-company" name="company" type="text" autocomplete="organization" />
                     </div>
 
                     <div class="consult-field">

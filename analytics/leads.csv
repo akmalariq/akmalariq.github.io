@@ -1,6 +1,8 @@
-lead_id,received_at,segment,company,stage,value_idr,notes
+lead_id,received_at,segment,exports,cadence,stage,value_idr,notes
 # one row per submission. lead_id arrives in the notification email.
-# segment: business | freelancer | work | other   (from the form)
+# segment: business | freelancer | work | other
+# exports: full | pos | sheets | none   <- 'none' means research, not delivery
+# cadence: daily | weekly | monthly | rarely
 # stage:   consult_booked | proposal_sent | po_issued
 # committed empty on purpose — a template with a fake lead in it produces
 # a pipeline total that looks like revenue.

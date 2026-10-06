@@ -62,7 +62,7 @@ which is what joins the on-site event to the offline stage recorded by hand.
 |---|---|---|
 | `funnel_section` | a `data-funnel` section scrolls into view, once | `section` |
 | `form_start` | first keystroke in the consult form | `form_id`, `lead_id` |
-| `form_submit` | the contact endpoint returns 200 | `form_id`, `lead_id`, `segment`, `has_company` |
+| `form_submit` | the contact endpoint returns 200 | `form_id`, `lead_id`, `segment`, `exports`, `cadence` |
 | `form_error` | validation or network failure | `form_id`, `lead_id`, `reason` |
 
 **A purchase order cannot be measured here** — it is an email, not a page. Those

@@ -2954,3 +2954,88 @@ section[id],
     transition: none;
   }
 }
+
+/* --------------------------------------------------- form: compact chips --
+   Three categorical questions cannot all be full descriptive lists: at four
+   66px rows each the form is 900px before it reaches the name field, and the
+   scroll to "send" becomes a conversion tax. So the first question keeps the
+   full treatment — it is the routing decision and the labels need explaining —
+   and the two ICP tests are single-line chips that read as a row.
+
+   Three questions is the cap. Each one that went in cost a question the ICP did
+   not need: `company` went, because the exports answer already implies the
+   industry, and it was optional text that completed nobody's picture.
+   ========================================================================== */
+
+.consult-chips {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.consult-chips legend {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding: 0;
+  margin-bottom: 0.1rem;
+}
+
+.consult-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: -0.2rem 0 0.1rem;
+}
+
+.consult-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.consult-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-primary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: border-color var(--dur-hover) var(--ease-out),
+              background-color var(--dur-hover) var(--ease-out),
+              color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .consult-chip:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+  }
+}
+
+.consult-chip input {
+  accent-color: var(--accent);
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  flex: none;
+}
+
+.consult-chip:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  color: var(--text-primary);
+}
+
+.consult-chip:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

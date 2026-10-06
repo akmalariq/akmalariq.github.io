@@ -14,6 +14,9 @@
   var form = document.getElementById("consult");
   if (!form) return;
 
+  // Three categorical questions, capped. If a fourth is ever added it has to
+  // be added here too, which is the point of naming them.
+  var CATEGORICAL = ["segment", "exports", "cadence"];
   var status = document.getElementById("consult-status");
   var submit = form.querySelector("[type=submit]");
   var track = window.akmalTrack || function () {};
@@ -90,7 +93,7 @@
       payload[key] = typeof value === "string" ? value : "";
     });
 
-    ["segment", "name", "email", "pain"].forEach(function (n) { fieldError(n, ""); });
+    CATEGORICAL.concat(["name", "email", "pain"]).forEach(function (n) { fieldError(n, ""); });
     submit.disabled = true;
     submit.setAttribute("aria-busy", "true");
     var idle = submit.textContent;
@@ -157,7 +160,8 @@
           form_id: "consult",
           lead_id: id,
           segment: payload.segment || "unset",
-          has_company: !!payload.company,
+          exports: payload.exports || "unset",
+          cadence: payload.cadence || "unset",
         });
         say("Sent. I reply within one business day (Jakarta, UTC+7).", "success");
         form.reset();

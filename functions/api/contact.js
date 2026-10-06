@@ -71,8 +71,30 @@ const SEGMENTS = {
   other: "Other",
 };
 
+/**
+ * The two ICP tests, asked as the cap allows (docs/ICP.md).
+ *
+ * `EXPORTS` is the sharpest filter in the whole document: no exportable data
+ * means the engagement is research rather than delivery, and that is worth
+ * knowing before a call rather than during one. `CADENCE` decides whether this is
+ * a project or a standing service, which is the first question on any quote.
+ */
+const EXPORTS = {
+  full: "Marketplaces + POS + bank",
+  pos: "POS or accounting only",
+  sheets: "Spreadsheets only",
+  none: "Nothing exportable yet",
+};
+
+const CADENCE = {
+  daily: "Daily",
+  weekly: "Weekly",
+  monthly: "Monthly",
+  rarely: "Rarely",
+};
+
 /** Keep every field short. A long "describe your business" box gets skipped. */
-const LIMITS = { name: 120, email: 200, company: 160, pain: 2000 };
+const LIMITS = { name: 120, email: 200, pain: 2000 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const json = (body, status = 200) =>
@@ -151,14 +173,18 @@ export async function onRequestPost({ request, env }) {
 
   const name = clean(data?.name, LIMITS.name);
   const email = clean(data?.email, LIMITS.email);
-  const company = clean(data?.company, LIMITS.company);
   const pain = clean(data?.pain, LIMITS.pain);
   const leadId = clean(data?.lead_id, 64);
   // Allowlist, never echo: the raw value goes nowhere but the segment label.
+  // Allowlist, never echo: the raw value goes nowhere but these labels.
   const segment = Object.hasOwn(SEGMENTS, data?.segment) ? data.segment : "";
+  const exports = Object.hasOwn(EXPORTS, data?.exports) ? data.exports : "";
+  const cadence = Object.hasOwn(CADENCE, data?.cadence) ? data.cadence : "";
 
   const errors = {};
   if (!segment) errors.segment = "Pick the one that fits best.";
+  if (!exports) errors.exports = "Pick the closest one.";
+  if (!cadence) errors.cadence = "Pick one.";
   if (name.length < 2) errors.name = "Please add your name.";
   if (!EMAIL_RE.test(email)) errors.email = "Please add an email I can reply to.";
   if (pain.length < 10) errors.pain = "A sentence about the report is enough.";
@@ -183,6 +209,8 @@ export async function onRequestPost({ request, env }) {
   }
 
   const label = SEGMENTS[segment];
+  const exportLabel = EXPORTS[exports];
+  const cadenceLabel = CADENCE[cadence];
 
   // Reply-To is the visitor, not the site: a reply from their thread lands in
   // their inbox and keeps the thread intact rather than bouncing off the site.
@@ -209,7 +237,8 @@ export async function onRequestPost({ request, env }) {
           `Who:     ${label}`,
           `Name:    ${name}`,
           `Email:   ${email}`,
-          company ? `Company: ${company}` : null,
+          `Exports: ${exportLabel}`,
+          `Cadence: ${cadenceLabel}`,
           leadId ? `Lead ID: ${leadId}` : null,
           "",
           "What they said they want to stop dreading:",
@@ -222,7 +251,7 @@ export async function onRequestPost({ request, env }) {
         html: `<p><strong>Who:</strong> ${escapeHtml(label)}<br>
 <strong>Name:</strong> ${escapeHtml(name)}<br>
 <strong>Email:</strong> ${escapeHtml(email)}<br>${
-          company ? `<strong>Company:</strong> ${escapeHtml(company)}<br>` : ""
+          `<strong>Exports:</strong> ${escapeHtml(exportLabel)}<br><strong>Cadence:</strong> ${escapeHtml(cadenceLabel)}<br>`
         }${leadId ? `<strong>Lead ID:</strong> ${escapeHtml(leadId)}<br>` : ""}</p>
 <h3>What they want to stop dreading</h3>
 <p>${escapeHtml(pain).replace(/\n/g, "<br>")}</p>
