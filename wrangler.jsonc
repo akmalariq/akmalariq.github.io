@@ -2,5 +2,11 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "akmalariq",
   "compatibility_date": "2026-06-18",
-  "pages_build_output_dir": "dist"
+  "pages_build_output_dir": "dist",
+  "send_email": [
+    {
+      "name": "SEND_EMAIL",
+      "destination_address": "akmalariqs@gmail.com"
+    }
+  ]
 }

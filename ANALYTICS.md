@@ -33,7 +33,7 @@ The site pushes GA4-style events into the data layer. Create:
 3. **The Custom Event trigger**: Triggers, New, Custom Event. Enable **Use regex matching** and set the event name to:
 
    ```
-   select_item|file_download|contact_click|outbound_click|select_content|cta_click|ui_toggle
+   select_item|file_download|contact_click|outbound_click|select_content|cta_click|ui_toggle|funnel_section|form_start|form_submit|form_error
    ```
 
 4. **Publish** the container.
@@ -49,6 +49,30 @@ The site pushes GA4-style events into the data layer. Create:
 | `select_content` | a blog link is clicked | `content_type`, `link_url`, `link_text` |
 | `cta_click` | a nav CTA or `#contact` link is clicked | `link_text`, `link_url` |
 | `ui_toggle` | the theme toggle is clicked | `control` |
+
+### Funnel events
+
+Added for the consult funnel. `funnel_section` fires once per `data-funnel`
+section when it is 35% on screen; `placement` on `cta_click` is the enclosing
+section, so the query can tell whether the nav or the pricing block is working.
+`lead_id` is a client-minted UUID that also travels with the submission email,
+which is what joins the on-site event to the offline stage recorded by hand.
+
+| Event | Fires when | Parameters |
+|---|---|---|
+| `funnel_section` | a `data-funnel` section scrolls into view, once | `section` |
+| `form_start` | first keystroke in the consult form | `form_id`, `lead_id` |
+| `form_submit` | the contact endpoint returns 200 | `form_id`, `lead_id`, `has_company` |
+| `form_error` | validation or network failure | `form_id`, `lead_id`, `reason` |
+
+**A purchase order cannot be measured here** — it is an email, not a page. Those
+stages are recorded by hand in `analytics/leads.csv` and joined on `lead_id`.
+See `docs/FUNNEL.md` for the full stage list and `analytics/funnel_queries.sql`
+for the queries.
+
+The pain-point text is deliberately **not** sent to analytics. It goes to the
+inbox only; sending it would put a visitor's business problem into a Google
+dataset, which the privacy policy does not permit.
 
 The helper lives in `js/analytics.js`. It is dependency-free and never talks to
 Google directly, so the site keeps working when analytics is off.

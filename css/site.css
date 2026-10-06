@@ -2421,3 +2421,166 @@ body {
 .demo-card:active {
   transform: scale(0.99);
 }
+
+/* ============================================================== consult form ==
+   The conversion point. Three fields, because every extra input costs
+   completions and the only qualification that matters is which report hurts.
+
+   Colours come from tokens only — see DESIGN.md rule #1. Error red is derived
+   from the existing --status-offline rather than a new literal, so it stays
+   consistent across all three themes.
+   ========================================================================== */
+
+.consult-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  max-width: 34rem;
+}
+
+.consult-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 34rem) {
+  .consult-row { grid-template-columns: 1fr; }
+}
+
+.consult-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.consult-field label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.consult-optional {
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-transform: none;
+}
+
+.consult-field input,
+.consult-field textarea {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.8rem;
+  /* 44px minimum target: the inputs are the primary touch surface here. */
+  min-height: 44px;
+  transition: border-color var(--dur-hover) var(--ease-out),
+              box-shadow var(--dur-hover) var(--ease-out);
+}
+
+.consult-field textarea {
+  resize: vertical;
+  min-height: 5.5rem;
+  line-height: 1.5;
+}
+
+.consult-field input::placeholder,
+.consult-field textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.consult-field input:focus,
+.consult-field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.consult-field input:focus-visible,
+.consult-field textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* aria-invalid is set by js/contact-form.js, so the state is announced as well
+   as drawn — colour is never the only signal. */
+.consult-field input[aria-invalid="true"],
+.consult-field textarea[aria-invalid="true"] {
+  border-color: var(--status-offline);
+}
+
+.consult-error {
+  font-size: 0.82rem;
+  color: var(--status-offline);
+  min-height: 1.1em;
+}
+
+.consult-error:empty { min-height: 0; }
+
+.consult-submit {
+  justify-self: start;
+  margin-top: 0.35rem;
+  /* .btn lands at 43px from its own padding, which is the site-wide 44px floor
+     minus one. The form's submit is the primary touch target on the page, so
+     it gets an explicit min-height rather than inheriting the shortfall. */
+  min-height: 44px;
+}
+
+.consult-submit[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.consult-submit[aria-busy="true"] { cursor: progress; }
+
+@media (hover: hover) and (pointer: fine) {
+  .consult-submit:not([disabled]):hover { transform: translateY(-1px); }
+}
+
+.consult-submit:active:not([disabled]) { transform: scale(0.99); }
+
+.consult-fineprint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.consult-fineprint a { color: var(--text-secondary); }
+
+/* Hidden from people, filled by bots. Kept in the layout (not display:none) so
+   a naive bot still submits it — a display:none trap is trivially skipped. */
+.consult-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.consult-status {
+  margin-top: 1.5rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  font-size: 1rem;
+  color: var(--text-primary);
+  max-width: 34rem;
+}
+
+.consult-status[data-tone="success"] {
+  border-color: var(--status-online);
+  background: color-mix(in oklab, oklch(0.72 0.13 155) 8%, var(--bg-secondary));
+}
+
+.consult-status[data-tone="error"] {
+  border-color: var(--status-offline);
+  background: color-mix(in oklab, oklch(0.72 0.15 25) 8%, var(--bg-secondary));
+}
+
+.consult-status[data-tone="pending"] { color: var(--text-secondary); }
