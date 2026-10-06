@@ -224,7 +224,6 @@
                 <div class="hero-actions">
                     <a href="/projects" class="btn btn-primary">See my work</a>
                     <a href="#contact" class="btn btn-secondary">Get in touch</a>
-                    <a href="/cv.pdf" class="hero-cv">Download CV</a>
                 </div>
             </div>
             <div class="hero-aside">
@@ -936,6 +935,29 @@
                         <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
                     </div>
 
+                    <fieldset class="consult-segment" data-field="segment">
+                        <legend>Which best describes you?</legend>
+                        <div class="consult-segment-options">
+                            <label class="consult-option">
+                                <input type="radio" name="segment" value="business" required />
+                                <span><strong>I run a business</strong>Data, reports, or something that runs overnight</span>
+                            </label>
+                            <label class="consult-option">
+                                <input type="radio" name="segment" value="freelancer" />
+                                <span><strong>I&rsquo;m a freelancer or agency</strong>Looking to collaborate or subcontract</span>
+                            </label>
+                            <label class="consult-option">
+                                <input type="radio" name="segment" value="work" />
+                                <span><strong>I&rsquo;m looking for work</strong>A role, an internship, or something full-time</span>
+                            </label>
+                            <label class="consult-option">
+                                <input type="radio" name="segment" value="other" />
+                                <span><strong>Something else</strong>I&rsquo;ll explain below</span>
+                            </label>
+                        </div>
+                        <span class="consult-error" id="cf-segment-err" data-error="segment" role="alert"></span>
+                    </fieldset>
+
                     <div class="consult-row">
                         <div class="consult-field">
                             <label for="cf-name">Your name</label>
@@ -995,7 +1017,6 @@
                 <div class="contact-alt">
                     <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                    <a href="/cv.pdf">Download CV</a>
                 </div>
             </div>
         </div>
@@ -1015,7 +1036,6 @@
                 <div class="footer-links">
                     <a href="#consult">Book a consult</a>
                     <a href="mailto:akmalariqs@gmail.com">Email</a>
-                    <a href="/cv.pdf">CV</a>
                     <a href="/privacy/">Privacy</a>
                     <a href="/terms/">Terms</a>
                     <a href="/blog/">Blog</a>

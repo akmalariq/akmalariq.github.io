@@ -2584,3 +2584,87 @@ body {
 }
 
 .consult-status[data-tone="pending"] { color: var(--text-secondary); }
+
+/* ============================================================ qualification ==
+   The first question on the form. It is not a survey — it routes. A business
+   owner and a job seeker both arrive at the same CTA and need opposite replies,
+   so the segment travels with the enquiry and lands in the subject line.
+
+   Radios rather than a select: four options are visible at once, so the choice
+   costs no interaction, and the description under each label means nobody has
+   to guess which one fits.
+   ========================================================================== */
+
+.consult-segment {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.consult-segment legend {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.15rem;
+  padding: 0;
+}
+
+.consult-segment-options {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.consult-option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem;
+  align-items: start;
+  padding: 0.7rem 0.85rem;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-primary);
+  cursor: pointer;
+  transition: border-color var(--dur-hover) var(--ease-out),
+              background-color var(--dur-hover) var(--ease-out);
+}
+
+.consult-option:hover {
+  border-color: var(--border-strong);
+}
+
+.consult-option input {
+  margin: 0.25rem 0 0;
+  accent-color: var(--accent);
+  width: 1rem;
+  height: 1rem;
+}
+
+.consult-option span {
+  display: grid;
+  gap: 0.15rem;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.consult-option strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* The selected row is filled, not just outlined — colour is never the only
+   signal, and the native radio carries the state to assistive tech. */
+.consult-option:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.consult-option:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

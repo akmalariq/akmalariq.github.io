@@ -30,11 +30,18 @@
   }
 
   function fieldError(name, message) {
+    // segment is a fieldset of radios; everything else is a single input. Look
+    // for both so the error lands next to the control that caused it.
     var input = form.querySelector("[name=" + name + "]");
+    var host = input && input.type === "radio"
+      ? input.closest("fieldset") || input
+      : input;
     var slot = form.querySelector("[data-error=" + name + "]");
     if (slot) slot.textContent = message || "";
-    if (input) {
-      input.setAttribute("aria-invalid", message ? "true" : "false");
+    if (host && host.setAttribute) {
+      host.setAttribute("aria-invalid", message ? "true" : "false");
+    }
+    if (input && !host.classList.contains("consult-segment")) {
       // Move the announcement to the field so a screen reader hears it in place.
       var described = (input.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean);
       var errId = input.getAttribute("data-error-id");
@@ -69,13 +76,21 @@
     if (submit.disabled) return;
 
     var id = leadId();
-    var payload = { lead_id: id, website: "", fill_ms: started ? Date.now() - startedAt : 0 };
+    // Browser autofill and password managers can populate every field instantly,
+    // with no keystrokes to observe. That is a real visitor completing the form
+    // as fast as the gate allows — not a bot — so `started` is still false at
+    // submit. Reporting fill_ms 0 there would look identical to a bot and lose
+    // the enquiry. Submit without a timing claim instead: the gate treats a
+    // missing value as "cannot judge" and lets it through.
+    var fillMs = started ? Date.now() - startedAt : null;
+    var payload = { lead_id: id, website: "" };
+    if (fillMs !== null) payload.fill_ms = fillMs;
     new FormData(form).forEach(function (value, key) {
       if (key === "lead_id" || key === "website") return;
       payload[key] = typeof value === "string" ? value : "";
     });
 
-    ["name", "email", "pain"].forEach(function (n) { fieldError(n, ""); });
+    ["segment", "name", "email", "pain"].forEach(function (n) { fieldError(n, ""); });
     submit.disabled = true;
     submit.setAttribute("aria-busy", "true");
     var idle = submit.textContent;
@@ -138,7 +153,12 @@
         }
         settled = true;
         clearTimeout(bail);
-        track("form_submit", { form_id: "consult", lead_id: id, has_company: !!payload.company });
+        track("form_submit", {
+          form_id: "consult",
+          lead_id: id,
+          segment: payload.segment || "unset",
+          has_company: !!payload.company,
+        });
         say("Sent. I reply within one business day (Jakarta, UTC+7).", "success");
         form.reset();
         form.hidden = true;

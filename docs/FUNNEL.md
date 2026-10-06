@@ -87,11 +87,13 @@ header CTA.
 | Event | Parameters | Fires when |
 |---|---|---|
 | `form_start` | `form_id`, `lead_id` | First real keystroke in the form |
-| `form_submit` | `form_id`, `lead_id`, `has_company` | Server returned 200 |
+| `form_submit` | `form_id`, `lead_id`, `segment`, `has_company` | Server returned 200 |
 | `form_error` | `form_id`, `lead_id`, `reason` | Validation or network failure |
 
 `form_start` fires on the first **keystroke**, not on focus. Focusing a field
 and leaving is common and is not intent.
+
+`segment` is `business`, `freelancer`, `work` or `other` — who wrote, which is what routes the reply. The same label is in the subject line of the notification, so the inbox is already sorted.
 
 `form_error.reason` is the field list joined by commas, or `network`. A field
 that errors repeatedly is a field that needs to go.

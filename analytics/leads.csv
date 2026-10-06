@@ -1,5 +1,6 @@
-lead_id,received_at,company,stage,value_idr,notes
+lead_id,received_at,segment,company,stage,value_idr,notes
 # one row per submission. lead_id arrives in the notification email.
-# stage: consult_booked | proposal_sent | po_issued
+# segment: business | freelancer | work | other   (from the form)
+# stage:   consult_booked | proposal_sent | po_issued
 # committed empty on purpose — a template with a fake lead in it produces
 # a pipeline total that looks like revenue.

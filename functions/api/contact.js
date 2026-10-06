@@ -58,6 +58,19 @@ const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 5;
 const hits = new Map();
 
+/**
+ * Who is writing, and what reply they need. A business owner and a job seeker
+ * reach the same CTA and want opposite answers, so this is the first question —
+ * before anyone invests effort in describing a problem that would go to the
+ * wrong reply path.
+ */
+const SEGMENTS = {
+  business: "Business owner",
+  freelancer: "Freelancer / agency",
+  work: "Looking for work",
+  other: "Other",
+};
+
 /** Keep every field short. A long "describe your business" box gets skipped. */
 const LIMITS = { name: 120, email: 200, company: 160, pain: 2000 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -134,28 +147,42 @@ export async function onRequestPost({ request, env }) {
   // teaches it to vary the field.
   if (clean(data?.[HONEYPOT], 200)) return json({ ok: true }, 200);
 
-  // Timing gate. The client reports when the form was first touched; a
-  // submission that claims to have been filled instantly is discarded.
-  // The value is client-supplied so this is a cheap filter, not a proof — the
-  // honeypot and rate limit are the other two layers, and none of the three
-  // needs to be sufficient on its own.
   const fillMs = Number(data?.fill_ms);
-  if (Number.isFinite(fillMs) && (fillMs < MIN_FILL_MS || fillMs > MAX_FILL_MS)) {
-    console.warn(`discarded submission, fill time ${fillMs}ms`);
-    return json({ ok: true }, 200);
-  }
 
   const name = clean(data?.name, LIMITS.name);
   const email = clean(data?.email, LIMITS.email);
   const company = clean(data?.company, LIMITS.company);
   const pain = clean(data?.pain, LIMITS.pain);
   const leadId = clean(data?.lead_id, 64);
+  // Allowlist, never echo: the raw value goes nowhere but the segment label.
+  const segment = Object.hasOwn(SEGMENTS, data?.segment) ? data.segment : "";
 
   const errors = {};
+  if (!segment) errors.segment = "Pick the one that fits best.";
   if (name.length < 2) errors.name = "Please add your name.";
   if (!EMAIL_RE.test(email)) errors.email = "Please add an email I can reply to.";
   if (pain.length < 10) errors.pain = "A sentence about the report is enough.";
   if (Object.keys(errors).length) return json({ errors }, 400);
+
+  // Timing gate — after validation, deliberately.
+  //
+  // This was originally above it, and that was a serious bug: an empty or
+  // autofilled submission reported fill_ms 0, tripped the gate, and returned a
+  // fake `{ok:true}`. The visitor saw "Sent. I reply within one business day"
+  // for an enquiry that was never delivered. Anyone whose password manager
+  // filled the form in under 1.2s lost their message silently and had no way
+  // to know.
+  //
+  // Validation is real feedback and must always reach the visitor. The gate only
+  // ever runs on a submission that is otherwise complete and would have been
+  // delivered. The value is client-supplied, so this is a cheap filter, not a
+  // proof — the honeypot and the rate limit are the other two layers.
+  if (Number.isFinite(fillMs) && (fillMs < MIN_FILL_MS || fillMs > MAX_FILL_MS)) {
+    console.warn(`discarded submission, fill time ${fillMs}ms`);
+    return json({ ok: true }, 200);
+  }
+
+  const label = SEGMENTS[segment];
 
   // Reply-To is the visitor, not the site: a reply from their thread lands in
   // their inbox and keeps the thread intact rather than bouncing off the site.
@@ -177,12 +204,13 @@ export async function onRequestPost({ request, env }) {
         from: FROM,
         to: [DESTINATION],
         reply_to: email,
-        subject: `Consult request — ${pain.slice(0, 70)}`,
+        subject: `[${label}] Consult request — ${pain.slice(0, 60)}`,
         text: [
-          `Name:     ${name}`,
-          `Email:    ${email}`,
+          `Who:     ${label}`,
+          `Name:    ${name}`,
+          `Email:   ${email}`,
           company ? `Company: ${company}` : null,
-          leadId ? `Lead ID:  ${leadId}` : null,
+          leadId ? `Lead ID: ${leadId}` : null,
           "",
           "What they said they want to stop dreading:",
           pain,
@@ -191,7 +219,8 @@ export async function onRequestPost({ request, env }) {
         ]
           .filter(Boolean)
           .join("\n"),
-        html: `<p><strong>Name:</strong> ${escapeHtml(name)}<br>
+        html: `<p><strong>Who:</strong> ${escapeHtml(label)}<br>
+<strong>Name:</strong> ${escapeHtml(name)}<br>
 <strong>Email:</strong> ${escapeHtml(email)}<br>${
           company ? `<strong>Company:</strong> ${escapeHtml(company)}<br>` : ""
         }${leadId ? `<strong>Lead ID:</strong> ${escapeHtml(leadId)}<br>` : ""}</p>
