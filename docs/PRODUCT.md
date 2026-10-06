@@ -119,3 +119,17 @@ So the sequence is:
 2. Build one real instance on real client data.
 3. *Then* unify the CTA labels and point them at the product.
    See `docs/CTA-LABELS.md`.
+
+---
+
+## Superseded
+
+This file recorded the product shape while it was still a hypothesis, including
+the claim that the wedge was cross-platform aggregation across Shopee, TikTok and
+Tokopedia. Checking that in October 2026 found Tokopedia and TikTok Shop have
+merged, the merged platform answers the cross-view natively, and funded
+competitors already occupy the reconciliation space.
+
+**Read `docs/ICP-AND-PRODUCTS.md` instead.** It keeps this file's reasoning about
+buyer vs user and the "rich vs poor" framing, corrects the market claim, and adds
+the ICP filters and product ladder.
