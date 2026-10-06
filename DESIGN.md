@@ -101,6 +101,43 @@ decoration.** Using it as a costume for "technical" is off-limits.
 
 ## Layout
 
+### The gutter is the constraint that decides breakpoints
+
+The container is 1300px, so the free space on each side is `(viewport - 1300) / 2`:
+
+| Viewport | Left gutter | What fits there |
+|---|---|---|
+| 1920px | 310px | the section index with labels |
+| 1728px | 214px | the section index with labels (barely) |
+| 1600px | 150px | the index as ticks only |
+| 1440px | 70px | the index as ticks only |
+| 1280px | 0px | **nothing** — the container fills the viewport |
+
+**Measure the gutter before placing anything in it.** An element positioned
+against the viewport edge will sit on top of the content below about 1412px.
+Both index breakpoints (1412px and 1714px) come from that arithmetic, not from
+round numbers that felt right.
+
+### Section index
+
+Fixed rail on the left, appears past 60% of the hero, hidden at the top. Fixed
+rather than sticky so it never reserves layout space — a reserved column would
+shrink the 1300px container and reflow everything below it.
+
+The active item is tracked by its own observer, not the navbar's `initScrollspy`:
+that one fires on section entry and favours "just passed", while the index wants
+the section currently being read.
+
+The index lists seven of the eleven sections — the decision-relevant ones. Skills
+and FAQ are omitted deliberately; a ten-item rail is harder to scan than a
+seven-item one, and neither is where a hire is decided.
+
+### Anchors must clear the header
+
+The header is sticky at 74px. Every `section[id]` and `#consult` carries
+`scroll-margin-top: 5.5rem`, so an anchor jump lands with its heading visible
+instead of underneath the header.
+
 - Container 1300px, body measure `--measure: 68ch` (65–75ch is the readable band).
 - **44px minimum tap target**, everywhere. Enforced on `.nav-cta`, `.tab-btn`,
   `.footer-links a`, and the theme toggle.

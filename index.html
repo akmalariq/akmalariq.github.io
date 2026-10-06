@@ -476,7 +476,7 @@
     </section>
 
     <!-- Mid-page CTA -->
-    <section class="cta-band" aria-label="Work with me" data-funnel="process">
+    <section class="cta-band" aria-label="Work with me">
         <div class="container">
             <div class="cta-band__inner reveal">
                 <p class="cta-band__title">Your weekly reconciliation could be a report that builds itself.</p>
@@ -489,7 +489,7 @@
     </section>
 
     <!-- How it works -->
-    <section id="process" class="process" aria-labelledby="process-heading" data-funnel="projects">
+    <section id="process" class="process" aria-labelledby="process-heading" data-funnel="process">
         <div class="container">
             <span class="section-subtitle">How it works</span>
             <h2 class="section-title" id="process-heading">From first call to handover</h2>
@@ -1060,6 +1060,21 @@
     </section>
 
     </main>
+
+    <!-- Section index: appears once the reader is past the hero, where the
+         eleven screens stop being skimmable. Static markup with real anchors, so
+         it navigates before JS runs and works if it never does. -->
+    <nav class="section-index" aria-label="Page sections" data-section-index hidden>
+        <ol class="section-index__list">
+            <li><a href="#what-i-build"><span class="section-index__tick" aria-hidden="true"></span><span class="section-index__label">What I build</span></a></li>
+            <li><a href="#solutions"><span class="section-index__tick" aria-hidden="true"></span><span class="section-index__label">What I can help with</span></a></li>
+            <li><a href="#process"><span class="section-index__tick" aria-hidden="true"></span><span class="section-index__label">How it works</span></a></li>
+            <li><a href="#projects"><span class="section-index__tick" aria-hidden="true"></span><span class="section-index__label">Featured projects</span></a></li>
+            <li><a href="#pricing"><span class="section-index__tick" aria-hidden="true"></span><span class="section-index__label">What it costs</span></a></li>
+            <li><a href="#about"><span class="section-index__tick" aria-hidden="true"></span><span class="section-index__label">About</span></a></li>
+            <li><a href="#contact"><span class="section-index__tick" aria-hidden="true"></span><span class="section-index__label">Let&rsquo;s talk</span></a></li>
+        </ol>
+    </nav>
 
     <!-- Footer -->
     <footer class="footer" role="contentinfo">

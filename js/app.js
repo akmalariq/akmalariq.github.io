@@ -493,6 +493,86 @@ function initProjectFilters(projects, grid) {
 // ==============================
 // Init
 // ==============================
+// Section index (left rail)
+//
+// Eleven screens has no natural landmarks once you are past the hero, so the
+// page grows a rail once scrolling starts. Two rules, deliberately:
+//   1. It appears only after the hero, so the opening frame stays clean.
+//   2. It never takes layout space — fixed and out of flow, because reserving a
+//      column would shrink the 1300px container and reflow everything below.
+//
+// The active item is tracked with its own observer rather than by reusing
+// initScrollspy: that one fires on section entry and is tuned for the navbar's
+// rootMargin, which favours "just passed" rather than "currently reading".
+// Here the reader wants the section they are actually inside.
+function initSectionIndex() {
+    const index = document.querySelector('[data-section-index]');
+    if (!index) return;
+
+    const hero = document.querySelector('.hero');
+    const links = Array.from(index.querySelectorAll('a[href^="#"]'));
+    const targets = links
+        .map(link => document.querySelector(link.getAttribute('href')))
+        .filter(Boolean);
+    if (!targets.length) return;
+
+    // Show once the hero is mostly behind us. Not a magic number: it is the
+    // point at which the reader has committed to scrolling.
+    const threshold = () => (hero ? hero.offsetHeight * 0.6 : 600);
+
+    let ticking = false;
+    function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+            const past = window.scrollY > threshold();
+            // data-visible rather than a class: `hidden` is display:none, which
+            // would kill the opacity transition on the way out.
+            if (past) index.removeAttribute('hidden');
+            else index.setAttribute('hidden', '');
+            index.toggleAttribute('data-visible', past);
+            ticking = false;
+        });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+
+    const setActive = (id) => {
+        links.forEach(link => {
+            const on = link.getAttribute('href') === `#${id}`;
+            link.classList.toggle('is-active', on);
+            if (on) link.setAttribute('aria-current', 'true');
+            else link.removeAttribute('aria-current');
+        });
+    };
+
+    const seen = new Map();
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => seen.set(entry.target, entry));
+        // Pick whichever tracked section is closest to the top third of the
+        // viewport. That is the one being read; below it is preview, above it is
+        // already left behind.
+        const band = window.innerHeight * 0.34;
+        let best = null;
+        let bestDistance = Infinity;
+        seen.forEach(entry => {
+            const top = entry.boundingClientRect.top;
+            if (top > window.innerHeight || top + entry.boundingClientRect.height < 0) return;
+            const distance = Math.abs(top - band);
+            if (distance < bestDistance) {
+                bestDistance = distance;
+                best = entry.target;
+            }
+        });
+        if (best) setActive(best.id);
+    }, { rootMargin: '-10% 0px -55% 0px', threshold: [0, 0.25, 0.5, 1] });
+
+    targets.forEach(target => observer.observe(target));
+}
+
+// ==============================
 async function initPortfolio() {
     // Non-blocking UI setup first
     initSmoothScroll();
@@ -500,6 +580,7 @@ async function initPortfolio() {
     initSkillBars();
     initBackToTop();
     initScrollspy();
+    initSectionIndex();
     initShowcaseTabs();
 
     // The grid renders wherever #projectsGrid exists (homepage and /projects).
