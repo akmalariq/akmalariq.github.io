@@ -79,7 +79,6 @@
         .cs-eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
         .cs-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); font-weight: 400; line-height: 1.1; color: var(--text-primary); margin-bottom: var(--spacing-sm, 1rem); }
         .cs-lede { font-size: 1.05rem; line-height: 1.7; color: var(--text-secondary); max-width: 62ch; margin-bottom: var(--spacing-md, 2rem); }
-        .cs-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: var(--spacing-xl, 4rem); }
         .cs-section { margin-bottom: var(--spacing-xl, 4rem); }
         .cs-h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; color: var(--text-primary); margin-bottom: var(--spacing-sm, 1rem); padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
         .cs-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
@@ -219,7 +218,7 @@
                     <li><strong>Grounding as a hard rule.</strong> A question retrieves chunks first; if retrieval is empty the model is instructed to say the answer is not in the archive. The refusal path is verified: with an empty archive the API returns a grounded-refusal response, not a 500 and not a plausible invention.</li>
                     <li><strong>Provenance on every surface.</strong> Author, Reel URL, and the IG release date ride along with each source and are attached to items, consolidated guides, and chat citations, and the library sorts by release date so the archive reads chronologically the way it was saved.</li>
                     <li><strong>Topic consolidation.</strong> Reels are grouped into topics (for example a gluten-free collection) and an LLM merges them into a single written guide that unifies ingredients and steps, keeps conflicting variations visible rather than picking one, and annotates every section with the source it came from.</li>
-                    <li><strong>Retrieval without a vector database.</strong> At personal scale a numpy cosine scan over stored embeddings, fused with SQLite FTS5, is instant and removes a native dependency; the MiniMax embeddings endpoint is isolated behind one client so a local model can replace it.</li>
+                    <li><strong>Retrieval without a vector database.</strong> At personal scale a numpy cosine scan over stored embeddings, fused with SQLite <span class="cs-code">FTS5</span>, is instant and removes a native dependency; the MiniMax embeddings endpoint is isolated behind one client so a local model can replace it.</li>
                     <li><strong>Cost-bounded ingestion.</strong> Long jobs run on a background worker that reports progress, records failures with the real error, and supports reprocessing from the failed stage. A downloadable private Reel is handled by uploading the file instead of scraping.</li>
                 </ul>
             </section>
