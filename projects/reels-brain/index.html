@@ -197,8 +197,16 @@
                         <dd>Hybrid: cosine over MiniMax <strong>embo-01</strong> embeddings fused with SQLite FTS5 keyword search</dd>
                     </div>
                     <div class="cs-fact">
-                        <dt>Stack</dt>
-                        <dd>FastAPI, SQLite (WAL), yt-dlp, ffmpeg, React &amp; TypeScript; 11 tests, 2 languages</dd>
+                        <dt>Runtime</dt>
+                        <dd>FastAPI + SQLite (WAL) + yt-dlp + ffmpeg, React &amp; TypeScript</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Security</dt>
+                        <dd>scrypt password sessions behind Cloudflare Access; the public demo is read-only on synthetic data</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Tests</dt>
+                        <dd>28 passing, including an HTTP-level assertion that every data route rejects an anonymous request</dd>
                     </div>
                 </dl>
             </section>
@@ -223,6 +231,21 @@
                 </ul>
             </section>
 
+            <section class="cs-section" aria-labelledby="cs-security">
+                <h2 class="cs-h2" id="cs-security">Security model</h2>
+                <p class="cs-lede" style="margin-bottom:1.5rem;">
+                    The archive holds a personal media library and an API key, so exposing it needed a
+                    real answer rather than a disclaimer. There are two deployments with deliberately
+                    different postures.
+                </p>
+                <ul class="cs-list">
+                    <li><strong>Private instance, two layers.</strong> Cloudflare Access authenticates the person at the edge with an emailed one-time code, and the application independently requires a session cookie on every data route. Either layer alone would be the only thing standing between the archive and a stranger; both together mean reaching the origin directly still returns a 401.</li>
+                    <li><strong>Passwords are hashed with scrypt</strong> from the Python standard library, sessions are HMAC-signed with a twelve-hour expiry, and failed logins are rate limited per client address so the password cannot be guessed by repetition.</li>
+                    <li><strong>The public demo cannot be written to.</strong> It runs against a synthetic dataset with invented accounts, captions and reel ids. Ingest, upload, reprocessing, item edits, topic changes and consolidation are all refused, which means a visitor cannot alter the archive or spend a cent of model credit.</li>
+                    <li><strong>The demo and the archive never share a database.</strong> Seeding the demo wipes and recreates its own data directory. The real archive is never the source for anything published.</li>
+                </ul>
+            </section>
+
             <section class="cs-section" aria-labelledby="cs-design">
                 <h2 class="cs-h2" id="cs-design">Decisions worth noting</h2>
                 <ul class="cs-list">
@@ -236,9 +259,9 @@
             <section class="cs-section" aria-labelledby="cs-honest">
                 <h2 class="cs-h2" id="cs-honest">Honest notes</h2>
                 <div class="cs-note">
-                    <p><strong>This is a personal tool, not a product.</strong> It runs locally for a single user with no accounts, no multi-tenancy, and no public deployment. The saved-Reel archive, the IG cookies, and the model API key all live on one machine by design.</p>
+                    <p><strong>This is a personal tool, not a product.</strong> It runs for a single user with no accounts and no multi-tenancy. The saved-Reel archive, the IG cookies, and the model API key all live on one machine by design.</p>
                     <p><strong>The source is private.</strong> The repository is not published. It holds prompts and fixtures taken from a real personal archive, and the extraction layer sends audio and video frames to a third-party model API, so the code is described here rather than linked.</p>
-                    <p><strong>Not public, deliberately.</strong> The app is not exposed to the internet: it holds a private media archive and an API key and was not built with authentication, so it is hosted only on localhost. A public deployment would need an auth layer first.</p>
+                    <p><strong>The public demo is a different posture.</strong> What is deployed is a read-only instance on synthetic data, not the real archive: ingest and every write endpoint are refused, so a visitor cannot mutate anything or spend model credits. The private instance it is modeled on requires a password session on every API route, with scrypt hashing and rate limiting, behind Cloudflare Access at the edge.</p>
                     <p><strong>Extraction quality follows the models.</strong> ASR and vision OCR are only as good as the underlying models, and a Reel that is mostly music with burned-in text will lean heavily on the OCR path. Reels that cannot be downloaded anonymously are supported by uploading the file, not by scraping around Instagram's access control.</p>
                     <p><strong>The consolidation is a rewrite.</strong> The merged topic guide is generated text over real sources, with citations to each Reel, but it is a summarisation step and not a substitute for reading the source when a recipe matters.</p>
                 </div>
