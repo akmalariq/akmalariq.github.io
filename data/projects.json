@@ -5,7 +5,13 @@
       "title": "Reels Brain",
       "featured": false,
       "caseStudy": "/projects/reels-brain/",
-      "demos": [],
+      "demos": [
+        {
+          "label": "Open the live demo",
+          "url": "https://reels.akmalariq.dev",
+          "kind": "app"
+        }
+      ],
       "description": "A local-first knowledge base that turns saved Instagram Reels into a searchable archive. Speech recognition plus vision OCR read what a Reel actually says, a structuring pass turns it into typed JSON without losing the detail, and chat answers only from the archive, citing the IG account and original release date.",
       "leadStat": "grounding",
       "longDescription": "Saved Reels pile up as video and are never reopened, so the knowledge inside them is stranded. This turns that pile into a queryable, source-linked archive. Extraction runs on three channels at once, because a Reel's content lives in speech, in on-screen text, and in the caption, and any one alone loses it: audio is downmixed to mono 16 kHz for the ASR API, sampled frames are read by a vision model for burned-in text, and all three are kept verbatim. A structuring pass then produces typed JSON, which is treated as a view over the raw extraction rather than a replacement, so quantities and caveats are never flattened away and the archive can be re-derived. A question retrieves hybrid chunks (cosine over embeddings fused with SQLite FTS5) and is answered only from them, refusing rather than inventing when retrieval is empty. Every item and answer carries the IG account, the Reel URL, and the original release date. Topics consolidate into a single written guide with per-section source annotations.",
