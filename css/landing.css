@@ -725,3 +725,74 @@ body.home .cta-band__actions {
   align-items: center;
   gap: 1rem;
 }
+
+/* ---- Showcase specimen (Excel vs cloud: now neobrutal grammar) ------------ */
+
+body.home .showcase-card {
+  border: var(--home-stroke);
+  background: var(--home-surface);
+  border-radius: 0;
+  box-shadow: var(--home-shadow-md);
+  margin-top: var(--spacing-md);
+}
+
+body.home .showcase-header {
+  border-bottom: var(--home-stroke);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+body.home .showcase-subtitle { font-family: var(--home-mono); color: var(--home-muted); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; font-size: 0.7rem; }
+body.home .showcase-title { font-family: var(--home-display); color: var(--home-ink); font-weight: 700; letter-spacing: -0.02em; }
+
+body.home .tab-btn {
+  font-family: var(--home-mono);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  font-size: 0.68rem; font-weight: 700;
+  padding: 0.5rem 0.9rem; min-height: 2.4rem;
+  border: var(--home-stroke-thin); border-radius: 0;
+  background: var(--home-surface);
+  color: var(--home-ink);
+  box-shadow: 3px 3px 0 0 var(--home-shadow-color);
+  transition: transform 100ms ease, box-shadow 100ms ease, background 100ms ease;
+}
+body.home .tab-btn:hover {
+  transform: translate(-1px,-1px);
+  box-shadow: 4px 4px 0 0 var(--home-shadow-color);
+  background: var(--home-accent); color: var(--home-accent-ink);
+}
+body.home .tab-btn:active { transform: translate(2px,2px); box-shadow: 0 0 0 0 var(--home-shadow-color); }
+body.home .tab-btn.active { background: var(--home-accent); color: var(--home-accent-ink); }
+
+body.home .excel-view,
+body.home .cloud-view {
+  border: var(--home-stroke);
+  border-radius: 0;
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-sm);
+  overflow: hidden;
+}
+body.home .excel-title,
+body.home .cloud-title-bar { background: var(--home-surface-2); border-bottom: var(--home-stroke); font-family: var(--home-mono); color: var(--home-ink); font-size: 0.72rem; }
+body.home .excel-table { font-family: var(--home-mono); font-size: 0.72rem; color: var(--home-text); }
+body.home .excel-table th { color: var(--home-muted); font-weight: 700; }
+body.home .excel-table td { color: var(--home-text); }
+body.home .excel-table tr:hover td { background: var(--home-accent); color: var(--home-accent-ink); }
+body.home .excel-row-error td { background: rgba(255, 107, 107, 0.18); }
+body.home .excel-row-corrupt td { background: rgba(184, 169, 250, 0.22); color: var(--home-muted) }
+
+body.home .excel-footer-alert { border-top: var(--home-stroke); background: var(--home-surface-2); color: var(--home-muted); }
+body.home .excel-footer-alert strong { color: var(--home-ink); }
+
+body.home .cloud-logo { font-family: var(--home-mono); color: var(--home-ink); letter-spacing: 0.14em; font-weight: 700; }
+body.home .cloud-badge { border: var(--home-stroke); border-radius: 0; background: var(--home-surface); color: var(--home-ink); font-family: var(--home-mono); box-shadow: 2px 2px 0 0 var(--home-shadow-color); }
+body.home .cloud-dot-active { background: #1b9b5e; border: 1px solid var(--home-ink); }
+body.home .cloud-grid { gap: 0; background: var(--home-line); border-top: var(--home-stroke-thin); }
+body.home .cloud-metric-card { border-radius: 0; background: var(--home-surface); border: 1px solid var(--home-line); padding: 0.9rem 1rem; }
+body.home .cloud-metric-label { font-family: var(--home-mono); color: var(--home-muted); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.62rem; }
+body.home .cloud-metric-value { font-family: var(--home-display); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em; color: var(--home-ink); }
+body.home .cloud-metric-sub { color: var(--home-muted); }
+body.home .cloud-log-terminal { border-top: var(--home-stroke); background: var(--home-surface-2); font-family: var(--home-mono); color: var(--home-muted); }
+body.home .cloud-log-terminal .text-green { color: var(--home-ink); font-weight: 700; }
+body.home .tab-btn, body.home .tab-btn.active, body.home .tab-btn:hover { outline-offset: 2px; outline: none; }
+body.home .tab-btn:focus-visible { outline: 2px solid var(--home-sky); outline-offset: 2px; }
