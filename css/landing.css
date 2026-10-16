@@ -40,10 +40,15 @@ body.home {
   --home-shadow-lg: 8px 8px 0 0 var(--home-shadow-color);
   --home-shadow-xl: 12px 12px 0 0 var(--home-shadow-color);
 
-  --home-display: 'Syne', 'Space Grotesk', ui-sans-serif, sans-serif;
-  --home-heading: 'Space Grotesk', ui-sans-serif, sans-serif;
+  /* Every family below has an @font-face in css/fonts.css. Do not add one here
+     that does not — a missing face fails silently to the generic fallback and
+     the whole "display voice" silently becomes Arial. Syne, Space Grotesk and
+     Space Mono were requested here for months and never loaded; the hero ran at
+     136px in the fallback. See docs/DESIGN-FONT-AUDIT.md. */
+  --home-display: 'Syne';
+  --home-heading: 'Space Grotesk';
   --home-body: 'Manrope', ui-sans-serif, sans-serif;
-  --home-mono: 'Space Mono', 'JetBrains Mono', ui-monospace, monospace;
+  --home-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   background: var(--home-bg);
   color: var(--home-text);
