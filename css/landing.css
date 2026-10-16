@@ -706,3 +706,58 @@ body.home .proof-card__note {
   line-height: 1.5;
   margin: 0.45rem 0 0;
 }
+
+/* ---- Phase 3: sample reports + price anchor ------------------------------ */
+
+body.home .samples { padding-block: 3rem 1rem; }
+body.home .samples-lead { color: var(--aid-muted); font-size: 1rem; max-width: 60ch; margin-bottom: 1.5rem; }
+
+body.home .samples-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 760px) {
+  body.home .samples-grid { grid-template-columns: 1fr; }
+}
+
+body.home .sample-card {
+  border: 1px solid var(--aid-line);
+  background: var(--aid-bg);
+  border-radius: var(--aid-radius);
+  padding: 1rem 1.1rem 0.95rem;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+body.home .sample-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--aid-shadow-sm);
+  border-color: rgba(0, 9, 220, 0.25);
+}
+
+body.home .sample-card h3 {
+  font-family: var(--aid-heading);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: var(--aid-ink);
+  margin: 0 0 0.35rem;
+}
+
+body.home .sample-card p { color: var(--aid-muted); font-size: 0.88rem; line-height: 1.5; margin: 0 0 0.65rem; }
+body.home .sample-card .sample-estimation { font-family: var(--aid-mono); font-size: 0.7rem; color: var(--aid-muted-light); margin: 0 0 -0.1rem; }
+
+body.home .price-anchor {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--aid-line);
+  border-radius: var(--aid-radius-sm);
+  background: var(--aid-bg-2);
+  color: var(--aid-brand);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
