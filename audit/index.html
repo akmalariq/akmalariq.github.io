@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint. Same block as every page. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            var THEMES = ['dark', 'light'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <title>Paid data audit — Rp 2.500.000 — Akmal Ariq</title>
+    <meta name="description" content="Five days. Your real exports, reconciled. A written report of what is wrong, what it costs you, and what I would fix first. Credited against a build if you continue. No obligation.">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://akmalariq.dev/audit/">
+
+    <meta property="og:title" content="Paid data audit — Rp 2.500.000">
+    <meta property="og:description" content="Five days. Your real exports, reconciled. What is wrong, what it costs, what I would fix first.">
+    <meta property="og:url" content="https://akmalariq.dev/audit/">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Paid data audit — Rp 2.500.000">
+    <meta name="twitter:description" content="Your real exports, reconciled. Five days. Written findings.">
+
+    <link rel="icon" href="/favicon.ico">
+
+    <!-- Stylesheets -->
+    <link rel="preload" href="/css/style.css" as="style">
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/landing.css">
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/app.js" defer></script>
+</head>
+<body class="home">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="header" role="banner">
+    <div class="container">
+        <div class="header-content">
+            <div class="header-logo">
+                <a href="/" class="header-logo-link" aria-label="Akmal Ariq — home">
+                    <span class="name">Akmal Ariq</span>
+                    <span class="title">Data Analytics &amp; AI Engineer</span>
+                </a>
+            </div>
+            <nav class="nav" aria-label="Main navigation">
+                <a class="nav-link" href="/#services">Services</a>
+                <a class="nav-link" href="/#pricing">Pricing</a>
+                <a class="nav-link" href="/#about">About</a>
+                <span class="nav-divider" aria-hidden="true"></span>
+                <a class="nav-link" href="/projects">Work</a>
+                <a class="nav-link" href="/blog/">Blog</a>
+                <a class="btn btn-primary nav-cta" href="/#consult">Get in touch</a>
+                <button id="themeToggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme mode">
+                    <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-4.93-4.93M19.07 4.93l-1.41 1.41"></path></svg>
+                    <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+                </button>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+            <a class="mobile-nav-link" href="/#services">Services</a>
+            <a class="mobile-nav-link" href="/#pricing">Pricing</a>
+            <a class="mobile-nav-link" href="/#about">About</a>
+            <a class="mobile-nav-link" href="/projects">Work</a>
+            <a class="mobile-nav-link" href="/blog/">Blog</a>
+            <a class="mobile-nav-link" href="/#consult">Get in touch</a>
+        </nav>
+    </div>
+</header>
+
+<main id="main">
+
+<!--
+    NO NAV LINK, DELIBERATELY.
+    The nav contract in AGENTS.md fixes its order at
+    Services - Pricing - About | Work - Blog - CTA, and check-structure.mjs fails
+    the build if any page deviates. An audit is reached from the homepage pricing
+    section, from /sample/, and from the outreach email -- all three put a warm
+    visitor one click away. A seventh permanent nav item buys nothing and would
+    mean editing eighteen pages to satisfy a checker.
+
+    WHAT THIS PAGE IS
+    ==================
+    The low-ticket front end. Free sample report -> paid audit -> build ->
+    managed. Everything above Rp 2.5jt is advertised on the strength of this.
+
+    Two deliberate choices:
+
+    1. THE CREDIT IS THE ARGUMENT. Rp 2.5jt comes off the Rp 7.5jt build if
+       they continue inside 30 days. That removes the risk of the first yes
+       without giving anything away if they walk. It is also why the price is
+       not "free" — a free audit is a sales call that costs 3.75 hours, and
+       "free" filters for people with no commitment, not people with no money.
+
+    2. THE REFUND IS HONEST AND TIME-BOUNDED. Seven days, not thirty. A refund
+       window longer than a few days gets used by people who want the analysis
+       for free. Seven days is long enough for a careful buyer to read it and
+       talk to their partner.
+-->
+
+<section class="hero" aria-label="Paid data audit" data-funnel="audit">
+    <div class="container hero-container">
+        <div class="hero-text">
+            <div class="hero-badge">
+                <span class="availability-word">Five days</span> &middot; Rp 2.500.000 &middot; credited back
+            </div>
+            <h1 class="hero-title">Find out what your numbers are costing you.</h1>
+            <p class="hero-subtitle">
+                Send three exports. In five working days you get back a written report of
+                what does not reconcile, what it costs you a month, and what I would fix first.
+            </p>
+            <p class="hero-description">
+                Not a demo. Not a call. Your data, your period, your real differences &mdash;
+                reconciled and priced. If the answer is "nothing is wrong", you keep the report
+                and we stop there. That happens more often than you would expect.
+            </p>
+            <div class="hero-actions">
+                <a href="#buy" class="btn btn-primary">Start an audit</a>
+                <a href="/sample/" class="btn btn-secondary">See a sample first</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What arrives. Concrete, because vagueness here is what makes people
+     refuse to pay for "a report". -->
+<section id="deliverable" class="build-band" aria-labelledby="deliverable-heading">
+    <div class="container">
+        <span class="section-subtitle">What arrives</span>
+        <h2 class="section-title" id="deliverable-heading">Six pages, and one number that matters</h2>
+
+        <div class="build-grid">
+            <article class="build-item">
+                <div class="build-detail">
+                    <h3 class="build-title">The variance, to the rupiah</h3>
+                    <p class="build-text">
+                        Every rupiah that reached the bank and did not match an order, split by
+                        cause: fees, refunds in transit, settlement lag, and the ones nobody can
+                        explain. The unexplained ones are named, not averaged away.
+                    </p>
+                </div>
+            </article>
+            <article class="build-item">
+                <div class="build-detail">
+                    <h3 class="build-title">What it costs per month</h3>
+                    <p class="build-text">
+                        The variance, annualised, expressed in your margin. Not "data quality
+                        issues" &mdash; a figure your partner can argue with.
+                    </p>
+                </div>
+            </article>
+            <article class="build-item">
+                <div class="build-detail">
+                    <h3 class="build-title">What is missing that you cannot see</h3>
+                    <p class="build-text">
+                        Questions your data cannot answer yet, ranked by what they would be worth
+                        if you could. This is usually the most valuable page in the report.
+                    </p>
+                </div>
+            </article>
+            <article class="build-item">
+                <div class="build-detail">
+                    <h3 class="build-title">What I would fix first</h3>
+                    <p class="build-text">
+                        One recommendation, with the reasoning. Often something you can do
+                        yourself this week with no software at all.
+                    </p>
+                </div>
+            </article>
+            <article class="build-item">
+                <div class="build-detail">
+                    <h3 class="build-title">If we continued, what it would cost</h3>
+                    <p class="build-text">
+                        A fixed scope and a fixed price for the build, so you can compare it
+                        against doing nothing. Credited in full if you go ahead.
+                    </p>
+                </div>
+            </article>
+            <article class="build-item">
+                <div class="build-detail">
+                    <h3 class="build-title">What you keep either way</h3>
+                    <p class="build-text">
+                        The full report, yours to forward to a partner, an accountant or whoever
+                        makes you feel stupid about the numbers. No exclusivity, no follow-up
+                        sequence.
+                    </p>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- The one that disqualifies. Put it high, not in a footnote. -->
+<section id="not-for-you" class="build-band" aria-labelledby="notfor-heading">
+    <div class="container">
+        <span class="section-subtitle">Honest limits</span>
+        <h2 class="section-title" id="notfor-heading">When this is the wrong purchase</h2>
+
+        <div class="audit-notfit">
+            <article class="audit-notfit__item">
+                <h3>Nothing is recorded anywhere</h3>
+                <p>
+                    If transactions live in someone's head or in a notebook, there is nothing to
+                    reconcile and the audit becomes research. That is a different engagement and a
+                    worse one. Wait until you are recording.
+                </p>
+            </article>
+            <article class="audit-notfit__item">
+                <h3>You can hire an analyst</h3>
+                <p>
+                    Then hire one. You will get more out of a full-time hire than from a
+                    five-day report, and I will say so on the call rather than take the money.
+                </p>
+            </article>
+            <article class="audit-notfit__item">
+                <h3>You want a dashboard, not a finding</h3>
+                <p>
+                    If what you need is a screen, not an answer, this is the wrong product.
+                    The build is designed for the answer first.
+                </p>
+            </article>
+            <article class="audit-notfit__item">
+                <h3>Nobody is named when the numbers are wrong</h3>
+                <p>
+                    If a discrepancy has never once caused an awkward conversation, fixing it
+                    has no value and you will not use the report.
+                </p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing, stated once, plainly. -->
+<section id="buy" class="pricing" aria-labelledby="buy-heading" data-funnel="pricing">
+    <div class="container">
+        <span class="section-subtitle">Price</span>
+        <h2 class="section-title" id="buy-heading">Rp 2.500.000</h2>
+
+        <div class="audit-buy">
+            <div class="audit-buy__main">
+                <ul class="audit-buy__list">
+                    <li><strong>Rp 2.500.000</strong> upfront, before any work starts</li>
+                    <li><strong>Credited in full</strong> against the Rp 7.500.000 build, within 30 days</li>
+                    <li><strong>Refundable within 7 days</strong> of delivery, no questions asked</li>
+                    <li><strong>Fixed scope.</strong> One period, three sources, five working days</li>
+                </ul>
+                <p class="audit-buy__note">
+                    Bank transfer or QRIS. Invoice on request, PKP-ready.
+                </p>
+            </div>
+            <div class="audit-buy__aside">
+                <p class="audit-buy__aside-label">What to send</p>
+                <ul class="audit-buy__sources">
+                    <li>Marketplace export &mdash; Shopee, Tokopedia, or both</li>
+                    <li>POS or accounting export &mdash; whatever your finance person already opens</li>
+                    <li>Bank statement &mdash; PDF is fine, CSV is better</li>
+                </ul>
+                <p class="audit-buy__aside-note">
+                    Any three. If you have them in the wrong format, send them anyway &mdash; that
+                    is part of what the audit tells you.
+                </p>
+            </div>
+        </div>
+
+        <div class="contact-content reveal" style="margin-top:2.5rem">
+            <p class="contact-text">
+                Start by email. Tell me the period, attach the three exports, and say whether to
+                use your real names. You will have a start date and a delivery date within one
+                business day.
+            </p>
+            <div class="hero-actions">
+                <a href="mailto:akmalariq@protonmail.com?subject=Paid%20data%20audit%20%E2%80%94%20Rp%202.500.000&amp;body=Period%3A%20(month%20and%20year)%0A%0AExports%20attached%3A%20(check%20all%20that%20apply)%0A%5B%20%5D%20Marketplace%0A%5B%20%5D%20POS%20or%20accounting%0A%5B%20%5D%20Bank%20statement%0A%0ANames%3A%20(use%20my%20real%20names%20%2F%20blank%20them)" class="btn btn-primary">Start an audit by email</a>
+                <a href="/#consult" class="btn btn-secondary">Talk to me first</a>
+            </div>
+            <p class="response-promise">I reply within one business day (Jakarta, UTC+7).</p>
+        </div>
+    </div>
+</section>
+
+<!-- Objection handling, in the buyer's words rather than ours. -->
+<section id="questions" class="faq" aria-labelledby="faq-heading" data-funnel="faq">
+    <div class="container">
+        <span class="section-subtitle">Before you ask</span>
+        <h2 class="section-title" id="faq-heading">Questions I already know</h2>
+
+        <div class="faq-list">
+            <details class="faq-item">
+                <summary>Is the 2.5 million credited back, or is that a trick?</summary>
+                <p>
+                    Credited in full against the Rp 7.500.000 build if you continue within 30
+                    days of delivery. It is arithmetic, not a discount: you are not paying twice
+                    for the same month of analysis. If you do not continue, you keep the report
+                    and the credit simply expires.
+                </p>
+            </details>
+
+            <details class="faq-item">
+                <summary>What if my data turns out to be fine?</summary>
+                <p>
+                    Then the report says so, in writing, and you have spent 2.5 million to avoid
+                    a 7.5 million mistake. This happens. Several of the audits I have described
+                    in my own outreach were run precisely because I suspected the answer might be
+                    "nothing is wrong" &mdash; that is a legitimate outcome, not a failure.
+                </p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Will my competitors see my numbers?</summary>
+                <p>
+                    No. The report is yours. I use anonymised, aggregate patterns when I write
+                    case studies, and only with written permission naming what may be published.
+                    Blank the names yourself if you prefer &mdash; see the email template above.
+                </p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Five days for three exports of different shapes?</summary>
+                <p>
+                    Five working days from the moment I have all three. If they are in formats I
+                    cannot read, I will tell you on day one and the clock does not start until it
+                    is readable. I would rather say that than miss a date quietly.
+                </p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Is 2.5 million just a deposit on the real work?</summary>
+                <p>
+                    No. The audit is complete on its own. It has an end, six pages, and a
+                    recommendation you may act on by yourself. The build is a separate decision
+                    you make afterwards with the information in front of you.
+                </p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Do I need to talk to you at all?</summary>
+                <p>
+                    No. The whole flow is email. I will ask for the period and the exports, then
+                    deliver. If you want a call afterwards to walk through it, fine &mdash; but it
+                    is not a condition of the audit.
+                </p>
+            </details>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-about">
+                <span class="footer-name">Akmal Ariq</span>
+                <p class="footer-text">
+                    Data engineer in Jakarta. I build the monthly report for small retailers and
+                    then keep it running.
+                </p>
+            </div>
+            <nav class="footer-links" aria-label="Footer">
+                <a href="/">Home</a>
+                <a href="/sample/">Free sample report</a>
+                <a href="/audit/">Paid audit</a>
+                <a href="/projects">Work</a>
+                <a href="mailto:akmalariq@protonmail.com">Email</a>
+            </nav>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="currentYear">2026</span> Akmal Ariq.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

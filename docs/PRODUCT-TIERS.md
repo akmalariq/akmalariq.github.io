@@ -155,3 +155,39 @@ The tier names are for you. A client should never hear "Tier 2".
 - **The build order is an argument, not a finding.** It weighs repeatability
   over the client's natural entry point. If Tier 1 leads start arriving, that
   judgement was wrong and should change the same week.
+
+---
+
+## Addendum 2026-10-16 — the low-ticket front end
+
+`/audit/` is not a new tier. It is `docs/RUNBOOK-SAMPLE-DELIVERY.md` **with a
+price on it.**
+
+| | Free sample | Paid audit | The build | Managed |
+|---|---|---|---|---|
+| Where | `/sample/` | `/audit/` | `/#pricing` | `/product/` |
+| Your data | no | **yes** | yes | yes |
+| Price | free | Rp 2.500.000 | Rp 7.500.000 | from Rp 4jt/mo |
+| Effort to deliver | — | **3.75 h first, ~1.5 h after** | 2–3 weeks | recurring |
+| Credited forward | — | yes, within 30 days | — | — |
+
+**Why this is the product, not a product build.** `PRODUCT-TIERS.md` above
+argues Tier 2 is the product because its architecture repeats. That is still
+true — but the *first* sale does not come from Tier 2. It comes from the
+audit, which is three and three-quarter hours of the runbook you already
+wrote.
+
+**Why it is not free.** A free audit is a sales call costing 3.75 hours, and
+"free" filters for people with no commitment rather than people with no money.
+A paid audit filters with money, in the buyer's favour — someone who will not
+pay Rp 2.5jt will not pay Rp 7.5jt, and both of you learn that cheaply.
+
+**The refund is seven days, not thirty.** A longer window gets used by people
+who want the analysis for free. Seven days is enough for a careful buyer to
+read it and talk to their partner.
+
+**What this unlocks.** Paid acquisition only works when the CAC fits under the
+entry price. At Rp 2.5jt an audit can carry acquisition; at Rp 7.5jt a build
+cannot. That is the whole argument, and it is arithmetic rather than taste.
+
+**Still not built, and deliberately:** a self-serve SaaS product. See §Rejected.

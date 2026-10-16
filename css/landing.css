@@ -1035,3 +1035,107 @@ body.home .visually-hidden {
   padding: 0; margin: -1px; overflow: hidden;
   clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
 }
+
+/* ---- paid audit page (/audit/) -------------------------------------------- */
+
+body.home .audit-notfit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+body.home .audit-notfit__item {
+  border: var(--home-stroke-thin);
+  border-left: 6px solid var(--home-coral, #ff6b6b);
+  background: var(--home-surface);
+  padding: 1rem 1.15rem;
+}
+body.home .audit-notfit__item h3 {
+  font-family: var(--home-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  color: var(--home-ink);
+  margin: 0 0 0.4rem;
+}
+body.home .audit-notfit__item p { margin: 0; font-size: 0.92rem; line-height: 1.6; color: var(--home-muted); }
+
+body.home .audit-buy {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+@media (max-width: 900px) { body.home .audit-buy { grid-template-columns: 1fr; } }
+
+body.home .audit-buy__main {
+  border: var(--home-stroke);
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-lg);
+  padding: 1.4rem 1.5rem;
+}
+body.home .audit-buy__list { list-style: none; margin: 0 0 1.1rem; padding: 0; }
+body.home .audit-buy__list li {
+  position: relative;
+  padding: 0.55rem 0 0.55rem 1.6rem;
+  border-bottom: 1px solid var(--home-line, rgba(128,128,128,0.22));
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--home-text);
+}
+body.home .audit-buy__list li:last-child { border-bottom: 0; }
+body.home .audit-buy__list li::before {
+  content: "\25A0";
+  position: absolute; left: 0; top: 0.62rem;
+  font-size: 0.7rem; color: var(--home-accent);
+}
+body.home .audit-buy__list strong { color: var(--home-ink); font-weight: 700; }
+body.home .audit-buy__note {
+  font-family: var(--home-mono);
+  font-size: 0.76rem;
+  color: var(--home-muted);
+  margin: 0;
+}
+
+body.home .audit-buy__aside {
+  border: var(--home-stroke-thin);
+  background: var(--home-surface-2);
+  padding: 1.1rem 1.2rem;
+}
+body.home .audit-buy__aside-label {
+  font-family: var(--home-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--home-muted);
+  margin: 0 0 0.6rem;
+}
+body.home .audit-buy__sources { list-style: none; margin: 0 0 0.9rem; padding: 0; }
+body.home .audit-buy__sources li {
+  position: relative;
+  padding: 0.4rem 0 0.4rem 1.2rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--home-text);
+}
+body.home .audit-buy__sources li::before {
+  content: "\2192";
+  position: absolute; left: 0; top: 0.4rem;
+  color: var(--home-accent); font-weight: 700;
+}
+body.home .audit-buy__aside-note { font-size: 0.84rem; line-height: 1.6; color: var(--home-muted); margin: 0; }
+
+body.home .pricing-step {
+  font-family: var(--home-mono);
+  font-size: 0.78rem;
+  color: var(--home-muted);
+  margin: 0.7rem 0 0;
+  line-height: 1.55;
+}
+body.home .pricing-step a {
+  color: var(--home-accent);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+body.home .pricing-step a:hover { color: var(--home-ink); }
