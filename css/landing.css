@@ -657,6 +657,15 @@ body.home .project-card {
     background: var(--home-bg);
 }
 
+:root body.home .project-card,
+body.home .project-card .project-title,
+body.home .project-card .project-description,
+body.home .project-card .project-kicker,
+body.home .project-card .project-stat__value,
+body.home .project-card .tag {
+    color: #0e0c0a;
+}
+
 body.home .project-card[data-accent="yellow"]  { background: #FFF1B8; }
 body.home .project-card[data-accent="orange"]  { background: #FFEBD6; }
 body.home .project-card[data-accent="sky"]     { background: #E3F1FF; }
