@@ -680,3 +680,48 @@ body.home .project-card[data-accent="yellow"] { border-left: 6px solid #FFD23F; 
 body.home .project-card[data-accent="orange"] { border-left: 6px solid #FFA552; }
 body.home .project-card[data-accent="sky"]    { border-left: 6px solid #74B9FF; }
 body.home .project-card[data-accent="green"]  { border-left: 6px solid #88D498; }
+
+/* ---- mid-page CTA band: same grammar as hero CTAs ----------------------- */
+
+body.home .cta-band {
+  padding-block: clamp(2.5rem, 6vw, 4rem);
+  border-top: var(--home-stroke);
+  border-bottom: var(--home-stroke);
+  background: var(--home-bg);
+}
+
+body.home .cta-band__inner {
+  background: var(--home-surface);
+  border: var(--home-stroke);
+  border-radius: 0;
+  box-shadow: var(--home-shadow-lg);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  transition: transform 100ms ease, box-shadow 120ms ease;
+}
+
+body.home .cta-band__inner:hover {
+  transform: translate(-2px,-2px);
+  box-shadow: 7px 7px 0 0 var(--home-shadow-color);
+}
+
+body.home .cta-band__title {
+  font-family: var(--home-display);
+  font-weight: 800;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  max-width: 34ch;
+  color: var(--home-ink);
+}
+
+body.home .cta-band__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
