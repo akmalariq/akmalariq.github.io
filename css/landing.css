@@ -23,8 +23,9 @@ body.home {
   --home-line: #f5f2eb;
   --home-shadow-color: #f5f2eb;
 
-  --home-accent: #FFD23F;
-  --home-accent-ink: #0d0b09;
+  --home-accent: #1b3e8d;
+  --home-accent-ink: #f5f2eb;
+  --home-coral: #1b3e8d;
   --home-coral: #FF6B6B;
   --home-sky: #74B9FF;
   --home-green: #88D498;
@@ -633,3 +634,18 @@ body.home .project-card .project-title { color: var(--home-ink); }
 body.home .consult-hint { color: var(--home-muted); }
 body.home footer .footer text { color: var(--home-muted); }
 body.home footer.footer p { color: var(--home-accent-ink); }
+
+
+
+/* ---- Minimal color + type cleanup pass (Emil rules) ------------------------ */
+body.home { font-feature-settings: "tnum", "cv02", "cv03", "cv04", "cv11", "ss01"; }
+body.home h1, body.home h2, body.home h3 { text-wrap: balance; }
+body.home p, body.home li { text-wrap: pretty; }
+body.home .btn, body.home .proof li strong, body.home .nav-link,
+body.home .node-value, body.home .pipeline-title {
+    font-variant-numeric: tabular-nums;
+    -webkit-font-feature-settings: "tnum";
+    font-feature-settings: "tnum";
+}
+body.home .hero-badge .availability-word { color: var(--home-accent-ink); }
+body.home .proof li strong, body.home .proof li .availability-word { font-variant-numeric: tabular-nums; }
