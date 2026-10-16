@@ -651,3 +651,58 @@ body.home .hero-report__caption strong { color: var(--aid-brand); font-weight: 6
 body.home .hero .hero-title {
   font-family: var(--aid-display);
 }
+
+/* ---- Phase 2 numeric proof ----------------------------------------------- */
+
+body.home .proof-strip {
+  padding-block: 3rem 3.5rem;
+  background: var(--aid-bg-2);
+  border-top: 1px solid var(--aid-line);
+  border-bottom: 1px solid var(--aid-line);
+}
+
+body.home .proof-breakouts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem 1.4rem;
+  margin-top: 1.4rem;
+}
+
+@media (max-width: 760px) {
+  body.home .proof-breakouts { grid-template-columns: 1fr; }
+}
+
+body.home .proof-card {
+  border: 1px solid var(--aid-line);
+  border-radius: var(--aid-radius);
+  background: var(--aid-bg);
+  padding: 1.1rem 1.2rem;
+  position: relative;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+body.home .proof-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--aid-shadow-sm);
+  border-color: rgba(0, 9, 220, 0.28);
+}
+
+body.home .proof-card__kicker {
+  font-family: var(--aid-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--aid-muted-light);
+  margin-bottom: 0.4rem;
+}
+
+body.home .proof-card__value { display: flex; gap: 0.4rem; align-items: baseline; }
+body.home .proof-card__value .before { color: var(--aid-muted); font-size: 0.85rem; text-decoration: line-through; }
+body.home .proof-card__value .after  { color: var(--aid-brand); font-family: var(--aid-display); font-weight: 800; font-size: 1.6rem; letter-spacing: -0.02em; }
+
+body.home .proof-card__note {
+  font-size: 0.84rem;
+  color: var(--aid-muted);
+  line-height: 1.5;
+  margin: 0.45rem 0 0;
+}
