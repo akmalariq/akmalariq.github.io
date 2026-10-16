@@ -649,3 +649,49 @@ body.home .node-value, body.home .pipeline-title {
 }
 body.home .hero-badge .availability-word { color: var(--home-accent-ink); }
 body.home .proof li strong, body.home .proof li .availability-word { font-variant-numeric: tabular-nums; }
+
+/* ---- Neubrutalist-project-card palette (categorical accents) -------------- */
+
+body.home .project-card {
+    transition: transform 160ms ease-out, box-shadow 160ms ease, border-color 160ms ease;
+    background: var(--home-bg);
+}
+
+body.home .project-card[data-accent="yellow"]  { background: #FFF1B8; }
+body.home .project-card[data-accent="orange"]  { background: #FFEBD6; }
+body.home .project-card[data-accent="sky"]     { background: #E3F1FF; }
+body.home .project-card[data-accent="green"]   { background: #E0F4E0; }
+body.home .project-card[data-accent="lavender"]{ background: #EDE7F6; }
+body.home .project-card[data-accent="neutral"] { background: var(--home-bg); border-style: dashed; }
+
+body.home .project-card:hover {
+    transform: translate(-2px,-2px);
+    box-shadow: 7px 7px 0 0 var(--home-shadow-color);
+}
+
+body.home .project-card .project-kicker { color: var(--home-accent); font-weight: 600; letter-spacing: 0.04em; }
+
+body.home .project-card .project-tags .tag {
+    background: var(--home-bg);
+    border: 2px solid var(--home-ink);
+    color: var(--home-ink);
+    box-shadow: 2px 2px 0 0 var(--home-ink);
+    font-size: 0.72rem;
+    padding: 0.25rem 0.7rem;
+}
+
+body.home .project-card .project-links .btn-case-study {
+    background: var(--home-accent);
+    color: var(--home-accent-ink);
+    border: 3px solid var(--home-ink);
+    box-shadow: 4px 4px 0 0 var(--home-shadow-color);
+}
+body.home .project-card .project-links .btn-github {
+    background: var(--home-bg);
+    border: 3px solid var(--home-ink);
+}
+
+body.home .project-card[data-accent="yellow"] { border-left: 6px solid #FFD23F; }
+body.home .project-card[data-accent="orange"] { border-left: 6px solid #FFA552; }
+body.home .project-card[data-accent="sky"]    { border-left: 6px solid #74B9FF; }
+body.home .project-card[data-accent="green"]  { border-left: 6px solid #88D498; }

@@ -44,6 +44,15 @@ function createProjectCard(project, options = {}) {
     card.className = hero ? 'project-card featured' : 'project-card';
     card.dataset.category = project.category || '';
     card.dataset.format = projectFormat(project);
+    // Neobrutalist palette: a single accent color per deliverable kind.
+    const ACCENT_BY_CATEGORY = {
+      'data-engineering': 'sky',
+      'data-science': 'orange',
+      'data-analytics': 'green',
+      'product': 'lavender',
+    };
+    const accent = options.accent || project.accent || ACCENT_BY_CATEGORY[project.category] || '';
+    if (accent) card.dataset.accent = accent;
 
     // A project can have any number of demos — a live app, a hosted dashboard, a
     // sample of the output it produces. They are ordered strongest-first, and the
