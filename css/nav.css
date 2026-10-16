@@ -189,20 +189,14 @@
    will do rather than what you are already looking at:
 
        dark  (sun)      ->  light
-       light (contrast) ->  contrast
-       contrast (moon)  ->  dark */
+       light (moon)     ->  dark */
 
 .sun-icon { display: block; color: var(--accent); }
 .moon-icon,
-.contrast-icon { display: none; }
 
 [data-theme="light"] .sun-icon { display: none; }
-[data-theme="light"] .moon-icon { display: none; }
-[data-theme="light"] .contrast-icon { display: block; color: var(--accent); }
+[data-theme="light"] .moon-icon { display: block; color: var(--accent); }
 
-[data-theme="contrast"] .sun-icon { display: none; }
-[data-theme="contrast"] .contrast-icon { display: none; }
-[data-theme="contrast"] .moon-icon { display: block; color: var(--accent); }
 
 /* ---- Mobile ------------------------------------------------------------ */
 

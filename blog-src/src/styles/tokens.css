@@ -136,8 +136,3 @@
     --btn-demo-hover-text: var(--bg-primary);
     --user-chat-text: var(--bg-primary);
 }
-
-/* High contrast: a functional theme, not a mood. Neutrals lose their warm
-   cast, text goes to the extremes, and borders carry the separation that
-   colour normally would. */
-
