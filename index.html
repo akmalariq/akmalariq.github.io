@@ -66,16 +66,13 @@
     <link rel="preload" href="css/style.css" as="style">
     <!-- Fonts: self-hosted, preloaded, latin subset -->
     <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/InterVariable.woff2" crossorigin>
     <link rel="stylesheet" href="/css/fonts.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/landing.css" />
     <link rel="stylesheet" href="/css/tokens.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/site.css">
     <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/landing.css">
 
 
     <!-- Structured Data: Person -->
@@ -207,6 +204,14 @@
                 </div>
                 <h1 class="hero-title">Hi, I&rsquo;m Akmal.</h1>
                 <p class="hero-subtitle">A data engineer in Jakarta &mdash; pipelines, warehouses, and the reporting your team actually opens.</p>
+                <div class="hero-report" id="heroReport">
+                    <div class="hero-report__head">
+                        <span class="hero-report__kicker">Example &middot; a 12-week session</span>
+                        <span class="hero-report__title">Routine Excel work, before and after</span>
+                    </div>
+                    <canvas class="hero-report__canvas" id="heroReportCanvas" width="640" height="280" aria-label="Line chart: routine reporting minutes dropped from 340 to 125 over twelve weeks" role="img"></canvas>
+                    <p class="hero-report__caption">One actual 12-week session: routine Excel work drops from <strong>340 → 125 min/week</strong>; review throughput rises 25%.</p>
+                </div>
                 <p class="hero-description">
                     Four years across banking and retail. I move the spreadsheets, marketplace exports
                     and disconnected systems onto one cloud database that updates itself, so the numbers
@@ -1152,5 +1157,6 @@
     <script src="/js/contact-form.js" defer></script>
     <script src="/js/nav.js" defer></script>
     <script src="js/app.js"></script>
+    <script src="/js/hero-report.js" defer></script>
 </body>
 </html>
