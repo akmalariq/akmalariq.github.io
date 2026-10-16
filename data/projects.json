@@ -1,6 +1,67 @@
 {
   "projects": [
     {
+      "id": "reels-brain",
+      "title": "Reels Brain",
+      "featured": false,
+      "caseStudy": "/projects/reels-brain/",
+      "demos": [
+        {
+          "label": "Open the live demo",
+          "url": "https://reels.akmalariq.dev",
+          "kind": "app"
+        }
+      ],
+      "description": "A local-first knowledge base that turns saved Instagram Reels into a searchable archive. Speech recognition plus vision OCR read what a Reel actually says, a structuring pass turns it into typed JSON without losing the detail, and chat answers only from the archive, citing the IG account and original release date.",
+      "leadStat": "grounding",
+      "longDescription": "Saved Reels pile up as video and are never reopened, so the knowledge inside them is stranded. This turns that pile into a queryable, source-linked archive. Extraction runs on three channels at once, because a Reel's content lives in speech, in on-screen text, and in the caption, and any one alone loses it: audio is downmixed to mono 16 kHz for the ASR API, sampled frames are read by a vision model for burned-in text, and all three are kept verbatim. A structuring pass then produces typed JSON, which is treated as a view over the raw extraction rather than a replacement, so quantities and caveats are never flattened away and the archive can be re-derived. A question retrieves hybrid chunks (cosine over embeddings fused with SQLite FTS5) and is answered only from them, refusing rather than inventing when retrieval is empty. Every item and answer carries the IG account, the Reel URL, and the original release date. Topics consolidate into a single written guide with per-section source annotations.",
+      "category": "data-engineering",
+      "github": null,
+      "preview": null,
+      "image": null,
+      "tags": [
+        "RAG",
+        "Speech Recognition",
+        "Vision OCR",
+        "Multimodal LLM",
+        "Structured Extraction",
+        "Embeddings",
+        "Grounding",
+        "MiniMax",
+        "FastAPI",
+        "SQLite",
+        "React",
+        "TypeScript"
+      ],
+      "stats": {
+        "extraction": "ASR + vision OCR + caption, stored verbatim and never overwritten",
+        "grounding": "answers only from retrieved chunks; refuses rather than inventing",
+        "provenance": "IG account, URL and original release date on every item and answer",
+        "retrieval": "numpy cosine over embeddings fused with SQLite FTS5",
+        "consolidation": "a topic merges into one annotated written guide",
+        "runtime": "FastAPI + SQLite (WAL) + yt-dlp + ffmpeg, local, single user",
+        "tests": "11 unit tests over the pure pipeline logic"
+      },
+      "highlights": [
+        "Extracts all three channels at once, because a recipe Reel states its quantities as burned-in on-screen text while the audio is just music; speech recognition alone would have silently dropped them.",
+        "Bounds the vision cost by sampling frames and dropping near-duplicates with a perceptual hash before any model call.",
+        "Treats structured JSON as a view over the raw ASR/OCR/caption rather than a replacement, so a bad extraction is re-derivable instead of permanently lossy.",
+        "Checks retrieval before generation and reports a grounded refusal on an empty archive, verified against a 500 and against a plausible invention.",
+        "Keeps provenance attached everywhere, including the IG release date as the chronological sort key rather than ingest time.",
+        "Runs retrieval over embeddings stored as SQLite blobs with a numpy cosine scan, removing an external vector database at personal scale.",
+        "Runs long jobs on a background worker that reports progress, records the real error, and reprocesses from the failed stage."
+      ],
+      "flow": [
+        "Reel URL or file",
+        "yt-dlp download",
+        "ffmpeg audio + frames",
+        "ASR + vision OCR",
+        "Structured JSON",
+        "Embeddings",
+        "Grounded chat"
+      ]
+    },
+    {
       "id": "jakarta-geomarketing",
       "title": "Jakarta Retail Site Selection",
       "featured": true,

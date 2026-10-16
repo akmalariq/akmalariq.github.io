@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            // Themes are enumerated in css/tokens.css; keep this list in step.
+            var THEMES = ['dark', 'light', 'contrast'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <!-- Primary SEO Meta Tags -->
+    <title>Reels Brain: Grounded AI Over an Archived Video Archive | Akmal Ariq</title>
+    <meta name="description" content="Case study: a personal knowledge base that turns saved Instagram Reels into a queryable archive. Speech recognition and vision OCR extract what a reel actually says, a structuring pass turns it into typed JSON, and retrieval-augmented chat answers only from the archive with the IG account and release date attached.">
+    <meta name="keywords" content="RAG, Retrieval Augmented Generation, Speech Recognition, ASR, Vision OCR, Multimodal LLM, Video Understanding, Structured Extraction, Grounding, Provenance, Embeddings, MiniMax, FastAPI, SQLite, React, TypeScript, Case Study">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+
+    <link rel="canonical" href="https://akmalariq.dev/projects/reels-brain/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://akmalariq.dev/projects/reels-brain/">
+    <meta property="og:title" content="Reels Brain: Grounded AI Over an Archived Video Archive">
+    <meta property="og:description" content="Saved reels become a queryable archive: ASR plus vision OCR for extraction, structured JSON for detail, and chat grounded strictly on the archive with the IG account and release date attached.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta property="og:site_name" content="Akmal Ariq Portfolio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Reels Brain: Grounded AI Over an Archived Video Archive">
+    <meta name="twitter:description" content="ASR plus vision OCR extract what a reel says, structuring preserves the detail, and chat answers only from the archive with full provenance.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareSourceCode",
+      "name": "Reels Brain",
+      "description": "A local-first knowledge base that turns saved Instagram Reels into a searchable, source-linked archive: speech recognition and vision OCR for extraction, LLM structuring into typed JSON, embeddings with hybrid retrieval, and a chat grounded strictly on the archive.",
+      "programmingLanguage": ["Python", "TypeScript"],
+      "author": { "@type": "Person", "name": "Akmal Ariq", "url": "https://akmalariq.dev" },
+      "datePublished": "2026"
+    }
+    </script>
+
+    <style>
+        .case-study { padding: calc(var(--spacing-xl, 4rem) + 2rem) 0 var(--spacing-xl, 4rem); }
+        .cs-back { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; margin-bottom: var(--spacing-md, 2rem); }
+        .cs-back:hover { color: var(--accent); }
+        .cs-eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+        .cs-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); font-weight: 400; line-height: 1.1; color: var(--text-primary); margin-bottom: var(--spacing-sm, 1rem); }
+        .cs-lede { font-size: 1.05rem; line-height: 1.7; color: var(--text-secondary); max-width: 62ch; margin-bottom: var(--spacing-md, 2rem); }
+        .cs-section { margin-bottom: var(--spacing-xl, 4rem); }
+        .cs-h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; color: var(--text-primary); margin-bottom: var(--spacing-sm, 1rem); padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+        .cs-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+        .cs-fact { background: var(--bg-secondary); padding: var(--spacing-md, 2rem); }
+        .cs-fact dt { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+        .cs-fact dd { margin: 0; font-size: 0.95rem; line-height: 1.6; color: var(--text-primary); }
+        .cs-flow { font-family: var(--font-mono); font-size: 0.85rem; line-height: 2; color: var(--text-primary); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: var(--spacing-md, 2rem); overflow-x: auto; }
+        .cs-flow span { color: var(--accent); }
+        .cs-list { list-style: none; padding: 0; margin: 0; }
+        .cs-list li { position: relative; padding-left: 1.5rem; margin-bottom: 0.85rem; line-height: 1.7; color: var(--text-secondary); }
+        .cs-list li::before { content: ""; position: absolute; left: 0; top: 0.65em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+        .cs-list li strong { color: var(--text-primary); font-weight: 600; }
+        .cs-code { font-family: var(--font-mono); font-size: 0.85em; color: var(--text-primary); background: var(--bg-primary); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.35rem; }
+        .cs-note { border-left: 2px solid var(--accent); background: var(--bg-secondary); padding: var(--spacing-md, 2rem); border-radius: 0 8px 8px 0; }
+        .cs-note p:last-child { margin-bottom: 0; }
+        .cs-note p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 0.75rem; }
+        .cs-note strong { color: var(--text-primary); font-weight: 600; }
+        .cs-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+        .cs-table th, .cs-table td { text-align: left; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--border); font-size: 0.92rem; }
+        .cs-table th { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+        .cs-table td { color: var(--text-secondary); }
+        .cs-table td strong { color: var(--text-primary); }
+    </style>
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+</head>
+<body>
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <span class="nav-divider" aria-hidden="true"></span>
+                    <a href="/projects" class="nav-link">Work</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        <svg class="contrast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/projects" class="mobile-nav-link">Work</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="case-study">
+        <div class="container">
+            <a href="/projects" class="cs-back">&larr; All projects</a>
+
+            <p class="cs-eyebrow">Case study &middot; Retrieval-augmented generation &amp; multimodal extraction</p>
+            <h1 class="cs-title">Reels Brain</h1>
+            <p class="cs-lede">
+                Nobody re-watches the Reels they save. They pile up, and the useful knowledge &mdash; a
+                gluten-free recipe, a styling trick, a Hanoi coffee shop spotted in a caption in Vietnamese
+                &mdash; is stranded in a video nobody opens again. This turns that pile into a searchable,
+                source-linked archive. Speech recognition and vision OCR read what a Reel actually says, a
+                structuring pass turns it into typed JSON without dropping the detail, and a chat answers
+                strictly from the archive, citing the IG account and the Reel's original release date.
+            </p>
+
+            <div class="cs-actions">
+                <a href="https://reels.akmalariq.dev" target="_blank" rel="noopener noreferrer" class="btn btn-demo">
+                    Open the live demo
+                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                </a>
+                <a href="#cs-security" class="btn btn-secondary">How it is protected</a>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-secondary);margin:-1rem 0 var(--spacing-xl,4rem);">
+                The demo is a read-only instance running synthetic data: browse the library, open a
+                recipe, and ask it a question. Ingest and edits are switched off, and no real Reel is
+                in it.
+            </p>
+
+            <section class="cs-section" aria-labelledby="cs-glance">
+                <h2 class="cs-h2" id="cs-glance">At a glance</h2>
+                <dl class="cs-facts">
+                    <div class="cs-fact">
+                        <dt>The problem</dt>
+                        <dd>Saved Reels pile up as video and are never opened again; the knowledge inside them is stranded</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Why it is hard</dt>
+                        <dd>A Reel's content lives in three places at once &mdash; speech, on-screen text, and the caption &mdash; and any one alone loses it</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Extraction</dt>
+                        <dd>ASR (<strong>asr-1.0</strong>) for speech, a vision model reading sampled frames for on-screen text, plus the caption, all stored verbatim</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Detail preservation</dt>
+                        <dd>Structured JSON is a view over the raw extraction; the original ASR/OCR/caption stays reachable so nothing is flattened away</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Grounding</dt>
+                        <dd>Chat answers only from retrieved chunks and refuses rather than inventing; every claim carries a numbered citation</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Provenance</dt>
+                        <dd>Every item and answer links back to the IG account, Reel URL, and <strong>original release date</strong>, not ingest time</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Retrieval</dt>
+                        <dd>Hybrid: cosine over MiniMax <strong>embo-01</strong> embeddings fused with SQLite FTS5 keyword search</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Runtime</dt>
+                        <dd>FastAPI + SQLite (WAL) + yt-dlp + ffmpeg, React &amp; TypeScript</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Security</dt>
+                        <dd>scrypt password sessions behind Cloudflare Access; the public demo is read-only on synthetic data</dd>
+                    </div>
+                    <div class="cs-fact">
+                        <dt>Tests</dt>
+                        <dd>28 passing, including an HTTP-level assertion that every data route rejects an anonymous request</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-pipeline">
+                <h2 class="cs-h2" id="cs-pipeline">Pipeline</h2>
+                <div class="cs-flow">
+                    Reel URL / file  <span>&rarr;</span>  yt-dlp download  <span>&rarr;</span>  ffmpeg audio + frames  <span>&rarr;</span>  ASR + vision OCR  <span>&rarr;</span>  Structured JSON  <span>&rarr;</span>  Embeddings  <span>&rarr;</span>  Grounded chat
+                </div>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-built">
+                <h2 class="cs-h2" id="cs-built">What I built</h2>
+                <ul class="cs-list">
+                    <li><strong>Three-channel extraction.</strong> The on-screen text is the part most pipelines miss, because a recipe Reel states its quantities as burned-in captions while the audio is just music. Audio is downmixed to mono 16 kHz for the ASR API, frames are sampled and de-duplicated with a perceptual hash to keep the vision bill bounded, and all three channels are kept separately.</li>
+                    <li><strong>Structured output that does not eat the detail.</strong> An LLM pass turns the merged text into typed JSON &mdash; recipe, hack, travel, or other &mdash; with ingredients, quantities, steps, tips and substitutions. The prompt contract forbids summarising away specifics, and the raw transcription is never overwritten, so the structured view can be regenerated from the source rather than repaired by hand.</li>
+                    <li><strong>Grounding as a hard rule.</strong> A question retrieves chunks first; if retrieval is empty the model is instructed to say the answer is not in the archive. The refusal path is verified: with an empty archive the API returns a grounded-refusal response, not a 500 and not a plausible invention.</li>
+                    <li><strong>Provenance on every surface.</strong> Author, Reel URL, and the IG release date ride along with each source and are attached to items, consolidated guides, and chat citations, and the library sorts by release date so the archive reads chronologically the way it was saved.</li>
+                    <li><strong>Topic consolidation.</strong> Reels are grouped into topics (for example a gluten-free collection) and an LLM merges them into a single written guide that unifies ingredients and steps, keeps conflicting variations visible rather than picking one, and annotates every section with the source it came from.</li>
+                    <li><strong>Retrieval without a vector database.</strong> At personal scale a numpy cosine scan over stored embeddings, fused with SQLite <span class="cs-code">FTS5</span>, is instant and removes a native dependency; the MiniMax embeddings endpoint is isolated behind one client so a local model can replace it.</li>
+                    <li><strong>Cost-bounded ingestion.</strong> Long jobs run on a background worker that reports progress, records failures with the real error, and supports reprocessing from the failed stage. A downloadable private Reel is handled by uploading the file instead of scraping.</li>
+                </ul>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-security">
+                <h2 class="cs-h2" id="cs-security">Security model</h2>
+                <p class="cs-lede" style="margin-bottom:1.5rem;">
+                    The archive holds a personal media library and an API key, so exposing it needed a
+                    real answer rather than a disclaimer. There are two deployments with deliberately
+                    different postures.
+                </p>
+                <ul class="cs-list">
+                    <li><strong>Private instance, two layers.</strong> Cloudflare Access authenticates the person at the edge with an emailed one-time code, and the application independently requires a session cookie on every data route. Either layer alone would be the only thing standing between the archive and a stranger; both together mean reaching the origin directly still returns a 401.</li>
+                    <li><strong>Passwords are hashed with scrypt</strong> from the Python standard library, sessions are HMAC-signed with a twelve-hour expiry, and failed logins are rate limited per client address so the password cannot be guessed by repetition.</li>
+                    <li><strong>The public demo cannot be written to.</strong> It runs against a synthetic dataset with invented accounts, captions and reel ids. Ingest, upload, reprocessing, item edits, topic changes and consolidation are all refused, which means a visitor cannot alter the archive or spend a cent of model credit.</li>
+                    <li><strong>The demo and the archive never share a database.</strong> Seeding the demo wipes and recreates its own data directory. The real archive is never the source for anything published.</li>
+                </ul>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-design">
+                <h2 class="cs-h2" id="cs-design">Decisions worth noting</h2>
+                <ul class="cs-list">
+                    <li><strong>Why OCR is not optional.</strong> Running speech recognition alone would have silently dropped the exact quantities that make a recipe usable, because on a Reel they are written on screen, not spoken. Vision OCR on sampled frames is the part that makes the archive actually complete.</li>
+                    <li><strong>Why the raw text is immutable.</strong> The structuring pass is a projection. Keeping the raw ASR/OCR/caption verbatim means a bad extraction can be re-derived and a prompt can be improved and re-run, instead of the only copy being the model's lossy summary.</li>
+                    <li><strong>Why the model refuses.</strong> A system that answers a recipe question from general knowledge is worse than useless here &mdash; it looks right and is unsourced. Retrieval is checked before generation, and an empty result is reported as &ldquo;not in the archive&rdquo;.</li>
+                    <li><strong>Why not a hosted vector store.</strong> The archive is one user's and small. Storing embeddings as blobs in SQLite and scanning them with numpy removes an external service, its cost, and a moving part, with no measurable retrieval cost at this size.</li>
+                </ul>
+            </section>
+
+            <section class="cs-section" aria-labelledby="cs-honest">
+                <h2 class="cs-h2" id="cs-honest">Honest notes</h2>
+                <div class="cs-note">
+                    <p><strong>This is a personal tool, not a product.</strong> It runs for a single user with no accounts and no multi-tenancy. The saved-Reel archive, the IG cookies, and the model API key all live on one machine by design.</p>
+                    <p><strong>The source is private.</strong> The repository is not published. It holds prompts and fixtures taken from a real personal archive, and the extraction layer sends audio and video frames to a third-party model API, so the code is described here rather than linked.</p>
+                    <p><strong>The public demo is a different posture.</strong> What is deployed is a read-only instance on synthetic data, not the real archive: ingest and every write endpoint are refused, so a visitor cannot mutate anything or spend model credits. The private instance it is modeled on requires a password session on every API route, with scrypt hashing and rate limiting, behind Cloudflare Access at the edge.</p>
+                    <p><strong>Extraction quality follows the models.</strong> ASR and vision OCR are only as good as the underlying models, and a Reel that is mostly music with burned-in text will lean heavily on the OCR path. Reels that cannot be downloaded anonymously are supported by uploading the file, not by scraping around Instagram's access control.</p>
+                    <p><strong>The consolidation is a rewrite.</strong> The merged topic guide is generated text over real sources, with citations to each Reel, but it is a summarisation step and not a substitute for reading the source when a recipe matters.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="badge-dot" aria-hidden="true"></span>
+                Available for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/cv.pdf">CV</a>
+                    <a href="/privacy/">Privacy</a>
+                    <a href="/terms/">Terms</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const toggle = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            if (toggle) {
+                toggle.addEventListener('click', function () {
+                    root.classList.toggle('light');
+                    root.classList.toggle('dark');
+                    try {
+                        localStorage.setItem('akmal-portfolio-theme', root.classList.contains('light') ? 'light' : 'dark');
+                    } catch (e) {}
+                });
+            }
+            const year = document.getElementById('footer-year');
+            if (year) year.textContent = new Date().getFullYear();
+        })();
+    </script>
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
