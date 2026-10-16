@@ -796,3 +796,122 @@ body.home .cloud-log-terminal { border-top: var(--home-stroke); background: var(
 body.home .cloud-log-terminal .text-green { color: var(--home-ink); font-weight: 700; }
 body.home .tab-btn, body.home .tab-btn.active, body.home .tab-btn:hover { outline-offset: 2px; outline: none; }
 body.home .tab-btn:focus-visible { outline: 2px solid var(--home-sky); outline-offset: 2px; }
+
+/* ---- Sample ops dashboard (synthetic, filterable) ------------------------- */
+
+body.home .opsdash-section { padding-block: clamp(2.5rem, 6vw, 4rem); }
+
+body.home .opsdash {
+  border: var(--home-stroke);
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-lg);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+body.home .opsdash__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2rem;
+  padding-bottom: 1.1rem;
+  border-bottom: var(--home-stroke-thin);
+}
+
+body.home .opsdash__control { display: flex; flex-direction: column; gap: 0.45rem; }
+
+body.home .opsdash__control-label {
+  font-family: var(--home-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--home-muted);
+}
+
+body.home .opsdash__pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+body.home .opsdash__pill {
+  font-family: var(--home-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  min-height: 2.4rem;
+  padding: 0.4rem 0.85rem;
+  border: var(--home-stroke-thin);
+  border-radius: 0;
+  background: var(--home-bg);
+  color: var(--home-ink);
+  cursor: pointer;
+  transition: transform 100ms ease, box-shadow 100ms ease, background 100ms ease;
+}
+body.home .opsdash__pill:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 0 var(--home-shadow-color); }
+body.home .opsdash__pill:active { transform: translate(2px,2px); box-shadow: none; }
+body.home .opsdash__pill[aria-pressed="true"] { background: var(--home-accent); color: var(--home-accent-ink); box-shadow: 3px 3px 0 0 var(--home-shadow-color); }
+body.home .opsdash__pill:focus-visible { outline: 2px solid var(--home-sky); outline-offset: 2px; }
+
+body.home .opsdash__kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+body.home .opsdash__kpi {
+  border: var(--home-stroke-thin);
+  background: var(--home-bg);
+  padding: 0.8rem 0.9rem;
+  border-radius: 0;
+}
+body.home .opsdash__kpi-label { font-family: var(--home-mono); font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--home-muted); margin: 0 0 0.35rem; }
+body.home .opsdash__kpi-value { font-family: var(--home-display); font-weight: 800; font-size: clamp(1.35rem, 3vw, 1.85rem); letter-spacing: -0.03em; color: var(--home-ink); margin: 0; font-variant-numeric: tabular-nums; }
+body.home .opsdash__kpi-sub { font-size: 0.76rem; color: var(--home-muted); margin: 0.25rem 0 0; font-variant-numeric: tabular-nums; }
+
+body.home .opsdash__plot {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 160px;
+  padding: 0.75rem;
+  border: var(--home-stroke-thin);
+  background: var(--home-bg);
+  margin-bottom: 1.25rem;
+}
+body.home .opsdash__bar {
+  flex: 1 1 0;
+  min-width: 2px;
+  height: var(--h, 10%);
+  background: var(--home-accent);
+  border-top: 2px solid var(--home-ink);
+  transition: height 220ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+body.home .opsdash__bar:hover { background: var(--home-ink); }
+
+body.home .opsdash__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--home-mono);
+  font-size: 0.78rem;
+}
+body.home .opsdash__caption { text-align: left; font-family: var(--home-mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--home-muted); padding-bottom: 0.6rem; }
+body.home .opsdash__table th {
+  text-align: left; padding: 0.5rem 0.7rem;
+  border-bottom: var(--home-stroke-thin);
+  font-size: 0.64rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--home-muted); white-space: nowrap;
+}
+body.home .opsdash__table td { padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--home-line, rgba(128,128,128,0.25)); color: var(--home-text); font-variant-numeric: tabular-nums; }
+body.home .opsdash__cat { color: var(--home-ink); font-weight: 700; }
+body.home .opsdash__table tbody tr:hover td { background: var(--home-accent-soft, rgba(27,62,141,0.08)); }
+
+body.home .opsdash__summary {
+  font-family: var(--home-mono);
+  font-size: 0.72rem;
+  color: var(--home-muted);
+  margin: 1.1rem 0 0;
+  padding-top: 0.9rem;
+  border-top: var(--home-stroke-thin);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.home .opsdash__bar { transition: none; }
+  body.home .opsdash__pill { transition: none; }
+}

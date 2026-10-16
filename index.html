@@ -479,6 +479,77 @@
         </div>
     </section>
 
+    <!-- Sample ops dashboard: what you would actually receive -->
+    <section id="opsdash-section" class="opsdash-section" aria-labelledby="opsdash-heading" data-funnel="proof">
+        <div class="container">
+            <span class="section-subtitle">What you receive</span>
+            <h2 class="section-title" id="opsdash-heading">A report that answers the question you were about to ask</h2>
+            <p class="section-description">
+                Filter it. It is the same shape as the report I hand over &mdash; sales by
+                branch and channel, refunds called out, nothing to reconcile by hand.
+            </p>
+
+            <div class="opsdash" id="opsdash">
+                <div class="opsdash__controls">
+                    <div class="opsdash__control" role="group" aria-label="Date range">
+                        <span class="opsdash__control-label">Period</span>
+                        <div class="opsdash__pills">
+                            <button type="button" class="opsdash__pill" data-opsdash-filter="weeks" data-value="4" aria-pressed="false">4 weeks</button>
+                            <button type="button" class="opsdash__pill" data-opsdash-filter="weeks" data-value="8" aria-pressed="true">8 weeks</button>
+                            <button type="button" class="opsdash__pill" data-opsdash-filter="weeks" data-value="12" aria-pressed="false">12 weeks</button>
+                        </div>
+                    </div>
+
+                    <div class="opsdash__control" role="group" aria-label="Branch">
+                        <span class="opsdash__control-label">Branch</span>
+                        <div class="opsdash__pills">
+                            <button type="button" class="opsdash__pill" data-opsdash-filter="branch" data-value="all" aria-pressed="true">All</button>
+                            <button type="button" class="opsdash__pill" data-opsdash-filter="branch" data-value="jakarta" aria-pressed="false">Jakarta</button>
+                            <button type="button" class="opsdash__pill" data-opsdash-filter="branch" data-value="bandung" aria-pressed="false">Bandung</button>
+                            <button type="button" class="opsdash__pill" data-opsdash-filter="branch" data-value="surabaya" aria-pressed="false">Surabaya</button>
+                        </div>
+                    </div>
+
+                    <div class="opsdash__control" role="group" aria-label="Channel">
+                        <span class="opsdash__control-label">Channel</span>
+                        <div class="opsdash__pills">
+                            <button type="button" class="opsdash__pill" data-opsdash-filter="channel" data-value="all" aria-pressed="true">All</button>
+                            <button type="button" class="opsdash__pill" data-opsdash-filter="channel" data-value="shopee" aria-pressed="false">Shopee</button>
+                            <button type="button" class="opsdash__pill" data-opsdash-filter="channel" data-value="tokopedia" aria-pressed="false">Tokopedia</button>
+                            <button type="button" class="opsdash__pill" data-opsdash-filter="channel" data-value="offline" aria-pressed="false">Offline</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="opsdash__kpis" data-opsdash-kpis>
+                    <noscript>
+                        <div class="opsdash__kpi">
+                            <p class="opsdash__kpi-label">Net sales</p>
+                            <p class="opsdash__kpi-value">Enable JS for the interactive version</p>
+                        </div>
+                    </noscript>
+                </div>
+
+                <div class="opsdash__chart" data-opsdash-chart></div>
+
+                <table class="opsdash__table">
+                    <caption class="opsdash__caption">By category, for the selected filters</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Category</th>
+                            <th scope="col">Orders</th>
+                            <th scope="col">Net sales</th>
+                            <th scope="col">Refunds</th>
+                        </tr>
+                    </thead>
+                    <tbody data-opsdash-table></tbody>
+                </table>
+
+                <p class="opsdash__summary" data-opsdash-summary></p>
+            </div>
+        </div>
+    </section>
+
     <!-- Mid-page CTA -->
     <section class="cta-band" aria-label="Work with me">
         <div class="container">
@@ -1152,5 +1223,6 @@
     <script src="/js/contact-form.js" defer></script>
     <script src="/js/nav.js" defer></script>
     <script src="js/app.js"></script>
+    <script src="/js/sample-dashboard.js" defer></script>
 </body>
 </html>
