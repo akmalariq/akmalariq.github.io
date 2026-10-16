@@ -761,3 +761,50 @@ body.home .price-anchor {
   font-size: 0.92rem;
   font-weight: 600;
 }
+
+/* ---- Phase 4: a11y & polish ------------------------------------------------ */
+
+body.home a:focus-visible,
+body.home button:focus-visible,
+body.home input:focus-visible,
+body.home textarea:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--aid-brand), inset 0 0 0 1px var(--aid-bg);
+}
+
+body.home .skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-100%, -100%);
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--aid-brand);
+  color: #ffffff;
+  font-weight: 600;
+  transition: transform 120ms ease;
+}
+
+body.home .skip-link:focus {
+  transform: translate(0, 0);
+}
+
+body.home .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+
+body.home .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.home .reveal,
+  body.home .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
