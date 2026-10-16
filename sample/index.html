@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint. Same block as every page. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            var THEMES = ['dark', 'light'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <title>Sample report — Akmal Ariq, data engineer in Jakarta</title>
+    <meta name="description" content="A one-page sample of the monthly report I build for small retailers: three marketplaces, one POS, one bank statement, reconciled. Read it without talking to anyone.">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://akmalariq.dev/sample/">
+
+    <meta property="og:title" content="Sample report — Akmal Ariq">
+    <meta property="og:description" content="Three marketplaces, one POS, one bank statement, reconciled to one number.">
+    <meta property="og:url" content="https://akmalariq.dev/sample/">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sample report — Akmal Ariq">
+    <meta name="twitter:description" content="Three marketplaces, one POS, one bank statement, reconciled to one number.">
+
+    <link rel="icon" href="/favicon.ico">
+
+    <!-- Stylesheets -->
+    <link rel="preload" href="/css/style.css" as="style">
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/landing.css">
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/app.js" defer></script>
+</head>
+<body class="home">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="header" role="banner">
+    <div class="container">
+        <div class="header-content">
+            <div class="header-logo">
+                <a href="/" class="header-logo-link" aria-label="Akmal Ariq — home">
+                    <span class="name">Akmal Ariq</span>
+                    <span class="title">Data Analytics &amp; AI Engineer</span>
+                </a>
+            </div>
+            <nav class="nav" aria-label="Main navigation">
+                <a class="nav-link" href="/#services">Services</a>
+                <a class="nav-link" href="/#pricing">Pricing</a>
+                <a class="nav-link" href="/#about">About</a>
+                <span class="nav-divider" aria-hidden="true"></span>
+                <a class="nav-link" href="/projects">Work</a>
+                <a class="nav-link" href="/blog/">Blog</a>
+                <a class="btn btn-primary nav-cta" href="/#consult">Get in touch</a>
+                <button id="themeToggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme mode">
+                    <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-4.93-4.93M19.07 4.93l-1.41 1.41"></path></svg>
+                    <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+                </button>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+            <a class="mobile-nav-link" href="/#services">Services</a>
+            <a class="mobile-nav-link" href="/#pricing">Pricing</a>
+            <a class="mobile-nav-link" href="/#about">About</a>
+            <a class="mobile-nav-link" href="/projects">Work</a>
+            <a class="mobile-nav-link" href="/blog/">Blog</a>
+            <a class="mobile-nav-link" href="/#consult">Get in touch</a>
+        </nav>
+    </div>
+</header>
+
+<main id="main">
+
+<!--
+    WHAT THIS PAGE IS
+    ==================
+    The free thing the outreach email links to. Its job is to answer one
+    question before a conversation starts: "what exactly would I get?"
+
+    Everything on it is synthetic. The caption says so, once, in mono. The
+    dataset is generated by the same seeded PRNG as the homepage dashboard
+    (js/sample-dashboard.js), so the two pages always agree — a prospect who
+    looks here and then scrolls the homepage sees the same shop, not two
+    different fictional businesses.
+
+    Why a page and not a PDF: the charts are filterable, the table sorts, and
+    it works on a phone. A PDF cannot be read by the person whose job it is to
+    forward it internally.
+-->
+
+<section class="hero" aria-label="Sample report" data-funnel="sample">
+    <div class="container hero-container">
+        <div class="hero-text">
+            <div class="hero-badge">
+                <span class="availability-word">Read this first</span> &middot; no call, no form
+            </div>
+            <h1 class="hero-title">One month, reconciled.</h1>
+            <p class="hero-subtitle">
+                Three marketplaces, one POS, one bank statement &mdash; arriving as one number,
+                every morning, without anyone opening a reconciliation sheet.
+            </p>
+            <p class="hero-description">
+                This is the report I build for a small retailer. Filter it, read it, forward it
+                to whoever needs it. Everything here is <strong>sample data</strong>, generated
+                from the same shape as a real Shopee / Tokopedia / POS / bank month &mdash; the
+                numbers are invented, the questions it answers are not.
+            </p>
+            <div class="hero-actions">
+                <a href="/#consult" class="btn btn-primary">Send me three exports</a>
+                <a href="#the-report" class="btn btn-secondary">Skip to the report</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- The three questions it answers, in the buyer's words. -->
+<section id="what-it-answers" class="build-band" aria-labelledby="answers-heading">
+    <div class="container">
+        <span class="section-subtitle">What it answers</span>
+        <h2 class="section-title" id="answers-heading">Three questions, every morning</h2>
+
+        <div class="build-grid">
+            <article class="build-item">
+                <div class="build-detail">
+                    <h3 class="build-title">Did we actually make money?</h3>
+                    <p class="build-text">
+                        Net sales after refunds and fees, per branch and per channel &mdash;
+                        not gross, not before the marketplace takes its cut.
+                    </p>
+                </div>
+            </article>
+            <article class="build-item">
+                <div class="build-detail">
+                    <h3 class="build-title">Why is the bank different?</h3>
+                    <p class="build-text">
+                        Every rupiah that arrived at the bank but is not matched to an order,
+                        with the likely reason attached. This is the argument that happens
+                        on the 3rd of every month.
+                    </p>
+                </div>
+            </article>
+            <article class="build-item">
+                <div class="build-detail">
+                    <h3 class="build-title">What should we reorder, and when?</h3>
+                    <p class="build-text">
+                        Months of cover per product against what is actually selling. A
+                        spreadsheet sorted by alphabetical order is not a reorder list.
+                    </p>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- The report itself: the dashboard, plus the reconciliation detail that
+     is the actual proof it is not a picture of a spreadsheet. -->
+<section id="the-report" class="sample-report-section" aria-labelledby="report-heading">
+    <div class="container">
+        <span class="section-subtitle">The report</span>
+        <h2 class="section-title" id="report-heading">Last month, as it would have arrived</h2>
+
+        <div class="opsdash" id="opsdash">
+            <div class="opsdash__controls">
+                <div class="opsdash__control" role="group" aria-label="Date range">
+                    <span class="opsdash__control-label">Period</span>
+                    <div class="opsdash__pills">
+                        <button type="button" class="opsdash__pill" data-opsdash-filter="weeks" data-value="4" aria-pressed="false">4 weeks</button>
+                        <button type="button" class="opsdash__pill" data-opsdash-filter="weeks" data-value="8" aria-pressed="true">8 weeks</button>
+                        <button type="button" class="opsdash__pill" data-opsdash-filter="weeks" data-value="12" aria-pressed="false">12 weeks</button>
+                    </div>
+                </div>
+
+                <div class="opsdash__control" role="group" aria-label="Branch">
+                    <span class="opsdash__control-label">Branch</span>
+                    <div class="opsdash__pills">
+                        <button type="button" class="opsdash__pill" data-opsdash-filter="branch" data-value="all" aria-pressed="true">All</button>
+                        <button type="button" class="opsdash__pill" data-opsdash-filter="branch" data-value="jakarta" aria-pressed="false">Jakarta</button>
+                        <button type="button" class="opsdash__pill" data-opsdash-filter="branch" data-value="bandung" aria-pressed="false">Bandung</button>
+                        <button type="button" class="opsdash__pill" data-opsdash-filter="branch" data-value="surabaya" aria-pressed="false">Surabaya</button>
+                    </div>
+                </div>
+
+                <div class="opsdash__control" role="group" aria-label="Channel">
+                    <span class="opsdash__control-label">Channel</span>
+                    <div class="opsdash__pills">
+                        <button type="button" class="opsdash__pill" data-opsdash-filter="channel" data-value="all" aria-pressed="true">All</button>
+                        <button type="button" class="opsdash__pill" data-opsdash-filter="channel" data-value="shopee" aria-pressed="false">Shopee</button>
+                        <button type="button" class="opsdash__pill" data-opsdash-filter="channel" data-value="tokopedia" aria-pressed="false">Tokopedia</button>
+                        <button type="button" class="opsdash__pill" data-opsdash-filter="channel" data-value="offline" aria-pressed="false">Offline</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="opsdash__kpis" data-opsdash-kpis>
+                <noscript>
+                    <div class="opsdash__kpi">
+                        <p class="opsdash__kpi-label">Net sales</p>
+                        <p class="opsdash__kpi-value">Enable JavaScript to filter</p>
+                    </div>
+                </noscript>
+            </div>
+
+            <div class="opsdash__chart" data-opsdash-chart></div>
+
+            <table class="opsdash__table">
+                <caption class="opsdash__caption">By category, for the selected filters</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Category</th>
+                        <th scope="col">Orders</th>
+                        <th scope="col">Net sales</th>
+                        <th scope="col">Refunds</th>
+                    </tr>
+                </thead>
+                <tbody data-opsdash-table></tbody>
+            </table>
+
+            <p class="opsdash__summary" data-opsdash-summary></p>
+        </div>
+    </div>
+</section>
+
+<!--
+    The reconciliation table is the part that matters most and is the part
+    almost nobody shows. It is deliberately ugly: a real reconciliation is
+    ugly, and cleaning it up would misrepresent the work.
+-->
+<section class="recon-section" aria-labelledby="recon-heading">
+    <div class="container">
+        <span class="section-subtitle">The part that takes the time</span>
+        <h2 class="section-title" id="recon-heading">Why the bank says something else</h2>
+        <p class="section-description">
+            Every month this is the sheet someone rebuilds from scratch. Here is one month of it,
+            with each difference given a cause instead of a shrug.
+        </p>
+
+        <div class="recon-card">
+            <div class="recon-card__head">
+                <span class="recon-card__title">May 2026 &middot; BCA &middot; account •••• 4471</span>
+                <span class="recon-card__badge"><span class="cloud-dot-active"></span> Reconciled 29 May, 07:14</span>
+            </div>
+
+            <div class="excel-table-wrapper">
+                <table class="excel-table recon-table">
+                    <caption class="visually-hidden">Bank reconciliation, May 2026. Sample data.</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Reference</th>
+                            <th scope="col">Expected</th>
+                            <th scope="col">Bank</th>
+                            <th scope="col">Diff</th>
+                            <th scope="col">Cause</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>28 May</td>
+                            <td>SS-88214</td>
+                            <td>Rp 4.250.000</td>
+                            <td>Rp 4.250.000</td>
+                            <td class="recon-ok">0</td>
+                            <td>Matched</td>
+                        </tr>
+                        <tr>
+                            <td>28 May</td>
+                            <td>TK-11907</td>
+                            <td>Rp 1.875.000</td>
+                            <td>Rp 1.875.000</td>
+                            <td class="recon-ok">0</td>
+                            <td>Matched</td>
+                        </tr>
+                        <tr class="recon-late">
+                            <td>29 May</td>
+                            <td>SS-88231</td>
+                            <td>Rp 2.100.000</td>
+                            <td>&mdash;</td>
+                            <td class="recon-diff">Rp 2.100.000</td>
+                            <td>Settlement T+1. Lands 30 May.</td>
+                        </tr>
+                        <tr class="recon-fee">
+                            <td>29 May</td>
+                            <td>SS-88240</td>
+                            <td>Rp 3.400.000</td>
+                            <td>Rp 3.318.600</td>
+                            <td class="recon-diff">Rp 81.400</td>
+                            <td>Marketplace fee 2.4%. Net settlement is post-fee.</td>
+                        </tr>
+                        <tr class="recon-fee">
+                            <td>29 May</td>
+                            <td>TK-11922</td>
+                            <td>Rp 940.000</td>
+                            <td>Rp 916.800</td>
+                            <td class="recon-diff">Rp 23.200</td>
+                            <td>Marketplace fee 2.5%.</td>
+                        </tr>
+                        <tr class="recon-refund">
+                            <td>29 May</td>
+                            <td>SS-88251</td>
+                            <td>Rp 560.000</td>
+                            <td>Rp 280.000</td>
+                            <td class="recon-diff">Rp 280.000</td>
+                            <td>Refund issued 27 May, funds still in transit.</td>
+                        </tr>
+                        <tr class="recon-unknown">
+                            <td>29 May</td>
+                            <td>&mdash;</td>
+                            <td>&mdash;</td>
+                            <td>Rp 640.000</td>
+                            <td class="recon-diff">Rp 640.000</td>
+                            <td><strong>Unexplained.</strong> No matching order. Needs a human.</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">Net variance to explain</td>
+                            <td class="recon-total">Rp 3.124.600</td>
+                            <td>6 of 7 explained</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="excel-footer-alert">
+                <strong>One line needs a person:</strong> Rp 640.000 arrived with no matching
+                order. A system that averages it away is worse than no system &mdash; so this report
+                ends with a question, not a number.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What it costs, stated before the ask. -->
+<section id="cost" class="build-band" aria-labelledby="cost-heading">
+    <div class="container">
+        <span class="section-subtitle">What it costs</span>
+        <h2 class="section-title" id="cost-heading">If your exports are clean</h2>
+
+        <div class="pricing-grid">
+            <article class="pricing-card">
+                <h3 class="pricing-title">The report that builds itself</h3>
+                <p class="pricing-price"><s>Rp 10.000.000</s> <strong>Rp 7.500.000</strong></p>
+                <p class="pricing-desc">
+                    One build, fixed scope and price. Your three exports land every morning and
+                    the report above arrives on its own. You own the code, the data and the server.
+                </p>
+                <ul class="pricing-features">
+                    <li>Delivered in 2&ndash;3 weeks</li>
+                    <li>Fixed price, agreed before work starts</li>
+                    <li>You keep everything, including the source</li>
+                </ul>
+                <a href="/#consult" class="btn btn-secondary pricing-cta">Ask about this</a>
+            </article>
+
+            <article class="pricing-card pricing-card--featured">
+                <span class="pricing-badge">Most common</span>
+                <h3 class="pricing-title">Your data person, on call</h3>
+                <p class="pricing-price">from <strong>Rp 4.000.000</strong> <span class="pricing-per">/ month</span></p>
+                <p class="pricing-desc">
+                    The build, then I keep it running. New products, new marketplaces, a new
+                    branch &mdash; the report keeps up without a new project.
+                </p>
+                <ul class="pricing-features">
+                    <li>Cancel with 30 days' notice</li>
+                    <li>Same person who built it</li>
+                    <li>Priority when something breaks</li>
+                </ul>
+                <a href="/#consult" class="btn btn-primary pricing-cta">Start here</a>
+            </article>
+        </div>
+
+        <p class="sample-cost-note">
+            If you have nothing exportable yet, this is not the right engagement and I will say so
+            on the call. The first thing I check is whether your data already exists somewhere.
+        </p>
+    </div>
+</section>
+
+<!-- The ask. One sentence, one button. -->
+<section id="contact" class="contact" aria-labelledby="sample-contact-heading" data-funnel="contact">
+    <div class="container">
+        <span class="section-subtitle">Next</span>
+        <h2 class="section-title" id="sample-contact-heading">Send me three exports</h2>
+
+        <div class="contact-content reveal">
+            <p class="contact-text">
+                Shopee, Tokopedia, your POS, a bank statement. Any three. I reply with a sample of
+                <em>your</em> numbers &mdash; not this page, yours &mdash; and two paragraphs on what
+                I would do first.
+            </p>
+            <div class="hero-actions">
+                <a href="/#consult" class="btn btn-primary">Ask for your sample</a>
+                <a href="mailto:akmalariq@protonmail.com" class="btn btn-secondary">Email me instead</a>
+            </div>
+            <p class="response-promise">I reply within one business day (Jakarta, UTC+7).</p>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-about">
+                <span class="footer-name">Akmal Ariq</span>
+                <p class="footer-text">
+                    Data engineer in Jakarta. I build the monthly report for small retailers and
+                    then keep it running.
+                </p>
+            </div>
+            <nav class="footer-links" aria-label="Footer">
+                <a href="/">Home</a>
+                <a href="/projects">Work</a>
+                <a href="/blog/">Blog</a>
+                <a href="/#consult">Send me three exports</a>
+                <a href="mailto:akmalariq@protonmail.com">Email</a>
+            </nav>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="currentYear">2026</span> Akmal Ariq. Sample data on this page is synthetic.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="/js/sample-dashboard.js" defer></script>
+</body>
+</html>

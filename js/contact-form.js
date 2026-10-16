@@ -16,7 +16,10 @@
 
   // Three categorical questions, capped. If a fourth is ever added it has to
   // be added here too, which is the point of naming them.
-  var CATEGORICAL = ["segment", "exports", "cadence"];
+  // Optional since 2026-10-16. They live inside a <details> and are never
+  // validated client-side — a visitor who answers only the three required
+  // fields must still be able to submit.
+  var CATEGORICAL = [];
   var status = document.getElementById("consult-status");
   var submit = form.querySelector("[type=submit]");
   var track = window.akmalTrack || function () {};

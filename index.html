@@ -767,8 +767,8 @@
                     </ul>
                     <p class="pricing-founding">Founding rate &mdash; in exchange I&rsquo;ll ask for a short testimonial and permission to publish the case study.</p>
                     <p class="pricing-payback">Pays for itself within one to two quarters of reclaimed hours.</p>
-                    <a class="btn btn-primary pricing-cta" href="#consult">Book a free consult</a>
-                    <a class="pricing-demo" href="/demos/">See the sample reports &rarr;</a>
+                    <a class="btn btn-primary pricing-cta" href="#consult">Send me three exports</a>
+                    <a class="pricing-demo" href="/sample/">See a sample report first &rarr;</a>
                     <a class="pricing-demo" href="/product/">Or have me keep it running monthly &rarr;</a>
                 </article>
 
@@ -783,7 +783,7 @@
                         <li>Handover with documentation; the accounts stay yours</li>
                     </ul>
                     <p class="pricing-payback">Typical engagements run one to three weeks.</p>
-                    <a class="btn btn-secondary pricing-cta" href="#consult">Book a free consult</a>
+                    <a class="btn btn-secondary pricing-cta" href="#consult">Ask about this one</a>
                 </article>
 
                 <article class="pricing-card">
@@ -809,7 +809,7 @@
                     </table>
                     <p class="pricing-note">Every tier, the same reply promise: one business day. 3-month initial term, then rolling; 30 days&rsquo; notice; unused hours don&rsquo;t roll over.</p>
                     <p class="pricing-payback">A senior data person for less than the cost of a junior hire.</p>
-                    <a class="btn btn-secondary pricing-cta" href="#consult">Book a free consult</a>
+                    <a class="btn btn-secondary pricing-cta" href="#consult">Ask about this one</a>
                 </article>
             </div>
 
@@ -1047,76 +1047,90 @@
                         <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
                     </div>
 
-                    <fieldset class="consult-segment" data-field="segment">
-                        <legend>Which best describes you?</legend>
-                        <div class="consult-segment-options">
-                            <label class="consult-option">
-                                <input type="radio" name="segment" value="business" required />
-                                <span><strong>I run a business</strong>Sales, stock or numbers I&rsquo;m accountable for</span>
-                            </label>
-                            <label class="consult-option">
-                                <input type="radio" name="segment" value="freelancer" />
-                                <span><strong>I&rsquo;m a freelancer or agency</strong>Looking to subcontract or collaborate</span>
-                            </label>
-                            <label class="consult-option">
-                                <input type="radio" name="segment" value="work" />
-                                <span><strong>I&rsquo;m looking for work</strong>A role or an internship</span>
-                            </label>
-                            <label class="consult-option">
-                                <input type="radio" name="segment" value="other" />
-                                <span><strong>Something else</strong>I&rsquo;ll explain below</span>
-                            </label>
-                        </div>
-                        <span class="consult-error" id="cf-segment-err" data-error="segment" role="alert"></span>
-                    </fieldset>
+                    <!-- Qualification used to be three required radio fieldsets
+                         (segment, exports, cadence) before the visitor gave up
+                         anything. They are now one optional question, and the
+                         real filtering happens on the reply. FUNNEL.md: cut a
+                         field before you blame the copy. -->
 
-                    <fieldset class="consult-chips" data-field="exports">
-                        <legend>What can you export today?</legend>
-                        <p class="consult-hint" id="exports-hint">No data, no deal &mdash; this is the first thing I check.</p>
-                        <div class="consult-chip-row" role="radiogroup" aria-describedby="exports-hint">
-                            <label class="consult-chip">
-                                <input type="radio" name="exports" value="full" />
-                                <span>Marketplaces + POS + bank</span>
-                            </label>
-                            <label class="consult-chip">
-                                <input type="radio" name="exports" value="pos" />
-                                <span>POS or accounting only</span>
-                            </label>
-                            <label class="consult-chip">
-                                <input type="radio" name="exports" value="sheets" />
-                                <span>Spreadsheets only</span>
-                            </label>
-                            <label class="consult-chip">
-                                <input type="radio" name="exports" value="none" />
-                                <span>Nothing exportable</span>
-                            </label>
-                        </div>
-                        <span class="consult-error" id="cf-exports-err" data-error="exports" role="alert"></span>
-                    </fieldset>
+                    <div class="consult-field">
+                        <label for="cf-pain">Which report do you dread making?</label>
+                        <textarea id="cf-pain" name="pain" rows="3" required
+                                  placeholder="e.g. reconciling Shopee payouts against the bank every Monday"
+                                  data-error-id="cf-pain-err" aria-describedby="cf-pain-err"></textarea>
+                        <span class="consult-error" id="cf-pain-err" data-error="pain" role="alert"></span>
+                    </div>
 
-                    <fieldset class="consult-chips" data-field="cadence">
-                        <legend>How often does a decision ride on it?</legend>
-                        <div class="consult-chip-row">
-                            <label class="consult-chip">
-                                <input type="radio" name="cadence" value="daily" />
-                                <span>Daily</span>
-                            </label>
-                            <label class="consult-chip">
-                                <input type="radio" name="cadence" value="weekly" />
-                                <span>Weekly</span>
-                            </label>
-                            <label class="consult-chip">
-                                <input type="radio" name="cadence" value="monthly" />
-                                <span>Monthly</span>
-                            </label>
-                            <label class="consult-chip">
-                                <input type="radio" name="cadence" value="rarely" />
-                                <span>Rarely</span>
-                            </label>
-                        </div>
-                        <span class="consult-error" id="cf-cadence-err" data-error="cadence" role="alert"></span>
-                    </fieldset>
+                    <details class="consult-more">
+                        <summary>Two quick questions, if you have a minute</summary>
+                        <div class="consult-more__body">
+                            <fieldset class="consult-chips" data-field="segment">
+                                <legend>Which best describes you?</legend>
+                                <div class="consult-chip-row">
+                                    <label class="consult-chip">
+                                        <input type="radio" name="segment" value="business" />
+                                        <span>I run a business</span>
+                                    </label>
+                                    <label class="consult-chip">
+                                        <input type="radio" name="segment" value="freelancer" />
+                                        <span>Freelancer or agency</span>
+                                    </label>
+                                    <label class="consult-chip">
+                                        <input type="radio" name="segment" value="work" />
+                                        <span>Looking for work</span>
+                                    </label>
+                                    <label class="consult-chip">
+                                        <input type="radio" name="segment" value="other" />
+                                        <span>Something else</span>
+                                    </label>
+                                </div>
+                            </fieldset>
 
+                            <fieldset class="consult-chips" data-field="exports">
+                                <legend>What can you export today?</legend>
+                                <div class="consult-chip-row">
+                                    <label class="consult-chip">
+                                        <input type="radio" name="exports" value="full" />
+                                        <span>Marketplaces + POS + bank</span>
+                                    </label>
+                                    <label class="consult-chip">
+                                        <input type="radio" name="exports" value="pos" />
+                                        <span>POS or accounting only</span>
+                                    </label>
+                                    <label class="consult-chip">
+                                        <input type="radio" name="exports" value="sheets" />
+                                        <span>Spreadsheets only</span>
+                                    </label>
+                                    <label class="consult-chip">
+                                        <input type="radio" name="exports" value="none" />
+                                        <span>Nothing exportable</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="consult-chips" data-field="cadence">
+                                <legend>How often does a decision ride on it?</legend>
+                                <div class="consult-chip-row">
+                                    <label class="consult-chip">
+                                        <input type="radio" name="cadence" value="daily" />
+                                        <span>Daily</span>
+                                    </label>
+                                    <label class="consult-chip">
+                                        <input type="radio" name="cadence" value="weekly" />
+                                        <span>Weekly</span>
+                                    </label>
+                                    <label class="consult-chip">
+                                        <input type="radio" name="cadence" value="monthly" />
+                                        <span>Monthly</span>
+                                    </label>
+                                    <label class="consult-chip">
+                                        <input type="radio" name="cadence" value="rarely" />
+                                        <span>Rarely</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </details>
 
                     <div class="consult-row">
                         <div class="consult-field">
@@ -1133,18 +1147,11 @@
                         </div>
                     </div>
 
-                    <div class="consult-field">
-                        <label for="cf-pain">Which report do you dread making?</label>
-                        <textarea id="cf-pain" name="pain" rows="3" required
-                                  placeholder="e.g. reconciling Shopee payouts against the bank every Monday"
-                                  data-error-id="cf-pain-err" aria-describedby="cf-pain-err"></textarea>
-                        <span class="consult-error" id="cf-pain-err" data-error="pain" role="alert"></span>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary consult-submit">Book a free 20-minute consult</button>
+                    <button type="submit" class="btn btn-primary consult-submit">Send me a sample report</button>
                     <p class="consult-fineprint">
                         Goes straight to my inbox. No list, no forwarding &mdash; see the
-                        <a href="/privacy/">privacy policy</a>.
+                        <a href="/privacy/">privacy policy</a>. Prefer to look first?
+                        <a href="/sample/">Here is a sample report</a> you can read without talking to anyone.
                     </p>
                 </form>
 

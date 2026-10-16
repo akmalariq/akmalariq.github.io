@@ -27,6 +27,7 @@ const ENTRIES = [
   "demos", // sample reports hub + one page per sample
   "demo", // legacy /demo/ URL, now a redirect page to /demos/
   "product", // managed reporting (monthly service) page
+  "sample", // free sample report — the link the outreach email sends
   "privacy", // privacy policy
   "terms", // terms of service
   "css",

@@ -177,14 +177,18 @@ export async function onRequestPost({ request, env }) {
   const leadId = clean(data?.lead_id, 64);
   // Allowlist, never echo: the raw value goes nowhere but the segment label.
   // Allowlist, never echo: the raw value goes nowhere but these labels.
+  //
+  // All three are OPTIONAL. They were required until 2026-10-16: nine radio
+  // options across three fieldsets before the visitor had given up anything.
+  // FUNNEL.md names the rule this follows — "form_start with no form_submit is
+  // a field-count problem; cut a field before you blame the copy." The
+  // qualification now happens in the reply email and on the call, where it is
+  // worth something, rather than in a form gate, where it costs a lead.
   const segment = Object.hasOwn(SEGMENTS, data?.segment) ? data.segment : "";
   const exports = Object.hasOwn(EXPORTS, data?.exports) ? data.exports : "";
   const cadence = Object.hasOwn(CADENCE, data?.cadence) ? data.cadence : "";
 
   const errors = {};
-  if (!segment) errors.segment = "Pick the one that fits best.";
-  if (!exports) errors.exports = "Pick the closest one.";
-  if (!cadence) errors.cadence = "Pick one.";
   if (name.length < 2) errors.name = "Please add your name.";
   if (!EMAIL_RE.test(email)) errors.email = "Please add an email I can reply to.";
   if (pain.length < 10) errors.pain = "A sentence about the report is enough.";
@@ -208,7 +212,7 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: true }, 200);
   }
 
-  const label = SEGMENTS[segment];
+  const label = SEGMENTS[segment] || "Not given";
   const exportLabel = EXPORTS[exports];
   const cadenceLabel = CADENCE[cadence];
 
@@ -237,8 +241,8 @@ export async function onRequestPost({ request, env }) {
           `Who:     ${label}`,
           `Name:    ${name}`,
           `Email:   ${email}`,
-          `Exports: ${exportLabel}`,
-          `Cadence: ${cadenceLabel}`,
+          segment ? `Exports: ${exportLabel}` : null,
+          segment ? `Cadence: ${cadenceLabel}` : null,
           leadId ? `Lead ID: ${leadId}` : null,
           "",
           "What they said they want to stop dreading:",
@@ -251,7 +255,9 @@ export async function onRequestPost({ request, env }) {
         html: `<p><strong>Who:</strong> ${escapeHtml(label)}<br>
 <strong>Name:</strong> ${escapeHtml(name)}<br>
 <strong>Email:</strong> ${escapeHtml(email)}<br>${
-          `<strong>Exports:</strong> ${escapeHtml(exportLabel)}<br><strong>Cadence:</strong> ${escapeHtml(cadenceLabel)}<br>`
+          segment
+            ? `<strong>Exports:</strong> ${escapeHtml(exportLabel)}<br><strong>Cadence:</strong> ${escapeHtml(cadenceLabel)}<br>`
+            : ""
         }${leadId ? `<strong>Lead ID:</strong> ${escapeHtml(leadId)}<br>` : ""}</p>
 <h3>What they want to stop dreading</h3>
 <p>${escapeHtml(pain).replace(/\n/g, "<br>")}</p>
