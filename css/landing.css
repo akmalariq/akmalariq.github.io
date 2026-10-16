@@ -1,0 +1,635 @@
+/* ============================================================ LANDING.CSS
+   Neubrutalist skin for the landing page ONLY.
+
+   Scoped to `body.home` so the rest of the site (demos, case studies, product)
+   keeps its calm ledger world untouched. Tokens redefined here; shared rules
+   in tokens.css / site.css / style.css still apply but are overridden.
+
+   Theme is handled by `[data-theme]` on <html>, same as everywhere else. Only
+   the colour tokens and shadow direction invert; the mechanical grammar
+   (3px stroke, 0 radius, hard offset shadows, big tracking-tight display type)
+   is identical in every variant.
+   ========================================================================== */
+
+/* ---- fonts + tokens ------------------------------------------------------- */
+
+body.home {
+  --home-bg: #0e0c0a;
+  --home-surface: #16130f;
+  --home-surface-2: #1f1c17;
+  --home-ink: #f5f2eb;
+  --home-text: #f5f2eb;
+  --home-muted: #a8a195;
+  --home-line: #f5f2eb;
+  --home-shadow-color: #f5f2eb;
+
+  --home-accent: #FFD23F;
+  --home-accent-ink: #0d0b09;
+  --home-coral: #FF6B6B;
+  --home-sky: #74B9FF;
+  --home-green: #88D498;
+  --home-purple: #B8A9FA;
+
+  --home-stroke: 3px solid var(--home-line);
+  --home-stroke-thin: 2px solid var(--home-line);
+  --home-radius: 0;
+  --home-shadow: 5px 5px 0 0 var(--home-shadow-color);
+  --home-shadow-sm: 3px 3px 0 0 var(--home-shadow-color);
+  --home-shadow-md: 5px 5px 0 0 var(--home-shadow-color);
+  --home-shadow-lg: 8px 8px 0 0 var(--home-shadow-color);
+  --home-shadow-xl: 12px 12px 0 0 var(--home-shadow-color);
+
+  --home-display: 'Syne', 'Space Grotesk', ui-sans-serif, sans-serif;
+  --home-heading: 'Space Grotesk', ui-sans-serif, sans-serif;
+  --home-body: 'Manrope', ui-sans-serif, sans-serif;
+  --home-mono: 'Space Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+  background: var(--home-bg);
+  color: var(--home-text);
+  font-family: var(--home-body);
+
+  /* all rounded corners gone; the em elements carry it */
+  border-radius: 0;
+}
+
+html[data-theme="light"] body.home {
+  --home-bg: #FFFDF5;
+  --home-surface: #ffffff;
+  --home-surface-2: #f3efdf;
+  --home-ink: #000000;
+  --home-text: #000000;
+  --home-muted: #4a4a4a;
+  --home-line: #000000;
+  --home-shadow-color: #000000;
+  --home-shadow: 5px 5px 0 0 #000000;
+  --home-shadow-sm: 3px 3px 0 0 #000000;
+  --home-shadow-md: 5px 5px 0 0 #000000;
+  --home-shadow-lg: 8px 8px 0 0 #000000;
+  --home-shadow-xl: 12px 12px 0 0 #000000;}
+
+html[data-theme="contrast"] body.home {
+  --home-bg: #ffffff;
+  --home-surface: #ffffff;
+  --home-surface-2: #f2f2f2;
+  --home-ink: #000000;
+  --home-text: #000000;
+  --home-muted: #000000;
+  --home-line: #000000;
+  --home-shadow-color: #000000;
+  --home-shadow-sm: 3px 3px 0 0 #000000;
+  --home-shadow-md: 5px 5px 0 0 #000000;
+  --home-shadow-lg: 8px 8px 0 0 #000000;
+  --home-shadow: 5px 5px 0 0 #000000;
+  /* In contrast the palette carries no hue; type and weight carry it. */
+  --home-accent: #000000;
+  --home-accent-ink: #ffffff;
+  --home-coral: #000000;
+  --home-sky: #000000;
+  --home-green: #000000;
+  --home-purple: #000000;
+  --home-orange: #000000;
+}
+
+html[data-theme="contrast"] body.home .home-accent-fill {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* ---- page container -------------------------------------------------------- */
+body.home .container {
+  max-width: 1300px;
+}
+
+/* ---- skip link / first paint — no change, just wider target ---- */
+body.home { --spacing-xs: 0.5rem; }
+
+/* ---- header: thick bottom edge, mono labels ---- */
+body.home header.header {
+  border-bottom: 3px solid var(--home-line);
+  background: var(--home-bg);
+}
+
+body.home .header-logo .name {
+  font-family: var(--home-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  color: var(--home-ink);
+}
+
+body.home .header-logo .title {
+  font-family: var(--home-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--home-muted);
+}
+
+body.home .nav-link {
+  font-family: var(--home-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--home-ink);
+  padding: 0.4rem 0.75rem;
+  border: 2px solid transparent;
+}
+
+body.home .nav-link:hover {
+  background: var(--home-accent);
+  color: var(--home-accent-ink);
+  border-color: var(--home-ink);
+  box-shadow: 3px 3px 0 0 var(--home-shadow-color);
+  transform: translate(-1px, -1px);
+}
+
+body.home .nav-cta {
+  font-family: var(--home-display);
+  font-weight: 700;
+  padding: 0.55rem 1.1rem;
+  background: var(--home-accent);
+  color: var(--home-accent-ink);
+  border: 3px solid var(--home-ink);
+  box-shadow: var(--home-shadow-md);
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+body.home .nav-cta:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--home-shadow-lg);
+}
+
+body.home .nav-cta:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+body.home .nav-divider {
+  background: var(--home-line);
+  width: 1px;
+}
+
+body.home .theme-toggle-btn {
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--home-ink);
+  border-radius: 0;
+  box-shadow: 3px 3px 0 0 var(--home-shadow-color);
+}
+
+/* ---- hero ---- */
+body.home .hero {
+  padding-top: 1.5rem;
+  padding-bottom: 3rem;
+  position: relative;
+  /* A one-pixel warping is enough for the style; no decoration beyond that. */
+}
+
+body.home .hero-text {
+  position: relative;
+  z-index: 1;
+}
+
+body.home .hero .hero-title {
+  font-family: var(--home-display);
+  font-weight: 800;
+  font-size: clamp(3.5rem, 12vw, 8.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+  color: var(--home-ink);
+  margin-bottom: 1rem;
+  /* Structured disruption: a rotation so subtle it reads as not-random rather
+     than as deliberate. */
+  transform: rotate(-1.5deg);
+  transform-origin: left top;
+}
+
+body.home .hero .hero-subtitle {
+  font-family: var(--home-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--home-ink);
+  max-width: 42ch;
+  margin-top: 1.5rem;
+}
+
+body.home .hero .hero-description {
+  font-family: var(--home-body);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--home-muted);
+  max-width: var(--measure, 68ch);
+  margin-top: 1.25rem;
+}
+
+body.home .hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.8rem;
+  border: var(--home-stroke);
+  border-radius: 0;
+  background: var(--home-accent);
+  color: var(--home-accent-ink);
+  font-family: var(--home-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  box-shadow: var(--home-shadow-sm);
+  margin-bottom: 2rem;
+}
+
+body.home .hero-badge .availability-word {
+  color: var(--home-accent-ink);
+}
+
+/* The proof list — each fact becomes an object. */
+body.home .proof {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1.75rem 0 0;
+  max-width: 44ch;
+}
+
+body.home .proof li {
+  display: block;
+  padding: 0.6rem 0.85rem;
+  border: var(--home-stroke);
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-sm);
+  font-size: 0.88rem;
+  color: var(--home-text);
+  line-height: 1.4;
+}
+
+body.home .proof li strong {
+  font-family: var(--home-display);
+  font-weight: 800;
+  font-size: 1.15em;
+  color: var(--home-ink);
+  margin-right: 0.35em;
+}
+
+/* Actions */
+body.home .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+body.home .hero-actions .btn,
+body.home .hero .btn {
+  border: var(--home-stroke);
+  border-radius: 0;
+  box-shadow: var(--home-shadow-md);
+  padding: 0.75rem 1.3rem;
+  font-family: var(--home-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+body.home .hero-actions .btn-primary {
+  background: var(--home-accent);
+  color: var(--home-accent-ink);
+}
+
+body.home .hero-actions .btn-secondary {
+  background: var(--home-surface);
+  color: var(--home-ink);
+}
+
+body.home .hero-actions .btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--home-shadow-lg);
+}
+
+body.home .hero-actions .btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+body.home .hero-actions .btn:focus-visible {
+  outline: 3px solid var(--home-sky);
+  outline-offset: 3px;
+}
+
+/* ---- the pipeline / build card ---- */
+body.home .pipeline-card,
+body.home .build-item {
+  border: var(--home-stroke);
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-md);
+  border-radius: 0;
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+body.home .pipeline-card:hover,
+body.home .build-item:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--home-shadow-lg);
+}
+
+body.home .pipeline-title {
+  font-family: var(--home-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--home-ink);
+  font-weight: 700;
+}
+
+body.home .node-label {
+  font-family: var(--home-mono);
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--home-ink);
+}
+
+body.home .node-value {
+  font-family: var(--home-body);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--home-muted);
+}
+
+/* ---- section titles ---- */
+body.home .section-title {
+  font-family: var(--home-display);
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--home-ink);
+  line-height: 1;
+  border-bottom: var(--home-stroke);
+  padding-bottom: 0.75rem;
+  margin-bottom: 2rem;
+  display: inline-block;
+}
+
+/* ---- kicker / eyebrow: loudly mono, yellow ---- */
+body.home .cs-eyebrow,
+body.home .section-description {
+  font-family: var(--home-body);
+  color: var(--home-muted);
+}
+
+body.home .solution-card,
+body.home .project-card,
+body.home .pricing-card {
+  border: var(--home-stroke);
+  border-radius: 0;
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-md);
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+body.home .solution-card:hover,
+body.home .project-card:hover,
+body.home .pricing-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--home-shadow-lg);
+}
+
+body.home .pricing-card--featured {
+  background: var(--home-accent);
+  color: var(--home-accent-ink);
+  box-shadow: var(--home-shadow-md);
+}
+
+body.home .pricing-card--featured .pricing-price,
+body.home .pricing-card--featured .pricing-title {
+  color: var(--home-accent-ink);
+}
+
+body.home .pricing-card--featured h2,
+body.home .pricing-card--featured h3 {
+  color: var(--home-accent-ink);
+}
+
+/* ---- process steps ---- */
+body.home .process-step,
+body.home .process-num {
+  border: var(--home-stroke);
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-sm);
+  border-radius: 0;
+}
+
+body.home .process-step {
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+body.home .process-step:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--home-shadow-md);
+}
+
+/* ---- FAQ ---- */
+body.home .faq-item {
+  border: var(--home-stroke);
+  border-radius: 0;
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-sm);
+  margin-bottom: 0.75rem;
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+body.home .faq-item:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--home-shadow-md);
+}
+
+body.home .faq-item summary {
+  font-family: var(--home-heading);
+  font-weight: 600;
+  color: var(--home-ink);
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+body.home .faq-item summary::after {
+  content: '+';
+  float: right;
+  font-family: var(--home-body);
+  font-weight: 700;
+  color: var(--home-line);
+}
+
+body.home .faq-item[open] summary::after {
+  content: '−';
+}
+
+body.home .faq-item p {
+  padding: 0 1rem 1rem;
+  color: var(--home-muted);
+  line-height: 1.6;
+}
+
+/* ---- the consult form ---- */
+body.home .consult-field input,
+body.home .consult-field textarea {
+  border: 2px solid var(--home-line);
+  border-radius: 0;
+  background: var(--home-surface);
+  color: var(--home-ink);
+  box-shadow: var(--home-shadow-sm);
+}
+
+body.home .consult-field input:focus,
+body.home .consult-field textarea:focus {
+  outline: none;
+  border-color: var(--home-accent);
+  box-shadow: var(--home-shadow-md);
+}
+
+body.home .consult-chip {
+  border: 2px solid var(--home-line);
+  border-radius: 0;
+  background: var(--home-surface);
+  box-shadow: 2px 2px 0 0 var(--home-shadow-color);
+  color: var(--home-text);
+  transition: all 100ms ease;
+}
+
+body.home .consult-chip:hover {
+  border-color: var(--home-ink);
+  color: var(--home-ink);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 0 var(--home-shadow-color);
+}
+
+body.home .consult-chip:has(input:checked) {
+  background: var(--home-accent);
+  color: var(--home-accent-ink);
+  border-color: var(--home-ink);
+}
+
+body.home .consult-chip input {
+  accent-color: var(--home-accent-ink);
+}
+
+body.home .consult-segment {
+  border: var(--home-stroke);
+  padding: 1rem;
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-sm);
+}
+
+body.home .consult-segment-option {
+  border: 2px solid var(--home-border);
+}
+
+body.home .consult-submit {
+  border: var(--home-stroke);
+  background: var(--home-accent);
+  color: var(--home-accent-ink);
+  box-shadow: var(--home-shadow-md);
+  border-radius: 0;
+  font-family: var(--home-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.85rem 1.5rem;
+}
+
+body.home .consult-submit:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--home-shadow-lg);
+}
+
+body.home .consult-submit:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+/* ---- footer ---- */
+body.home footer.footer {
+  background: var(--home-bg);
+  color: var(--home-muted);
+  border-top: var(--home-stroke);
+  padding-top: 1.75rem;
+}
+
+body.home .footer .availability-word {
+  color: var(--home-accent);
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* section container resets */
+body.home section {
+  border-bottom: 0;
+}
+
+/* Guard rail: site.css gives .btn 999px radius (pill). The page-scoped reset
+   must outrank it regardless of which variant ships. border-radius: 0 is the
+   single most important rule of this world — a rounded neubrutalist button is
+   a contradiction. */
+body.home .btn {
+  border-radius: 0 !important;
+}
+
+body.home .pipeline-node {
+  border: var(--home-stroke);
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-sm);
+  padding: 0.85rem 1rem;
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+body.home .pipeline-node:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--home-shadow-md);
+}
+
+body.home .node-label,
+body.home .node-value {
+  font-family: var(--home-mono);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+body.home .node-label {
+  color: var(--home-ink);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+body.home .node-value {
+  font-family: var(--home-body);
+  color: var(--home-muted);
+}
+
+/* reset the section boundary stroke: the old rule set border-bottom on
+   .section-title, which is fine for light pages where thick black lines frame
+   every heading. Make sure none of the shared rules are left over. */
+body.home .section-title {
+  border: 0;
+  border-bottom: var(--home-stroke);
+}
+
+/* ---- pipeline-node: 10px radius leaked in from site.css for this one element only ---- */
+body.home .pipeline-node {
+  border: var(--home-stroke);
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-sm);
+  border-radius: 0;
+  padding: 0.85rem 1rem;
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+
+body.home .project-card .project-title { color: var(--home-ink); }
+body.home .consult-hint { color: var(--home-muted); }
+body.home footer .footer text { color: var(--home-muted); }
+body.home footer.footer p { color: var(--home-accent-ink); }
