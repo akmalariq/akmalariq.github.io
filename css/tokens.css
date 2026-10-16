@@ -78,7 +78,7 @@
     --border: oklch(0.24 0.01 75);            /* low-contrast gridline */
     --border-strong: oklch(0.32 0.012 75);
 
-    --accent: oklch(0.79 0.12 80);            /* muted bronze */
+    --accent: oklch(0.72 0.12 260);           /* muted indigo: keeps hue separation */
     --accent-dim: oklch(0.26 0.04 80);
     --accent-text: var(--accent);
 
@@ -112,7 +112,7 @@
     --border: oklch(0.88 0.006 80);
     --border-strong: oklch(0.8 0.008 80);
 
-    --accent: oklch(0.55 0.12 75);            /* bronze, darkened for paper */
+    --accent: oklch(0.42 0.15 260);           /* indigo, darkened for paper */
     --accent-dim: oklch(0.92 0.04 75);
     --accent-text: oklch(0.45 0.12 75);
 
@@ -135,32 +135,4 @@
 /* High contrast: a functional theme, not a mood. Neutrals lose their warm
    cast, text goes to the extremes, and borders carry the separation that
    colour normally would. */
-[data-theme="contrast"] {
-    color-scheme: light;
 
-    --bg-primary: oklch(1 0 0);
-    --bg-secondary: oklch(0.96 0 0);
-    --bg-elevated: oklch(1 0 0);
-
-    --text-primary: oklch(0 0 0);
-    --text-secondary: oklch(0.28 0 0);
-    --text-muted: oklch(0.38 0 0);
-
-    --border: oklch(0.62 0 0);
-    --border-strong: oklch(0.4 0 0);
-
-    --accent: oklch(0.42 0.15 60);
-    --accent-dim: oklch(0.9 0.06 75);
-    --accent-text: oklch(0.34 0.15 60);
-
-    --bg-header: rgba(255, 255, 255, 0.95);
-    --code-bg: oklch(0.93 0 0);
-    --shadow: none;
-
-    --status-online: oklch(0.42 0.16 155);
-    --status-offline: oklch(0.45 0.2 25);
-
-    --btn-primary-hover-text: var(--bg-primary);
-    --btn-demo-hover-text: var(--bg-primary);
-    --user-chat-text: var(--bg-primary);
-}

@@ -9,7 +9,7 @@
 
     // Themes are defined in css/tokens.css. Keep this list in step with the
     // palette blocks there, and with the bootstrap in each page's <head>.
-    var THEMES = ['dark', 'light', 'contrast'];
+    var THEMES = ['dark', 'light'];
     var LABELS = { dark: 'dark', light: 'light', contrast: 'high contrast' };
 
     function currentTheme() {

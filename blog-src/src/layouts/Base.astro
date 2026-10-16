@@ -86,7 +86,7 @@ const blocks = [websiteSchema, ...(Array.isArray(structuredData) ? structuredDat
       (function () {
         var root = document.documentElement;
         // Themes are enumerated in css/tokens.css; keep this list in step.
-        var THEMES = ["dark", "light", "contrast"];
+        var THEMES = ["dark", "light"];
         try {
           var stored = localStorage.getItem("theme");
           var theme =

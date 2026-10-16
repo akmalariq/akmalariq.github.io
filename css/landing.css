@@ -68,33 +68,9 @@ html[data-theme="light"] body.home {
   --home-shadow-lg: 8px 8px 0 0 #000000;
   --home-shadow-xl: 12px 12px 0 0 #000000;}
 
-html[data-theme="contrast"] body.home {
-  --home-bg: #ffffff;
-  --home-surface: #ffffff;
-  --home-surface-2: #f2f2f2;
-  --home-ink: #000000;
-  --home-text: #000000;
-  --home-muted: #000000;
-  --home-line: #000000;
-  --home-shadow-color: #000000;
-  --home-shadow-sm: 3px 3px 0 0 #000000;
-  --home-shadow-md: 5px 5px 0 0 #000000;
-  --home-shadow-lg: 8px 8px 0 0 #000000;
-  --home-shadow: 5px 5px 0 0 #000000;
-  /* In contrast the palette carries no hue; type and weight carry it. */
-  --home-accent: #000000;
-  --home-accent-ink: #ffffff;
-  --home-coral: #000000;
-  --home-sky: #000000;
-  --home-green: #000000;
-  --home-purple: #000000;
-  --home-orange: #000000;
-}
 
-html[data-theme="contrast"] body.home .home-accent-fill {
-  background: #000000;
-  color: #ffffff;
-}
+
+
 
 /* ---- page container -------------------------------------------------------- */
 body.home .container {

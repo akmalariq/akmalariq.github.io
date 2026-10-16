@@ -12,7 +12,7 @@
             var root = document.documentElement;
             root.classList.add('js');
             // Themes are enumerated in css/tokens.css; keep this list in step.
-            var THEMES = ['dark', 'light', 'contrast'];
+            var THEMES = ['dark', 'light'];
             try {
                 var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
                 if (!saved) {
