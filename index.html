@@ -212,6 +212,11 @@
                     and disconnected systems onto one cloud database that updates itself, so the numbers
                     agree and nobody has to reconcile them by hand on a Friday.
                 </p>
+                <p class="hero-note">
+                    And once the numbers agree, the same foundation is ready for the next thing
+                    &mdash; forecasting, demand planning, or a question interface &mdash; without
+                    starting from zero. The reconciliation is the first workload, not the only one.
+                </p>
                 <ul class="proof" aria-label="Selected results">
                     <li><strong>20+</strong> production pipelines migrated with zero downtime</li>
                     <li><strong>83%</strong> cut to a regulatory report&rsquo;s runtime</li>
@@ -293,45 +298,120 @@
         </div>
     </section>
 
+    <!-- Objection handler: most buyers think the dashboard IS the foundation.
+         This is the single highest-value paragraph on the page and it belongs
+         before the pricing, not inside a case study. -->
+    <section id="foundation" class="foundation-section" aria-labelledby="foundation-heading" data-funnel="foundation">
+        <div class="container">
+            <span class="section-subtitle">The difference</span>
+            <h2 class="section-title" id="foundation-heading">A dashboard answers today. A foundation answers next quarter.</h2>
+
+            <div class="foundation-compare">
+                <article class="foundation-col foundation-col--dashboard">
+                    <h3 class="foundation-col__title">A dashboard</h3>
+                    <p class="foundation-col__lead">Answers one question, once.</p>
+                    <ul class="foundation-col__list">
+                        <li>Built for the report you asked for</li>
+                        <li>Quality checks live in the author's head</li>
+                        <li>Next question &rarr; someone rebuilds the pipeline</li>
+                        <li>Access control is "who has the login"</li>
+                        <li>You own a picture of your data</li>
+                    </ul>
+                </article>
+
+                <article class="foundation-col foundation-col--base">
+                    <h3 class="foundation-col__title">A governed foundation</h3>
+                    <p class="foundation-col__lead">Built once. Reused.</p>
+                    <ul class="foundation-col__list">
+                        <li>Built for the next question, not this one</li>
+                        <li>Assertions run on every load and fail the build</li>
+                        <li>Next question &rarr; a new model on the same base</li>
+                        <li>Access is a rule, not a shared password</li>
+                        <li>You own the data, the catalog and the tests</li>
+                    </ul>
+                </article>
+            </div>
+
+            <p class="foundation-closer">
+                This is the moment most projects go wrong. The report works, everyone is relieved,
+                and then someone asks for a forecast &mdash; and the data engineer says the pipeline
+                has to be rebuilt. A foundation is what makes that second question cheap.
+            </p>
+        </div>
+    </section>
+
     <!-- Solutions Section (The Pain Point Matrix) -->
     <section id="what-i-build" class="build-band" aria-labelledby="build-heading" data-funnel="build">
         <div class="container">
-            <div class="build-header">
-                <h2 class="section-title" id="build-heading">What I build</h2>
-                <p class="section-description">
-                    Four things I get asked for. Most engagements are one of them.
-                </p>
-            </div>
-            <ul class="build-list">
-                <li class="build-item">
-                    <h3 class="build-name">The reporting layer</h3>
-                    <p class="build-detail">
-                        One warehouse, one set of numbers. Marketplaces, POS and accounting pulled into
-                        a pipeline that refreshes on its own, so the weekly report writes itself.
-                    </p>
+            <span class="section-subtitle">What I build</span>
+            <h2 class="section-title" id="build-heading">Three layers, not four tasks</h2>
+            <p class="section-description">
+                The reporting is the first workload. It is not the only one &mdash; the base it
+                runs on is the part you keep.
+            </p>
+
+            <ol class="layer-stack">
+                <li class="layer">
+                    <div class="layer__index" aria-hidden="true">01</div>
+                    <div class="layer__body">
+                        <h3 class="layer__title">The governed base</h3>
+                        <p class="layer__claim">One foundation, not one pipeline per question.</p>
+                        <p class="layer__text">
+                            Ingest from marketplaces, POS and accounting. Cleanse and test on the way
+                            in. Apply the access rules your accountant and your competitor-with-a-
+                            login require. Everything above this line is a workload on the same base.
+                        </p>
+                        <ul class="layer__specs">
+                            <li>Scheduled extract &rarr; columnar store &rarr; tested models</li>
+                            <li>Quality assertions that fail the pipeline when they should</li>
+                            <li>A catalog, so your team finds the right table without asking me</li>
+                        </ul>
+                    </div>
                 </li>
-                <li class="build-item">
-                    <h3 class="build-name">The reconciliation</h3>
-                    <p class="build-detail">
-                        One defensible figure from order exports and a bank statement &mdash; with every
-                        credit that could not be placed named, rather than rounded away.
-                    </p>
+
+                <li class="layer">
+                    <div class="layer__index" aria-hidden="true">02</div>
+                    <div class="layer__body">
+                        <h3 class="layer__title">The reporting layer</h3>
+                        <p class="layer__claim">The weekly report writes itself.</p>
+                        <p class="layer__text">
+                            Dashboards and reconciliation on top of the base. Every credit that cannot
+                            be placed is named rather than averaged away &mdash; because a report that
+                            smooths over its own errors is worse than no report.
+                        </p>
+                        <ul class="layer__specs">
+                            <li>Per branch, per channel, net of fees and refunds</li>
+                            <li>Bank reconciliation with a cause against every difference</li>
+                            <li>Refreshes on a schedule, not on someone's patience</li>
+                        </ul>
+                    </div>
                 </li>
-                <li class="build-item">
-                    <h3 class="build-name">The data platform</h3>
-                    <p class="build-detail">
-                        Orchestration, transformations and storage that survive their author leaving.
-                        Handed over with documentation, running on accounts you own.
-                    </p>
+
+                <li class="layer">
+                    <div class="layer__index" aria-hidden="true">03</div>
+                    <div class="layer__body">
+                        <h3 class="layer__title">The decision layer</h3>
+                        <p class="layer__claim">Forecasts and governed self-service, on the same base.</p>
+                        <p class="layer__text">
+                            Reorder quantities, margin and demand forecasting &mdash; each scored
+                            against a naive baseline, so you can see whether it beat "last month plus
+                            a bit" before you trust it. Plus a question interface that answers within
+                            your access rules.
+                        </p>
+                        <ul class="layer__specs">
+                            <li>Forecasts scored walk-forward against a naive baseline</li>
+                            <li>Replenishment and margin models from your own history</li>
+                            <li>Ask-a-question interface that respects your access rules</li>
+                        </ul>
+                    </div>
                 </li>
-                <li class="build-item">
-                    <h3 class="build-name">The decision model</h3>
-                    <p class="build-detail">
-                        Reorder quantities, margin and demand forecasting &mdash; scored against what
-                        actually happened, so you can see whether it was right before you trust it.
-                    </p>
-                </li>
-            </ul>
+            </ol>
+
+            <p class="build-note">
+                Most engagements stop after layer 02, and that is a complete answer &mdash; the
+                weekly reconciliation stops being a Monday. Layer 03 is where the base stops being
+                rebuilt every time you ask a new question.
+            </p>
         </div>
     </section>
 

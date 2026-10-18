@@ -25,6 +25,10 @@ body.home {
 
   --home-accent: #1b3e8d;
   --home-accent-ink: #f5f2eb;
+  /* Accent AS TEXT on the dark ground. #1b3e8d measures 1.87:1 against
+     --home-bg, so it is only ever a fill; text uses this lighter cut.
+     Verified with the contrast probe, 2026-10-16. */
+  --home-accent-text: #7b9bf0;
   --home-coral: #1b3e8d;
   --home-coral: #FF6B6B;
   --home-sky: #74B9FF;
@@ -59,6 +63,8 @@ body.home {
 }
 
 html[data-theme="light"] body.home {
+  /* Same value as --home-accent: 8.5:1 on bone, passes as text directly. */
+  --home-accent-text: #1b3e8d;
   --home-bg: #FFFDF5;
   --home-surface: #ffffff;
   --home-surface-2: #f3efdf;
@@ -1139,3 +1145,134 @@ body.home .pricing-step a {
   text-underline-offset: 3px;
 }
 body.home .pricing-step a:hover { color: var(--home-ink); }
+
+/* ---- three-layer stack --------------------------------------------------- */
+
+body.home .layer-stack {
+  list-style: none;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  counter-reset: layer;
+}
+
+body.home .layer {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.1rem;
+  border: var(--home-stroke);
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-md);
+  padding: 1.25rem 1.4rem;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+body.home .layer:hover { transform: translate(-2px,-2px); box-shadow: var(--home-shadow-lg); }
+
+body.home .layer__index {
+  font-family: var(--home-display);
+  font-weight: 800;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  line-height: 1;
+  color: var(--home-accent-text);
+  letter-spacing: -0.04em;
+  align-self: start;
+}
+
+body.home .layer__title {
+  font-family: var(--home-heading);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  color: var(--home-ink);
+  margin: 0 0 0.25rem;
+}
+body.home .layer__claim {
+  font-family: var(--home-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--home-accent-text);
+  margin: 0 0 0.55rem;
+}
+body.home .layer__text { font-size: 0.95rem; line-height: 1.65; color: var(--home-muted); margin: 0 0 0.8rem; }
+body.home .layer__specs { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem 0.5rem; }
+body.home .layer__specs li {
+  font-family: var(--home-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.6rem;
+  border: var(--home-stroke-thin);
+  background: var(--home-bg);
+  color: var(--home-ink);
+}
+
+body.home .build-note {
+  margin-top: 1.25rem;
+  max-width: 66ch;
+  font-family: var(--home-mono);
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--home-muted);
+}
+
+/* ---- dashboard vs foundation -------------------------------------------- */
+
+body.home .foundation-section { padding-block: clamp(2.5rem, 6vw, 4rem); }
+
+body.home .foundation-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+@media (max-width: 820px) { body.home .foundation-compare { grid-template-columns: 1fr; } }
+
+body.home .foundation-col {
+  border: var(--home-stroke-thin);
+  background: var(--home-surface);
+  padding: 1.2rem 1.35rem;
+}
+body.home .foundation-col--base { border: var(--home-stroke); box-shadow: var(--home-shadow-md); background: var(--home-surface-2); }
+
+body.home .foundation-col__title {
+  font-family: var(--home-heading);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.2rem;
+  color: var(--home-muted);
+}
+body.home .foundation-col--base .foundation-col__title { color: var(--home-ink); }
+body.home .foundation-col__lead { font-size: 0.9rem; font-weight: 600; color: var(--home-accent-text); margin: 0 0 0.9rem; }
+
+body.home .foundation-col__list { list-style: none; margin: 0; padding: 0; }
+body.home .foundation-col__list li {
+  position: relative;
+  padding: 0.45rem 0 0.45rem 1.5rem;
+  border-bottom: 1px solid var(--home-line, rgba(128,128,128,0.22));
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--home-text);
+}
+body.home .foundation-col__list li:last-child { border-bottom: 0; }
+body.home .foundation-col__list li::before { content: "\00D7"; position: absolute; left: 0; top: 0.45rem; color: var(--home-muted); font-weight: 700; }
+body.home .foundation-col--base .foundation-col__list li::before { content: "\2713"; color: var(--home-accent); }
+
+body.home .foundation-closer {
+  margin-top: 1.4rem;
+  max-width: 68ch;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--home-muted);
+}
+
+body.home .hero-note {
+  margin-top: 0.9rem;
+  padding-left: 1rem;
+  border-left: 4px solid var(--home-accent);
+  max-width: 52ch;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--home-muted);
+}
+body.home .hero-note strong { color: var(--home-ink); }

@@ -50,3 +50,19 @@ Three fixes, all required:
 **Rule added:** a family in `font-family` with no resolvable `@font-face` is a
 failure, not a fallback. Verify with `document.fonts` or the width probe. Never
 by reading the CSS.
+
+## Accent-as-text needs its own token (2026-10-18)
+
+Third time the indigo accent has failed as text. `--home-accent: #1b3e8d` measures
+**1.87:1** against `--home-bg: #0e0c0a` — unusable as text, fine as a fill with
+light ink on top.
+
+Added `--home-accent-text` (#7b9bf0 dark / #1b3e8d light) and repointed every
+accent-used-as-text rule at it: `.layer__index`, `.layer__claim`,
+`.foundation-col__lead`.
+
+**Rule:** if a colour is used both as a fill and as text, it is two tokens.
+A fill wants contrast against the ink sitting on it; text wants contrast
+against the ground behind it. Those are different numbers and one value
+cannot satisfy both. Probe both themes — it passes in light and fails in dark
+every time.
