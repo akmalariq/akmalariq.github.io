@@ -1276,3 +1276,13 @@ body.home .hero-note {
   color: var(--home-muted);
 }
 body.home .hero-note strong { color: var(--home-ink); }
+
+/* Live products: the proof that the work runs. */
+.live { padding: var(--spacing-xl) 0; border-top: 1px solid var(--border); }
+.live-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin-top: var(--spacing-md); }
+.live-card { position: relative; display: grid; gap: .35rem; padding: 1.1rem 1.2rem 2.2rem; border: 3px solid var(--text-primary); background: var(--bg-elevated); color: var(--text-primary); text-decoration: none; box-shadow: 6px 6px 0 var(--text-primary); transition: transform var(--dur-hover) var(--ease-out), box-shadow var(--dur-hover) var(--ease-out); }
+.live-card:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--accent); }
+.live-name { font-family: var(--font-display); font-size: 1.35rem; line-height: 1.1; letter-spacing: -.02em; }
+.live-desc { font-size: .82rem; line-height: 1.5; color: var(--text-secondary); }
+.live-arrow { position: absolute; right: 1rem; bottom: .8rem; font-family: var(--font-mono); font-size: .9rem; color: var(--accent); }
+@media (max-width: 640px) { .live-card { box-shadow: 4px 4px 0 var(--text-primary); } }
