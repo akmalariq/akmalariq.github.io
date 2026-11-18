@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint.
+         Theme key and default match the homepage and the blog (shared 'theme' key,
+         OS preference as the default) so the choice carries across pages. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            // Themes are enumerated in css/tokens.css; keep this list in step.
+            var THEMES = ['dark', 'light', 'contrast'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <title>Data — Referensi | Akmal Ariq</title>
+    <meta name="description" content="Data: Charts as communication, not decoration. 1 notes with mechanism, take and skip.">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://akmalariq.dev/referensi/data/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akmalariq.dev/referensi/data/">
+    <meta property="og:title" content="Data — Referensi | Akmal Ariq">
+    <meta property="og:description" content="Data: Charts as communication, not decoration. 1 notes with mechanism, take and skip.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Data — Referensi | Akmal Ariq">
+    <meta name="twitter:description" content="Data: Charts as communication, not decoration. 1 notes with mechanism, take and skip.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Fonts: self-hosted, preloaded, latin subset -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+
+<style>
+.referensi-isi h2{font-family:var(--font-display);font-size:clamp(1.35rem,2.6vw,1.8rem);font-weight:400;letter-spacing:-.02em;margin:2.6rem 0 .6rem;padding-top:1.2rem;border-top:1px solid var(--border)}
+.referensi-isi h2:first-of-type{border-top:0;padding-top:0;margin-top:1.5rem}
+.referensi-isi h3{font-family:var(--font-mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:1.6rem 0 .5rem}
+.referensi-isi a{color:var(--accent-text);text-decoration-thickness:1px;text-underline-offset:3px}
+.referensi-isi a:hover{color:var(--accent)}
+.referensi-isi p{color:var(--text-secondary);max-width:66ch;margin:0 0 .8rem;line-height:1.75}
+.referensi-isi .ref-label{margin:0 0 .4rem}
+.referensi-isi .ref-label strong{font-family:var(--font-mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-primary);background:var(--bg-secondary);border:1px solid var(--border);border-radius:4px;padding:.1rem .35rem}
+.referensi-isi ul,.referensi-isi ol{color:var(--text-secondary);padding-left:1.2rem;margin:0 0 1rem}
+.referensi-isi code{font-family:var(--font-mono);font-size:.82em;background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:.05rem .3rem}
+.referensi-isi pre{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem;overflow-x:auto}
+.referensi-isi pre code{background:none;border:0;padding:0}
+.ref-tabel{overflow-x:auto;margin:0 0 1.2rem;border:1px solid var(--border);border-radius:8px;background:var(--bg-elevated)}
+.ref-tabel table{border-collapse:collapse;width:100%;font-size:.82rem;min-width:34rem}
+.ref-tabel th,.ref-tabel td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--border);color:var(--text-secondary);vertical-align:top}
+.ref-tabel th{font-family:var(--font-mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);background:var(--bg-secondary)}
+.ref-tabel tr:last-child td{border-bottom:0}
+.kategori{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin:1.6rem 0 .6rem}
+@media (max-width:900px){.kategori{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.kategori{grid-template-columns:1fr}}
+.kategori-kartu{display:grid;gap:.15rem;padding:.9rem 1rem;border:1px solid var(--border);background:var(--bg-elevated);text-decoration:none;color:var(--text-primary)}
+.kategori-kartu:hover{border-color:var(--border-strong);background:var(--bg-secondary)}
+.kategori-nama{font-family:var(--font-display);font-size:1.2rem;letter-spacing:-.01em}
+.kategori-jumlah{font-family:var(--font-mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.kategori-ket{font-size:.78rem;line-height:1.45;color:var(--text-secondary)}
+.entri-kategori{font-family:var(--font-mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);border:1px solid var(--border);border-radius:99px;padding:.05rem .4rem;vertical-align:.15em;white-space:nowrap;text-decoration:none}
+.cs-back{margin:0 0 1rem;font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
+.cs-back a{color:var(--accent)}
+</style>
+</head>
+<body class="referensi">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <span class="nav-divider" aria-hidden="true"></span>
+                    <a href="/demos/" class="nav-link">Work</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/referensi/" class="nav-link" aria-current="page">Referensi</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        <svg class="contrast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/demos/" class="mobile-nav-link">Work</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/referensi/" class="mobile-nav-link" aria-current="page">Referensi</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    
+    <main id="main" class="case-study">
+        <div class="container">
+            <p class="cs-eyebrow">Referensi · Data</p>
+            <h1 class="cs-title">Data</h1>
+            <p class="cs-lede">Charts as communication, not decoration. <strong>1 notes.</strong></p>
+<p class="cs-back"><a href="/referensi/">← All references</a></p>
+<div class="referensi-isi">
+<h2>12. Minicharts — numbers drawn as things</h2>
+<p><a href="https://april-zhu.com/minicharts">april-zhu.com/minicharts</a> · <code>design</code> <code>data</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Give it numbers; it draws the chart as a real object from your subject — a pie chart as a pie of coins, a waterfall as a waterfall — hand-drawn, to scale, touchable. Same look as Tinycharts, different job: this one is data, not process.</p>
+<p class="ref-label"><strong>Taken.</strong> The bar for <code>tabel</code>'s charts: a chart is a *communication choice*, not a rendering choice. The mapping line (<code>departemen → rata-rata gaji · 3 titik</code>) is our cheap version of the same idea. <strong>Ignored.</strong> Subject-aware illustration. It needs an art kit per domain; our charts must work for any table.</p>
+</div>
+        </div>
+    </main>
+
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="availability-word">Available</span> for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/privacy/">Privacy</a>
+                    <a href="/terms/">Terms</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
