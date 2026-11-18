@@ -160,7 +160,7 @@ async function checkPageContract() {
 // -------------------------------------------------------------- 5. nav order --
 
 // The CTA carries .btn.nav-cta, not .nav-link, and is asserted separately.
-const NAV_ORDER = ["Services", "Pricing", "About", "Work", "Blog"];
+const NAV_ORDER = ["Services", "Pricing", "About", "Work", "Blog", "Referensi"];
 
 async function checkNavConsistency() {
   const pages = (await htmlPages()).filter((p) => !EXEMPT_PAGES.has(p));
