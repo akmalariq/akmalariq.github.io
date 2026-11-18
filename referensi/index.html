@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Instant theme + JS flag. Runs before paint.
+         Theme key and default match the homepage and the blog (shared 'theme' key,
+         OS preference as the default) so the choice carries across pages. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            // Themes are enumerated in css/tokens.css; keep this list in step.
+            var THEMES = ['dark', 'light', 'contrast'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <title>Referensi — what shaped the work | Akmal Ariq</title>
+    <meta name="description" content="Every reference that shaped the work: the mechanism, what I took, and what I skipped.">
+    <meta name="author" content="Akmal Ariq">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://akmalariq.dev/referensi/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://akmalariq.dev/demos/">
+    <meta property="og:title" content="Demos &mdash; sample reports and live apps">
+    <meta property="og:description" content="Sample reports showing what a weekly reporting and reorder service produces, plus the live apps behind four of the projects.">
+    <meta property="og:image" content="https://akmalariq.dev/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Demos &mdash; sample reports and live apps">
+    <meta name="twitter:description" content="Sample reports showing what a weekly reporting and reorder service produces, plus the live apps behind four of the projects.">
+    <meta name="twitter:image" content="https://akmalariq.dev/og.png">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Fonts: self-hosted, preloaded, latin subset -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+
+<style>
+.referensi-isi h2{font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2rem);font-weight:400;letter-spacing:-.02em;margin:3rem 0 .7rem;padding-top:1.4rem;border-top:1px solid var(--border)}
+.referensi-isi h2:first-child{border-top:0;padding-top:0;margin-top:1.5rem}
+.referensi-isi h3{font-family:var(--font-mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:1.8rem 0 .5rem}
+.referensi-isi p{color:var(--text-secondary);max-width:66ch;margin:0 0 .8rem;line-height:1.75}
+.referensi-isi .ref-label{margin:0 0 .4rem}
+.referensi-isi .ref-label strong{font-family:var(--font-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-primary);background:var(--bg-secondary);border:1px solid var(--border);border-radius:4px;padding:.1rem .35rem}
+.referensi-isi ul,.referensi-isi ol{color:var(--text-secondary);padding-left:1.2rem;margin:0 0 1rem}
+.referensi-isi code{font-family:var(--font-mono);font-size:.82em;background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:.05rem .3rem}
+.referensi-isi pre{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem;overflow-x:auto}
+.referensi-isi pre code{background:none;border:0;padding:0}
+.ref-tabel{overflow-x:auto;margin:0 0 1.2rem;border:1px solid var(--border);border-radius:8px;background:var(--bg-elevated)}
+.ref-tabel table{border-collapse:collapse;width:100%;font-size:.82rem;min-width:34rem}
+.ref-tabel th,.ref-tabel td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--border);color:var(--text-secondary);vertical-align:top}
+.ref-tabel th{font-family:var(--font-mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);background:var(--bg-secondary)}
+.ref-tabel tr:last-child td{border-bottom:0}
+</style>
+</head>
+<body class="referensi">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <span class="nav-divider" aria-hidden="true"></span>
+                    <a href="/demos/" class="nav-link">Work</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        <svg class="contrast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/demos/" class="mobile-nav-link">Work</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    
+    <main id="main" class="case-study">
+        <div class="container">
+            <p class="cs-eyebrow">Referensi</p>
+            <h1 class="cs-title">What shaped the work</h1>
+            <p class="cs-lede">Every link I kept, with its <strong>mechanism</strong>, what I took from it,
+                and what I deliberately skipped. Not a bookmark list &mdash; a record of decisions.</p>
+            <div class="referensi-isi">
+<h2>Index</h2>
+<p>Every link I kept, in the order it arrived. The number is the entry below.</p>
+<div class="ref-tabel"><table><thead><tr><th>#</th><th>Posted</th><th>Link</th><th>Entry</th></tr></thead><tbody><tr><td>1</td><td>18 Nov</td><td><a href="https://www.microsoft.com/en-us/research/publication/orleans-distributed-virtual-actors-for-programmability-and-scalability/">Orleans paper</a></td><td>1</td></tr><tr><td>2</td><td>18 Nov</td><td><a href="https://github.com/arjaythedev/multicore-server-challenge">Multicore Server Challenge</a></td><td>2</td></tr><tr><td>3</td><td>18 Nov</td><td><a href="https://x.com/Aprilzz423/status/2117989075244466401">Tinycharts tweet</a></td><td>3</td></tr><tr><td>4</td><td>18 Nov</td><td><a href="https://april-zhu.com/paintedhouses">Painted Houses</a></td><td>4</td></tr><tr><td>5</td><td>18 Nov</td><td><a href="https://www.details.so/mcp">Details.so MCP</a></td><td>5</td></tr><tr><td>6</td><td>18 Nov</td><td><a href="https://emu.kadcom.dev/">ClairEmu</a></td><td>6</td></tr><tr><td>7</td><td>18 Nov</td><td><a href="https://x.com/margatix/status/2119089991217262884">Margatix EMD tweet</a></td><td>7</td></tr><tr><td>8</td><td>18 Nov</td><td><a href="https://x.com/alexgroberman/status/2012536184023462013">Alex Groberman AI-search thread</a></td><td>8</td></tr><tr><td>9</td><td>18 Nov</td><td><a href="https://x.com/asynkimo/status/2121716250820964431">Kimo sprite stacking</a> + <a href="https://x.com/fofrai/status/2122352675283210734">fofr reply</a></td><td>9</td></tr><tr><td>10</td><td>18 Nov</td><td><a href="https://x.com/e1genqq/status/2122799948223631430">eigen's 21 motion repos</a></td><td>10, App. A</td></tr><tr><td>11</td><td>18 Nov</td><td><a href="https://x.com/amananimates/status/2122705060744647016">Aman Singh's six UI resources</a></td><td>11, App. B</td></tr></tbody></table></div>
+<h3>References inside the references</h3>
+<p>Independent ideas that arrived attached to something else, worth their own line:</p>
+<div class="ref-tabel"><table><thead><tr><th>Source</th><th>Arrived via</th><th>Entry</th></tr></thead><tbody><tr><td><a href="https://april-zhu.com/minicharts">Minicharts</a></td><td>Tinycharts page</td><td>12</td></tr><tr><td><a href="https://april-zhu.com/colorfigures">Colorfigures</a>, <a href="https://github.com/tolga-cohce/iso-figure">iso-figure</a>, <a href="https://x.com/q_micke/status/2122648794865303578">statechart-art</a></td><td>Painted Houses / Tinycharts credits</td><td>13</td></tr><tr><td><a href="https://www.spritecook.ai/blog/sprite-stacking-pixel-art">SpriteCook how-to</a></td><td>Kimo's thread</td><td>14</td></tr></tbody></table></div>
+<p>---</p>
+<p>Format per entry: what it is · the mechanism worth stealing · what we took or ignored · tag. When a link arrives: check it resolves, add an index row, add the entry. Two minutes, and the list stays true.</p>
+<p>Tags: <code>distribution</code> · <code>design</code> · <code>motion</code> · <code>engineering</code> · <code>product</code> · <code>data</code></p>
+<p>---</p>
+<h2>1. Orleans — Distributed Virtual Actors</h2>
+<p><a href="https://www.microsoft.com/en-us/research/publication/orleans-distributed-virtual-actors-for-programmability-and-scalability/">MSR-TR-2014-41</a> · 2014 · <code>engineering</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> An actor is *virtual*: always addressable by id, instantiated on demand, deactivated when idle, re-instantiated elsewhere after failure. One turn at a time per activation, so no locks. At-least-once messaging, eventual single activation.</p>
+<p class="ref-label"><strong>Taken.</strong> The per-key promise queue in <code>tabel</code> and <code>studio</code> (one session, one turn), and the rule that an entity's own state is cacheable while shared truth is not. <strong>Ignored.</strong> The runtime. One box and SQLite already serialise.</p>
+<h2>2. The Multicore Server Challenge</h2>
+<p><a href="https://github.com/arjaythedev/multicore-server-challenge">repo</a> · 2026 · <code>engineering</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> 127 submissions, same 8-core box, Postgres on the same machine, no caching across requests, score = users held for 5 minutes at p95 &lt; 500 ms. Best: 230k users; Postgres still eats ~50 % of the box.</p>
+<p class="ref-label"><strong>Taken.</strong> Count round trips, not lines of code — <code>tabel</code>'s EDA went from ~500 DuckDB processes to 2 queries (<code>SUMMARIZE</code> + one batched <code>corr</code>), 3.4 s → 122 ms. <strong>Ignored.</strong> epoll/io_uring. Our box does ~4–6k rps; we need hundreds.</p>
+<h2>3. Tinycharts — a skill, not a SaaS</h2>
+<p><a href="https://april-zhu.com/tinycharts">site</a> · <a href="https://x.com/Aprilzz423/status/2117989075244466401">tweet</a> · <code>product</code> <code>design</code></p>
+<p class="ref-label"><strong>Sources.</strong> <a href="https://april-zhu.com/tinycharts">tinycharts</a> · <a href="https://x.com/Aprilzz423/status/2117989075244466401">launch tweet</a></p>
+<p class="ref-label"><strong>Mechanism.</strong> A Claude skill that turns &quot;how does X work&quot; into one hand-drawn isometric HTML sheet. What makes it worth $34.90: <strong>a real statechart behind the buttons</strong> — disallowed moves are refused with a reason. 9 types free, 28 paid. Sells a ZIP, not a server.</p>
+<p class="ref-label"><strong>Taken.</strong> The &quot;legend is the product&quot; idea went into <code>tabel</code>'s chart cards (mapping + query), and the tone of <code>kurator</code>. <strong>Ignored.</strong> The drawing kit; that is months of taste, not a weekend.</p>
+<h2>4. Painted Houses — a painting rebuilt as a house</h2>
+<p><a href="https://april-zhu.com/paintedhouses">site</a> · <code>design</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Four paintings, each turned into an isometric building in the painting's palette, with a <strong>legend that maps the elements</strong> (turban → pantile roof, pearl → gable window). No 3D library: SVG, one fixed camera, one fixed light, painter's algorithm by hand.</p>
+<p class="ref-label"><strong>Taken.</strong> Every chart in <code>tabel</code> now carries its mapping in words, not only a picture. <strong>Ignored.</strong> Hand-built isometric scenes; too expensive for a data tool.</p>
+<h2>5. Details.so — taste as an MCP</h2>
+<p><a href="https://www.details.so/mcp">details.so/mcp</a> · <code>distribution</code> <code>product</code></p>
+<p class="ref-label"><strong>Source.</strong> <a href="https://www.details.so/mcp">details.so/mcp</a></p>
+<p class="ref-label"><strong>Mechanism.</strong> A curated UI library (3,500+ references, code in a &quot;Vault&quot;) exposed as a remote MCP server with OAuth (Supabase) and <strong>credit metering</strong> (<code>X-Details-Credits-*</code>). Sold with every paid plan. Install is one command per client.</p>
+<p class="ref-label"><strong>Taken.</strong> The product shape for <code>kurator</code>: a narrow, curated, callable library with opinions and a <code>jangan</code> list. The positioning: *&quot;your AI can generate, but it doesn't know what good looks like.&quot;* <strong>Ignored.</strong> OAuth and credits at this scale; a bearer token and a rate limit are enough until strangers depend on it.</p>
+<h2>6. ClairEmu — Linux in the browser</h2>
+<p><a href="https://emu.kadcom.dev/">emu.kadcom.dev</a> · <code>design</code> <code>engineering</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Debian 13 on RISC-V 64 in the browser via TinyEMU + WebAssembly; COOP/COEP and SharedArrayBuffer; WebGPU (&quot;Suar · Vulkan&quot;), WebGL (&quot;Pelita · OpenGL&quot;), 2D canvas; CRT/STN screen effects; five languages; explicit &quot;beta, your data may be lost&quot;.</p>
+<p class="ref-label"><strong>Taken.</strong> Renderer choice as a user-facing control instead of a hidden fallback; honesty in the beta banner. <strong>Ignored.</strong> Client-side compute. Our work is small; the server is the right place for it.</p>
+<h2>7. The exact-match-domain play</h2>
+<p><a href="https://x.com/margatix/status/2119089991217262884">tweet</a> · <code>distribution</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Register <code>bestaidatalabs.com</code>, publish *&quot;Best AI Data Labs | Zeton Reference&quot;*, get it indexed in days, and watch Google's AI Overview quote your own verdict back to the buyer. 0 → 7 figures claimed in 10 days (almost certainly pipeline, not revenue).</p>
+<p class="ref-label"><strong>Taken.</strong> The legitimate half: name the buying query in the H1, answer it in the first sentence, compare honestly against named competitors, date the claims. That became <code>rampung.akmalariq.dev/jasa-payroll</code>. <strong>Ignored.</strong> The EMD farm. One algorithm update ends it, and for payroll it reads as astroturf.</p>
+<h2>8. How AI search actually retrieves</h2>
+<p><a href="https://x.com/alexgroberman/status/2012536184023462013">thread</a> · <code>distribution</code> <code>engineering</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Google's Discovery Engine exposes the pipeline: prepare → retrieve → signal → serve, with seven signals (base ranking, Gecko embeddings, Jetstream cross-attention, BM25, PCTR, freshness, boost/bury), <strong>chunks capped at ~500 tokens</strong>, ancestor headings travelling with chunks, and three independent structured-data flags: searchable, indexable, retrievable. (The screenshot in the tweet is actually ChatGPT's Sonic classifier: <code>no_search_prob</code>, <code>complex_search_prob</code>, thresholds.)</p>
+<p class="ref-label"><strong>Taken.</strong> Write in self-contained, quotable blocks with question-shaped headings; keep one claim per chunk. This is also why an MCP beats a page: the agent asks directly. <strong>Ignored.</strong> SEO folklore that contradicts the pipeline.</p>
+<h2>9. Sprite stacking — 2D that turns like 3D</h2>
+<p><a href="https://x.com/asynkimo/status/2121716250820964431">Kimo's post</a> · <a href="https://www.spritecook.ai/blog/sprite-stacking-pixel-art">how-to</a> · <a href="https://x.com/fofrai/status/2122352675283210734">fofr's reply</a> · <code>design</code> <code>motion</code></p>
+<p class="ref-label"><strong>Sources.</strong> <a href="https://x.com/asynkimo/status/2121716250820964431">Kimo</a> · <a href="https://x.com/fofrai/status/2122352675283210734">fofr</a> · <a href="https://www.spritecook.ai/blog/sprite-stacking-pixel-art">SpriteCook</a></p>
+<p class="ref-label"><strong>Mechanism.</strong> One flat slice per pixel of height, stacked 1 px apart, all rotated by the same angle — any view from one small sheet. Cut slices from four orthographic views (top/side/front/ back); squash 0.75 for a lower camera. Pitfalls: jitter, soft art smears, holes fill in.</p>
+<p class="ref-label"><strong>Taken.</strong> <code>studio</code> is built on the same constraint: the model produces a grid, the server validates every cell and renders it — small, checkable, cheap. <strong>Ignored.</strong> Rotating the stack; our sprites rotate in the game engine, not in the generator.</p>
+<h2>10. The &quot;motion studio in N repos&quot; list</h2>
+<p><a href="https://x.com/e1genqq/status/2122799948223631430">tweet</a> · <code>motion</code> <code>product</code></p>
+<p class="ref-label"><strong>Source.</strong> <a href="https://x.com/e1genqq/status/2122799948223631430">tweet</a></p>
+<p class="ref-label"><strong>Mechanism.</strong> Twenty-one open-source libraries (Remotion, Motion Canvas, Anime.js, Three.js, Tone.js, FFmpeg…) framed as &quot;skills&quot;. The best reply in the thread is the real lesson: *&quot;None of these check the output.&quot;*</p>
+<p class="ref-label"><strong>Taken.</strong> <code>studio</code>'s Gerak mode: 2–4 frames, palette lock, loop preview, GIF + sprite sheet — one engine, no list. Verification before libraries. <strong>Ignored.</strong> The &quot;21 tools&quot; framing; a menu is not a studio.</p>
+<h2>11. Six UI resources for AI coders</h2>
+<p><a href="https://x.com/amananimates/status/2122705060744647016">tweet</a> · 2026-11-17 · <code>design</code> <code>distribution</code></p>
+<div class="ref-tabel"><table><thead><tr><th>#</th><th>Link</th><th>What it is</th><th>The mechanism</th></tr></thead><tbody><tr><td>1</td><td><a href="https://www.scrolltide.co/">Scrolltide</a></td><td>cinematic scroll-driven site templates</td><td><strong>sell the prompt</strong>, not the template: copy a prompt into your AI</td></tr><tr><td>2</td><td><a href="https://www.snapblocks.site/">Snapblocks</a></td><td>scroll-driven React components</td><td>code <strong>and</strong> a prompt that rebuilds it exactly</td></tr><tr><td>3</td><td><a href="https://scrollshaders.com/">Scroll Shaders</a></td><td>WebGL shader backgrounds</td><td>copy React/HTML <strong>or download the MP4</strong> — meet the buyer where they are</td></tr><tr><td>4</td><td><a href="https://mdx.so/">MDX</a></td><td>award-winning design/dev/3D studio</td><td>portfolio as proof of range</td></tr><tr><td>5</td><td><a href="https://www.navbar.gallery/">Navbar Gallery</a></td><td>navigation design inspiration</td><td>one component category, exhaustively</td></tr><tr><td>6</td><td><a href="https://horizonx.so/">HorizonX</a></td><td>shaders, textures, mockups, Figma kits</td><td>explicitly &quot;for vibe coders&quot;: works in Claude Code, Cursor, Codex, Lovable</td></tr></tbody></table></div>
+<p><strong>Across all six:</strong> the unit of sale has shifted from *asset* to <strong>prompt + asset + &quot;works with your agent&quot;</strong>. The same pattern as Details MCP and Tinycharts, arriving from the design side.</p>
+<p><strong>Taken (candidate).</strong> For <code>kurator</code>: ship every pattern with a copyable prompt, not only HTML and CSS — &quot;paste this into your agent to rebuild it&quot;. That is a one-line change to the tool output and makes the library usable from a chat window.</p>
+<p>---</p>
+<h2>12. Minicharts — numbers drawn as things</h2>
+<p><a href="https://april-zhu.com/minicharts">april-zhu.com/minicharts</a> · <code>design</code> <code>data</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Give it numbers; it draws the chart as a real object from your subject — a pie chart as a pie of coins, a waterfall as a waterfall — hand-drawn, to scale, touchable. Same look as Tinycharts, different job: this one is data, not process.</p>
+<p class="ref-label"><strong>Taken.</strong> The bar for <code>tabel</code>'s charts: a chart is a *communication choice*, not a rendering choice. The mapping line (<code>departemen → rata-rata gaji · 3 titik</code>) is our cheap version of the same idea. <strong>Ignored.</strong> Subject-aware illustration. It needs an art kit per domain; our charts must work for any table.</p>
+<h2>13. Colorfigures, iso-figure, statechart-art — the lineage</h2>
+<p><a href="https://april-zhu.com/colorfigures">Colorfigures</a> · <a href="https://github.com/tolga-cohce/iso-figure">iso-figure</a> · <a href="https://x.com/q_micke/status/2122648794865303578">@q_micke's painting outfits</a> · <code>design</code> <code>product</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> A skill built on another skill built on a free primitive: iso-figure draws isometric objects, Colorfigures adds ink/marker/colour and playable states, Painted Houses composes both. Every layer credits the one below — MIT where required, inspiration where not.</p>
+<p class="ref-label"><strong>Taken.</strong> Crediting is part of the product: our <code>kurator</code> lists the references that shaped it, and <code>studio</code>'s README names its lineage. It costs nothing and buys trust. <strong>Ignored.</strong> Building the illustration engine; we buy depth in one narrow direction instead.</p>
+<h2>14. The SpriteCook how-to</h2>
+<p><a href="https://www.spritecook.ai/blog/sprite-stacking-pixel-art">spritecook.ai/blog/sprite-stacking-pixel-art</a> · <code>design</code> <code>motion</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> The reproducible half of the sprite-stacking tweet: cut one slice per row from four orthographic views (top/side/front/back), stack 1 px apart, rotate all slices, squash 0.75 for a lower camera. Numbers that matter: 15 slices of 24×43 px; 1 px spacing; 10× draw scale.</p>
+<p class="ref-label"><strong>Taken.</strong> The constraint we copied into <code>studio</code>: a text model returns a <strong>grid</strong>, the server validates every cell, the renderer only draws. Small format, checkable output. <strong>Ignored.</strong> Slice carving from images — we generate the grid directly and skip photography.</p>
+<p>---</p>
+<h2>Appendix A — the 21 motion repos, verified</h2>
+<p>All 21 URLs returned 200 on 18 Nov 2026. Grouped by job, because the list is not a studio.</p>
+<div class="ref-tabel"><table><thead><tr><th>#</th><th>Repo</th><th>Job</th><th>Role in a pipeline</th></tr></thead><tbody><tr><td>01</td><td><a href="https://github.com/remotion-dev/skills">Remotion Skills</a></td><td>agent guidance</td><td>the only actual *skill* in the list</td></tr><tr><td>02</td><td><a href="https://github.com/juliangarnier/anime">Anime.js</a></td><td>timing</td><td>timelines and stagger</td></tr><tr><td>03</td><td><a href="https://github.com/motion-canvas/motion-canvas">Motion Canvas</a></td><td>code-driven motion</td><td>scenes as code</td></tr><tr><td>04</td><td><a href="https://github.com/davidfig/pixi-ease">pixi-ease</a></td><td>tweening</td><td>small helper for PixiJS</td></tr><tr><td>05</td><td><a href="https://github.com/d3/d3-interpolate">d3-interpolate</a></td><td>interpolation</td><td>colours and numbers</td></tr><tr><td>06</td><td><a href="https://github.com/mrdoob/three.js">Three.js</a></td><td>3D</td><td>scenes and cameras</td></tr><tr><td>07</td><td><a href="https://github.com/blender/blender">Blender</a></td><td>3D animation</td><td>modelling and render</td></tr><tr><td>08</td><td><a href="https://github.com/bulletphysics/bullet3">Bullet Physics</a></td><td>physics</td><td>rigid/soft bodies</td></tr><tr><td>09</td><td><a href="https://github.com/pmndrs/react-three-csg">React Three CSG</a></td><td>geometry</td><td>boolean operations</td></tr><tr><td>10</td><td><a href="https://github.com/gkjohnson/three-mesh-bvh">three-mesh-bvh</a></td><td>geometry</td><td>fast spatial queries</td></tr><tr><td>11</td><td><a href="https://github.com/pmndrs/math">pmndrs/math</a></td><td>math</td><td>vectors and easing</td></tr><tr><td>12</td><td><a href="https://github.com/Experience-Monks/three-bmfont-text">three-bmfont-text</a></td><td>text</td><td>bitmap text in 3D</td></tr><tr><td>13</td><td><a href="https://github.com/gre/gl-react">gl-react</a></td><td>shaders</td><td>WebGL as React components</td></tr><tr><td>14</td><td><a href="https://github.com/svgdotjs/svg.filter.js">svg.filter.js</a></td><td>effects</td><td>composable SVG filters</td></tr><tr><td>15</td><td><a href="https://github.com/pmndrs/react-postprocessing">React Postprocessing</a></td><td>effects</td><td>bloom, DoF, grading</td></tr><tr><td>16</td><td><a href="https://github.com/pixijs-userland/pixi-viewport">pixi-viewport</a></td><td>camera</td><td>pan and zoom</td></tr><tr><td>17</td><td><a href="https://github.com/Tonejs/Tone.js">Tone.js</a></td><td>sound</td><td>synths and sequencing</td></tr><tr><td>18</td><td><a href="https://github.com/bbc/audiowaveform">audiowaveform</a></td><td>sound</td><td>waveform data</td></tr><tr><td>19</td><td><a href="https://github.com/tapioca24/p5.capture">p5.capture</a></td><td>capture</td><td>record sketches</td></tr><tr><td>20</td><td><a href="https://github.com/ffmpegwasm/ffmpeg.wasm">FFmpeg.wasm</a></td><td>export</td><td>encode in the browser</td></tr><tr><td>21</td><td><a href="https://github.com/FFmpeg/FFmpeg">FFmpeg</a></td><td>export</td><td>filters and delivery</td></tr></tbody></table></div>
+<p><strong>Reading it as a studio:</strong> pick one engine (02 or 03, or 01 if using Remotion), one 3D library (06) only if the scene needs it, one effects layer (14 or 15), one sound path (17 + 18), one export (21; 20 only if it must run client-side). That is six repos, not twenty-one — and still no one checks the output.</p>
+<h2>Appendix B — the six UI resources</h2>
+<div class="ref-tabel"><table><thead><tr><th>#</th><th>Link</th><th>What it is</th><th>Why it's on the list</th></tr></thead><tbody><tr><td>1</td><td><a href="https://www.scrolltide.co/">Scrolltide</a></td><td>cinematic scroll templates</td><td>sells the prompt, not the file</td></tr><tr><td>2</td><td><a href="https://www.snapblocks.site/">Snapblocks</a></td><td>scroll-driven React components</td><td>code + a prompt that rebuilds it</td></tr><tr><td>3</td><td><a href="https://scrollshaders.com/">Scroll Shaders</a></td><td>WebGL shader backgrounds</td><td>code or MP4, whichever you need</td></tr><tr><td>4</td><td><a href="https://mdx.so/">MDX</a></td><td>design/dev/3D studio</td><td>portfolio as proof of range</td></tr><tr><td>5</td><td><a href="https://www.navbar.gallery/">Navbar Gallery</a></td><td>navigation inspiration</td><td>one category, exhausted</td></tr><tr><td>6</td><td><a href="https://horizonx.so/">HorizonX</a></td><td>shaders, textures, kits</td><td>built for Claude Code / Cursor / Codex</td></tr></tbody></table></div>
+<p><strong>Cross-cutting:</strong> asset → <strong>asset + prompt + &quot;works with your agent&quot;</strong>. Same shift as Details MCP and Tinycharts, arriving from the design side. The nearest adaptation for us: <code>kurator</code> should return a copyable prompt with every pattern.</p>
+<p>---</p>
+<h2>Patterns that keep repeating</h2>
+<ol><li><strong>Taste is the product; the callable interface is the distribution.</strong> Details, Tinycharts,</li></ol>
+<p>   HorizonX, Scrolltide — all sell curated judgment, wrapped so an agent can consume it.</p>
+<ol><li><strong>Constraint is style.</strong> One camera, one light, one grid, one palette. Painted Houses and</li></ol>
+<p>   sprite stacking both buy coherence by refusing generality.</p>
+<ol><li><strong>Check the output.</strong> The best reply to the motion list, and the reason <code>tabel</code>/<code>studio</code></li></ol>
+<p>   validate every cell and every SQL statement.</p>
+<ol><li><strong>Do less work per unit of state.</strong> Orleans (turns), multicore (round trips), and our EDA</li></ol>
+<p>   rewrite all point the same way.</p>
+<ol><li><strong>Write for retrieval.</strong> 500-token blocks, question headings, one claim each — or be an MCP</li></ol>
+<p>   and skip retrieval entirely.</p>
+            </div>
+        </div>
+    </main>
+
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p class="footer-availability">
+                <span class="availability-word">Available</span> for freelance work &middot; Jakarta or remote
+            </p>
+            <div class="footer-content">
+                <p>&copy; <span id="footer-year">2026</span> Akmal Ariq &middot; Data platforms &amp; reporting</p>
+                <div class="footer-links">
+                    <a href="/#contact">Book a consult</a>
+                    <a href="mailto:akmalariqs@gmail.com">Email</a>
+                    <a href="/privacy/">Privacy</a>
+                    <a href="/terms/">Terms</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/akmalariq" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/akmalariq" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
