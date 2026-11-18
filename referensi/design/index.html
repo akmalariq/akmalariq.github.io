@@ -28,7 +28,7 @@
     </script>
 
     <title>Design — Referensi | Akmal Ariq</title>
-    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 6 notes with mechanism, take and skip.">
+    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 7 notes with mechanism, take and skip.">
     <meta name="author" content="Akmal Ariq">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://akmalariq.dev/referensi/design/">
@@ -36,11 +36,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akmalariq.dev/referensi/design/">
     <meta property="og:title" content="Design — Referensi | Akmal Ariq">
-    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 6 notes with mechanism, take and skip.">
+    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 7 notes with mechanism, take and skip.">
     <meta property="og:image" content="https://akmalariq.dev/og.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Design — Referensi | Akmal Ariq">
-    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 6 notes with mechanism, take and skip.">
+    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 7 notes with mechanism, take and skip.">
     <meta name="twitter:image" content="https://akmalariq.dev/og.png">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -141,7 +141,7 @@
         <div class="container">
             <p class="cs-eyebrow">Referensi · Design</p>
             <h1 class="cs-title">Design</h1>
-            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>6 notes.</strong></p>
+            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>7 notes.</strong></p>
 <p class="cs-back"><a href="/referensi/">← All references</a></p>
 <div class="referensi-isi">
 <h2>4. Painted Houses — a painting rebuilt as a house</h2>
@@ -180,6 +180,15 @@
 <p>  dashboard vocabulary <code>tabel</code> approximates with report cards; worth a look before the next   report template.</p>
 <p>The duplicate is the other lesson: <strong>lists recycle</strong>. HorizonX arrived twice in two days from two different accounts. The ledger catches it; a bookmark folder would not.</p>
 <p class="ref-label"><strong>Ignored.</strong> React, Tailwind and Motion as a stack. Everything here is server-rendered HTML and CSS by choice; we borrow the interaction patterns, not the dependencies.</p>
+<p>---</p>
+<h2>19. Components are outputs; behaviors are the product</h2>
+<p><a href="https://ui-sdk.dev">ui-sdk.dev</a> · seen 18 Nov 2026 · <code>design</code> <code>product</code> <code>distribution</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Do not give an agent a <code>Select</code> component. Give it the pieces a <code>Select</code> is made of — <code>createPopup</code> (open, position, dismiss), <code>createSelection</code> (pick one or many), <code>createTypeahead</code> (type to jump) — and it can build a select, an autocomplete, a combobox, or a component nobody has thought of yet. UI SDK ships <strong>50+ of these behaviors</strong> and a component library built from them, across React, Vue, Svelte, Solid and Web Components.</p>
+<p>The named primitives are the useful part:</p>
+<div class="ref-tabel"><table><thead><tr><th>Behavior</th><th>Job</th></tr></thead><tbody><tr><td><code>createRovingFocus</code></td><td>arrow keys move through a list, one Tab stop</td></tr><tr><td><code>createTypeahead</code></td><td>type a few letters to jump to an item</td></tr><tr><td><code>createPopup</code></td><td>opens next to its button, stays on screen</td></tr><tr><td><code>createSelection</code></td><td>pick one or many, Shift/Ctrl like a file manager</td></tr><tr><td><code>createReorder</code></td><td>sort a list with pointer or keyboard</td></tr><tr><td><code>createResize</code></td><td>resize boxes from their handles</td></tr><tr><td><code>createViewport</code></td><td>pan and zoom a canvas</td></tr><tr><td><code>createVirtualizer</code></td><td>render only the rows you can see</td></tr></tbody></table></div>
+<p>The page's own line is the thesis: *&quot;How do I use behaviors to build components? You don't. Ask your agent.&quot;* That is a product decision, not a docs shortcut.</p>
+<p class="ref-label"><strong>Taken.</strong> The vocabulary for <code>kurator</code>: package a pattern as <strong>a named behavior with a contract</strong> (what it does, its states, its keyboard rules), not a screenshot or a block of HTML. The prompt then tells the agent which primitives to compose. This is the same move as Transitions.dev's skill, one level lower: from components to interaction primitives.</p>
+<p class="ref-label"><strong>Ignored.</strong> Adopting the SDK. But &quot;name the reusable interaction, not the component&quot; is now a rule; it is also why the notes here are filed under *mechanism* instead of *link*.</p>
 <p>---</p>
 </div>
         </div>
