@@ -28,7 +28,7 @@
     </script>
 
     <title>Design — Referensi | Akmal Ariq</title>
-    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 9 notes with mechanism, take and skip.">
+    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 10 notes with mechanism, take and skip.">
     <meta name="author" content="Akmal Ariq">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://akmalariq.dev/referensi/design/">
@@ -36,11 +36,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akmalariq.dev/referensi/design/">
     <meta property="og:title" content="Design — Referensi | Akmal Ariq">
-    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 9 notes with mechanism, take and skip.">
+    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 10 notes with mechanism, take and skip.">
     <meta property="og:image" content="https://akmalariq.dev/og.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Design — Referensi | Akmal Ariq">
-    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 9 notes with mechanism, take and skip.">
+    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 10 notes with mechanism, take and skip.">
     <meta name="twitter:image" content="https://akmalariq.dev/og.png">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -141,7 +141,7 @@
         <div class="container">
             <p class="cs-eyebrow">Referensi · Design</p>
             <h1 class="cs-title">Design</h1>
-            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>9 notes.</strong></p>
+            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>10 notes.</strong></p>
 <p class="cs-back"><a href="/referensi/">← All references</a></p>
 <div class="referensi-isi">
 <h2>4. Painted Houses — a painting rebuilt as a house</h2>
@@ -204,6 +204,20 @@
 <p class="ref-label"><strong>Mechanism.</strong> Not a dependency: the CLI copies component source into your repository, and from then on it is your code — editable, extendable, yours. The components sit on Radix primitives for behaviour and Tailwind for styling, but the unit that ships is a file, not a package. The docs are the product; the registry format now lets any CLI or agent install a component by name, which is why affectUI (entry 20) distributes through it.</p>
 <p class="ref-label"><strong>Taken.</strong> Fitfolio's <code>DESIGN.md</code> already separates the two layers: it borrows shadcn <strong>as a contract</strong> — semantic <code>x</code> / <code>x-foreground</code> pairs, the <code>radius</code> scale, <code>ring</code> as a first-class token, eight interaction states, the component API names — and rejects the React/Tailwind implementation and a Next rewrite. For <code>kurator</code>, the registry is the model: ship the source plus an installable prompt.</p>
 <p class="ref-label"><strong>Ignored.</strong> The React and Tailwind runtime. The contract survived without the code.</p>
+<p>---</p>
+<h2>24. The manifesto is a set, not a document</h2>
+<p><a href="https://www.human-md.ai/">human-md.ai</a> · Briana (Mazzio) May · Apr 2026 · <code>design</code> <code>product</code></p>
+<p><strong>What it is.</strong> A working manifesto — ten things humans bring when the models are good: break the rule on purpose (and say why), find the thing in the weird place, advocate for the human, design for resonance rather than correctness, seek delight, experiment ruthlessly, own the output, design *with* AI not beside it, play with purpose, be both builder and ideas person.</p>
+<p><strong>The mechanism.</strong> It calls itself &quot;plain text, notes-to-self, not a deck&quot; — and then delivers a <strong>staged set</strong>: a Klein-blue room with a person standing in it, a fern in a foot-shaped pot, an eye mug, giant type as scenery (&quot;humans&quot; in pink, cropped by the floor), one orange dot as punctuation. Scenes change worlds (blue → sage with two cups → mustard). Scroll is <strong>~426,000px</strong> on desktop (≈500 viewports), smoothed with Lenis. The <code>##</code> and <code>###</code> headings are shown literally, as if the markdown were the set dressing.</p>
+<p><strong>The index is the best part.</strong> Not a table of contents: <strong>Polaroid cards</strong> with art-directed photos, one per section, numbered, fanned on a table. It makes a 500-viewport document navigable and worth looking at.</p>
+<p class="ref-label"><strong>Taken.</strong></p>
+<ul><li><strong>Index as an object</strong>, not a list — the next version of <code>/referensi</code> should have a contact</li></ul>
+<p>  sheet of notes (number, title, tag, one line), not only the chronological table.</p>
+<ul><li><strong>One committed world per scene</strong>, one accent — useful for <code>studio</code>'s modes, where each</li></ul>
+<p>  medium (pixel, gerak, ASCII, stack) could own a palette instead of sharing one.</p>
+<ul><li><strong>The rule-breaking test</strong>: if you cannot say why you broke the rule, you did not break it,</li></ul>
+<p>  you missed. That is the same test as our &quot;ignored&quot; fields in this ledger.</p>
+<p class="ref-label"><strong>Ignored.</strong> 500 viewports of scroll and a 3D/photo production budget. It is a portfolio piece; a calculator or a reference page has to be faster than it is beautiful. The text is also in the HTML source, so the &quot;plain text&quot; claim survives — but only if you view source.</p>
 <p>---</p>
 </div>
         </div>
