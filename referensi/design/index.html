@@ -28,7 +28,7 @@
     </script>
 
     <title>Design — Referensi | Akmal Ariq</title>
-    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 8 notes with mechanism, take and skip.">
+    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 9 notes with mechanism, take and skip.">
     <meta name="author" content="Akmal Ariq">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://akmalariq.dev/referensi/design/">
@@ -36,11 +36,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akmalariq.dev/referensi/design/">
     <meta property="og:title" content="Design — Referensi | Akmal Ariq">
-    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 8 notes with mechanism, take and skip.">
+    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 9 notes with mechanism, take and skip.">
     <meta property="og:image" content="https://akmalariq.dev/og.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Design — Referensi | Akmal Ariq">
-    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 8 notes with mechanism, take and skip.">
+    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 9 notes with mechanism, take and skip.">
     <meta name="twitter:image" content="https://akmalariq.dev/og.png">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -141,7 +141,7 @@
         <div class="container">
             <p class="cs-eyebrow">Referensi · Design</p>
             <h1 class="cs-title">Design</h1>
-            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>8 notes.</strong></p>
+            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>9 notes.</strong></p>
 <p class="cs-back"><a href="/referensi/">← All references</a></p>
 <div class="referensi-isi">
 <h2>4. Painted Houses — a painting rebuilt as a house</h2>
@@ -198,6 +198,12 @@
 <p class="ref-label"><strong>Taken.</strong> For <code>kurator</code>: ship each pattern as a single self-contained file plus an install command, and treat the MCP server as the shop rather than the docs. The one-time pricing is a candidate for later — not before there is demand.</p>
 <p class="ref-label"><strong>Ignored.</strong> React/tsx and the AI-product component set; our surfaces are server-rendered HTML and CSS by choice.</p>
 <p><strong>Cross-ref.</strong> This is the first entry where the <strong>shadcn CLI is the distribution channel</strong>. Fitfolio's <code>DESIGN.md</code> already borrows shadcn *as a contract* — semantic <code>x</code> / <code>x-foreground</code> token pairs, the <code>radius</code> scale, <code>ring</code> as a first-class token, eight interaction states — while explicitly rejecting the React/Tailwind implementation. Same separation, different layer: contract here, code there.</p>
+<p>---</p>
+<h2>21. shadcn/ui — the component is a file you own</h2>
+<p><a href="https://ui.shadcn.com">ui.shadcn.com</a> · <code>design</code> <code>product</code> <code>distribution</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Not a dependency: the CLI copies component source into your repository, and from then on it is your code — editable, extendable, yours. The components sit on Radix primitives for behaviour and Tailwind for styling, but the unit that ships is a file, not a package. The docs are the product; the registry format now lets any CLI or agent install a component by name, which is why affectUI (entry 20) distributes through it.</p>
+<p class="ref-label"><strong>Taken.</strong> Fitfolio's <code>DESIGN.md</code> already separates the two layers: it borrows shadcn <strong>as a contract</strong> — semantic <code>x</code> / <code>x-foreground</code> pairs, the <code>radius</code> scale, <code>ring</code> as a first-class token, eight interaction states, the component API names — and rejects the React/Tailwind implementation and a Next rewrite. For <code>kurator</code>, the registry is the model: ship the source plus an installable prompt.</p>
+<p class="ref-label"><strong>Ignored.</strong> The React and Tailwind runtime. The contract survived without the code.</p>
 <p>---</p>
 </div>
         </div>

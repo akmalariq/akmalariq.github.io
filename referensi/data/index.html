@@ -28,7 +28,7 @@
     </script>
 
     <title>Data — Referensi | Akmal Ariq</title>
-    <meta name="description" content="Data: Charts as communication, not decoration. 1 notes with mechanism, take and skip.">
+    <meta name="description" content="Data: Charts as communication, not decoration. 3 notes with mechanism, take and skip.">
     <meta name="author" content="Akmal Ariq">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://akmalariq.dev/referensi/data/">
@@ -36,11 +36,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akmalariq.dev/referensi/data/">
     <meta property="og:title" content="Data — Referensi | Akmal Ariq">
-    <meta property="og:description" content="Data: Charts as communication, not decoration. 1 notes with mechanism, take and skip.">
+    <meta property="og:description" content="Data: Charts as communication, not decoration. 3 notes with mechanism, take and skip.">
     <meta property="og:image" content="https://akmalariq.dev/og.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Data — Referensi | Akmal Ariq">
-    <meta name="twitter:description" content="Data: Charts as communication, not decoration. 1 notes with mechanism, take and skip.">
+    <meta name="twitter:description" content="Data: Charts as communication, not decoration. 3 notes with mechanism, take and skip.">
     <meta name="twitter:image" content="https://akmalariq.dev/og.png">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -141,13 +141,25 @@
         <div class="container">
             <p class="cs-eyebrow">Referensi · Data</p>
             <h1 class="cs-title">Data</h1>
-            <p class="cs-lede">Charts as communication, not decoration. <strong>1 notes.</strong></p>
+            <p class="cs-lede">Charts as communication, not decoration. <strong>3 notes.</strong></p>
 <p class="cs-back"><a href="/referensi/">← All references</a></p>
 <div class="referensi-isi">
 <h2>12. Minicharts — numbers drawn as things</h2>
 <p><a href="https://april-zhu.com/minicharts">april-zhu.com/minicharts</a> · <code>design</code> <code>data</code></p>
 <p class="ref-label"><strong>Mechanism.</strong> Give it numbers; it draws the chart as a real object from your subject — a pie chart as a pie of coins, a waterfall as a waterfall — hand-drawn, to scale, touchable. Same look as Tinycharts, different job: this one is data, not process.</p>
 <p class="ref-label"><strong>Taken.</strong> The bar for <code>tabel</code>'s charts: a chart is a *communication choice*, not a rendering choice. The mapping line (<code>departemen → rata-rata gaji · 3 titik</code>) is our cheap version of the same idea. <strong>Ignored.</strong> Subject-aware illustration. It needs an art kit per domain; our charts must work for any table.</p>
+<h2>22. Apache ECharts — the canvas engine</h2>
+<p><a href="https://echarts.apache.org">echarts.apache.org</a> · <code>data</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> One declarative <code>option</code> object in, a rendered chart out — 40+ chart types, axes, tooltips, <code>dataZoom</code>, linked views, all from the same tree. It draws to canvas (or SVG), so 100k-point series survive without a DOM node per point, and incremental/progressive rendering keeps the main thread moving.</p>
+<p class="ref-label"><strong>Taken.</strong> The <code>option</code> object is a good contract for a model: JSON in, chart out, no imperative drawing calls. If <code>tabel</code> ever needs zoom, linked charts or six-figure series, ECharts is the upgrade path. It is not the default: a single line chart does not need a megabyte.</p>
+<p class="ref-label"><strong>Ignored.</strong> Adopting it now. The hand-rolled SVG in <code>tabel</code> is the right size for one line and one bar.</p>
+<p>---</p>
+<h2>23. Recharts — the chart is a component tree</h2>
+<p><a href="https://recharts.github.io">recharts.github.io</a> · <code>data</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Compose the chart: <code>&lt;LineChart&gt;&lt;XAxis/&gt;&lt;YAxis/&gt;&lt;Line/&gt;&lt;/LineChart&gt;</code>. Built with React and D3 scales, rendering SVG, responsive by container. Because every part is a component, it is inspectable and replaceable, and it inherits React's composition rules — the same reason an agent that knows React can assemble it.</p>
+<p class="ref-label"><strong>Taken.</strong> The decomposition, not the library: legend, axes and series as separate, inspectable parts is how <code>tabel</code>'s chart cards are structured (mapping + query + marks). If the stack ever moves to React, Recharts is the obvious chart layer; until then it is a reference, not a dependency.</p>
+<p class="ref-label"><strong>Ignored.</strong> The React dependency. The platform apps are server-rendered HTML and CSS by choice.</p>
+<p>---</p>
 </div>
         </div>
     </main>
