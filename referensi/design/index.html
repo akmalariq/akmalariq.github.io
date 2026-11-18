@@ -28,7 +28,7 @@
     </script>
 
     <title>Design — Referensi | Akmal Ariq</title>
-    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 7 notes with mechanism, take and skip.">
+    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 8 notes with mechanism, take and skip.">
     <meta name="author" content="Akmal Ariq">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://akmalariq.dev/referensi/design/">
@@ -36,11 +36,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akmalariq.dev/referensi/design/">
     <meta property="og:title" content="Design — Referensi | Akmal Ariq">
-    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 7 notes with mechanism, take and skip.">
+    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 8 notes with mechanism, take and skip.">
     <meta property="og:image" content="https://akmalariq.dev/og.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Design — Referensi | Akmal Ariq">
-    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 7 notes with mechanism, take and skip.">
+    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 8 notes with mechanism, take and skip.">
     <meta name="twitter:image" content="https://akmalariq.dev/og.png">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -141,7 +141,7 @@
         <div class="container">
             <p class="cs-eyebrow">Referensi · Design</p>
             <h1 class="cs-title">Design</h1>
-            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>7 notes.</strong></p>
+            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>8 notes.</strong></p>
 <p class="cs-back"><a href="/referensi/">← All references</a></p>
 <div class="referensi-isi">
 <h2>4. Painted Houses — a painting rebuilt as a house</h2>
@@ -189,6 +189,15 @@
 <p>The page's own line is the thesis: *&quot;How do I use behaviors to build components? You don't. Ask your agent.&quot;* That is a product decision, not a docs shortcut.</p>
 <p class="ref-label"><strong>Taken.</strong> The vocabulary for <code>kurator</code>: package a pattern as <strong>a named behavior with a contract</strong> (what it does, its states, its keyboard rules), not a screenshot or a block of HTML. The prompt then tells the agent which primitives to compose. This is the same move as Transitions.dev's skill, one level lower: from components to interaction primitives.</p>
 <p class="ref-label"><strong>Ignored.</strong> Adopting the SDK. But &quot;name the reusable interaction, not the component&quot; is now a rule; it is also why the notes here are filed under *mechanism* instead of *link*.</p>
+<p>---</p>
+<h2>20. One file, no dependencies, installed by the agent</h2>
+<p><a href="https://affectui.com">affectui.com</a> · seen 18 Nov 2026 · <code>design</code> <code>product</code> <code>distribution</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> 221 React components, screens, blocks, illustrations and motion effects for AI products. Every item is <strong>one <code>.tsx</code> file with its styles inside</strong> — no Tailwind, no animation library, no other dependencies. Install with the <strong>shadcn CLI</strong>, or let Claude, Cursor or v0 do it through the <strong>MCP server</strong>. 74 items are free and MIT; the rest is Pro, one-time from $249.</p>
+<p>Three choices worth copying:</p>
+<div class="ref-tabel"><table><thead><tr><th>Choice</th><th>Why it works</th></tr></thead><tbody><tr><td>One file per item</td><td>the agent can read the whole thing before it writes; no hidden runtime</td></tr><tr><td>Install via CLI/MCP</td><td>distribution through a tool the agent already has, not a package manager</td></tr><tr><td>Free tier + one-time Pro</td><td>no subscription for a component; the free 74 are the shop window</td></tr></tbody></table></div>
+<p class="ref-label"><strong>Taken.</strong> For <code>kurator</code>: ship each pattern as a single self-contained file plus an install command, and treat the MCP server as the shop rather than the docs. The one-time pricing is a candidate for later — not before there is demand.</p>
+<p class="ref-label"><strong>Ignored.</strong> React/tsx and the AI-product component set; our surfaces are server-rendered HTML and CSS by choice.</p>
+<p><strong>Cross-ref.</strong> This is the first entry where the <strong>shadcn CLI is the distribution channel</strong>. Fitfolio's <code>DESIGN.md</code> already borrows shadcn *as a contract* — semantic <code>x</code> / <code>x-foreground</code> token pairs, the <code>radius</code> scale, <code>ring</code> as a first-class token, eight interaction states — while explicitly rejecting the React/Tailwind implementation. Same separation, different layer: contract here, code there.</p>
 <p>---</p>
 </div>
         </div>
