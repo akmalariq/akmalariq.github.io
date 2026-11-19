@@ -28,7 +28,7 @@
     </script>
 
     <title>Motion — Referensi | Akmal Ariq</title>
-    <meta name="description" content="Motion: Animation, frames and the cost of making things move. 3 notes with mechanism, take and skip.">
+    <meta name="description" content="Motion: Animation, frames and the cost of making things move. 4 notes with mechanism, take and skip.">
     <meta name="author" content="Akmal Ariq">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://akmalariq.dev/referensi/motion/">
@@ -36,11 +36,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akmalariq.dev/referensi/motion/">
     <meta property="og:title" content="Motion — Referensi | Akmal Ariq">
-    <meta property="og:description" content="Motion: Animation, frames and the cost of making things move. 3 notes with mechanism, take and skip.">
+    <meta property="og:description" content="Motion: Animation, frames and the cost of making things move. 4 notes with mechanism, take and skip.">
     <meta property="og:image" content="https://akmalariq.dev/og.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Motion — Referensi | Akmal Ariq">
-    <meta name="twitter:description" content="Motion: Animation, frames and the cost of making things move. 3 notes with mechanism, take and skip.">
+    <meta name="twitter:description" content="Motion: Animation, frames and the cost of making things move. 4 notes with mechanism, take and skip.">
     <meta name="twitter:image" content="https://akmalariq.dev/og.png">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -141,7 +141,7 @@
         <div class="container">
             <p class="cs-eyebrow">Referensi · Motion</p>
             <h1 class="cs-title">Motion</h1>
-            <p class="cs-lede">Animation, frames and the cost of making things move. <strong>3 notes.</strong></p>
+            <p class="cs-lede">Animation, frames and the cost of making things move. <strong>4 notes.</strong></p>
 <p class="cs-back"><a href="/referensi/">← All references</a></p>
 <div class="referensi-isi">
 <h2>9. Sprite stacking — 2D that turns like 3D</h2>
@@ -159,6 +159,19 @@
 <p><a href="https://www.spritecook.ai/blog/sprite-stacking-pixel-art">spritecook.ai/blog/sprite-stacking-pixel-art</a> · <code>design</code> <code>motion</code></p>
 <p class="ref-label"><strong>Mechanism.</strong> The reproducible half of the sprite-stacking tweet: cut one slice per row from four orthographic views (top/side/front/back), stack 1 px apart, rotate all slices, squash 0.75 for a lower camera. Numbers that matter: 15 slices of 24×43 px; 1 px spacing; 10× draw scale.</p>
 <p class="ref-label"><strong>Taken.</strong> The constraint we copied into <code>studio</code>: a text model returns a <strong>grid</strong>, the server validates every cell, the renderer only draws. Small format, checkable output. <strong>Ignored.</strong> Slice carving from images — we generate the grid directly and skip photography.</p>
+<p>---</p>
+<h2>26. A video is a program, not a sample</h2>
+<p><a href="https://github.com/OpenSenseNova/SenseNova-6.8-Code2Video">SenseNova 6.8 Code2Video</a> · OpenSenseNova · Nov 2026 · <code>motion</code> · seen via <a href="https://x.com/369Serena/status/2122895071179911280">@369Serena</a></p>
+<p><strong>What it is.</strong> A 27B open model (fine-tuned from Qwen3.8-27B, 512K context) that makes short videos by <strong>writing executable code</strong>. Every frame is <code>frame(t)</code>: a pure function of time, sampled at <code>i/fps</code> and encoded. Text, formulas, charts and data are typeset exactly; camera, beats and coordinates are explicit numbers. It ships weights, deployment notes, a <code>code-video</code> skill with eight craft guides, a prompt-expansion template, and production trajectories.</p>
+<p><strong>Why code (their argument).</strong> Generative video samples the whole clip in one black box: no grounding, hard to edit, inexact on-screen text. Code fixes the named object, re-renders only what changed, and can call image/3D/editing models as tools. A code render also makes a good previs for a video model, and exact labels for training data.</p>
+<p class="ref-label"><strong>Taken.</strong></p>
+<ul><li>Installed the repo's <strong><code>code-video</code> skill</strong> in <code>.dsh/skills/code-video</code> — the part that runs</li></ul>
+<p>  on a CPU box. Its core rule is the one to keep: frames are pure functions of <code>t</code>, never of   wall-clock time.</p>
+<ul><li>Scenes as <strong>named objects</strong> (position, duration, easing as values) so a note is a code edit,</li></ul>
+<p>  not a re-sample. That is the same reason studio's Gerak mode is parameter-driven.</p>
+<ul><li><strong>Contact-sheet review</strong> before delivery: look at the frames, not just the file.</li><li>Deterministic text matters for duit: a chart label or rupiah value in a video should never</li></ul>
+<p>  be re-sampled into a plausible-looking wrong number.</p>
+<p class="ref-label"><strong>Ignored.</strong> Running the 27B model on this VPS: no GPU. The Chinese narration/voice pipeline. Multi-hour agent production runs. The skill is useful without the model; the model is not deployable here.</p>
 <p>---</p>
 </div>
         </div>
