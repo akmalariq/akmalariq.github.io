@@ -45,3 +45,9 @@
 
 /blog/rss.xml
   Cache-Control: public, max-age=3600
+
+# Paid guide PDFs: random paths, never indexed, and shadowed by a Function that
+# requires a paid order token. The header is defence in depth, not the gate.
+/guides/files/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: private, no-store

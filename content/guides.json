@@ -1,0 +1,100 @@
+{
+  "store": {
+    "open": false,
+    "qris_live": true,
+    "qris_image": "/guides/qris.png",
+    "merchant": "AENITECH, DIGITAL & KREATIF",
+    "support_email": "akmalariq@protonmail.com",
+    "order_ttl_hours": 24,
+    "refund_note": "Produk digital tidak bisa dikembalikan setelah diunduh. Baca sampel gratisnya dulu sebelum membeli."
+  },
+  "launch": {
+    "ends_at": "2026-12-31T23:59:59+07:00",
+    "label": "Harga peluncuran sampai 31 Desember 2026"
+  },
+  "products": [
+    {
+      "id": "beginner",
+      "kind": "single",
+      "level": "01",
+      "name": "Masuk",
+      "title": "Dari nol ke pekerjaan data pertama",
+      "for": "Kamu belum pernah bekerja dengan data. Bingung harus mulai dari SQL, Excel, Python, atau kursus mana.",
+      "outcome": "Kamu tahu urutan yang benar, punya satu portofolio yang bisa kamu pertanggungjawabkan, dan bisa menghadapi interview pertama tanpa mengarang.",
+      "pages": 58,
+      "price": 99000,
+      "launch_price": 69000,
+      "file": "files/g01-7f3a91c4.pdf",
+      "includes": [
+        "Peta 12 minggu: apa yang dikerjakan tiap minggu, dan apa yang sengaja dilewati",
+        "SQL inti: 12 pola yang muncul di hampir semua interview junior, dengan latihan",
+        "Satu proyek portofolio utuh: data retail Indonesia, dari pertanyaan bisnis ke dashboard",
+        "CV dan LinkedIn untuk switcher: menulis pengalaman yang belum berlabel data",
+        "20 pertanyaan interview pertama, plus cara menjawab jujur saat kamu belum tahu"
+      ]
+    },
+    {
+      "id": "intermediate",
+      "kind": "single",
+      "level": "02",
+      "name": "Naik",
+      "title": "Dari analyst ke builder",
+      "for": "Kamu sudah bisa SELECT, JOIN, dan bikin pivot table. Tapi pipeline, dbt, dan warehouse masih terasa milik orang lain.",
+      "outcome": "Kamu bisa membangun pipeline kecil end-to-end, memodelkan tabel yang tidak bengkak, dan menjelaskan keputusanmu di review.",
+      "pages": 74,
+      "price": 179000,
+      "launch_price": 119000,
+      "file": "files/g02-c4d18e27.pdf",
+      "includes": [
+        "Dari Excel ke pandas: 8 kebiasaan yang harus dilepas, dengan latihan konversi",
+        "dbt dan modeling: grain, star schema, dan kenapa tabelmu makin lambat",
+        "Pipeline pertama: DuckDB + Dagster, jalan di laptop dan bisa dijadwalkan",
+        "10 data quality check yang menangkap mayoritas kesalahan sebelum ke dashboard",
+        "Studi kasus: menyatukan Shopee, Tokopedia, dan rekening bank jadi satu tabel"
+      ]
+    },
+    {
+      "id": "advanced",
+      "kind": "single",
+      "level": "03",
+      "name": "Dalam",
+      "title": "Dari laptop ke produksi",
+      "for": "Kamu sudah menulis pipeline yang jalan. Yang belum: pipeline yang tetap jalan saat data terlambat, job gagal, dan ada orang bertanya jam 3 pagi.",
+      "outcome": "Kamu punya pola untuk idempotency, backfill, testing, dan on-call — plus bahasa untuk menjelaskannya ke engineering dan finance.",
+      "pages": 96,
+      "price": 279000,
+      "launch_price": 189000,
+      "file": "files/g03-9b62d0f5.pdf",
+      "includes": [
+        "CDC dan late-arriving data: apa yang rusak, dan di mana harus dijaga",
+        "Idempotency dan backfill: pola yang aman untuk 20+ pipeline",
+        "Warehouse tuning: partisi, sorting key, dan biaya di ClickHouse dan SQL Server",
+        "Testing dan on-call: apa yang dicek sebelum jam 3 pagi",
+        "Studi kasus: migrasi zero-downtime dan laporan regulasi OJK/BI"
+      ]
+    },
+    {
+      "id": "bundle",
+      "kind": "bundle",
+      "level": "00",
+      "name": "Paket Lengkap",
+      "title": "Tiga guide, satu jalur",
+      "for": "Kamu belum yakin level mana yang dibutuhkan — atau tahu kamu akan butuh ketiganya dalam 12 bulan.",
+      "outcome": "Seluruh jalur, dari nol sampai produksi, dengan harga satu guide premium.",
+      "pages": 228,
+      "price": 349000,
+      "launch_price": 239000,
+      "includes": [
+        "Guide 01, 02, dan 03 — PDF, sekali bayar",
+        "Update gratis untuk edisi yang sama",
+        "Semua template dan checklist dari ketiga level",
+        "Hemat Rp 208.000 dibanding beli terpisah"
+      ],
+      "includes_products": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ]
+    }
+  ]
+}

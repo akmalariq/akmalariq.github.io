@@ -1286,3 +1286,67 @@ body.home .hero-note strong { color: var(--home-ink); }
 .live-desc { font-size: .82rem; line-height: 1.5; color: var(--text-secondary); }
 .live-arrow { position: absolute; right: 1rem; bottom: .8rem; font-family: var(--font-mono); font-size: .9rem; color: var(--accent); }
 @media (max-width: 640px) { .live-card { box-shadow: 4px 4px 0 var(--text-primary); } }
+
+/* Guides cross-sell: one strip under the pricing cards. The store itself is
+   ledger-world; this keeps the link loud enough to be found without adding a
+   seventh nav item (AGENTS.md fixes the nav order at six). */
+body.home .guides-strip {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  padding: 1.25rem 1.5rem;
+  border: var(--home-stroke);
+  background: var(--home-surface);
+  box-shadow: var(--home-shadow-sm);
+}
+
+body.home .guides-strip__kicker {
+  margin: 0 0 0.35rem;
+  font-family: var(--home-body);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--home-accent);
+}
+
+body.home .guides-strip__title {
+  margin: 0;
+  font-family: var(--home-display);
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--home-ink);
+}
+
+body.home .guides-strip__text {
+  margin: 0.35rem 0 0;
+  max-width: 58ch;
+  color: var(--home-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+body.home .guides-strip__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+@media (max-width: 640px) {
+  body.home .guides-strip {
+    box-shadow: 4px 4px 0 var(--home-line);
+  }
+
+  body.home .guides-strip__actions {
+    width: 100%;
+  }
+
+  body.home .guides-strip__actions .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+    text-align: center;
+  }
+}

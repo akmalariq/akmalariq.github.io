@@ -23,7 +23,10 @@ const fail = (check, detail) => failures.push({ check, detail });
 const note = (msg) => notes.push(msg);
 
 // 404 is deliberately standalone: it has its own inline tokens and no navbar.
-const EXEMPT_PAGES = new Set(["404.html"]);
+// /guides/admin/ is an internal order console: noindex, no public nav, and it
+// should never be one click from a buyer's page. It stays off the nav contract
+// on purpose rather than pretending to be a public page.
+const EXEMPT_PAGES = new Set(["404.html", "guides/admin/index.html"]);
 
 // ---------------------------------------------------------------- 1. tokens --
 

@@ -3,6 +3,10 @@
 User-agent: *
 Allow: /
 
+# Transactional pages: no search value, and the status pages carry bearer links.
+Disallow: /guides/admin/
+Disallow: /guides/order/
+
 # Sitemaps
 Sitemap: https://akmalariq.dev/sitemap.xml
 Sitemap: https://akmalariq.dev/blog/sitemap.xml

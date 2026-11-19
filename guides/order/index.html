@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            var THEMES = ['dark', 'light', 'contrast'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <title>Status pesanan — Guide data — Akmal Ariq</title>
+    <meta name="description" content="Status dan pembayaran pesanan guide data.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://akmalariq.dev/guides/order/">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/ebgaramond-roman.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/guides.css">
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/app.js" defer></script>
+    <script src="/js/guides.js" defer></script>
+<!-- analytics:akmal -->
+</head>
+<body data-page="order">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="/" class="header-logo" aria-label="Akmal Ariq - Home">
+                        <span class="name">Akmal Ariq</span>
+                        <span class="title">Data Analytics &amp; AI Engineer</span>
+                    </a>
+                </div>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="/#solutions" class="nav-link">Services</a>
+                    <a href="/#pricing" class="nav-link">Pricing</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <span class="nav-divider" aria-hidden="true"></span>
+                    <a href="/demos/" class="nav-link">Work</a>
+                    <a href="/blog/" class="nav-link">Blog</a>
+                    <a href="/referensi/" class="nav-link">Referensi</a>
+                    <a href="/#contact" class="btn btn-primary nav-cta">Get in touch</a>
+                    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme mode">
+                        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        <svg class="contrast-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg>
+                    </button>
+                </nav>
+                <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+                <a href="/#solutions" class="mobile-nav-link">Services</a>
+                <a href="/#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="/#about" class="mobile-nav-link">About</a>
+                <a href="/demos/" class="mobile-nav-link">Work</a>
+                <a href="/blog/" class="mobile-nav-link">Blog</a>
+                <a href="/referensi/" class="mobile-nav-link">Referensi</a>
+                <a href="/#contact" class="mobile-nav-link">Get in touch</a>
+                <button id="themeToggleMobile" class="mobile-nav-link" style="text-align: left; background: none; border: none; cursor: pointer;">
+                    Toggle Dark/Light Mode
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="case-study">
+        <div class="container g-narrow">
+            <a href="/guides/" class="cs-back">&larr; Semua guide</a>
+
+            <div id="state-loading" class="g-skeleton" aria-live="polite">Memuat pesanan&hellip;</div>
+
+            <div id="state-error" hidden>
+                <p class="cs-eyebrow">Pesanan</p>
+                <h1 class="cs-title">Link ini tidak dikenali.</h1>
+                <p class="cs-lede" id="error-message">
+                    Pastikan kamu membuka link lengkap dari email, atau mulai pesanan baru.
+                </p>
+                <div class="hero-actions" style="margin-top:1.25rem">
+                    <a class="btn btn-primary" href="/guides/">Lihat guide</a>
+                    <a class="btn btn-secondary" href="mailto:akmalariq@protonmail.com?subject=Link%20pesanan%20guide">Email saya</a>
+                </div>
+            </div>
+
+            <div id="state-order" hidden>
+                <div class="g-order-head">
+                    <p class="cs-eyebrow" style="margin:0">Pembayaran manual</p>
+                    <span class="g-status" id="o-status">Menunggu pembayaran</span>
+                </div>
+                <h1 class="cs-title" id="o-title">Selesaikan pembayaran.</h1>
+                <p class="cs-lede" id="o-sub">&mdash;</p>
+
+                <!-- pending -->
+                <section id="panel-pending" hidden aria-labelledby="pay-title">
+                    <h2 class="visually-hidden" id="pay-title">Instruksi pembayaran</h2>
+
+                    <div class="g-amount">
+                        <span class="g-amount__label">Bayar tepat sebesar ini</span>
+                        <strong class="g-amount__value" id="o-amount">&mdash;</strong>
+                        <span class="g-amount__break" id="o-break">&mdash;</span>
+                        <button class="g-copy" id="copy-amount" type="button">Salin nominal</button>
+                    </div>
+
+                    <div class="g-paygrid">
+                        <div>
+                            <ol class="g-paysteps">
+                                <li>Buka <strong>GoPay</strong> atau aplikasi apa pun yang mendukung QRIS, lalu scan kode di samping.</li>
+                                <li>Masukkan nominal <strong>persis seperti di atas</strong>. Jangan dibulatkan &mdash; tiga digit terakhir adalah kode pesananmu.</li>
+                                <li>Simpan bukti pembayaran, lalu isi formulir <strong>&ldquo;Saya sudah bayar&rdquo;</strong> di bawah.</li>
+                                <li>Saya cocokkan dengan notifikasi merchant. Setelah cocok, tombol unduh muncul di halaman ini.</li>
+                            </ol>
+                            <p class="g-small" id="o-expires" style="margin-top:0.9rem"></p>
+                        </div>
+                        <figure class="g-qris" id="qris-box">
+                            <img id="o-qris" src="/guides/qris.svg" alt="QRIS merchant Akmal Ariq" width="600" height="600">
+                            <figcaption id="qris-caption">Scan dengan GoPay atau aplikasi QRIS lain.</figcaption>
+                        </figure>
+                    </div>
+
+                    <p class="g-note" id="qris-warning" hidden>
+                        <strong>Mode pratinjau.</strong> QRIS belum dipasang, jadi jangan transfer.
+                        Halaman ini tetap bisa dipakai untuk menguji alur pesanan.
+                    </p>
+
+                    <div class="g-divider"></div>
+
+                    <h2 class="g-h2" style="font-size:1.3rem">Sudah bayar?</h2>
+                    <p class="g-lede" style="font-size:0.92rem">
+                        Tulis nama yang muncul di aplikasi pembayaran supaya saya bisa mencocokkan
+                        notifikasinya. Ini tidak langsung membuka unduhan &mdash; pembayaran tetap dicek.
+                    </p>
+
+                    <form id="claim-form" novalidate>
+                        <div class="g-field">
+                            <label for="payer">Nama di aplikasi pembayaran</label>
+                            <input type="text" id="payer" name="payer" maxlength="80" autocomplete="name" placeholder="Nama yang tampak di notifikasi GoPay" required>
+                        </div>
+                        <div class="g-field">
+                            <label for="claim-note">Catatan <span style="text-transform:none;letter-spacing:0">(opsional)</span></label>
+                            <input type="text" id="claim-note" name="note" maxlength="300" placeholder="Jam bayar, nomor referensi, atau nama pengirim lain">
+                        </div>
+                        <p class="g-error" id="claim-error" role="alert" hidden></p>
+                        <div class="g-form-actions">
+                            <button class="btn btn-primary" type="submit" id="claim-btn">Saya sudah bayar</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- claimed -->
+                <section id="panel-claimed" hidden aria-labelledby="claimed-title">
+                    <div class="g-panel">
+                        <span class="g-kicker">Pembayaran dicek</span>
+                        <h2 class="g-h2" id="claimed-title">Terima kasih. Saya sedang mencocokkannya.</h2>
+                        <p class="g-lede">
+                            Notifikasi merchant dan klaimmu akan dicocokkan dengan kode pesanan
+                            <strong id="claimed-ref">#000</strong>. Biasanya di bawah satu jam pada jam
+                            kerja WIB; di luar jam kerja, paling lambat pagi berikutnya.
+                        </p>
+                        <p class="g-small" id="claimed-amount"></p>
+                        <div class="hero-actions" style="margin-top:1.25rem">
+                            <button class="btn btn-secondary" type="button" id="refresh-btn">Cek status sekarang</button>
+                            <a class="btn btn-secondary" href="mailto:akmalariq@protonmail.com?subject=Status%20pesanan%20guide">Email saya</a>
+                        </div>
+                        <p class="g-small" style="margin-top:1rem">
+                            Halaman ini mengecek ulang otomatis tiap 20 detik. Kamu juga akan menerima
+                            email saat unduhan sudah terbuka.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- paid -->
+                <section id="panel-paid" hidden aria-labelledby="paid-title">
+                    <div class="g-panel">
+                        <span class="g-kicker">Terverifikasi</span>
+                        <h2 class="g-h2" id="paid-title">Pembayaran masuk. Ini file-nya.</h2>
+                        <p class="g-lede">
+                            Terima kasih sudah membeli. Unduh sekarang, atau buka link ini lagi nanti
+                            &mdash; link-nya tidak kedaluwarsa.
+                        </p>
+                        <div class="g-downloads" id="o-downloads"></div>
+                        <p class="g-small" id="o-email-note" style="margin-top:1rem"></p>
+                        <p class="g-small" style="margin-top:0.75rem">
+                            File-nya tidak bisa dikembalikan setelah diunduh. Kalau ada yang salah,
+                            balas email konfirmasi atau hubungi saya.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- expired -->
+                <section id="panel-expired" hidden aria-labelledby="expired-title">
+                    <div class="g-panel">
+                        <span class="g-kicker">Kedaluwarsa</span>
+                        <h2 class="g-h2" id="expired-title">Pesanan ini sudah lewat 24 jam.</h2>
+                        <p class="g-lede">
+                            Kalau kamu sudah transfer, jangan panik: email saya dengan nama pengirim
+                            dan jam bayar, dan saya cek manual. Kalau belum, buat pesanan baru &mdash;
+                            kodenya akan berbeda.
+                        </p>
+                        <div class="hero-actions" style="margin-top:1.25rem">
+                            <a class="btn btn-primary" href="/guides/checkout/?p=bundle">Buat pesanan baru</a>
+                            <a class="btn btn-secondary" href="mailto:akmalariq@protonmail.com?subject=Pesanan%20guide%20kedaluwarsa">Email saya</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <span class="footer-name">Akmal Ariq</span>
+                    <p class="footer-text">
+                        Data engineer di Jakarta. Membangun pipeline dan laporan untuk bank dan
+                        retail, lalu menuliskan cara kerjanya.
+                    </p>
+                </div>
+                <nav class="footer-links" aria-label="Footer">
+                    <a href="/">Home</a>
+                    <a href="/guides/">Guides</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="/terms/">Terms</a>
+                    <a href="/privacy/">Privacy</a>
+                    <a href="mailto:akmalariq@protonmail.com">Email</a>
+                </nav>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear">2026</span> Akmal Ariq.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="g-toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

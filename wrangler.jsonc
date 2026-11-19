@@ -2,5 +2,12 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "akmalariq",
   "compatibility_date": "2026-06-18",
-  "pages_build_output_dir": "dist"
+  "pages_build_output_dir": "dist",
+  "d1_databases": [
+    {
+      "binding": "GUIDES_DB",
+      "database_name": "akmalariq-guides",
+      "database_id": "65dc3c20-9289-4d97-8dd1-3d2caf3da84c"
+    }
+  ]
 }

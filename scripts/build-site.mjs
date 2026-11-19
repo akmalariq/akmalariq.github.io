@@ -30,6 +30,7 @@ const ENTRIES = [
   "product", // managed reporting (monthly service) page
   "sample", // free sample report — the link the outreach email sends
   "audit", // paid data audit — the low-ticket front end
+  "guides", // the PDF store: catalogue, checkout, order status, admin
   "privacy", // privacy policy
   "terms", // terms of service
   "css",

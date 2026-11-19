@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('js');
+            var THEMES = ['dark', 'light', 'contrast'];
+            try {
+                var saved = localStorage.getItem('theme') || localStorage.getItem('akmal-portfolio-theme');
+                if (!saved) {
+                    saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                }
+                if (THEMES.indexOf(saved) === -1) saved = 'dark';
+                root.setAttribute('data-theme', saved);
+                localStorage.setItem('theme', saved);
+            } catch (e) {
+                root.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <title>Order admin — Guide data</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://akmalariq.dev/guides/admin/">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope.woff2" crossorigin>
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/guides.css">
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/guides.js" defer></script>
+</head>
+<body data-page="admin">
+    <main id="main" class="case-study">
+        <div class="container">
+            <a href="/guides/" class="cs-back">&larr; Toko</a>
+
+            <section id="login-view" class="g-login" aria-labelledby="login-title">
+                <p class="cs-eyebrow">Admin</p>
+                <h1 class="cs-title" id="login-title" style="font-size:2rem">Order masuk.</h1>
+                <p class="cs-lede">Masukkan password admin untuk melihat pesanan dan memverifikasi pembayaran.</p>
+                <form id="login-form" class="g-panel" style="margin-top:1.25rem" novalidate>
+                    <div class="g-field">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" autocomplete="current-password" required>
+                    </div>
+                    <p class="g-error" id="login-error" role="alert" hidden></p>
+                    <div class="g-form-actions">
+                        <button class="btn btn-primary" type="submit" id="login-btn">Masuk</button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="admin-view" hidden aria-labelledby="admin-title">
+                <div class="g-admin__bar">
+                    <div>
+                        <p class="cs-eyebrow" style="margin:0">Admin</p>
+                        <h1 class="cs-title" id="admin-title" style="font-size:clamp(1.8rem,4vw,2.6rem)">Pesanan guide.</h1>
+                    </div>
+                    <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+                        <button class="g-btn-sm" type="button" id="reload-btn">Muat ulang</button>
+                        <button class="g-btn-sm" type="button" id="logout-btn">Keluar</button>
+                    </div>
+                </div>
+
+                <div class="g-stats" aria-live="polite">
+                    <div class="g-stat">
+                        <span class="g-stat__label">Perlu dicek</span>
+                        <span class="g-stat__value" id="stat-open">0</span>
+                    </div>
+                    <div class="g-stat">
+                        <span class="g-stat__label">Diklaim</span>
+                        <span class="g-stat__value" id="stat-claimed">0</span>
+                    </div>
+                    <div class="g-stat">
+                        <span class="g-stat__label">Terjual</span>
+                        <span class="g-stat__value" id="stat-revenue">Rp 0</span>
+                    </div>
+                    <div class="g-stat">
+                        <span class="g-stat__label">24 jam terakhir</span>
+                        <span class="g-stat__value" id="stat-24h">0</span>
+                    </div>
+                </div>
+
+                <div class="g-filters" role="group" aria-label="Filter pesanan">
+                    <button class="g-filter" type="button" data-filter="open" aria-pressed="true">Perlu dicek</button>
+                    <button class="g-filter" type="button" data-filter="paid" aria-pressed="false">Dibayar</button>
+                    <button class="g-filter" type="button" data-filter="all" aria-pressed="false">Semua</button>
+                </div>
+
+                <div id="orders-loading" class="g-skeleton">Memuat pesanan&hellip;</div>
+                <div id="orders-empty" class="g-panel g-panel--flat" hidden>
+                    <p class="g-lede" style="margin:0">Belum ada pesanan di filter ini. Coba &ldquo;Semua&rdquo;.</p>
+                </div>
+                <div id="orders-list" class="g-orders" aria-live="polite"></div>
+            </section>
+        </div>
+    </main>
+
+    <div class="g-toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -28,7 +28,7 @@
     </script>
 
     <title>Design — Referensi | Akmal Ariq</title>
-    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 15 notes with mechanism, take and skip.">
+    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 16 notes with mechanism, take and skip.">
     <meta name="author" content="Akmal Ariq">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://akmalariq.dev/referensi/design/">
@@ -36,11 +36,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akmalariq.dev/referensi/design/">
     <meta property="og:title" content="Design — Referensi | Akmal Ariq">
-    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 15 notes with mechanism, take and skip.">
+    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 16 notes with mechanism, take and skip.">
     <meta property="og:image" content="https://akmalariq.dev/og.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Design — Referensi | Akmal Ariq">
-    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 15 notes with mechanism, take and skip.">
+    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 16 notes with mechanism, take and skip.">
     <meta name="twitter:image" content="https://akmalariq.dev/og.png">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -141,7 +141,7 @@
         <div class="container">
             <p class="cs-eyebrow">Referensi · Design</p>
             <h1 class="cs-title">Design</h1>
-            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>15 notes.</strong></p>
+            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>16 notes.</strong></p>
 <p class="cs-back"><a href="/referensi/">← All references</a></p>
 <div class="referensi-isi">
 <h2>4. Painted Houses — a painting rebuilt as a house</h2>
@@ -251,6 +251,12 @@
 <p class="ref-label"><strong>Mechanism.</strong> Static: 512×512, ≤100 KB. Animated: 512×512, ≤500 KB, ≤10 s, <strong>WebP</strong> (not GIF). Packs hold 3–30 stickers. The first frame must be complete because the animation ends there after looping.</p>
 <p class="ref-label"><strong>Taken.</strong> Export at 512×512 with a hard 500 KB budget, and design the first frame as the poster. Add a white stroke for dark backgrounds. <strong>Do not call a GIF a WhatsApp sticker</strong>; Canvas can emit GIF/PNG/static WebP, not animated WebP.</p>
 <p class="ref-label"><strong>Ignored.</strong> Pack ZIPs and WebP conversion until there is a real export product. A converter is a separate encoder, not a checkbox.</p>
+<p>---</p>
+<h2>39. Code-to-image is a different instrument</h2>
+<p><a href="https://github.com/0x0funky/agent-sprite-forge">Agent Sprite Forge</a> · <code>design</code> <code>code</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> A set of agent skills: <code>generate2dmedia</code> resolves an image/video route, <code>generate2dsprite</code>/<code>video2dsprite</code> drive that model, and <code>codeart2d</code> is the explicit last resort when no route exists. <code>codeart2d</code> renders PixelSpec JSON/SVG/rigs with numpy and Pillow, produces exact-palette frames, QA envelopes, preview and review sheets. Tested: walker 12 frames × 3 variants, one <code>half_cycle_duplicates</code> warning, no failures.</p>
+<p class="ref-label"><strong>Taken.</strong> Use codeart2d for the free, own sprite path; wrap it as <code>tools/codeart2d</code>; have DSV write the spec and inspect the preview. Disclose code-drawn art; do not pretend it is image-model output.</p>
+<p class="ref-label"><strong>Ignored.</strong> The paid image/video routes and ffmpeg packaging for now. The repo is MIT; <code>codeart2d</code> needs only numpy/Pillow.</p>
 <p>---</p>
 </div>
         </div>
