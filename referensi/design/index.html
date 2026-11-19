@@ -28,7 +28,7 @@
     </script>
 
     <title>Design — Referensi | Akmal Ariq</title>
-    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 13 notes with mechanism, take and skip.">
+    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 15 notes with mechanism, take and skip.">
     <meta name="author" content="Akmal Ariq">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://akmalariq.dev/referensi/design/">
@@ -36,11 +36,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akmalariq.dev/referensi/design/">
     <meta property="og:title" content="Design — Referensi | Akmal Ariq">
-    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 13 notes with mechanism, take and skip.">
+    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 15 notes with mechanism, take and skip.">
     <meta property="og:image" content="https://akmalariq.dev/og.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Design — Referensi | Akmal Ariq">
-    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 13 notes with mechanism, take and skip.">
+    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 15 notes with mechanism, take and skip.">
     <meta name="twitter:image" content="https://akmalariq.dev/og.png">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -141,7 +141,7 @@
         <div class="container">
             <p class="cs-eyebrow">Referensi · Design</p>
             <h1 class="cs-title">Design</h1>
-            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>13 notes.</strong></p>
+            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>15 notes.</strong></p>
 <p class="cs-back"><a href="/referensi/">← All references</a></p>
 <div class="referensi-isi">
 <h2>4. Painted Houses — a painting rebuilt as a house</h2>
@@ -239,6 +239,18 @@
 <p class="ref-label"><strong>Mechanism.</strong> Free web sprite editor whose export spec covers PNG sheet with configurable columns, animated GIF at sprite FPS, ZIP of frames, PixiJS JSON, C array; scale is nearest neighbour; transparency rules are explicit.</p>
 <p class="ref-label"><strong>Taken.</strong> Export formats and metadata are a feature, not an afterthought. Copy the matrix: GIF, sheet + columns, frame JSON, loop flag.</p>
 <p class="ref-label"><strong>Ignored.</strong> The editor and its layers; we are not rebuilding Aseprite in a browser.</p>
+<p>---</p>
+<h2>34. A sticker is cutout → motion → outline</h2>
+<p><a href="https://support.giphy.com/hc/en-us/articles/360051726632-How-to-use-GIPHY-Sticker-Maker">GIPHY Sticker Maker</a> · <code>design</code> <code>motion</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Upload a JPG/PNG, cut it out with lasso/magic wand/eraser, choose one motion filter, optionally add a coloured outline, download or publish. The whole job is under a minute; no timeline is exposed.</p>
+<p class="ref-label"><strong>Taken.</strong> The outline is functional, not decorative: it keeps the sticker readable on white, black and patterned chat backgrounds. The motion is a <strong>preset</strong>, not a keyframe.</p>
+<p class="ref-label"><strong>Ignored.</strong> Moderation, accounts and GIPHY's distribution. A hosted gallery is a cost we do not need.</p>
+<p>---</p>
+<h2>36. The sticker format is a budget, not a canvas</h2>
+<p><a href="https://faq.whatsapp.com/1056840314992666/">WhatsApp sticker requirements</a> · <code>design</code> <code>export</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Static: 512×512, ≤100 KB. Animated: 512×512, ≤500 KB, ≤10 s, <strong>WebP</strong> (not GIF). Packs hold 3–30 stickers. The first frame must be complete because the animation ends there after looping.</p>
+<p class="ref-label"><strong>Taken.</strong> Export at 512×512 with a hard 500 KB budget, and design the first frame as the poster. Add a white stroke for dark backgrounds. <strong>Do not call a GIF a WhatsApp sticker</strong>; Canvas can emit GIF/PNG/static WebP, not animated WebP.</p>
+<p class="ref-label"><strong>Ignored.</strong> Pack ZIPs and WebP conversion until there is a real export product. A converter is a separate encoder, not a checkbox.</p>
 <p>---</p>
 </div>
         </div>
