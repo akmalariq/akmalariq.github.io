@@ -28,7 +28,7 @@
     </script>
 
     <title>Design — Referensi | Akmal Ariq</title>
-    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 10 notes with mechanism, take and skip.">
+    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 11 notes with mechanism, take and skip.">
     <meta name="author" content="Akmal Ariq">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://akmalariq.dev/referensi/design/">
@@ -36,11 +36,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akmalariq.dev/referensi/design/">
     <meta property="og:title" content="Design — Referensi | Akmal Ariq">
-    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 10 notes with mechanism, take and skip.">
+    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 11 notes with mechanism, take and skip.">
     <meta property="og:image" content="https://akmalariq.dev/og.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Design — Referensi | Akmal Ariq">
-    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 10 notes with mechanism, take and skip.">
+    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 11 notes with mechanism, take and skip.">
     <meta name="twitter:image" content="https://akmalariq.dev/og.png">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -141,7 +141,7 @@
         <div class="container">
             <p class="cs-eyebrow">Referensi · Design</p>
             <h1 class="cs-title">Design</h1>
-            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>10 notes.</strong></p>
+            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>11 notes.</strong></p>
 <p class="cs-back"><a href="/referensi/">← All references</a></p>
 <div class="referensi-isi">
 <h2>4. Painted Houses — a painting rebuilt as a house</h2>
@@ -218,6 +218,20 @@
 <ul><li><strong>The rule-breaking test</strong>: if you cannot say why you broke the rule, you did not break it,</li></ul>
 <p>  you missed. That is the same test as our &quot;ignored&quot; fields in this ledger.</p>
 <p class="ref-label"><strong>Ignored.</strong> 500 viewports of scroll and a 3D/photo production budget. It is a portfolio piece; a calculator or a reference page has to be faster than it is beautiful. The text is also in the HTML source, so the &quot;plain text&quot; claim survives — but only if you view source.</p>
+<p>---</p>
+<h2>25. Slop is a list you can audit</h2>
+<p><a href="https://github.com/felipebasurto/unslop-ui">unslop-ui</a> · Felipe Basurto · <code>design</code> <code>copy</code></p>
+<p><strong>What it is.</strong> An Agent Skill that strips the AI look from interface and chart copy. The useful part is that &quot;slop&quot; is not a vibe: it is <strong>twenty numbered rules</strong>.</p>
+<div class="ref-tabel"><table><thead><tr><th>Range</th><th>What it catches</th></tr></thead><tbody><tr><td>U1–U16</td><td>Eyebrow labels, decorative <code>01 //</code> numbering, subtitles that repeat the title, captions explaining the button, leaked design notes, <code>Live · v2.4 · Synced</code> status strings, label/placeholder/helper all saying &quot;email&quot;, staccato slogans, fake <code>NEW</code>/<code>AI</code> badges, pulsing dots next to static data, decorative emoji, chart titles that name the chart, reading instructions, values said twice, chart scaffolding, legends a direct label could replace.</td></tr><tr><td>U17–U20 (opt-in <code>--surface</code>)</td><td>Hue-to-hue gradients and glows, off-scale spacing, 800–900 weights, <code>transition-all</code> / <code>hover:scale-*</code> / <code>animate-bounce</code>.</td></tr></tbody></table></div>
+<p class="ref-label"><strong>Mechanism.</strong> Subtractive and safe by default: it touches visible text and decoration, never logic or data; it keeps <code>aria-label</code>, <code>alt</code>, visible form labels and anything tied to real state. Every run opens with a verdict — *heavy*, *light* or *none* (a clean screen is left alone) — and ends with a table of counts, <strong>Rewritten</strong>, <strong>Kept on purpose</strong>, and <strong>Tasks</strong>. The rewritten list is the only copy it wrote, so it is the part a human checks.</p>
+<p class="ref-label"><strong>Taken.</strong></p>
+<ul><li>The rule list is a <strong>review checklist</strong>, not a mandate. On duit, the small mono eyebrow</li></ul>
+<p>  (&quot;THR&quot;, &quot;Gaji bersih&quot;) is navigation in a five-tool suite; the H1 alone does not tell you   which tool you are in. Delete the eyebrow where it repeats the H1; keep it where it   orients.</p>
+<ul><li><code>Tersimpan sementara · 3 hari</code> is real state, so it survives U6. <code>COBA DULU, TANPA AKUN</code></li></ul>
+<p>  is a real demo state too, not a decorative badge.</p>
+<ul><li>The report shape — counts, rewritten, kept, tasks — is the same discipline as the</li></ul>
+<p>  <strong>Ignored</strong> field in this ledger. A rule that changes nothing should say so.</p>
+<p class="ref-label"><strong>Ignored.</strong> Running <code>--surface</code> across the suite: the Clay &amp; Sand tokens, the chunky shadows and the 2.5px borders are deliberate, not slop. Deleting every label on every screen: context is a feature. And the skill's own precondition applies — do not run it on a screen with nothing to cut.</p>
 <p>---</p>
 </div>
         </div>
