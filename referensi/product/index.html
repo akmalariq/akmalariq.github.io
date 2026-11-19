@@ -28,7 +28,7 @@
     </script>
 
     <title>Product — Referensi | Akmal Ariq</title>
-    <meta name="description" content="Product: How a thing is shaped, packaged and sold. 3 notes with mechanism, take and skip.">
+    <meta name="description" content="Product: How a thing is shaped, packaged and sold. 6 notes with mechanism, take and skip.">
     <meta name="author" content="Akmal Ariq">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://akmalariq.dev/referensi/product/">
@@ -36,11 +36,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akmalariq.dev/referensi/product/">
     <meta property="og:title" content="Product — Referensi | Akmal Ariq">
-    <meta property="og:description" content="Product: How a thing is shaped, packaged and sold. 3 notes with mechanism, take and skip.">
+    <meta property="og:description" content="Product: How a thing is shaped, packaged and sold. 6 notes with mechanism, take and skip.">
     <meta property="og:image" content="https://akmalariq.dev/og.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Product — Referensi | Akmal Ariq">
-    <meta name="twitter:description" content="Product: How a thing is shaped, packaged and sold. 3 notes with mechanism, take and skip.">
+    <meta name="twitter:description" content="Product: How a thing is shaped, packaged and sold. 6 notes with mechanism, take and skip.">
     <meta name="twitter:image" content="https://akmalariq.dev/og.png">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -141,7 +141,7 @@
         <div class="container">
             <p class="cs-eyebrow">Referensi · Product</p>
             <h1 class="cs-title">Product</h1>
-            <p class="cs-lede">How a thing is shaped, packaged and sold. <strong>3 notes.</strong></p>
+            <p class="cs-lede">How a thing is shaped, packaged and sold. <strong>6 notes.</strong></p>
 <p class="cs-back"><a href="/referensi/">← All references</a></p>
 <div class="referensi-isi">
 <h2>3. Tinycharts — a skill, not a SaaS</h2>
@@ -160,6 +160,24 @@
 <p>The second image is the adoption curve: video ~<strong>9 months</strong> behind code, dotted line crossing above today's point.</p>
 <p class="ref-label"><strong>Taken.</strong> Honestly: not built yet, and it names the gap. <code>studio</code> makes one artefact per prompt — sprite, loop, ASCII, stack — then forgets it. There is no queue, no review state, no record of what was exported or where it went. The board says the product is the *batch*: draft → generated → approved → exported → shared, with a platform check per item. That is the next feature, not this one.</p>
 <p class="ref-label"><strong>Ignored.</strong> The niche and the volume (puppets, 100+ episodes). Volume without a channel is inventory; we have no channel to feed.</p>
+<p>---</p>
+<h2>27. Sprites as game assets, not pictures</h2>
+<p><a href="https://www.pixellab.ai/">PixelLab</a> · <code>product</code> <code>generation</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> AI pixel-art generation built around game production: 4/8-direction characters, one-click/skeleton/text-driven animations, sheet export, Aseprite extension, Pixelorama in the browser, MCP/API, subscription. The unit is a *state* (idle, walk, attack), not an image.</p>
+<p class="ref-label"><strong>Taken.</strong> The provider adapter should expose &quot;animation state&quot; and &quot;sheet&quot;, not &quot;image&quot;. The editor consumes both; generation is replaceable. Do not compete on generation.</p>
+<p class="ref-label"><strong>Ignored.</strong> Subscription and game-engine tooling. We are the scene after the sheet.</p>
+<p>---</p>
+<h2>28. Animation is a request with a start frame</h2>
+<p><a href="https://www.retrodiffusion.ai/">Retro Diffusion</a> · <code>product</code> <code>generation</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Pay-per-image API ($0.03–0.18) with animation styles that take <code>input_image</code> + motion and return a GIF or <code>return_spritesheet: true</code>; palette input, transparent output, native-grid constraints (32–256px, pad before animating, retry once).</p>
+<p class="ref-label"><strong>Taken.</strong> The shape of the request (<code>image + motion + frames + return_spritesheet</code>) and the three failure rules. This is the cheapest credible animation provider for Phase 2.</p>
+<p class="ref-label"><strong>Ignored.</strong> Prepaid credits and the prompt-driven styles we cannot verify.</p>
+<p>---</p>
+<h2>29. Consistency comes from a character model</h2>
+<p><a href="https://www.scenario.com/apps/action-sprite-studio">Scenario — Action Sprite Studio</a> · <code>product</code> <code>generation</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> One character image → a 12-frame sprite sheet; custom character models trained on 5–15 references keep proportions and palette across idle/walk/attack; paid plans carry commercial rights.</p>
+<p class="ref-label"><strong>Taken.</strong> Sell consistency, not a single sprite. If a buyer needs three states, the model (or a human) must hold the character; our scene then holds the motion.</p>
+<p class="ref-label"><strong>Ignored.</strong> The video-generation pipeline and the credit plans.</p>
 <p>---</p>
 </div>
         </div>

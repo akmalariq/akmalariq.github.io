@@ -28,7 +28,7 @@
     </script>
 
     <title>Design — Referensi | Akmal Ariq</title>
-    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 11 notes with mechanism, take and skip.">
+    <meta name="description" content="Design: Visual language, interface patterns and the galleries that feed them. 13 notes with mechanism, take and skip.">
     <meta name="author" content="Akmal Ariq">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://akmalariq.dev/referensi/design/">
@@ -36,11 +36,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://akmalariq.dev/referensi/design/">
     <meta property="og:title" content="Design — Referensi | Akmal Ariq">
-    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 11 notes with mechanism, take and skip.">
+    <meta property="og:description" content="Design: Visual language, interface patterns and the galleries that feed them. 13 notes with mechanism, take and skip.">
     <meta property="og:image" content="https://akmalariq.dev/og.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Design — Referensi | Akmal Ariq">
-    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 11 notes with mechanism, take and skip.">
+    <meta name="twitter:description" content="Design: Visual language, interface patterns and the galleries that feed them. 13 notes with mechanism, take and skip.">
     <meta name="twitter:image" content="https://akmalariq.dev/og.png">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -141,7 +141,7 @@
         <div class="container">
             <p class="cs-eyebrow">Referensi · Design</p>
             <h1 class="cs-title">Design</h1>
-            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>11 notes.</strong></p>
+            <p class="cs-lede">Visual language, interface patterns and the galleries that feed them. <strong>13 notes.</strong></p>
 <p class="cs-back"><a href="/referensi/">← All references</a></p>
 <div class="referensi-isi">
 <h2>4. Painted Houses — a painting rebuilt as a house</h2>
@@ -227,6 +227,18 @@
 <p class="ref-label"><strong>Taken.</strong></p>
 <ul><li>The rule list is a <strong>review checklist</strong>, not a mandate. On duit, the small mono eyebrow (&quot;THR&quot;, &quot;Gaji bersih&quot;) is navigation in a five-tool suite; the H1 alone does not tell you which tool you are in. Delete it where it repeats the H1; keep it where it orients.</li><li><code>Tersimpan sementara</code> is real state, so it survives U6; the three-day expiry now appears once, in the CTA. <code>COBA DULU, TANPA AKUN</code> is a real demo state too, not a decorative badge.</li><li>The report shape — counts, rewritten, kept, tasks — is the same discipline as the <strong>Ignored</strong> field in this ledger. A rule that changes nothing should say so.</li></ul>
 <p class="ref-label"><strong>Ignored.</strong> Running <code>--surface</code> across the suite: the Clay &amp; Sand tokens, the chunky shadows and the 2.5px borders are deliberate, not slop. Deleting every label on every screen: context is a feature. And the skill's own precondition applies — do not run it on a screen with nothing to cut.</p>
+<p>---</p>
+<h2>30. The sheet import contract everyone copies</h2>
+<p><a href="https://www.aseprite.org/">Aseprite</a> · <code>design</code> <code>import</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Import a sheet as frames: pick layout (strip/rows), offset, frame width/height; export a sheet plus JSON with frame boxes, source size, trim data and tags.</p>
+<p class="ref-label"><strong>Taken.</strong> Our importer needs exactly three inputs — frame size, columns, offset — and should write frame tags (idle/walk) into the asset. Validate before saving, never guess.</p>
+<p class="ref-label"><strong>Ignored.</strong> The painting engine. Paid desktop app; only the contract matters.</p>
+<p>---</p>
+<h2>31. The export matrix is the product spec</h2>
+<p><a href="https://www.piskelapp.com/">Piskel</a> · <code>design</code> <code>import</code></p>
+<p class="ref-label"><strong>Mechanism.</strong> Free web sprite editor whose export spec covers PNG sheet with configurable columns, animated GIF at sprite FPS, ZIP of frames, PixiJS JSON, C array; scale is nearest neighbour; transparency rules are explicit.</p>
+<p class="ref-label"><strong>Taken.</strong> Export formats and metadata are a feature, not an afterthought. Copy the matrix: GIF, sheet + columns, frame JSON, loop flag.</p>
+<p class="ref-label"><strong>Ignored.</strong> The editor and its layers; we are not rebuilding Aseprite in a browser.</p>
 <p>---</p>
 </div>
         </div>
